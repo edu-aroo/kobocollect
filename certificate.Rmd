@@ -1,8 +1,0 @@
----
-title: "[Certificate]{.en}[Certificat]{.fr}"
-pagetitle: "KoboToolbox · Certificate"
----
-
-<!-- course.js (PART 9, buildCertificate) draws the certificate of the level
-     given in the address: certificate.html?level=beginner -->
-<div id="certificate-box"></div>

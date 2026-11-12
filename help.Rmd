@@ -1,7 +1,0 @@
----
-title: "[Need help?]{.en}[Besoin d'aide ?]{.fr}"
-pagetitle: "KoboToolbox · Help"
----
-
-<!-- course.js (PART 9, buildHelpPage) writes the help message in this box -->
-<div id="help-box"></div>
