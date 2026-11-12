@@ -1,0 +1,314 @@
+---
+title: "[0 · KoboToolbox: discover it and create your account]{.en}[0 · KoboToolbox : le découvrir et créer son compte]{.fr}"
+pagetitle: "KoboToolbox · 0"
+subtitle: "~1 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- explain what KoboToolbox, KoboCollect, Enketo and XLSForm are, and how they work together;
+- choose a server and create your KoboToolbox account;
+- find your way in the interface: project list, the four tabs of a project, the library;
+- organise your account for a team (one account per person, shared projects).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- expliquer ce que sont KoboToolbox, KoboCollect, Enketo et XLSForm, et comment ils fonctionnent ensemble ;
+- choisir un serveur et créer votre compte KoboToolbox ;
+- vous repérer dans l'interface : liste des projets, les quatre onglets d'un projet, la bibliothèque ;
+- organiser votre compte pour une équipe (un compte par personne, des projets partagés).
+:::
+:::
+
+## [Why collect data on a phone?]{.en}[Pourquoi collecter sur téléphone ?]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The fishers' cooperative of the Bay of Ranobe (Atsimo-Andrefana) has recorded its landings on **paper forms** for three years. Each month, two people spend four days typing the forms into Excel. Last year, the analysis found weights of "350 kg" for a single canoe (the decimal point was forgotten), villages spelled six different ways ("Ambolimailaka", "Ambolimailak", "AMBOLIMAILAKA"…) and 12 % of the forms with no date. The cooperative asks you to move the survey to **KoboToolbox**: the enumerators will fill in the form on a phone, the data will arrive directly on the server, and the form itself will refuse impossible answers.
+
+**Type of data:** fisheries landings — one record per canoe per day: date, village, gear, species, weight.
+:::
+::: fr
+**Contexte simulé.** La coopérative de pêcheurs de la baie de Ranobe (Atsimo-Andrefana) enregistre ses débarquements sur des **fiches papier** depuis trois ans. Chaque mois, deux personnes passent quatre jours à saisir les fiches dans Excel. L'an dernier, l'analyse a trouvé des poids de « 350 kg » pour une seule pirogue (la virgule avait été oubliée), des villages écrits de six façons (« Ambolimailaka », « Ambolimailak », « AMBOLIMAILAKA »…) et 12 % de fiches sans date. La coopérative vous demande de passer l'enquête sur **KoboToolbox** : les enquêteurs rempliront le formulaire sur téléphone, les données arriveront directement sur le serveur, et le formulaire lui-même refusera les réponses impossibles.
+
+**Type de données :** débarquements de pêche — une fiche par pirogue et par jour : date, village, engin, espèces, poids.
+:::
+:::
+
+::: en
+A digital form solves most of these problems **at the moment of collection**:
+
+| Paper problem | What the digital form does |
+|---|---|
+| Villages spelled in many ways | the enumerator **chooses** the village in a list: only one spelling exists |
+| Missing date | the question is **required**: the form cannot be finished without it |
+| "350 kg" instead of "35.0 kg" | a **constraint** refuses weights above a limit (Intermediate level) |
+| Four days of typing | no typing: the data are on the server as soon as the phone has a connection |
+| Lost or wet forms | the phone keeps the forms until they are sent; the server keeps a copy |
+:::
+::: fr
+Un formulaire numérique règle la plupart de ces problèmes **au moment de la collecte** :
+
+| Problème du papier | Ce que fait le formulaire numérique |
+|---|---|
+| Villages écrits de plusieurs façons | l'enquêteur **choisit** le village dans une liste : une seule orthographe existe |
+| Date manquante | la question est **obligatoire** : impossible de terminer le formulaire sans elle |
+| « 350 kg » au lieu de « 35,0 kg » | une **contrainte** refuse les poids au-dessus d'une limite (niveau Intermédiaire) |
+| Quatre jours de saisie | plus de saisie : les données sont sur le serveur dès que le téléphone a du réseau |
+| Fiches perdues ou mouillées | le téléphone garde les fiches jusqu'à leur envoi ; le serveur en garde une copie |
+:::
+
+::: {.callout .warning}
+::: en
+A digital form does **not** correct a badly designed questionnaire. A vague question stays vague on a phone. That is why this course spends as much time on **designing** questions (types, choices, conditions, checks) as on the software itself.
+:::
+::: fr
+Un formulaire numérique ne corrige **pas** un questionnaire mal conçu. Une question floue reste floue sur un téléphone. C'est pourquoi ce cours consacre autant de temps à la **conception** des questions (types, choix, conditions, contrôles) qu'au logiciel lui-même.
+:::
+:::
+
+## [The KoboToolbox family of tools]{.en}[La famille d'outils KoboToolbox]{.fr} {#tools}
+
+::: en
+**KoboToolbox** is a free and open-source platform for collecting data in the field, used by thousands of NGOs, research teams and UN agencies. It is built on the **ODK** (Open Data Kit) standards, which means that the forms you write also work with other ODK tools. Four names come back all the time:
+:::
+::: fr
+**KoboToolbox** est une plateforme libre et gratuite de collecte de données sur le terrain, utilisée par des milliers d'ONG, d'équipes de recherche et d'agences des Nations unies. Elle repose sur les standards **ODK** (Open Data Kit) : les formulaires que vous écrivez fonctionnent donc aussi avec d'autres outils ODK. Quatre noms reviennent sans cesse :
+:::
+
+::: en
+| Name | What it is | Where |
+|---|---|---|
+| **KoboToolbox** (the website) | where you **build** forms, **deploy** them, **see** and **download** the data, and **share** projects | in a web browser, on a computer |
+| **Formbuilder** | the form editor **inside** the website: you add questions with the mouse | KoboToolbox, `r ui("form_tab")` tab |
+| **XLSForm** | a way to write a form in an **Excel file**, one row per question; the file is then uploaded to KoboToolbox | Excel / LibreOffice |
+| **KoboCollect** | the **Android app** used by enumerators; works **without connection** and sends the forms later | Android phone or tablet |
+| **Enketo** (web form) | the form opened in a **browser** (computer, iPhone, Android) through a link; can also work offline | any browser |
+:::
+::: fr
+| Nom | Ce que c'est | Où |
+|---|---|---|
+| **KoboToolbox** (le site) | là où vous **construisez** les formulaires, les **déployez**, **consultez** et **téléchargez** les données, et **partagez** les projets | dans un navigateur, sur ordinateur |
+| **Formbuilder** | l'éditeur de formulaires **à l'intérieur** du site : on ajoute les questions à la souris | KoboToolbox, onglet `r ui("form_tab")` |
+| **XLSForm** | une façon d'écrire un formulaire dans un **fichier Excel**, une ligne par question ; le fichier est ensuite importé dans KoboToolbox | Excel / LibreOffice |
+| **KoboCollect** | l'**application Android** des enquêteurs ; fonctionne **sans connexion** et envoie les fiches plus tard | téléphone ou tablette Android |
+| **Enketo** (formulaire web) | le formulaire ouvert dans un **navigateur** (ordinateur, iPhone, Android) grâce à un lien ; peut aussi fonctionner hors ligne | n'importe quel navigateur |
+:::
+
+`r fig_svg("kobo-cycle", "From the questionnaire to the analysis. Beginner level: steps 1 to 4; Advanced level: step 5 in R.", "Du questionnaire à l'analyse. Niveau Débutant : étapes 1 à 4 ; niveau Avancé : étape 5 dans R.")`
+
+::: {.callout .tip}
+::: en
+**Formbuilder or XLSForm?** Both produce the same form. The Formbuilder is easier to start with. XLSForm is faster for long questionnaires, easier to check (you see all the questions at once), easy to copy from one project to another, and it is the only way to use some advanced functions (filtered lists in Level 3, for example). This course teaches **both** at the Beginner level, then mainly XLSForm.
+:::
+::: fr
+**Formbuilder ou XLSForm ?** Les deux produisent le même formulaire. Le Formbuilder est plus simple pour débuter. XLSForm est plus rapide pour les longs questionnaires, plus facile à vérifier (on voit toutes les questions d'un coup), facile à copier d'un projet à l'autre, et c'est la seule façon d'utiliser certaines fonctions avancées (les listes filtrées du niveau 3, par exemple). Ce cours enseigne **les deux** au niveau Débutant, puis surtout XLSForm.
+:::
+:::
+
+## [Choose a server]{.en}[Choisir un serveur]{.fr} {#server}
+
+::: en
+KoboToolbox runs two public servers. **An account exists on one server only**: an account created on one is unknown on the other, and the projects cannot be moved automatically.
+
+| Server | Website address | Address for KoboCollect | For whom |
+|---|---|---|---|
+| **Global** | `https://kf.kobotoolbox.org` | `https://kc.kobotoolbox.org` | everyone (default) |
+| **European Union** | `https://eu.kobotoolbox.org` | `https://kc-eu.kobotoolbox.org` | organisations that must keep their data in the EU |
+
+For this course, and for most projects in Madagascar, use the **Global server**, unless your organisation has already chosen the EU server (then use the same as your colleagues, so that you can share projects).
+
+The free plan (*Community*) is enough for this course and for most student projects. It has **monthly limits** (number of submissions, storage, automatic transcription…): check them on `kobotoolbox.org` before a large survey, they change from time to time.
+:::
+::: fr
+KoboToolbox fonctionne sur deux serveurs publics. **Un compte n'existe que sur un seul serveur** : un compte créé sur l'un est inconnu sur l'autre, et les projets ne peuvent pas être déplacés automatiquement.
+
+| Serveur | Adresse du site | Adresse pour KoboCollect | Pour qui |
+|---|---|---|---|
+| **Global** | `https://kf.kobotoolbox.org` | `https://kc.kobotoolbox.org` | tout le monde (par défaut) |
+| **Union européenne** | `https://eu.kobotoolbox.org` | `https://kc-eu.kobotoolbox.org` | organisations qui doivent garder leurs données dans l'UE |
+
+Pour ce cours, et pour la plupart des projets à Madagascar, utilisez le **serveur Global**, sauf si votre organisation a déjà choisi le serveur UE (utilisez alors le même que vos collègues, pour pouvoir partager les projets).
+
+Le plan gratuit (*Community*) suffit pour ce cours et pour la plupart des projets d'étudiants. Il comporte des **limites mensuelles** (nombre de soumissions, stockage, transcription automatique…) : vérifiez-les sur `kobotoolbox.org` avant une grande enquête, elles changent de temps en temps.
+:::
+
+## [Create your account]{.en}[Créer votre compte]{.fr} {#account}
+
+::: en
+1. Go to `https://kf.kobotoolbox.org` and click `r ui("signup")`.
+2. Fill in the form:
+   - **Name**: your full name (it is shown to the people you share projects with);
+   - **Username**: **lowercase letters, digits and underscores only**, e.g. `aroo_f` or `coop_ranobe`. It cannot be changed later and it is typed in KoboCollect: keep it short;
+   - **E-mail**: an address you check (the activation link is sent there);
+   - **Password**: at least 10 characters; do not reuse the password of your e-mail;
+   - the other fields (organisation, sector, country) describe your use; they can be changed later in `r ui("account_settings")`.
+3. Accept the terms of use and confirm. Open the e-mail **"Activate your account"** (look in the spam folder) and click the link.
+4. Log in with your **username** (not your e-mail) and password.
+5. If the interface is in English, change the language: the language menu is in the account menu / at the bottom of the left panel. All the labels of this course are given in **French (English)**.
+:::
+::: fr
+1. Allez sur `https://kf.kobotoolbox.org` et cliquez sur `r ui("signup")`.
+2. Remplissez le formulaire :
+   - **Nom** : votre nom complet (il est montré aux personnes avec qui vous partagez des projets) ;
+   - **Nom d'utilisateur** : **lettres minuscules, chiffres et tirets bas uniquement**, ex. `aroo_f` ou `coop_ranobe`. Il ne peut plus être modifié et il se tape dans KoboCollect : gardez-le court ;
+   - **E-mail** : une adresse que vous consultez (le lien d'activation y est envoyé) ;
+   - **Mot de passe** : au moins 10 caractères ; ne réutilisez pas celui de votre messagerie ;
+   - les autres champs (organisation, secteur, pays) décrivent votre utilisation ; ils se modifient plus tard dans `r ui("account_settings")`.
+3. Acceptez les conditions d'utilisation et validez. Ouvrez l'e-mail **« Activate your account »** (regardez dans les spams) et cliquez sur le lien.
+4. Connectez-vous avec votre **nom d'utilisateur** (pas votre e-mail) et votre mot de passe.
+5. Si l'interface est en anglais, changez la langue : le menu des langues se trouve dans le menu du compte / en bas du panneau de gauche. Tous les libellés de ce cours sont donnés en **français (anglais)**.
+:::
+
+::: {.callout .warning}
+::: en
+**One account per person.** Do not give the same account and password to all your enumerators: you would not know who sent what, and anybody could delete the project. Each enumerator gets their own account, and you **share** the project with them (Session 4 and *Advanced* level). The `_submitted_by` column of the export then tells you who sent each form.
+:::
+::: fr
+**Un compte par personne.** Ne donnez pas le même compte et le même mot de passe à tous vos enquêteurs : vous ne sauriez pas qui a envoyé quoi, et n'importe qui pourrait supprimer le projet. Chaque enquêteur a son propre compte, et vous **partagez** le projet avec lui (séance 4 et niveau *Avancé*). La colonne `_submitted_by` de l'export indique alors qui a envoyé chaque fiche.
+:::
+:::
+
+## [A tour of the interface]{.en}[Visite de l'interface]{.fr} {#interface}
+
+::: en
+After logging in you see the **project list** (`r ui("projects")`). Each line is one questionnaire, with its status: *Draft* (never deployed), *Deployed* (collecting) or *Archived* (closed). On the left:
+
+- `r ui("new")` — creates a new project: from scratch (`r ui("build_scratch")`), from a template, or from an Excel file (`r ui("upload_xlsform")`);
+- `r ui("library")` — your reusable questions, blocks of questions and templates (e.g. the same "Identification" block in all your surveys).
+
+Click a project: it has **four tabs**.
+
+| Tab | What you do there |
+|---|---|
+| `r ui("summary_tab")` | overview: number of submissions, last submission, who has access |
+| `r ui("form_tab")` | edit the form, preview it, deploy it, get the collection links (`r ui("collect_data")`), download it as XLSForm |
+| `r ui("data_tab")` | see the data as a table, reports, map, photo gallery, and **downloads** (exports) |
+| `r ui("settings_tab")` | name and description, **sharing** with other accounts, connected projects, archiving, deleting |
+:::
+::: fr
+Après la connexion, vous voyez la **liste des projets** (`r ui("projects")`). Chaque ligne est un questionnaire, avec son statut : *Brouillon* (jamais déployé), *Déployé* (en collecte) ou *Archivé* (fermé). À gauche :
+
+- `r ui("new")` — crée un nouveau projet : à partir de zéro (`r ui("build_scratch")`), d'un modèle, ou d'un fichier Excel (`r ui("upload_xlsform")`) ;
+- `r ui("library")` — vos questions, blocs de questions et modèles réutilisables (ex. le même bloc « Identification » dans toutes vos enquêtes).
+
+Cliquez sur un projet : il a **quatre onglets**.
+
+| Onglet | Ce qu'on y fait |
+|---|---|
+| `r ui("summary_tab")` | vue d'ensemble : nombre de soumissions, dernière soumission, qui a accès |
+| `r ui("form_tab")` | modifier le formulaire, le prévisualiser, le déployer, obtenir les liens de collecte (`r ui("collect_data")`), le télécharger en XLSForm |
+| `r ui("data_tab")` | voir les données en tableau, rapports, carte, galerie de photos, et **téléchargements** (exports) |
+| `r ui("settings_tab")` | nom et description, **partage** avec d'autres comptes, projets connectés, archivage, suppression |
+:::
+
+::: {.callout .tip}
+::: en
+**Vocabulary.** A *project* = one form + its data. A *submission* = one filled-in form sent to the server (one canoe, one household, one quadrat…). A *deployment* = the moment the form becomes available for collection. *Redeploy* = publish a corrected version: the data already collected are kept.
+:::
+::: fr
+**Vocabulaire.** Un *projet* = un formulaire + ses données. Une *soumission* = un formulaire rempli envoyé au serveur (une pirogue, un ménage, un quadrat…). Un *déploiement* = le moment où le formulaire devient disponible pour la collecte. *Redéployer* = publier une version corrigée : les données déjà collectées sont conservées.
+:::
+:::
+
+## [Plan a survey before opening KoboToolbox]{.en}[Préparer l'enquête avant d'ouvrir KoboToolbox]{.fr} {#plan}
+
+::: en
+Most problems of a survey come from decisions taken too late. Before building anything, write down on paper:
+
+1. **The unit of observation**: what is one submission? (one canoe landing, one household, one transect…). Everything that is repeated inside this unit (household members, fish species, trips) will be a **repeat** (Intermediate level).
+2. **The list of indicators** you will compute, and for each one the questions you need. A question that feeds no indicator is usually not needed.
+3. **For each question**: its type (number, choice, text, date, GPS, photo), whether it is required, its unit (kg, Ariary, years) and its possible values.
+4. **The lists of choices** (villages, gears, species), with a short code for each choice.
+5. **Who collects, on what device, with or without connection.**
+:::
+::: fr
+La plupart des problèmes d'une enquête viennent de décisions prises trop tard. Avant de construire quoi que ce soit, écrivez sur papier :
+
+1. **L'unité d'observation** : qu'est-ce qu'une soumission ? (un débarquement de pirogue, un ménage, un transect…). Tout ce qui se répète à l'intérieur de cette unité (membres du ménage, espèces, sorties) sera une **répétition** (niveau Intermédiaire).
+2. **La liste des indicateurs** que vous calculerez, et pour chacun les questions nécessaires. Une question qui ne sert à aucun indicateur est généralement inutile.
+3. **Pour chaque question** : son type (nombre, choix, texte, date, GPS, photo), si elle est obligatoire, son unité (kg, Ariary, années) et ses valeurs possibles.
+4. **Les listes de choix** (villages, engins, espèces), avec un code court pour chaque choix.
+5. **Qui collecte, sur quel appareil, avec ou sans connexion.**
+:::
+
+::: {.application}
+::: en
+### Application work 0
+
+1. Create your account on the **Global** server and activate it.
+2. Set the interface in French (or keep English: the course gives both).
+3. Open `r ui("new")` and look at the four ways to create a project, then close the window without creating anything.
+4. Open `r ui("library")`: it is empty for now.
+5. On a sheet of paper, list the questions of the landing form of the cooperative (context above): the unit of observation, 8 to 10 questions, and for each one its type. You will compare it with the official form in Session 2.
+:::
+::: fr
+### Travail d'application 0
+
+1. Créez votre compte sur le serveur **Global** et activez-le.
+2. Passez l'interface en français (ou gardez l'anglais : le cours donne les deux).
+3. Ouvrez `r ui("new")` et regardez les quatre façons de créer un projet, puis fermez la fenêtre sans rien créer.
+4. Ouvrez `r ui("library")` : elle est vide pour l'instant.
+5. Sur une feuille, listez les questions de la fiche de débarquement de la coopérative (contexte ci-dessus) : l'unité d'observation, 8 à 10 questions, et pour chacune son type. Vous la comparerez au formulaire officiel à la séance 2.
+:::
+:::
+
+::: hint
+::: en
+For question 5: the unit is **one canoe on one day**. Think about what a fisheries officer writes at the landing site: when, where, who, with what gear, what species, how much.
+:::
+::: fr
+Pour la question 5 : l'unité est **une pirogue un jour donné**. Pensez à ce que note un agent de pêche au site de débarquement : quand, où, qui, avec quel engin, quelles espèces, combien.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("k00", list(
+  q_mcq("1. Which tool do enumerators use on an Android phone, even without connection?",
+        "1. Quel outil les enquêteurs utilisent-ils sur un téléphone Android, même sans connexion ?",
+        c("Formbuilder", "KoboCollect", "XLSForm", "The DATA tab"), c("Formbuilder", "KoboCollect", "XLSForm", "L'onglet DONNÉES"), correct = 2),
+  q_mcq("2. Where do you build a form with the mouse?", "2. Où construit-on un formulaire à la souris ?",
+        c("In the Formbuilder (FORM tab)", "In KoboCollect", "In the SUMMARY tab", "In Excel"),
+        c("Dans le Formbuilder (onglet FORMULAIRE)", "Dans KoboCollect", "Dans l'onglet RÉSUMÉ", "Dans Excel"), correct = 1),
+  q_text("3. Address of the Global server website (without https://)?", "3. Adresse du site du serveur Global (sans https://) ?",
+         c("kf.kobotoolbox.org", "kf.kobotoolbox.org/")),
+  q_text("4. Address to type in KoboCollect for the Global server (without https://)?", "4. Adresse à taper dans KoboCollect pour le serveur Global (sans https://) ?",
+         c("kc.kobotoolbox.org", "kc.kobotoolbox.org/")),
+  q_mcq("5. You created your account on the Global server. Can you log in on eu.kobotoolbox.org with it?",
+        "5. Vous avez créé votre compte sur le serveur Global. Pouvez-vous l'utiliser sur eu.kobotoolbox.org ?",
+        c("Yes, it is the same account", "No, the two servers have separate accounts", "Yes, after 24 hours"),
+        c("Oui, c'est le même compte", "Non, les deux serveurs ont des comptes séparés", "Oui, après 24 heures"), correct = 2),
+  q_mcq("6. Which username is valid and well chosen?", "6. Quel nom d'utilisateur est valide et bien choisi ?",
+        c("Coop Ranobe", "coop_ranobe", "coop.ranobe@gmail.com", "Coopérative-Ranobe"), correct = 2),
+  q_mcq("7. In which tab do you download the data?", "7. Dans quel onglet télécharge-t-on les données ?",
+        c("SUMMARY", "FORM", "DATA", "SETTINGS"), c("RÉSUMÉ", "FORMULAIRE", "DONNÉES", "PARAMÈTRES"), correct = 3),
+  q_mcq("8. Five enumerators collect the landings. Best practice?", "8. Cinq enquêteurs collectent les débarquements. Bonne pratique ?",
+        c("One shared account and password for all", "One account per enumerator, project shared with each", "Everyone uses your own account"),
+        c("Un compte et un mot de passe communs à tous", "Un compte par enquêteur, projet partagé avec chacun", "Tout le monde utilise votre propre compte"), correct = 2),
+  q_mcq("9. In the landing survey, what is one submission?", "9. Dans l'enquête débarquements, qu'est-ce qu'une soumission ?",
+        c("One village", "One canoe landing on one day", "One species", "One month of data"),
+        c("Un village", "Le débarquement d'une pirogue un jour donné", "Une espèce", "Un mois de données"), correct = 2),
+  q_mcq("10. You correct a deployed form and redeploy it. What happens to the data already collected?",
+        "10. Vous corrigez un formulaire déployé et le redéployez. Que deviennent les données déjà collectées ?",
+        c("They are deleted", "They are kept", "They are moved to a new project"),
+        c("Elles sont supprimées", "Elles sont conservées", "Elles sont déplacées dans un nouveau projet"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="k00"}
+::: en
+1 KoboCollect · 2 Formbuilder · 3 `kf.kobotoolbox.org` · 4 `kc.kobotoolbox.org` (the "kc" address is the one for the app) · 5 No: one account per server · 6 `coop_ranobe` (lowercase, underscore; no space, no accent, not an e-mail) · 7 DATA · 8 one account per enumerator · 9 one canoe landing on one day · 10 they are kept (each submission remembers the version of the form it was filled with, column `__version__`).
+
+**Paper form, question 5 of the application work** — one possible answer: date, village, name of the captain, number of fishers, gear, species landed, total weight, GPS of the landing site, photo, remarks. Compare with the form of Session 2.
+:::
+::: fr
+1 KoboCollect · 2 Formbuilder · 3 `kf.kobotoolbox.org` · 4 `kc.kobotoolbox.org` (l'adresse « kc » est celle de l'application) · 5 Non : un compte par serveur · 6 `coop_ranobe` (minuscules, tiret bas ; ni espace, ni accent, ni e-mail) · 7 DONNÉES · 8 un compte par enquêteur · 9 le débarquement d'une pirogue un jour donné · 10 elles sont conservées (chaque soumission garde la version du formulaire avec laquelle elle a été remplie, colonne `__version__`).
+
+**Fiche papier, question 5 du travail d'application** — une réponse possible : date, village, nom du chef de pirogue, nombre de pêcheurs, engin, espèces débarquées, poids total, GPS du site, photo, remarques. Comparez avec le formulaire de la séance 2.
+:::
+:::
