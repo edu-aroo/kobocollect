@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A0</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A0 · A complete form, from
+paper to KoboToolbox</span><span class="fr">A0 · Un formulaire complet,
+du papier à KoboToolbox</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>go through the whole design of a survey: objectives, indicators,
+unit of observation, data dictionary, form;</li>
+<li>read a complete XLSForm that combines everything seen in Levels 1
+and 2 (metadata, required, hints, choices, groups, calculations,
+conditions, checks, repeats) — and a <strong>repeat inside a
+repeat</strong>;</li>
+<li>apply naming and versioning rules for a project that will last;</li>
+<li>plan the tests, the pilot, the training and the management of the
+data (backups, personal data).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>parcourir toute la conception d’une enquête : objectifs,
+indicateurs, unité d’observation, dictionnaire des données, formulaire
+;</li>
+<li>lire un XLSForm complet qui combine tout ce qui a été vu aux niveaux
+1 et 2 (métadonnées, obligations, indications, choix, groupes, calculs,
+conditions, contrôles, répétitions) — et une <strong>répétition dans une
+répétition</strong> ;</li>
+<li>appliquer des règles de nommage et de versions pour un projet qui va
+durer ;</li>
+<li>planifier les tests, le pilote, la formation et la gestion des
+données (sauvegardes, données personnelles).</li>
+</ul>
+</div>
+</div>
+<div id="design" class="section level2">
+<h2><span class="en">From the question to the form</span><span
+class="fr">De la question au formulaire</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> A network of marine protected
+areas (MPAs) and locally managed marine areas (LMMAs) of the south-west
+and west of Madagascar wants to compare the <strong>state of its coral
+reefs</strong> between protected and unprotected sites. Divers will
+visit 8 sites three times in May–June 2026. At each dive they record the
+location (region › district › commune), the protection status, the
+divers, the visibility, then <strong>2 to 4 transects</strong>; on each
+transect, the cover of the substrate and <strong>the fish
+observed</strong> (family, size class, number). You review the form
+prepared for them:
+<a class="btn-dl" href="data/forms/a03_suivi_recifs.xlsx" download>⇩
+a03_suivi_recifs.xlsx</a></p>
+<p><strong>Type of data:</strong> ecological monitoring at three levels
+— dive (visit), transect, fish observation.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Un réseau d’aires marines protégées
+(AMP) et d’aires marines gérées localement (LMMA) du sud-ouest et de
+l’ouest de Madagascar veut comparer l’<strong>état de ses récifs
+coralliens</strong> entre sites protégés et non protégés. Des plongeurs
+visiteront 8 sites trois fois en mai–juin 2026. À chaque plongée, ils
+notent la localisation (région › district › commune), le statut de
+protection, les plongeurs, la visibilité, puis <strong>2 à 4
+transects</strong> ; sur chaque transect, le recouvrement du substrat et
+<strong>les poissons observés</strong> (famille, classe de taille,
+nombre). Vous relisez le formulaire préparé pour eux :
+<a class="btn-dl" href="data/forms/a03_suivi_recifs.xlsx" download>⇩
+a03_suivi_recifs.xlsx</a></p>
+<p><strong>Type de données :</strong> suivi écologique à trois niveaux —
+plongée (visite), transect, observation de poissons.</p>
+</div>
+</div>
+<div class="en">
+<p>A good form is the <strong>last</strong> step of the design, not the
+first. Before opening Excel:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Objective</strong> — one sentence: <em>compare live coral
+cover and fish abundance between protection statuses</em>.</li>
+<li><strong>Indicators</strong> — mean live coral cover per site; number
+of fish per transect, per family and size class; share of large fish
+(&gt; 20 cm).</li>
+<li><strong>Units of observation and their levels</strong> — visit ⊃
+transect ⊃ fish observation. Each level that can occur several times
+inside the level above is a <strong>repeat</strong>.</li>
+<li><strong>Data dictionary</strong> — a table (one row per variable):
+name, label, type, unit, possible values, required, condition, check,
+level. It becomes the <code>survey</code> sheet almost directly.</li>
+<li><strong>Lists</strong> — status, divers, fish families, size
+classes, administrative units: with short, stable names.</li>
+<li><strong>Rules</strong> — what is impossible (constraint), unusual
+(warning), conditional (relevant), computed (calculate).</li>
+</ol>
+</div>
+<div class="fr">
+<p>Un bon formulaire est la <strong>dernière</strong> étape de la
+conception, pas la première. Avant d’ouvrir Excel :</p>
+<ol style="list-style-type: decimal">
+<li><strong>Objectif</strong> — une phrase : <em>comparer le
+recouvrement en corail vivant et l’abondance des poissons entre statuts
+de protection</em>.</li>
+<li><strong>Indicateurs</strong> — recouvrement moyen en corail vivant
+par site ; nombre de poissons par transect, par famille et classe de
+taille ; part des grands poissons (&gt; 20 cm).</li>
+<li><strong>Unités d’observation et leurs niveaux</strong> — visite ⊃
+transect ⊃ observation de poissons. Chaque niveau qui peut se produire
+plusieurs fois dans le niveau supérieur est une
+<strong>répétition</strong>.</li>
+<li><strong>Dictionnaire des données</strong> — un tableau (une ligne
+par variable) : nom, libellé, type, unité, valeurs possibles,
+obligatoire, condition, contrôle, niveau. Il devient presque directement
+la feuille <code>survey</code>.</li>
+<li><strong>Listes</strong> — statut, plongeurs, familles de poissons,
+classes de taille, unités administratives : avec des noms courts et
+stables.</li>
+<li><strong>Règles</strong> — ce qui est impossible (contrainte),
+inhabituel (avertissement), conditionnel (relevant), calculé
+(calculate).</li>
+</ol>
+</div>
+</div>
+<div id="read" class="section level2">
+<h2><span class="en">Reading the complete form</span><span
+class="fr">Lire le formulaire complet</span></h2>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>constraint</td><td class='xh'>calculation</td><td class='xh'>choice_filter</td><td class='xh'>repeat_count</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>begin_group</td><td>localisation</td><td>Localisation</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>5</td><td>select_one region</td><td>region</td><td>Région</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>6</td><td>select_one district</td><td>district</td><td>District</td><td>yes</td><td></td><td></td><td>region = &#36;{region}</td><td></td></tr><tr><td class='xr'>7</td><td>select_one commune</td><td>commune</td><td>Commune</td><td>yes</td><td></td><td></td><td>district = &#36;{district}</td><td></td></tr><tr><td class='xr'>8</td><td>text</td><td>site</td><td>Nom du site</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>9</td><td>select_one statut</td><td>statut</td><td>Statut de protection</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>10</td><td>geopoint</td><td>gps</td><td>Position du bateau au début de la plongée</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>11</td><td>end_group</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>12</td><td>begin_group</td><td>plongee</td><td>Plongée</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>13</td><td>date</td><td>date_plongee</td><td>Date</td><td>yes</td><td>. &lt;= today()</td><td></td><td></td><td></td></tr><tr><td class='xr'>14</td><td>select_multiple observateur</td><td>observateurs</td><td>Observateurs</td><td>yes</td><td>count-selected(.) &gt;= 2</td><td></td><td></td><td></td></tr><tr><td class='xr'>15</td><td>integer</td><td>visibilite</td><td>Visibilité horizontale (m)</td><td></td><td>. &gt;= 0 and . &lt;= 40</td><td></td><td></td><td></td></tr><tr><td class='xr'>16</td><td>integer</td><td>nb_transects</td><td>Nombre de transects réalisés</td><td>yes</td><td>. &gt;= 1 and . &lt;= 6</td><td></td><td></td><td></td></tr><tr><td class='xr'>17</td><td>end_group</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>18</td><td>begin_repeat</td><td>transects</td><td>Transect</td><td></td><td></td><td></td><td></td><td>&#36;{nb_transects}</td></tr><tr><td class='xr'>19</td><td>calculate</td><td>num_transect</td><td></td><td></td><td></td><td>position(..)</td><td></td><td></td></tr><tr><td class='xr'>20</td><td>decimal</td><td>profondeur</td><td>Profondeur du transect &#36;{num_transect} (m)</td><td>yes</td><td>. &gt; 0 and . &lt;= 30</td><td></td><td></td><td></td></tr><tr><td class='xr'>21</td><td>integer</td><td>corail_vivant</td><td>Corail dur vivant (%)</td><td>yes</td><td>. &gt;= 0 and . &lt;= 100</td><td></td><td></td><td></td></tr><tr><td class='xr'>22</td><td>integer</td><td>corail_mort</td><td>Corail mort et débris (%)</td><td>yes</td><td>. &gt;= 0 and . &lt;= 100</td><td></td><td></td><td></td></tr><tr><td class='xr'>23</td><td>integer</td><td>algues</td><td>Macroalgues (%)</td><td>yes</td><td>. &gt;= 0 and . &lt;= 100</td><td></td><td></td><td></td></tr><tr><td class='xr'>24</td><td>integer</td><td>sable</td><td>Sable et roche nue (%)</td><td>yes</td><td>&#36;{corail_vivant} + &#36;{corail_mort} + &#36;{algues} + . = 100</td><td></td><td></td><td></td></tr><tr><td class='xr'>25</td><td>begin_repeat</td><td>poissons</td><td>Observation de poissons (transect &#36;{num_transect})</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>26</td><td>select_one famille</td><td>famille</td><td>Famille</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>27</td><td>select_one classe_taille</td><td>classe_taille</td><td>Classe de taille</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>28</td><td>integer</td><td>nombre</td><td>Nombre d'individus</td><td>yes</td><td>. &gt;= 1</td><td></td><td></td><td></td></tr><tr><td class='xr'>29</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>30</td><td>calculate</td><td>nb_poissons_transect</td><td></td><td></td><td></td><td>sum(&#36;{nombre})</td><td></td><td></td></tr><tr><td class='xr'>31</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>32</td><td>calculate</td><td>couv_moy</td><td></td><td></td><td></td><td>round(sum(&#36;{corail_vivant}) div count(&#36;{num_transect}), 1)</td><td></td><td></td></tr><tr><td class='xr'>33</td><td>text</td><td>remarques</td><td>Remarques</td><td></td><td></td><td></td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<p>Everything you know, in one form:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rows</th>
+<th>What</th>
+<th>Seen in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2–3</td>
+<td>metadata <code>start</code>, <code>end</code></td>
+<td>Session 2</td>
+</tr>
+<tr class="even">
+<td>4–11</td>
+<td>group <code>localisation</code>: cascade region › district › commune
+(<code>choice_filter</code>), GPS</td>
+<td>I3, <strong>A1–A2</strong></td>
+</tr>
+<tr class="odd">
+<td>12–17</td>
+<td>group <code>plongee</code>: date not in the future, at least two
+divers (<code>count-selected(.) &gt;= 2</code>), visibility 0–40 m,
+number of transects 1–6</td>
+<td>I2, I3</td>
+</tr>
+<tr class="even">
+<td>18–31</td>
+<td>repeat <code>transects</code> with
+<code>repeat_count = ${nb_transects}</code>, numbered with
+<code>position(..)</code>; four covers whose <strong>sum must be
+100</strong> (constraint on the last one)</td>
+<td>I0, I2, I5</td>
+</tr>
+<tr class="odd">
+<td>25–29</td>
+<td>repeat <code>poissons</code> <strong>inside</strong>
+<code>transects</code> (no <code>repeat_count</code>: the diver adds as
+many observations as needed)</td>
+<td><strong>A5</strong></td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td><code>sum(${nombre})</code> inside the transect = fish of
+<strong>this</strong> transect</td>
+<td>I5</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td>after the repeats: mean live coral cover of the dive</td>
+<td>I0, I5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Tout ce que vous savez, dans un formulaire :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Lignes</th>
+<th>Quoi</th>
+<th>Vu à la séance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2–3</td>
+<td>métadonnées <code>start</code>, <code>end</code></td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>4–11</td>
+<td>groupe <code>localisation</code> : cascade région › district ›
+commune (<code>choice_filter</code>), GPS</td>
+<td>I3, <strong>A1–A2</strong></td>
+</tr>
+<tr class="odd">
+<td>12–17</td>
+<td>groupe <code>plongee</code> : date pas dans le futur, au moins deux
+plongeurs (<code>count-selected(.) &gt;= 2</code>), visibilité 0–40 m,
+nombre de transects 1–6</td>
+<td>I2, I3</td>
+</tr>
+<tr class="even">
+<td>18–31</td>
+<td>répétition <code>transects</code> avec
+<code>repeat_count = ${nb_transects}</code>, numérotée avec
+<code>position(..)</code> ; quatre recouvrements dont la <strong>somme
+doit faire 100</strong> (contrainte sur le dernier)</td>
+<td>I0, I2, I5</td>
+</tr>
+<tr class="odd">
+<td>25–29</td>
+<td>répétition <code>poissons</code> <strong>dans</strong>
+<code>transects</code> (pas de <code>repeat_count</code> : le plongeur
+ajoute autant d’observations que nécessaire)</td>
+<td><strong>A5</strong></td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td><code>sum(${nombre})</code> dans le transect = poissons de
+<strong>ce</strong> transect</td>
+<td>I5</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td>après les répétitions : recouvrement moyen en corail vivant de la
+plongée</td>
+<td>I0, I5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Nested repeats and calculations.</strong> Inside the repeat
+<code>transects</code>, <code>sum(${nombre})</code> adds the fish of the
+<strong>current transect only</strong> (the nearest repeat). Outside all
+repeats, <code>sum(${nombre})</code> would add the fish of the whole
+dive. The place of a calculation decides what it sums.</p>
+</div>
+<div class="fr">
+<p><strong>Répétitions imbriquées et calculs.</strong> Dans la
+répétition <code>transects</code>, <code>sum(${nombre})</code>
+additionne les poissons du <strong>transect en cours seulement</strong>
+(la répétition la plus proche). Hors de toute répétition,
+<code>sum(${nombre})</code> additionnerait les poissons de toute la
+plongée. La place d’un calcul décide de ce qu’il additionne.</p>
+</div>
+</div>
+</div>
+<div id="rules" class="section level2">
+<h2><span class="en">Rules for a project that lasts</span><span
+class="fr">Règles pour un projet qui dure</span></h2>
+<div class="en">
+<p><strong>Names.</strong> Lowercase, <code>_</code>, no accents;
+prefixes per section if the form is long (<code>pl_visibilite</code>,
+<code>tr_profondeur</code>); same names from one year to the next so
+that the data can be stacked; never reuse a name for a different
+question.</p>
+<p><strong>Versions.</strong> Change <code>version</code> in
+<code>settings</code> at each deployment (<code>2026-05-v1</code>,
+<code>2026-06-v2</code>) and keep a <em>changelog</em> sheet in the
+XLSForm (date, change, reason). Keep every deployed file
+(<code>suivi_recifs_2026-05-v1.xlsx</code>…). In the data,
+<code>__version__</code> tells you which version each submission
+used.</p>
+<p><strong>Choices.</strong> Never change the <code>name</code> of a
+choice that has been used; to retire a choice, keep it in the list for
+old data and hide it for new forms with a filter (Session A1).</p>
+<p><strong>Library.</strong> Save the blocks you reuse (identification,
+consent, GPS, household roster) in the KoboToolbox <span
+class="ui">Bibliothèque <span class="ui-en">(Library)</span></span>, or
+keep a “master” XLSForm from which you copy rows.</p>
+</div>
+<div class="fr">
+<p><strong>Noms.</strong> Minuscules, <code>_</code>, sans accents ;
+préfixes par section si le formulaire est long
+(<code>pl_visibilite</code>, <code>tr_profondeur</code>) ; mêmes noms
+d’une année à l’autre pour pouvoir empiler les données ; ne jamais
+réutiliser un nom pour une autre question.</p>
+<p><strong>Versions.</strong> Changez <code>version</code> dans
+<code>settings</code> à chaque déploiement (<code>2026-05-v1</code>,
+<code>2026-06-v2</code>) et gardez une feuille <em>journal des
+modifications</em> dans le XLSForm (date, modification, raison).
+Conservez chaque fichier déployé
+(<code>suivi_recifs_2026-05-v1.xlsx</code>…). Dans les données,
+<code>__version__</code> indique la version utilisée par chaque
+soumission.</p>
+<p><strong>Choix.</strong> Ne changez jamais le <code>name</code> d’un
+choix déjà utilisé ; pour retirer un choix, gardez-le dans la liste pour
+les anciennes données et masquez-le pour les nouvelles fiches avec un
+filtre (séance A1).</p>
+<p><strong>Bibliothèque.</strong> Enregistrez les blocs que vous
+réutilisez (identification, consentement, GPS, liste des membres du
+ménage) dans la <span class="ui">Bibliothèque <span
+class="ui-en">(Library)</span></span> de KoboToolbox, ou gardez un
+XLSForm « maître » dont vous copiez les lignes.</p>
+</div>
+</div>
+<div id="field" class="section level2">
+<h2><span class="en">Before, during and after the field</span><span
+class="fr">Avant, pendant et après le terrain</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>When</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Before</strong></td>
+<td>desk test of every branch (each <code>relevant</code>, each
+<code>constraint</code> inside/outside); pilot with 5–10 real
+interviews/dives; correct; train the team <strong>on the final
+version</strong>; configure all devices; share the project with the
+right permissions; delete the test data</td>
+</tr>
+<tr class="even">
+<td><strong>During</strong></td>
+<td>look at the data <strong>every day</strong> (table, reports, map);
+check durations (<code>start</code>/<code>end</code>), missing GPS, odd
+values; give feedback to the enumerators; validate submissions; redeploy
+only if necessary, and tell the team to download the new version</td>
+</tr>
+<tr class="odd">
+<td><strong>After</strong></td>
+<td>download the final export (XLS, XML values, groups in headers)
+<strong>and</strong> the XLSForm; keep both with a short note (dates,
+versions, problems); archive the project (<span class="ui">PARAMÈTRES
+<span class="ui-en">(SETTINGS)</span></span>) when collection is
+over</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quand</th>
+<th>Quoi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Avant</strong></td>
+<td>test au bureau de chaque branche (chaque <code>relevant</code>,
+chaque <code>constraint</code> dedans/dehors) ; pilote avec 5 à 10 vrais
+entretiens/plongées ; corrections ; formation de l’équipe <strong>sur la
+version finale</strong> ; configuration de tous les appareils ; partage
+du projet avec les bonnes autorisations ; suppression des données de
+test</td>
+</tr>
+<tr class="even">
+<td><strong>Pendant</strong></td>
+<td>regarder les données <strong>chaque jour</strong> (tableau,
+rapports, carte) ; vérifier les durées
+(<code>start</code>/<code>end</code>), les GPS manquants, les valeurs
+étranges ; faire un retour aux enquêteurs ; valider les soumissions ; ne
+redéployer que si nécessaire, et prévenir l’équipe de télécharger la
+nouvelle version</td>
+</tr>
+<tr class="odd">
+<td><strong>Après</strong></td>
+<td>télécharger l’export final (XLS, valeurs XML, groupes dans les
+en-têtes) <strong>et</strong> le XLSForm ; garder les deux avec une
+courte note (dates, versions, problèmes) ; archiver le projet (<span
+class="ui">PARAMÈTRES <span class="ui-en">(SETTINGS)</span></span>) à la
+fin de la collecte</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Personal data.</strong> Names, phone numbers, GPS of houses
+and photos of people are personal data. Collect only what you need; ask
+for <strong>informed consent</strong> at the start of the form (an
+<code>acknowledge</code> question or a <code>select_one</code> with a
+<code>relevant</code> on the rest of the form); limit who can see the
+data (permissions); remove names and phone numbers from the files you
+share; follow the rules of your institution and the national
+authorisations for research.</p>
+</div>
+<div class="fr">
+<p><strong>Données personnelles.</strong> Noms, numéros de téléphone,
+GPS des maisons et photos de personnes sont des données personnelles. Ne
+collectez que le nécessaire ; demandez le <strong>consentement
+éclairé</strong> au début du formulaire (une question
+<code>acknowledge</code> ou un <code>select_one</code> avec un
+<code>relevant</code> sur la suite du formulaire) ; limitez qui peut
+voir les données (autorisations) ; retirez noms et téléphones des
+fichiers que vous partagez ; respectez les règles de votre institution
+et les autorisations nationales de recherche.</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-a0" class="section level3 en">
+<h3>Application work A0</h3>
+<ol style="list-style-type: decimal">
+<li>Read <code>a03_suivi_recifs.xlsx</code> row by row and answer the
+quiz.</li>
+<li>Upload it to KoboToolbox, open the preview and enter one dive with
+<strong>2 transects</strong>, the first with 3 fish observations, the
+second with 1. Try a cover total of 95 %: what happens?</li>
+<li>Write the <strong>data dictionary</strong> of this form in a new
+sheet <code>dictionnaire</code> (columns: name, level, type, unit,
+values, required, rule). Keep it: you will use it in Sessions
+A4–A5.</li>
+<li>Add a <strong>consent</strong> question at the very beginning
+(<code>select_one oui_non</code> named <code>consentement</code>,
+<em>Les plongeurs acceptent que leurs noms soient enregistrés</em>) and
+make the group <code>plongee</code> relevant only if the answer is
+<code>oui</code>.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a0" class="section level3 fr">
+<h3>Travail d’application A0</h3>
+<ol style="list-style-type: decimal">
+<li>Lisez <code>a03_suivi_recifs.xlsx</code> ligne par ligne et répondez
+au quiz.</li>
+<li>Importez-le dans KoboToolbox, ouvrez l’aperçu et saisissez une
+plongée avec <strong>2 transects</strong>, le premier avec 3
+observations de poissons, le second avec 1. Essayez un total de
+recouvrement de 95 % : que se passe-t-il ?</li>
+<li>Écrivez le <strong>dictionnaire des données</strong> de ce
+formulaire dans une nouvelle feuille <code>dictionnaire</code> (colonnes
+: name, niveau, type, unité, valeurs, obligatoire, règle). Gardez-le :
+il servira aux séances A4–A5.</li>
+<li>Ajoutez une question de <strong>consentement</strong> tout au début
+(<code>select_one oui_non</code> nommée <code>consentement</code>,
+<em>Les plongeurs acceptent que leurs noms soient enregistrés</em>) et
+rendez le groupe <code>plongee</code> conditionnel à la réponse
+<code>oui</code>.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-ka0" class="quiz" data-quiz-id="ka0"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGdyb3VwcyAoYmVnaW5fZ3JvdXApPyIsImZyIjoiMS4gTm9tYnJlIGRlIGdyb3VwZXMgKGJlZ2luX2dyb3VwKSA/IiwiYW5zd2VyIjoyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBOdW1iZXIgb2YgcmVwZWF0cyAoYmVnaW5fcmVwZWF0KT8iLCJmciI6IjIuIE5vbWJyZSBkZSByw6lww6l0aXRpb25zIChiZWdpbl9yZXBlYXQpID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE51bWJlciBvZiBjYWxjdWxhdGUgcm93cz8iLCJmciI6IjMuIE5vbWJyZSBkZSBsaWduZXMgY2FsY3VsYXRlID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBOYW1lIG9mIHRoZSBxdWVzdGlvbiB3aG9zZSBjb25zdHJhaW50IGNoZWNrcyB0aGF0IHRoZSBjb3ZlcnMgYWRkIHVwIHRvIDEwMD8iLCJmciI6IjQuIE5hbWUgZGUgbGEgcXVlc3Rpb24gZG9udCBsYSBjb250cmFpbnRlIHbDqXJpZmllIHF1ZSBsZXMgcmVjb3V2cmVtZW50cyBmb250IDEwMCA/IiwiYW5zd2VyIjpbImNvcmFpbF92aXZhbnQiLCJjb3JhaWxfbW9ydCIsImFsZ3VlcyIsInNhYmxlIl19LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTnVtYmVyIG9mIHJlcXVpcmVkIHF1ZXN0aW9ucz8iLCJmciI6IjUuIE5vbWJyZSBkZSBxdWVzdGlvbnMgb2JsaWdhdG9pcmVzID8iLCJhbnN3ZXIiOjE2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBOdW1iZXIgb2Ygcm93cyB3aXRoIGEgY2hvaWNlX2ZpbHRlcj8iLCJmciI6IjYuIE5vbWJyZSBkZSBsaWduZXMgYXZlYyB1biBjaG9pY2VfZmlsdGVyID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE51bWJlciBvZiBmaXNoIGZhbWlsaWVzIGluIHRoZSBsaXN0PyIsImZyIjoiNy4gTm9tYnJlIGRlIGZhbWlsbGVzIGRlIHBvaXNzb25zIGRhbnMgbGEgbGlzdGUgPyIsImFuc3dlciI6OCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjguIHJlcGVhdF9jb3VudCBvZiB0aGUgdHJhbnNlY3RzPyIsImZyIjoiOC4gcmVwZWF0X2NvdW50IGRlcyB0cmFuc2VjdHMgPyIsImFuc3dlciI6WyIke25iX3RyYW5zZWN0c30iXX0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBJbnNpZGUgdGhlIHJlcGVhdCB0cmFuc2VjdHMsIHN1bSgke25vbWJyZX0pIGFkZHM6IiwiZnIiOiI5LiBEYW5zIGxhIHLDqXDDqXRpdGlvbiB0cmFuc2VjdHMsIHN1bSgke25vbWJyZX0pIGFkZGl0aW9ubmUgOiIsIm9wdGlvbnNfZW4iOlsiYWxsIHRoZSBmaXNoIG9mIHRoZSBkaXZlIiwidGhlIGZpc2ggb2YgdGhlIGN1cnJlbnQgdHJhbnNlY3QiLCJ0aGUgZmlzaCBvZiBhbGwgZGl2ZXMiXSwib3B0aW9uc19mciI6WyJ0b3VzIGxlcyBwb2lzc29ucyBkZSBsYSBwbG9uZ8OpZSIsImxlcyBwb2lzc29ucyBkdSB0cmFuc2VjdCBlbiBjb3VycyIsImxlcyBwb2lzc29ucyBkZSB0b3V0ZXMgbGVzIHBsb25nw6llcyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFlvdSBtdXN0IHJldGlyZSB0aGUgY2hvaWNlICdyaW5kcmEnIChhIGRpdmVyIHdobyBsZWZ0KS4gQmVzdCB3YXk/IiwiZnIiOiIxMC4gVm91cyBkZXZleiByZXRpcmVyIGxlIGNob2l4IMKrIHJpbmRyYSDCuyAodW4gcGxvbmdldXIgcGFydGkpLiBNZWlsbGV1cmUgZmHDp29uID8iLCJvcHRpb25zX2VuIjpbImRlbGV0ZSB0aGUgcm93IGluIGNob2ljZXMiLCJyZW5hbWUgaXQgJ2FuY2llbiciLCJrZWVwIGl0LCBhbmQgaGlkZSBpdCBmb3IgbmV3IGZvcm1zIHdpdGggYSBmaWx0ZXIiXSwib3B0aW9uc19mciI6WyJzdXBwcmltZXIgbGEgbGlnbmUgZGFucyBjaG9pY2VzIiwibGUgcmVub21tZXIgwqsgYW5jaWVuIMK7IiwibGUgZ2FyZGVyLCBldCBsZSBtYXNxdWVyIHBvdXIgbGVzIG5vdXZlbGxlcyBmaWNoZXMgYXZlYyB1biBmaWx0cmUiXSwiYW5zd2VyIjoyfV0=">
+
+</div>
+<div class="solution" data-quiz="ka0">
+<div class="en">
+<p>1 2 · 2 2 · 3 3 (<code>num_transect</code>,
+<code>nb_poissons_transect</code>, <code>couv_moy</code>) · 4
+corail_vivant, corail_mort, algues, sable · 5 16 · 6 2 · 7 8 · 8
+<code>${nb_transects}</code> · 9 the current transect · 10 keep it and
+filter. Application 2: the last cover is refused with the message <em>Le
+total des 4 catégories doit faire 100 %</em>.</p>
+</div>
+<div class="fr">
+<p>1 2 · 2 2 · 3 3 (<code>num_transect</code>,
+<code>nb_poissons_transect</code>, <code>couv_moy</code>) · 4
+corail_vivant, corail_mort, algues, sable · 5 16 · 6 2 · 7 8 · 8
+<code>${nb_transects}</code> · 9 le transect en cours · 10 le garder et
+le filtrer. Application 2 : le dernier recouvrement est refusé avec le
+message <em>Le total des 4 catégories doit faire 100 %</em>.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

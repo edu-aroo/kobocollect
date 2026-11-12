@@ -1,0 +1,167 @@
+window.QUIZ_INDEX = {
+  "k00": {
+    "max": 10,
+    "page": "00-kobo-account",
+    "level": "beginner"
+  },
+  "k01": {
+    "max": 10,
+    "page": "01-formbuilder",
+    "level": "beginner"
+  },
+  "k02": {
+    "max": 10,
+    "page": "02-xlsform",
+    "level": "beginner"
+  },
+  "k03": {
+    "max": 10,
+    "page": "03-multilingual",
+    "level": "beginner"
+  },
+  "k04": {
+    "max": 10,
+    "page": "04-deploy",
+    "level": "beginner"
+  },
+  "k05": {
+    "max": 11,
+    "page": "05-download",
+    "level": "beginner"
+  },
+  "k07": {
+    "max": 12,
+    "page": "07-final-project",
+    "level": "beginner"
+  },
+  "ka0": {
+    "max": 10,
+    "page": "a00-review",
+    "level": "advanced"
+  },
+  "ka1": {
+    "max": 10,
+    "page": "a01-choice-filter",
+    "level": "advanced"
+  },
+  "ka2": {
+    "max": 10,
+    "page": "a02-cascade",
+    "level": "advanced"
+  },
+  "ka3": {
+    "max": 10,
+    "page": "a03-export",
+    "level": "advanced"
+  },
+  "ka4": {
+    "max": 10,
+    "page": "a04-r-import",
+    "level": "advanced"
+  },
+  "ka5": {
+    "max": 10,
+    "page": "a05-r-repeats",
+    "level": "advanced"
+  },
+  "ka7": {
+    "max": 13,
+    "page": "a07-final-project",
+    "level": "advanced"
+  },
+  "kap1": {
+    "max": 6,
+    "page": "a06-practice",
+    "level": "advanced"
+  },
+  "kap2": {
+    "max": 6,
+    "page": "a06-practice",
+    "level": "advanced"
+  },
+  "kap3": {
+    "max": 10,
+    "page": "a06-practice",
+    "level": "advanced"
+  },
+  "kap4": {
+    "max": 6,
+    "page": "a06-practice",
+    "level": "advanced"
+  },
+  "ki0": {
+    "max": 10,
+    "page": "i00-calculate",
+    "level": "intermediate"
+  },
+  "ki1": {
+    "max": 10,
+    "page": "i01-relevant",
+    "level": "intermediate"
+  },
+  "ki2": {
+    "max": 10,
+    "page": "i02-constraint",
+    "level": "intermediate"
+  },
+  "ki3": {
+    "max": 10,
+    "page": "i03-groups",
+    "level": "intermediate"
+  },
+  "ki4": {
+    "max": 10,
+    "page": "i04-rank",
+    "level": "intermediate"
+  },
+  "ki5": {
+    "max": 12,
+    "page": "i05-repeat",
+    "level": "intermediate"
+  },
+  "ki7": {
+    "max": 12,
+    "page": "i07-final-project",
+    "level": "intermediate"
+  },
+  "kip1": {
+    "max": 8,
+    "page": "i06-practice",
+    "level": "intermediate"
+  },
+  "kip2": {
+    "max": 6,
+    "page": "i06-practice",
+    "level": "intermediate"
+  },
+  "kip3": {
+    "max": 8,
+    "page": "i06-practice",
+    "level": "intermediate"
+  },
+  "kip4": {
+    "max": 8,
+    "page": "i06-practice",
+    "level": "intermediate"
+  },
+  "kp1": {
+    "max": 6,
+    "page": "06-practice",
+    "level": "beginner"
+  },
+  "kp2": {
+    "max": 6,
+    "page": "06-practice",
+    "level": "beginner"
+  },
+  "kp3": {
+    "max": 8,
+    "page": "06-practice",
+    "level": "beginner"
+  },
+  "kp4": {
+    "max": 8,
+    "page": "06-practice",
+    "level": "beginner"
+  }
+};

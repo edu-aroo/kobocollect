@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 0</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">0 · KoboToolbox: discover
+it and create your account</span><span class="fr">0 · KoboToolbox : le
+découvrir et créer son compte</span></h1>
+<h3 class="subtitle">~1 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>explain what KoboToolbox, KoboCollect, Enketo and XLSForm are, and
+how they work together;</li>
+<li>choose a server and create your KoboToolbox account;</li>
+<li>find your way in the interface: project list, the four tabs of a
+project, the library;</li>
+<li>organise your account for a team (one account per person, shared
+projects).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>expliquer ce que sont KoboToolbox, KoboCollect, Enketo et XLSForm,
+et comment ils fonctionnent ensemble ;</li>
+<li>choisir un serveur et créer votre compte KoboToolbox ;</li>
+<li>vous repérer dans l’interface : liste des projets, les quatre
+onglets d’un projet, la bibliothèque ;</li>
+<li>organiser votre compte pour une équipe (un compte par personne, des
+projets partagés).</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Why collect data on a phone?</span><span
+class="fr">Pourquoi collecter sur téléphone ?</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The fishers’ cooperative of the
+Bay of Ranobe (Atsimo-Andrefana) has recorded its landings on
+<strong>paper forms</strong> for three years. Each month, two people
+spend four days typing the forms into Excel. Last year, the analysis
+found weights of “350 kg” for a single canoe (the decimal point was
+forgotten), villages spelled six different ways (“Ambolimailaka”,
+“Ambolimailak”, “AMBOLIMAILAKA”…) and 12 % of the forms with no date.
+The cooperative asks you to move the survey to
+<strong>KoboToolbox</strong>: the enumerators will fill in the form on a
+phone, the data will arrive directly on the server, and the form itself
+will refuse impossible answers.</p>
+<p><strong>Type of data:</strong> fisheries landings — one record per
+canoe per day: date, village, gear, species, weight.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> La coopérative de pêcheurs de la
+baie de Ranobe (Atsimo-Andrefana) enregistre ses débarquements sur des
+<strong>fiches papier</strong> depuis trois ans. Chaque mois, deux
+personnes passent quatre jours à saisir les fiches dans Excel. L’an
+dernier, l’analyse a trouvé des poids de « 350 kg » pour une seule
+pirogue (la virgule avait été oubliée), des villages écrits de six
+façons (« Ambolimailaka », « Ambolimailak », « AMBOLIMAILAKA »…) et 12 %
+de fiches sans date. La coopérative vous demande de passer l’enquête sur
+<strong>KoboToolbox</strong> : les enquêteurs rempliront le formulaire
+sur téléphone, les données arriveront directement sur le serveur, et le
+formulaire lui-même refusera les réponses impossibles.</p>
+<p><strong>Type de données :</strong> débarquements de pêche — une fiche
+par pirogue et par jour : date, village, engin, espèces, poids.</p>
+</div>
+</div>
+<div class="en">
+<p>A digital form solves most of these problems <strong>at the moment of
+collection</strong>:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paper problem</th>
+<th>What the digital form does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Villages spelled in many ways</td>
+<td>the enumerator <strong>chooses</strong> the village in a list: only
+one spelling exists</td>
+</tr>
+<tr class="even">
+<td>Missing date</td>
+<td>the question is <strong>required</strong>: the form cannot be
+finished without it</td>
+</tr>
+<tr class="odd">
+<td>“350 kg” instead of “35.0 kg”</td>
+<td>a <strong>constraint</strong> refuses weights above a limit
+(Intermediate level)</td>
+</tr>
+<tr class="even">
+<td>Four days of typing</td>
+<td>no typing: the data are on the server as soon as the phone has a
+connection</td>
+</tr>
+<tr class="odd">
+<td>Lost or wet forms</td>
+<td>the phone keeps the forms until they are sent; the server keeps a
+copy</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Un formulaire numérique règle la plupart de ces problèmes <strong>au
+moment de la collecte</strong> :</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problème du papier</th>
+<th>Ce que fait le formulaire numérique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Villages écrits de plusieurs façons</td>
+<td>l’enquêteur <strong>choisit</strong> le village dans une liste : une
+seule orthographe existe</td>
+</tr>
+<tr class="even">
+<td>Date manquante</td>
+<td>la question est <strong>obligatoire</strong> : impossible de
+terminer le formulaire sans elle</td>
+</tr>
+<tr class="odd">
+<td>« 350 kg » au lieu de « 35,0 kg »</td>
+<td>une <strong>contrainte</strong> refuse les poids au-dessus d’une
+limite (niveau Intermédiaire)</td>
+</tr>
+<tr class="even">
+<td>Quatre jours de saisie</td>
+<td>plus de saisie : les données sont sur le serveur dès que le
+téléphone a du réseau</td>
+</tr>
+<tr class="odd">
+<td>Fiches perdues ou mouillées</td>
+<td>le téléphone garde les fiches jusqu’à leur envoi ; le serveur en
+garde une copie</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout warning">
+<div class="en">
+<p>A digital form does <strong>not</strong> correct a badly designed
+questionnaire. A vague question stays vague on a phone. That is why this
+course spends as much time on <strong>designing</strong> questions
+(types, choices, conditions, checks) as on the software itself.</p>
+</div>
+<div class="fr">
+<p>Un formulaire numérique ne corrige <strong>pas</strong> un
+questionnaire mal conçu. Une question floue reste floue sur un
+téléphone. C’est pourquoi ce cours consacre autant de temps à la
+<strong>conception</strong> des questions (types, choix, conditions,
+contrôles) qu’au logiciel lui-même.</p>
+</div>
+</div>
+</div>
+<div id="tools" class="section level2">
+<h2><span class="en">The KoboToolbox family of tools</span><span
+class="fr">La famille d’outils KoboToolbox</span></h2>
+<div class="en">
+<p><strong>KoboToolbox</strong> is a free and open-source platform for
+collecting data in the field, used by thousands of NGOs, research teams
+and UN agencies. It is built on the <strong>ODK</strong> (Open Data Kit)
+standards, which means that the forms you write also work with other ODK
+tools. Four names come back all the time:</p>
+</div>
+<div class="fr">
+<p><strong>KoboToolbox</strong> est une plateforme libre et gratuite de
+collecte de données sur le terrain, utilisée par des milliers d’ONG,
+d’équipes de recherche et d’agences des Nations unies. Elle repose sur
+les standards <strong>ODK</strong> (Open Data Kit) : les formulaires que
+vous écrivez fonctionnent donc aussi avec d’autres outils ODK. Quatre
+noms reviennent sans cesse :</p>
+</div>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>What it is</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>KoboToolbox</strong> (the website)</td>
+<td>where you <strong>build</strong> forms, <strong>deploy</strong>
+them, <strong>see</strong> and <strong>download</strong> the data, and
+<strong>share</strong> projects</td>
+<td>in a web browser, on a computer</td>
+</tr>
+<tr class="even">
+<td><strong>Formbuilder</strong></td>
+<td>the form editor <strong>inside</strong> the website: you add
+questions with the mouse</td>
+<td>KoboToolbox, <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> tab</td>
+</tr>
+<tr class="odd">
+<td><strong>XLSForm</strong></td>
+<td>a way to write a form in an <strong>Excel file</strong>, one row per
+question; the file is then uploaded to KoboToolbox</td>
+<td>Excel / LibreOffice</td>
+</tr>
+<tr class="even">
+<td><strong>KoboCollect</strong></td>
+<td>the <strong>Android app</strong> used by enumerators; works
+<strong>without connection</strong> and sends the forms later</td>
+<td>Android phone or tablet</td>
+</tr>
+<tr class="odd">
+<td><strong>Enketo</strong> (web form)</td>
+<td>the form opened in a <strong>browser</strong> (computer, iPhone,
+Android) through a link; can also work offline</td>
+<td>any browser</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nom</th>
+<th>Ce que c’est</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>KoboToolbox</strong> (le site)</td>
+<td>là où vous <strong>construisez</strong> les formulaires, les
+<strong>déployez</strong>, <strong>consultez</strong> et
+<strong>téléchargez</strong> les données, et <strong>partagez</strong>
+les projets</td>
+<td>dans un navigateur, sur ordinateur</td>
+</tr>
+<tr class="even">
+<td><strong>Formbuilder</strong></td>
+<td>l’éditeur de formulaires <strong>à l’intérieur</strong> du site : on
+ajoute les questions à la souris</td>
+<td>KoboToolbox, onglet <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span></td>
+</tr>
+<tr class="odd">
+<td><strong>XLSForm</strong></td>
+<td>une façon d’écrire un formulaire dans un <strong>fichier
+Excel</strong>, une ligne par question ; le fichier est ensuite importé
+dans KoboToolbox</td>
+<td>Excel / LibreOffice</td>
+</tr>
+<tr class="even">
+<td><strong>KoboCollect</strong></td>
+<td>l’<strong>application Android</strong> des enquêteurs ; fonctionne
+<strong>sans connexion</strong> et envoie les fiches plus tard</td>
+<td>téléphone ou tablette Android</td>
+</tr>
+<tr class="odd">
+<td><strong>Enketo</strong> (formulaire web)</td>
+<td>le formulaire ouvert dans un <strong>navigateur</strong>
+(ordinateur, iPhone, Android) grâce à un lien ; peut aussi fonctionner
+hors ligne</td>
+<td>n’importe quel navigateur</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 210" role="img" aria-label="KoboToolbox survey cycle" font-family="Source Sans 3, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="kc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
+<g stroke-width="2"><rect x="8" y="40" width="150" height="100" rx="10" fill="#f6f1e7" stroke="#b08a4a"/><rect x="190" y="40" width="150" height="100" rx="10" fill="#e9f4f6" stroke="#1b7f8c"/><rect x="372" y="40" width="150" height="100" rx="10" fill="#eef5ea" stroke="#4a7d3a"/><rect x="554" y="40" width="150" height="100" rx="10" fill="#fdf0eb" stroke="#d9694a"/><rect x="736" y="40" width="156" height="100" rx="10" fill="#0b3d5c" stroke="#0b3d5c"/></g>
+<g stroke="#0b3d5c" stroke-width="2" marker-end="url(#kc)" fill="none"><path d="M158 90h29"/><path d="M340 90h29"/><path d="M522 90h29"/><path d="M704 90h29"/><path d="M814 140 C814 200 84 200 84 145" stroke-dasharray="5 4"/></g>
+<g font-size="15" font-weight="700" text-anchor="middle">
+<text x="83" y="68" fill="#8a6a32" class="en">1. Design</text><text x="83" y="68" fill="#8a6a32" class="fr">1. Concevoir</text>
+<text x="265" y="68" fill="#1b7f8c" class="en">2. Deploy</text><text x="265" y="68" fill="#1b7f8c" class="fr">2. Déployer</text>
+<text x="447" y="68" fill="#4a7d3a" class="en">3. Collect</text><text x="447" y="68" fill="#4a7d3a" class="fr">3. Collecter</text>
+<text x="629" y="68" fill="#d9694a" class="en">4. Download</text><text x="629" y="68" fill="#d9694a" class="fr">4. Télécharger</text>
+<text x="814" y="68" fill="#fff" class="en">5. Analyse</text><text x="814" y="68" fill="#fff" class="fr">5. Analyser</text></g>
+<g font-size="12.5" text-anchor="middle" fill="#3c4a52">
+<text x="83" y="92">Formbuilder</text><text x="83" y="110" class="en">or XLSForm (Excel)</text><text x="83" y="110" class="fr">ou XLSForm (Excel)</text>
+<text x="265" y="92" class="en">KoboToolbox server</text><text x="265" y="92" class="fr">serveur KoboToolbox</text><text x="265" y="110">kf.kobotoolbox.org</text>
+<text x="447" y="92">KoboCollect (Android)</text><text x="447" y="110" class="en">or web form (Enketo)</text><text x="447" y="110" class="fr">ou formulaire web (Enketo)</text>
+<text x="629" y="92">XLS · CSV</text><text x="629" y="110" class="en">DATA › Downloads</text><text x="629" y="110" class="fr">DONNÉES › Téléchargements</text>
+<text x="814" y="92" fill="#fff">Excel · R</text><text x="814" y="110" fill="#fff" class="en">tables, graphs, reports</text><text x="814" y="110" fill="#fff" class="fr">tableaux, graphes, rapports</text></g>
+<g font-size="12" fill="#5d6b75" text-anchor="middle" font-style="italic"><text x="449" y="196" class="en">test, correct, redeploy a new version</text><text x="449" y="196" class="fr">tester, corriger, redéployer une nouvelle version</text></g>
+<g font-size="12" fill="#5d6b75" text-anchor="middle"><text x="356" y="160" class="en">synchronised when there is a connection</text><text x="356" y="160" class="fr">synchronisé dès qu'il y a une connexion</text></g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo1ZDU3ZTMxMy02MjBmLTQzMTItOWU3ZS1iMWQ5YjQ5ODQ4MmYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaI3Qs7zL+Ygo2dr1vCB0HOoAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkNjkyNzBhYi04ZmIxLTRjZmMtYjhlYi03MjEzZTk5NTNhNzNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoHaylpBRMWeTAMy+rzsdKnAAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggIQF6qIs33ezJFsDDiYKwkT+fsBrVioAgm/b15VKBsa6kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaMzz7vEQ/oIUX1Va5TY9bI8AAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIJL6JA8BrMYy6J5SxT9QTB2CTDocS8rGY5r6OVR7ZcAQZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQxsZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjVkNTdlMzEzLTYyMGYtNDMxMi05ZTdlLWIxZDliNDk4NDgyZi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmQ5NWYxYjhhLTRlMzUtNDdhNy05ZGEzLTc4N2UyZWVjYjAzYXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAhAXqoizfd7MkWwMOJgrCRP5+wGtWKgCCb9vXlUoGxrqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggyQ4CviZsKCpzfoIJCxNMTYTO81GI5nDqIkQ4eXdYnfOiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggqMzCAyCmjQWVdEcvFFhKgshc8mf87WltvC4fUaaBezF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQLf4KLnmVVoFzP7MPes62Ya+AyK2x+QK9YFSPCQo6NDIu5P1C9MUPbX1amjdP/fPyc0hcrXQQdZJMURpW8mmwkY=</c2pa:manifest></metadata></svg><figcaption><span class="en">From the questionnaire to the analysis. Beginner level: steps 1 to 4; Advanced level: step 5 in R.</span><span class="fr">Du questionnaire à l'analyse. Niveau Débutant : étapes 1 à 4 ; niveau Avancé : étape 5 dans R.</span></figcaption></figure>
+<div class="callout tip">
+<div class="en">
+<p><strong>Formbuilder or XLSForm?</strong> Both produce the same form.
+The Formbuilder is easier to start with. XLSForm is faster for long
+questionnaires, easier to check (you see all the questions at once),
+easy to copy from one project to another, and it is the only way to use
+some advanced functions (filtered lists in Level 3, for example). This
+course teaches <strong>both</strong> at the Beginner level, then mainly
+XLSForm.</p>
+</div>
+<div class="fr">
+<p><strong>Formbuilder ou XLSForm ?</strong> Les deux produisent le même
+formulaire. Le Formbuilder est plus simple pour débuter. XLSForm est
+plus rapide pour les longs questionnaires, plus facile à vérifier (on
+voit toutes les questions d’un coup), facile à copier d’un projet à
+l’autre, et c’est la seule façon d’utiliser certaines fonctions avancées
+(les listes filtrées du niveau 3, par exemple). Ce cours enseigne
+<strong>les deux</strong> au niveau Débutant, puis surtout XLSForm.</p>
+</div>
+</div>
+</div>
+<div id="server" class="section level2">
+<h2><span class="en">Choose a server</span><span class="fr">Choisir un
+serveur</span></h2>
+<div class="en">
+<p>KoboToolbox runs two public servers. <strong>An account exists on one
+server only</strong>: an account created on one is unknown on the other,
+and the projects cannot be moved automatically.</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Server</th>
+<th>Website address</th>
+<th>Address for KoboCollect</th>
+<th>For whom</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Global</strong></td>
+<td><code>https://kf.kobotoolbox.org</code></td>
+<td><code>https://kc.kobotoolbox.org</code></td>
+<td>everyone (default)</td>
+</tr>
+<tr class="even">
+<td><strong>European Union</strong></td>
+<td><code>https://eu.kobotoolbox.org</code></td>
+<td><code>https://kc-eu.kobotoolbox.org</code></td>
+<td>organisations that must keep their data in the EU</td>
+</tr>
+</tbody>
+</table>
+<p>For this course, and for most projects in Madagascar, use the
+<strong>Global server</strong>, unless your organisation has already
+chosen the EU server (then use the same as your colleagues, so that you
+can share projects).</p>
+<p>The free plan (<em>Community</em>) is enough for this course and for
+most student projects. It has <strong>monthly limits</strong> (number of
+submissions, storage, automatic transcription…): check them on
+<code>kobotoolbox.org</code> before a large survey, they change from
+time to time.</p>
+</div>
+<div class="fr">
+<p>KoboToolbox fonctionne sur deux serveurs publics. <strong>Un compte
+n’existe que sur un seul serveur</strong> : un compte créé sur l’un est
+inconnu sur l’autre, et les projets ne peuvent pas être déplacés
+automatiquement.</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Serveur</th>
+<th>Adresse du site</th>
+<th>Adresse pour KoboCollect</th>
+<th>Pour qui</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Global</strong></td>
+<td><code>https://kf.kobotoolbox.org</code></td>
+<td><code>https://kc.kobotoolbox.org</code></td>
+<td>tout le monde (par défaut)</td>
+</tr>
+<tr class="even">
+<td><strong>Union européenne</strong></td>
+<td><code>https://eu.kobotoolbox.org</code></td>
+<td><code>https://kc-eu.kobotoolbox.org</code></td>
+<td>organisations qui doivent garder leurs données dans l’UE</td>
+</tr>
+</tbody>
+</table>
+<p>Pour ce cours, et pour la plupart des projets à Madagascar, utilisez
+le <strong>serveur Global</strong>, sauf si votre organisation a déjà
+choisi le serveur UE (utilisez alors le même que vos collègues, pour
+pouvoir partager les projets).</p>
+<p>Le plan gratuit (<em>Community</em>) suffit pour ce cours et pour la
+plupart des projets d’étudiants. Il comporte des <strong>limites
+mensuelles</strong> (nombre de soumissions, stockage, transcription
+automatique…) : vérifiez-les sur <code>kobotoolbox.org</code> avant une
+grande enquête, elles changent de temps en temps.</p>
+</div>
+</div>
+<div id="account" class="section level2">
+<h2><span class="en">Create your account</span><span class="fr">Créer
+votre compte</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Go to <code>https://kf.kobotoolbox.org</code> and click <span
+class="ui">Créer un compte <span class="ui-en">(Create an
+account)</span></span>.</li>
+<li>Fill in the form:
+<ul>
+<li><strong>Name</strong>: your full name (it is shown to the people you
+share projects with);</li>
+<li><strong>Username</strong>: <strong>lowercase letters, digits and
+underscores only</strong>, e.g. <code>aroo_f</code> or
+<code>coop_ranobe</code>. It cannot be changed later and it is typed in
+KoboCollect: keep it short;</li>
+<li><strong>E-mail</strong>: an address you check (the activation link
+is sent there);</li>
+<li><strong>Password</strong>: at least 10 characters; do not reuse the
+password of your e-mail;</li>
+<li>the other fields (organisation, sector, country) describe your use;
+they can be changed later in <span class="ui">Paramètres du compte <span
+class="ui-en">(Account settings)</span></span>.</li>
+</ul></li>
+<li>Accept the terms of use and confirm. Open the e-mail
+<strong>“Activate your account”</strong> (look in the spam folder) and
+click the link.</li>
+<li>Log in with your <strong>username</strong> (not your e-mail) and
+password.</li>
+<li>If the interface is in English, change the language: the language
+menu is in the account menu / at the bottom of the left panel. All the
+labels of this course are given in <strong>French
+(English)</strong>.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Allez sur <code>https://kf.kobotoolbox.org</code> et cliquez sur
+<span class="ui">Créer un compte <span class="ui-en">(Create an
+account)</span></span>.</li>
+<li>Remplissez le formulaire :
+<ul>
+<li><strong>Nom</strong> : votre nom complet (il est montré aux
+personnes avec qui vous partagez des projets) ;</li>
+<li><strong>Nom d’utilisateur</strong> : <strong>lettres minuscules,
+chiffres et tirets bas uniquement</strong>, ex. <code>aroo_f</code> ou
+<code>coop_ranobe</code>. Il ne peut plus être modifié et il se tape
+dans KoboCollect : gardez-le court ;</li>
+<li><strong>E-mail</strong> : une adresse que vous consultez (le lien
+d’activation y est envoyé) ;</li>
+<li><strong>Mot de passe</strong> : au moins 10 caractères ; ne
+réutilisez pas celui de votre messagerie ;</li>
+<li>les autres champs (organisation, secteur, pays) décrivent votre
+utilisation ; ils se modifient plus tard dans <span
+class="ui">Paramètres du compte <span class="ui-en">(Account
+settings)</span></span>.</li>
+</ul></li>
+<li>Acceptez les conditions d’utilisation et validez. Ouvrez l’e-mail
+<strong>« Activate your account »</strong> (regardez dans les spams) et
+cliquez sur le lien.</li>
+<li>Connectez-vous avec votre <strong>nom d’utilisateur</strong> (pas
+votre e-mail) et votre mot de passe.</li>
+<li>Si l’interface est en anglais, changez la langue : le menu des
+langues se trouve dans le menu du compte / en bas du panneau de gauche.
+Tous les libellés de ce cours sont donnés en <strong>français
+(anglais)</strong>.</li>
+</ol>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>One account per person.</strong> Do not give the same account
+and password to all your enumerators: you would not know who sent what,
+and anybody could delete the project. Each enumerator gets their own
+account, and you <strong>share</strong> the project with them (Session 4
+and <em>Advanced</em> level). The <code>_submitted_by</code> column of
+the export then tells you who sent each form.</p>
+</div>
+<div class="fr">
+<p><strong>Un compte par personne.</strong> Ne donnez pas le même compte
+et le même mot de passe à tous vos enquêteurs : vous ne sauriez pas qui
+a envoyé quoi, et n’importe qui pourrait supprimer le projet. Chaque
+enquêteur a son propre compte, et vous <strong>partagez</strong> le
+projet avec lui (séance 4 et niveau <em>Avancé</em>). La colonne
+<code>_submitted_by</code> de l’export indique alors qui a envoyé chaque
+fiche.</p>
+</div>
+</div>
+</div>
+<div id="interface" class="section level2">
+<h2><span class="en">A tour of the interface</span><span
+class="fr">Visite de l’interface</span></h2>
+<div class="en">
+<p>After logging in you see the <strong>project list</strong> (<span
+class="ui">Projets <span class="ui-en">(Projects)</span></span>). Each
+line is one questionnaire, with its status: <em>Draft</em> (never
+deployed), <em>Deployed</em> (collecting) or <em>Archived</em> (closed).
+On the left:</p>
+<ul>
+<li><span class="ui">NOUVEAU <span class="ui-en">(NEW)</span></span> —
+creates a new project: from scratch (<span class="ui">Construire à
+partir de zéro <span class="ui-en">(Build from scratch)</span></span>),
+from a template, or from an Excel file (<span class="ui">Téléverser un
+XLSForm <span class="ui-en">(Upload an XLSForm)</span></span>);</li>
+<li><span class="ui">Bibliothèque <span
+class="ui-en">(Library)</span></span> — your reusable questions, blocks
+of questions and templates (e.g. the same “Identification” block in all
+your surveys).</li>
+</ul>
+<p>Click a project: it has <strong>four tabs</strong>.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tab</th>
+<th>What you do there</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">RÉSUMÉ <span
+class="ui-en">(SUMMARY)</span></span></td>
+<td>overview: number of submissions, last submission, who has
+access</td>
+</tr>
+<tr class="even">
+<td><span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span></td>
+<td>edit the form, preview it, deploy it, get the collection links
+(<span class="ui">Collecter les données <span class="ui-en">(Collect
+data)</span></span>), download it as XLSForm</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span></td>
+<td>see the data as a table, reports, map, photo gallery, and
+<strong>downloads</strong> (exports)</td>
+</tr>
+<tr class="even">
+<td><span class="ui">PARAMÈTRES <span
+class="ui-en">(SETTINGS)</span></span></td>
+<td>name and description, <strong>sharing</strong> with other accounts,
+connected projects, archiving, deleting</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Après la connexion, vous voyez la <strong>liste des projets</strong>
+(<span class="ui">Projets <span class="ui-en">(Projects)</span></span>).
+Chaque ligne est un questionnaire, avec son statut : <em>Brouillon</em>
+(jamais déployé), <em>Déployé</em> (en collecte) ou <em>Archivé</em>
+(fermé). À gauche :</p>
+<ul>
+<li><span class="ui">NOUVEAU <span class="ui-en">(NEW)</span></span> —
+crée un nouveau projet : à partir de zéro (<span class="ui">Construire à
+partir de zéro <span class="ui-en">(Build from scratch)</span></span>),
+d’un modèle, ou d’un fichier Excel (<span class="ui">Téléverser un
+XLSForm <span class="ui-en">(Upload an XLSForm)</span></span>) ;</li>
+<li><span class="ui">Bibliothèque <span
+class="ui-en">(Library)</span></span> — vos questions, blocs de
+questions et modèles réutilisables (ex. le même bloc « Identification »
+dans toutes vos enquêtes).</li>
+</ul>
+<p>Cliquez sur un projet : il a <strong>quatre onglets</strong>.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Onglet</th>
+<th>Ce qu’on y fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">RÉSUMÉ <span
+class="ui-en">(SUMMARY)</span></span></td>
+<td>vue d’ensemble : nombre de soumissions, dernière soumission, qui a
+accès</td>
+</tr>
+<tr class="even">
+<td><span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span></td>
+<td>modifier le formulaire, le prévisualiser, le déployer, obtenir les
+liens de collecte (<span class="ui">Collecter les données <span
+class="ui-en">(Collect data)</span></span>), le télécharger en
+XLSForm</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span></td>
+<td>voir les données en tableau, rapports, carte, galerie de photos, et
+<strong>téléchargements</strong> (exports)</td>
+</tr>
+<tr class="even">
+<td><span class="ui">PARAMÈTRES <span
+class="ui-en">(SETTINGS)</span></span></td>
+<td>nom et description, <strong>partage</strong> avec d’autres comptes,
+projets connectés, archivage, suppression</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Vocabulary.</strong> A <em>project</em> = one form + its
+data. A <em>submission</em> = one filled-in form sent to the server (one
+canoe, one household, one quadrat…). A <em>deployment</em> = the moment
+the form becomes available for collection. <em>Redeploy</em> = publish a
+corrected version: the data already collected are kept.</p>
+</div>
+<div class="fr">
+<p><strong>Vocabulaire.</strong> Un <em>projet</em> = un formulaire +
+ses données. Une <em>soumission</em> = un formulaire rempli envoyé au
+serveur (une pirogue, un ménage, un quadrat…). Un <em>déploiement</em> =
+le moment où le formulaire devient disponible pour la collecte.
+<em>Redéployer</em> = publier une version corrigée : les données déjà
+collectées sont conservées.</p>
+</div>
+</div>
+</div>
+<div id="plan" class="section level2">
+<h2><span class="en">Plan a survey before opening
+KoboToolbox</span><span class="fr">Préparer l’enquête avant d’ouvrir
+KoboToolbox</span></h2>
+<div class="en">
+<p>Most problems of a survey come from decisions taken too late. Before
+building anything, write down on paper:</p>
+<ol style="list-style-type: decimal">
+<li><strong>The unit of observation</strong>: what is one submission?
+(one canoe landing, one household, one transect…). Everything that is
+repeated inside this unit (household members, fish species, trips) will
+be a <strong>repeat</strong> (Intermediate level).</li>
+<li><strong>The list of indicators</strong> you will compute, and for
+each one the questions you need. A question that feeds no indicator is
+usually not needed.</li>
+<li><strong>For each question</strong>: its type (number, choice, text,
+date, GPS, photo), whether it is required, its unit (kg, Ariary, years)
+and its possible values.</li>
+<li><strong>The lists of choices</strong> (villages, gears, species),
+with a short code for each choice.</li>
+<li><strong>Who collects, on what device, with or without
+connection.</strong></li>
+</ol>
+</div>
+<div class="fr">
+<p>La plupart des problèmes d’une enquête viennent de décisions prises
+trop tard. Avant de construire quoi que ce soit, écrivez sur papier
+:</p>
+<ol style="list-style-type: decimal">
+<li><strong>L’unité d’observation</strong> : qu’est-ce qu’une soumission
+? (un débarquement de pirogue, un ménage, un transect…). Tout ce qui se
+répète à l’intérieur de cette unité (membres du ménage, espèces,
+sorties) sera une <strong>répétition</strong> (niveau
+Intermédiaire).</li>
+<li><strong>La liste des indicateurs</strong> que vous calculerez, et
+pour chacun les questions nécessaires. Une question qui ne sert à aucun
+indicateur est généralement inutile.</li>
+<li><strong>Pour chaque question</strong> : son type (nombre, choix,
+texte, date, GPS, photo), si elle est obligatoire, son unité (kg,
+Ariary, années) et ses valeurs possibles.</li>
+<li><strong>Les listes de choix</strong> (villages, engins, espèces),
+avec un code court pour chaque choix.</li>
+<li><strong>Qui collecte, sur quel appareil, avec ou sans
+connexion.</strong></li>
+</ol>
+</div>
+<div class="application">
+<div id="application-work-0" class="section level3 en">
+<h3>Application work 0</h3>
+<ol style="list-style-type: decimal">
+<li>Create your account on the <strong>Global</strong> server and
+activate it.</li>
+<li>Set the interface in French (or keep English: the course gives
+both).</li>
+<li>Open <span class="ui">NOUVEAU <span
+class="ui-en">(NEW)</span></span> and look at the four ways to create a
+project, then close the window without creating anything.</li>
+<li>Open <span class="ui">Bibliothèque <span
+class="ui-en">(Library)</span></span>: it is empty for now.</li>
+<li>On a sheet of paper, list the questions of the landing form of the
+cooperative (context above): the unit of observation, 8 to 10 questions,
+and for each one its type. You will compare it with the official form in
+Session 2.</li>
+</ol>
+</div>
+<div id="travail-dapplication-0" class="section level3 fr">
+<h3>Travail d’application 0</h3>
+<ol style="list-style-type: decimal">
+<li>Créez votre compte sur le serveur <strong>Global</strong> et
+activez-le.</li>
+<li>Passez l’interface en français (ou gardez l’anglais : le cours donne
+les deux).</li>
+<li>Ouvrez <span class="ui">NOUVEAU <span
+class="ui-en">(NEW)</span></span> et regardez les quatre façons de créer
+un projet, puis fermez la fenêtre sans rien créer.</li>
+<li>Ouvrez <span class="ui">Bibliothèque <span
+class="ui-en">(Library)</span></span> : elle est vide pour
+l’instant.</li>
+<li>Sur une feuille, listez les questions de la fiche de débarquement de
+la coopérative (contexte ci-dessus) : l’unité d’observation, 8 à 10
+questions, et pour chacune son type. Vous la comparerez au formulaire
+officiel à la séance 2.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>For question 5: the unit is <strong>one canoe on one day</strong>.
+Think about what a fisheries officer writes at the landing site: when,
+where, who, with what gear, what species, how much.</p>
+</div>
+<div class="fr">
+<p>Pour la question 5 : l’unité est <strong>une pirogue un jour
+donné</strong>. Pensez à ce que note un agent de pêche au site de
+débarquement : quand, où, qui, avec quel engin, quelles espèces,
+combien.</p>
+</div>
+</div>
+<div id="quiz-k00" class="quiz" data-quiz-id="k00"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gV2hpY2ggdG9vbCBkbyBlbnVtZXJhdG9ycyB1c2Ugb24gYW4gQW5kcm9pZCBwaG9uZSwgZXZlbiB3aXRob3V0IGNvbm5lY3Rpb24/IiwiZnIiOiIxLiBRdWVsIG91dGlsIGxlcyBlbnF1w6p0ZXVycyB1dGlsaXNlbnQtaWxzIHN1ciB1biB0w6lsw6lwaG9uZSBBbmRyb2lkLCBtw6ptZSBzYW5zIGNvbm5leGlvbiA/Iiwib3B0aW9uc19lbiI6WyJGb3JtYnVpbGRlciIsIktvYm9Db2xsZWN0IiwiWExTRm9ybSIsIlRoZSBEQVRBIHRhYiJdLCJvcHRpb25zX2ZyIjpbIkZvcm1idWlsZGVyIiwiS29ib0NvbGxlY3QiLCJYTFNGb3JtIiwiTCdvbmdsZXQgRE9OTsOJRVMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjIuIFdoZXJlIGRvIHlvdSBidWlsZCBhIGZvcm0gd2l0aCB0aGUgbW91c2U/IiwiZnIiOiIyLiBPw7kgY29uc3RydWl0LW9uIHVuIGZvcm11bGFpcmUgw6AgbGEgc291cmlzID8iLCJvcHRpb25zX2VuIjpbIkluIHRoZSBGb3JtYnVpbGRlciAoRk9STSB0YWIpIiwiSW4gS29ib0NvbGxlY3QiLCJJbiB0aGUgU1VNTUFSWSB0YWIiLCJJbiBFeGNlbCJdLCJvcHRpb25zX2ZyIjpbIkRhbnMgbGUgRm9ybWJ1aWxkZXIgKG9uZ2xldCBGT1JNVUxBSVJFKSIsIkRhbnMgS29ib0NvbGxlY3QiLCJEYW5zIGwnb25nbGV0IFLDiVNVTcOJIiwiRGFucyBFeGNlbCJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6InRleHQiLCJlbiI6IjMuIEFkZHJlc3Mgb2YgdGhlIEdsb2JhbCBzZXJ2ZXIgd2Vic2l0ZSAod2l0aG91dCBodHRwczovLyk/IiwiZnIiOiIzLiBBZHJlc3NlIGR1IHNpdGUgZHUgc2VydmV1ciBHbG9iYWwgKHNhbnMgaHR0cHM6Ly8pID8iLCJhbnN3ZXIiOlsia2Yua29ib3Rvb2xib3gub3JnIiwia2Yua29ib3Rvb2xib3gub3JnLyJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBBZGRyZXNzIHRvIHR5cGUgaW4gS29ib0NvbGxlY3QgZm9yIHRoZSBHbG9iYWwgc2VydmVyICh3aXRob3V0IGh0dHBzOi8vKT8iLCJmciI6IjQuIEFkcmVzc2Ugw6AgdGFwZXIgZGFucyBLb2JvQ29sbGVjdCBwb3VyIGxlIHNlcnZldXIgR2xvYmFsIChzYW5zIGh0dHBzOi8vKSA/IiwiYW5zd2VyIjpbImtjLmtvYm90b29sYm94Lm9yZyIsImtjLmtvYm90b29sYm94Lm9yZy8iXX0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBZb3UgY3JlYXRlZCB5b3VyIGFjY291bnQgb24gdGhlIEdsb2JhbCBzZXJ2ZXIuIENhbiB5b3UgbG9nIGluIG9uIGV1LmtvYm90b29sYm94Lm9yZyB3aXRoIGl0PyIsImZyIjoiNS4gVm91cyBhdmV6IGNyw6nDqSB2b3RyZSBjb21wdGUgc3VyIGxlIHNlcnZldXIgR2xvYmFsLiBQb3V2ZXotdm91cyBsJ3V0aWxpc2VyIHN1ciBldS5rb2JvdG9vbGJveC5vcmcgPyIsIm9wdGlvbnNfZW4iOlsiWWVzLCBpdCBpcyB0aGUgc2FtZSBhY2NvdW50IiwiTm8sIHRoZSB0d28gc2VydmVycyBoYXZlIHNlcGFyYXRlIGFjY291bnRzIiwiWWVzLCBhZnRlciAyNCBob3VycyJdLCJvcHRpb25zX2ZyIjpbIk91aSwgYydlc3QgbGUgbcOqbWUgY29tcHRlIiwiTm9uLCBsZXMgZGV1eCBzZXJ2ZXVycyBvbnQgZGVzIGNvbXB0ZXMgc8OpcGFyw6lzIiwiT3VpLCBhcHLDqHMgMjQgaGV1cmVzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaGljaCB1c2VybmFtZSBpcyB2YWxpZCBhbmQgd2VsbCBjaG9zZW4/IiwiZnIiOiI2LiBRdWVsIG5vbSBkJ3V0aWxpc2F0ZXVyIGVzdCB2YWxpZGUgZXQgYmllbiBjaG9pc2kgPyIsIm9wdGlvbnNfZW4iOlsiQ29vcCBSYW5vYmUiLCJjb29wX3Jhbm9iZSIsImNvb3AucmFub2JlQGdtYWlsLmNvbSIsIkNvb3DDqXJhdGl2ZS1SYW5vYmUiXSwib3B0aW9uc19mciI6WyJDb29wIFJhbm9iZSIsImNvb3BfcmFub2JlIiwiY29vcC5yYW5vYmVAZ21haWwuY29tIiwiQ29vcMOpcmF0aXZlLVJhbm9iZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gSW4gd2hpY2ggdGFiIGRvIHlvdSBkb3dubG9hZCB0aGUgZGF0YT8iLCJmciI6IjcuIERhbnMgcXVlbCBvbmdsZXQgdMOpbMOpY2hhcmdlLXQtb24gbGVzIGRvbm7DqWVzID8iLCJvcHRpb25zX2VuIjpbIlNVTU1BUlkiLCJGT1JNIiwiREFUQSIsIlNFVFRJTkdTIl0sIm9wdGlvbnNfZnIiOlsiUsOJU1VNw4kiLCJGT1JNVUxBSVJFIiwiRE9OTsOJRVMiLCJQQVJBTcOIVFJFUyJdLCJhbnN3ZXIiOjJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gRml2ZSBlbnVtZXJhdG9ycyBjb2xsZWN0IHRoZSBsYW5kaW5ncy4gQmVzdCBwcmFjdGljZT8iLCJmciI6IjguIENpbnEgZW5xdcOqdGV1cnMgY29sbGVjdGVudCBsZXMgZMOpYmFycXVlbWVudHMuIEJvbm5lIHByYXRpcXVlID8iLCJvcHRpb25zX2VuIjpbIk9uZSBzaGFyZWQgYWNjb3VudCBhbmQgcGFzc3dvcmQgZm9yIGFsbCIsIk9uZSBhY2NvdW50IHBlciBlbnVtZXJhdG9yLCBwcm9qZWN0IHNoYXJlZCB3aXRoIGVhY2giLCJFdmVyeW9uZSB1c2VzIHlvdXIgb3duIGFjY291bnQiXSwib3B0aW9uc19mciI6WyJVbiBjb21wdGUgZXQgdW4gbW90IGRlIHBhc3NlIGNvbW11bnMgw6AgdG91cyIsIlVuIGNvbXB0ZSBwYXIgZW5xdcOqdGV1ciwgcHJvamV0IHBhcnRhZ8OpIGF2ZWMgY2hhY3VuIiwiVG91dCBsZSBtb25kZSB1dGlsaXNlIHZvdHJlIHByb3ByZSBjb21wdGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIEluIHRoZSBsYW5kaW5nIHN1cnZleSwgd2hhdCBpcyBvbmUgc3VibWlzc2lvbj8iLCJmciI6IjkuIERhbnMgbCdlbnF1w6p0ZSBkw6liYXJxdWVtZW50cywgcXUnZXN0LWNlIHF1J3VuZSBzb3VtaXNzaW9uID8iLCJvcHRpb25zX2VuIjpbIk9uZSB2aWxsYWdlIiwiT25lIGNhbm9lIGxhbmRpbmcgb24gb25lIGRheSIsIk9uZSBzcGVjaWVzIiwiT25lIG1vbnRoIG9mIGRhdGEiXSwib3B0aW9uc19mciI6WyJVbiB2aWxsYWdlIiwiTGUgZMOpYmFycXVlbWVudCBkJ3VuZSBwaXJvZ3VlIHVuIGpvdXIgZG9ubsOpIiwiVW5lIGVzcMOoY2UiLCJVbiBtb2lzIGRlIGRvbm7DqWVzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gWW91IGNvcnJlY3QgYSBkZXBsb3llZCBmb3JtIGFuZCByZWRlcGxveSBpdC4gV2hhdCBoYXBwZW5zIHRvIHRoZSBkYXRhIGFscmVhZHkgY29sbGVjdGVkPyIsImZyIjoiMTAuIFZvdXMgY29ycmlnZXogdW4gZm9ybXVsYWlyZSBkw6lwbG95w6kgZXQgbGUgcmVkw6lwbG95ZXouIFF1ZSBkZXZpZW5uZW50IGxlcyBkb25uw6llcyBkw6lqw6AgY29sbGVjdMOpZXMgPyIsIm9wdGlvbnNfZW4iOlsiVGhleSBhcmUgZGVsZXRlZCIsIlRoZXkgYXJlIGtlcHQiLCJUaGV5IGFyZSBtb3ZlZCB0byBhIG5ldyBwcm9qZWN0Il0sIm9wdGlvbnNfZnIiOlsiRWxsZXMgc29udCBzdXBwcmltw6llcyIsIkVsbGVzIHNvbnQgY29uc2VydsOpZXMiLCJFbGxlcyBzb250IGTDqXBsYWPDqWVzIGRhbnMgdW4gbm91dmVhdSBwcm9qZXQiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="k00">
+<div class="en">
+<p>1 KoboCollect · 2 Formbuilder · 3 <code>kf.kobotoolbox.org</code> · 4
+<code>kc.kobotoolbox.org</code> (the “kc” address is the one for the
+app) · 5 No: one account per server · 6 <code>coop_ranobe</code>
+(lowercase, underscore; no space, no accent, not an e-mail) · 7 DATA · 8
+one account per enumerator · 9 one canoe landing on one day · 10 they
+are kept (each submission remembers the version of the form it was
+filled with, column <code>__version__</code>).</p>
+<p><strong>Paper form, question 5 of the application work</strong> — one
+possible answer: date, village, name of the captain, number of fishers,
+gear, species landed, total weight, GPS of the landing site, photo,
+remarks. Compare with the form of Session 2.</p>
+</div>
+<div class="fr">
+<p>1 KoboCollect · 2 Formbuilder · 3 <code>kf.kobotoolbox.org</code> · 4
+<code>kc.kobotoolbox.org</code> (l’adresse « kc » est celle de
+l’application) · 5 Non : un compte par serveur · 6
+<code>coop_ranobe</code> (minuscules, tiret bas ; ni espace, ni accent,
+ni e-mail) · 7 DONNÉES · 8 un compte par enquêteur · 9 le débarquement
+d’une pirogue un jour donné · 10 elles sont conservées (chaque
+soumission garde la version du formulaire avec laquelle elle a été
+remplie, colonne <code>__version__</code>).</p>
+<p><strong>Fiche papier, question 5 du travail d’application</strong> —
+une réponse possible : date, village, nom du chef de pirogue, nombre de
+pêcheurs, engin, espèces débarquées, poids total, GPS du site, photo,
+remarques. Comparez avec le formulaire de la séance 2.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 1</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">1 · Build a form on the
+platform (Formbuilder)</span><span class="fr">1 · Construire un
+formulaire sur la plateforme (Formbuilder)</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>create a project from scratch and add questions in the
+Formbuilder;</li>
+<li>choose the right <strong>question type</strong> for each piece of
+information;</li>
+<li>set a question as <strong>required</strong>, add a
+<strong>hint</strong>, and give each question a clean <strong>data
+column name</strong>;</li>
+<li>write the choices of a list with a <strong>label</strong> (what
+people read) and a <strong>value</strong> (what is stored);</li>
+<li>preview the form, save it, and download it as an XLSForm to see what
+the Formbuilder wrote.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>créer un projet à partir de zéro et ajouter des questions dans le
+Formbuilder ;</li>
+<li>choisir le bon <strong>type de question</strong> pour chaque
+information ;</li>
+<li>rendre une question <strong>obligatoire</strong>, ajouter une
+<strong>indication</strong> (hint) et donner à chaque question un
+<strong>nom de colonne</strong> propre ;</li>
+<li>écrire les choix d’une liste avec un <strong>libellé</strong> (ce
+que les gens lisent) et une <strong>valeur</strong> (ce qui est
+enregistré) ;</li>
+<li>prévisualiser le formulaire, l’enregistrer, et le télécharger en
+XLSForm pour voir ce que le Formbuilder a écrit.</li>
+</ul>
+</div>
+</div>
+<div id="create" class="section level2">
+<h2><span class="en">Create a project</span><span class="fr">Créer un
+projet</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The cooperative wants to test the
+digital form on <strong>one village (Ambolimailaka) for one
+week</strong> before the whole bay. You build a short version of the
+landing form directly on the platform: date, village, gear, species,
+weight, number of fishers.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> La coopérative veut tester le
+formulaire numérique dans <strong>un village (Ambolimailaka) pendant une
+semaine</strong> avant de l’étendre à toute la baie. Vous construisez
+une version courte de la fiche de débarquement directement sur la
+plateforme : date, village, engin, espèces, poids, nombre de
+pêcheurs.</p>
+</div>
+</div>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li><span class="ui">NOUVEAU <span class="ui-en">(NEW)</span></span> →
+<span class="ui">Construire à partir de zéro <span class="ui-en">(Build
+from scratch)</span></span>.</li>
+<li>Fill in the <strong>project details</strong>: <em>Project name</em>
+<code>Débarquements test Ambolimailaka</code>, a one-sentence
+description, sector (e.g. <em>Environment / Fisheries</em> or the
+closest one), country <em>Madagascar</em>. → <span class="ui">Construire
+à partir de zéro <span class="ui-en">(Build from scratch)</span></span>
+/ <em>Create project</em>.</li>
+<li>The <strong>Formbuilder</strong> opens on an empty form. At the top:
+the form title, <span class="ui">Aperçu <span
+class="ui-en">(Preview)</span></span>, <span class="ui">ENREGISTRER
+<span class="ui-en">(SAVE)</span></span>, and a button to close. In the
+middle: the questions. On the right (or with the ⚙ icon): the
+<strong>form settings</strong> (metadata collected automatically).</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li><span class="ui">NOUVEAU <span class="ui-en">(NEW)</span></span> →
+<span class="ui">Construire à partir de zéro <span class="ui-en">(Build
+from scratch)</span></span>.</li>
+<li>Remplissez les <strong>détails du projet</strong> : <em>Nom du
+projet</em> <code>Débarquements test Ambolimailaka</code>, une
+description d’une phrase, le secteur (ex. <em>Environnement / Pêche</em>
+ou le plus proche), le pays <em>Madagascar</em>. → <em>Créer le
+projet</em>.</li>
+<li>Le <strong>Formbuilder</strong> s’ouvre sur un formulaire vide. En
+haut : le titre du formulaire, <span class="ui">Aperçu <span
+class="ui-en">(Preview)</span></span>, <span class="ui">ENREGISTRER
+<span class="ui-en">(SAVE)</span></span>, et un bouton pour fermer. Au
+centre : les questions. À droite (ou avec l’icône ⚙) : les
+<strong>paramètres du formulaire</strong> (métadonnées collectées
+automatiquement).</li>
+</ol>
+</div>
+</div>
+<div id="add" class="section level2">
+<h2><span class="en">Add a question</span><span class="fr">Ajouter une
+question</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Click the <strong>+</strong> button (<span class="ui">Ajouter une
+question <span class="ui-en">(Add question)</span></span>), type the
+question <strong>label</strong> (what the enumerator reads),
+e.g. <code>Date du débarquement</code>.</li>
+<li>Click <strong>+ Add question</strong>: the list of
+<strong>types</strong> appears. Choose <span
+class="ui">Date</span>.</li>
+<li>The question is created. Click it to edit the label; use the ⚙ icon
+(<span class="ui">Paramètres de la question <span
+class="ui-en">(Question settings)</span></span>) to open its
+settings.</li>
+<li>To move a question, drag it by its left edge. To copy or delete it,
+use the icons on its right.</li>
+</ol>
+<p>Repeat for every question. Always <strong>write the label first, then
+choose the type</strong>: the Formbuilder uses the label to propose a
+column name.</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Cliquez sur le bouton <strong>+</strong> (<span class="ui">Ajouter
+une question <span class="ui-en">(Add question)</span></span>), tapez le
+<strong>libellé</strong> de la question (ce que lit l’enquêteur), ex.
+<code>Date du débarquement</code>.</li>
+<li>Cliquez sur <strong>+ Ajouter une question</strong> : la liste des
+<strong>types</strong> apparaît. Choisissez <span
+class="ui">Date</span>.</li>
+<li>La question est créée. Cliquez dessus pour modifier le libellé ;
+l’icône ⚙ (<span class="ui">Paramètres de la question <span
+class="ui-en">(Question settings)</span></span>) ouvre ses
+paramètres.</li>
+<li>Pour déplacer une question, faites-la glisser par son bord gauche.
+Pour la copier ou la supprimer, utilisez les icônes à sa droite.</li>
+</ol>
+<p>Recommencez pour chaque question. Écrivez toujours <strong>le libellé
+d’abord, puis choisissez le type</strong> : le Formbuilder se sert du
+libellé pour proposer un nom de colonne.</p>
+</div>
+</div>
+<div id="types" class="section level2">
+<h2><span class="en">Choose the right type</span><span
+class="fr">Choisir le bon type</span></h2>
+<div class="en">
+<p>The type decides <strong>what the enumerator can enter</strong> and
+<strong>how the answer is stored</strong>. A good type is your first
+defence against errors.</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formbuilder type</th>
+<th>XLSForm name</th>
+<th>Use it for</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Texte <span class="ui-en">(Text)</span></span></td>
+<td><code>text</code></td>
+<td>free text: names, remarks</td>
+<td>name of the captain</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Nombre <span
+class="ui-en">(Number)</span></span></td>
+<td><code>integer</code></td>
+<td>whole numbers (counts)</td>
+<td>number of fishers: 3</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Décimal <span
+class="ui-en">(Decimal)</span></span></td>
+<td><code>decimal</code></td>
+<td>numbers with decimals (measurements)</td>
+<td>weight: 12.5 kg</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Sélectionner un <span class="ui-en">(Select
+One)</span></span></td>
+<td><code>select_one</code></td>
+<td><strong>one</strong> answer in a list</td>
+<td>village, gear</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Sélectionner plusieurs <span class="ui-en">(Select
+Many)</span></span></td>
+<td><code>select_multiple</code></td>
+<td><strong>several</strong> answers in a list</td>
+<td>species landed</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Date</span></td>
+<td><code>date</code></td>
+<td>a date (calendar)</td>
+<td>landing date</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Point</span></td>
+<td><code>geopoint</code></td>
+<td>GPS position (latitude, longitude, altitude, accuracy)</td>
+<td>landing site</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Photo</span></td>
+<td><code>image</code></td>
+<td>a photo taken with the device</td>
+<td>photo of the catch</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Note</span></td>
+<td><code>note</code></td>
+<td>a text shown to the enumerator, <strong>no answer</strong></td>
+<td>instructions</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Calcul <span
+class="ui-en">(Calculate)</span></span></td>
+<td><code>calculate</code></td>
+<td>a value computed by the form (Intermediate level)</td>
+<td>value = weight × price</td>
+</tr>
+</tbody>
+</table>
+<p>Other useful types: <em>Time</em>, <em>Date and time</em>,
+<em>Audio</em>, <em>Video</em>, <em>Barcode/QR code</em>,
+<em>Acknowledge</em> (a box to confirm, e.g. consent), <em>Ranking</em>
+(Intermediate level), <em>Line</em> and <em>Area</em> (GPS traces and
+polygons).</p>
+</div>
+<div class="fr">
+<p>Le type décide <strong>ce que l’enquêteur peut saisir</strong> et
+<strong>comment la réponse est enregistrée</strong>. Un bon type est
+votre première protection contre les erreurs.</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type du Formbuilder</th>
+<th>Nom XLSForm</th>
+<th>À utiliser pour</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Texte <span class="ui-en">(Text)</span></span></td>
+<td><code>text</code></td>
+<td>texte libre : noms, remarques</td>
+<td>nom du chef de pirogue</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Nombre <span
+class="ui-en">(Number)</span></span></td>
+<td><code>integer</code></td>
+<td>nombres entiers (comptages)</td>
+<td>nombre de pêcheurs : 3</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Décimal <span
+class="ui-en">(Decimal)</span></span></td>
+<td><code>decimal</code></td>
+<td>nombres à virgule (mesures)</td>
+<td>poids : 12,5 kg</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Sélectionner un <span class="ui-en">(Select
+One)</span></span></td>
+<td><code>select_one</code></td>
+<td><strong>une seule</strong> réponse dans une liste</td>
+<td>village, engin</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Sélectionner plusieurs <span class="ui-en">(Select
+Many)</span></span></td>
+<td><code>select_multiple</code></td>
+<td><strong>plusieurs</strong> réponses dans une liste</td>
+<td>espèces débarquées</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Date</span></td>
+<td><code>date</code></td>
+<td>une date (calendrier)</td>
+<td>date du débarquement</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Point</span></td>
+<td><code>geopoint</code></td>
+<td>position GPS (latitude, longitude, altitude, précision)</td>
+<td>site de débarquement</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Photo</span></td>
+<td><code>image</code></td>
+<td>une photo prise avec l’appareil</td>
+<td>photo de la capture</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Note</span></td>
+<td><code>note</code></td>
+<td>un texte affiché à l’enquêteur, <strong>sans réponse</strong></td>
+<td>consignes</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Calcul <span
+class="ui-en">(Calculate)</span></span></td>
+<td><code>calculate</code></td>
+<td>une valeur calculée par le formulaire (niveau Intermédiaire)</td>
+<td>valeur = poids × prix</td>
+</tr>
+</tbody>
+</table>
+<p>Autres types utiles : <em>Heure</em>, <em>Date et heure</em>,
+<em>Audio</em>, <em>Vidéo</em>, <em>Code-barres/QR code</em>,
+<em>Acquittement</em> (une case à cocher pour confirmer, ex.
+consentement), <em>Classement</em> (niveau Intermédiaire),
+<em>Ligne</em> et <em>Zone</em> (traces GPS et polygones).</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Three classic mistakes.</strong></p>
+<ul>
+<li>A count typed as <strong>text</strong>: you get “3”, “trois”, “3
+pers.” and you cannot compute anything. Use <code>integer</code>.</li>
+<li>A village typed as <strong>text</strong>: you get six spellings. Use
+<code>select_one</code> with a list.</li>
+<li>A weight as <strong>integer</strong>: “12.5” is refused, the
+enumerator types “12” or “125”. Use <code>decimal</code>.</li>
+</ul>
+</div>
+<div class="fr">
+<p><strong>Trois erreurs classiques.</strong></p>
+<ul>
+<li>Un comptage saisi en <strong>texte</strong> : vous obtenez « 3 », «
+trois », « 3 pers. » et vous ne pouvez rien calculer. Utilisez
+<code>integer</code>.</li>
+<li>Un village saisi en <strong>texte</strong> : vous obtenez six
+orthographes. Utilisez <code>select_one</code> avec une liste.</li>
+<li>Un poids en <strong>entier</strong> : « 12,5 » est refusé,
+l’enquêteur tape « 12 » ou « 125 ». Utilisez <code>decimal</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="choices" class="section level2">
+<h2><span class="en">Choices: label and value</span><span class="fr">Les
+choix : libellé et valeur</span></h2>
+<div class="en">
+<p>For a <em>Select One</em> or <em>Select Many</em> question, type each
+option under the question. Each option has two parts:</p>
+<ul>
+<li>the <strong>label</strong>: what the enumerator reads
+(<code>Filet maillant</code>), with spaces, accents, capitals;</li>
+<li>the <strong>value</strong> (<em>XML value</em>, shown as
+<code>AUTOMATIC</code> until you change it): what is
+<strong>stored</strong> in the data (<code>filet_maillant</code>).
+Short, lowercase, no spaces, no accents.</li>
+</ul>
+<p>The Formbuilder creates the value automatically from the label. Check
+it: <code>Pêche à pied (glanage)</code> gives a long, awkward value.
+Click the value and replace it with <code>glanage</code>. <strong>Change
+the values before collecting</strong>: changing them later splits your
+data in two (old and new codes).</p>
+</div>
+<div class="fr">
+<p>Pour une question <em>Sélectionner un</em> ou <em>Sélectionner
+plusieurs</em>, tapez chaque option sous la question. Chaque option a
+deux parties :</p>
+<ul>
+<li>le <strong>libellé</strong> : ce que lit l’enquêteur
+(<code>Filet maillant</code>), avec espaces, accents, majuscules ;</li>
+<li>la <strong>valeur</strong> (<em>XML value</em>, affichée
+<code>AUTOMATIC</code> tant que vous ne la changez pas) : ce qui est
+<strong>enregistré</strong> dans les données
+(<code>filet_maillant</code>). Courte, en minuscules, sans espace ni
+accent.</li>
+</ul>
+<p>Le Formbuilder crée la valeur automatiquement à partir du libellé.
+Vérifiez-la : <code>Pêche à pied (glanage)</code> donne une valeur
+longue et peu pratique. Cliquez sur la valeur et remplacez-la par
+<code>glanage</code>. <strong>Changez les valeurs avant de
+collecter</strong> : les modifier plus tard coupe vos données en deux
+(anciens et nouveaux codes).</p>
+</div>
+</div>
+<div id="settings" class="section level2">
+<h2><span class="en">Question settings</span><span class="fr">Les
+paramètres d’une question</span></h2>
+<div class="en">
+<p>Click ⚙ on a question. The first tab (<em>Question options</em>)
+holds the most important settings:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>XLSForm column</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Nom de colonne de données <span class="ui-en">(Data
+Column Name)</span></span></td>
+<td><code>name</code></td>
+<td>the <strong>column name</strong> in the export. Short, lowercase, no
+spaces, no accents, unique: <code>poids_total</code>, not
+<code>Poids_total_débarqué_kg</code></td>
+</tr>
+<tr class="even">
+<td><span class="ui">Indice <span
+class="ui-en">(Hint)</span></span></td>
+<td><code>hint</code></td>
+<td>a help text shown under the label, in grey: unit, how to measure,
+examples</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Réponse obligatoire <span class="ui-en">(Mandatory
+response)</span></span></td>
+<td><code>required</code></td>
+<td><em>Yes</em>: the enumerator cannot go further without
+answering</td>
+</tr>
+<tr class="even">
+<td>Default response</td>
+<td><code>default</code></td>
+<td>a value already filled in (use with care: people forget to change
+it)</td>
+</tr>
+<tr class="odd">
+<td>Appearance</td>
+<td><code>appearance</code></td>
+<td>how the question looks (e.g. <code>minimal</code> = a drop-down
+list)</td>
+</tr>
+</tbody>
+</table>
+<p>The other tabs, <span class="ui">Logique de saut <span
+class="ui-en">(Skip logic)</span></span> and <span class="ui">Critères
+de validation <span class="ui-en">(Validation criteria)</span></span>,
+are seen at the Intermediate level (<code>relevant</code> and
+<code>constraint</code>).</p>
+</div>
+<div class="fr">
+<p>Cliquez sur ⚙ sur une question. Le premier onglet (<em>Options de la
+question</em>) contient les réglages les plus importants :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Réglage</th>
+<th>Colonne XLSForm</th>
+<th>Ce qu’il fait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Nom de colonne de données <span class="ui-en">(Data
+Column Name)</span></span></td>
+<td><code>name</code></td>
+<td>le <strong>nom de la colonne</strong> dans l’export. Court,
+minuscules, sans espace ni accent, unique : <code>poids_total</code>,
+pas <code>Poids_total_débarqué_kg</code></td>
+</tr>
+<tr class="even">
+<td><span class="ui">Indice <span
+class="ui-en">(Hint)</span></span></td>
+<td><code>hint</code></td>
+<td>un texte d’aide affiché sous le libellé, en gris : unité, façon de
+mesurer, exemples</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Réponse obligatoire <span class="ui-en">(Mandatory
+response)</span></span></td>
+<td><code>required</code></td>
+<td><em>Oui</em> : l’enquêteur ne peut pas avancer sans répondre</td>
+</tr>
+<tr class="even">
+<td>Réponse par défaut</td>
+<td><code>default</code></td>
+<td>une valeur déjà remplie (à utiliser avec prudence : on oublie de la
+changer)</td>
+</tr>
+<tr class="odd">
+<td>Apparence</td>
+<td><code>appearance</code></td>
+<td>l’aspect de la question (ex. <code>minimal</code> = une liste
+déroulante)</td>
+</tr>
+</tbody>
+</table>
+<p>Les autres onglets, <span class="ui">Logique de saut <span
+class="ui-en">(Skip logic)</span></span> et <span class="ui">Critères de
+validation <span class="ui-en">(Validation criteria)</span></span>, sont
+vus au niveau Intermédiaire (<code>relevant</code> et
+<code>constraint</code>).</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Which questions should be required?</strong> Those without
+which the record is useless (date, village, weight), and those you want
+answered by everybody. Do <strong>not</strong> make everything required:
+an enumerator blocked by a question that has no answer (“age” of a
+captain who does not know it) will type anything to continue. Better an
+empty cell than a false value.</p>
+</div>
+<div class="fr">
+<p><strong>Quelles questions rendre obligatoires ?</strong> Celles sans
+lesquelles la fiche est inutilisable (date, village, poids), et celles
+auxquelles tout le monde doit répondre. Ne rendez <strong>pas</strong>
+tout obligatoire : un enquêteur bloqué par une question sans réponse
+possible (« âge » d’un chef de pirogue qui ne le connaît pas) tapera
+n’importe quoi pour continuer. Mieux vaut une case vide qu’une valeur
+fausse.</p>
+</div>
+</div>
+</div>
+<div id="meta" class="section level2">
+<h2><span class="en">Metadata collected automatically</span><span
+class="fr">Les métadonnées collectées automatiquement</span></h2>
+<div class="en">
+<p>In the form settings (⚙ at the top right of the Formbuilder), tick
+the <strong>metadata</strong> to record without asking anything:
+<em>start</em> (when the form was opened), <em>end</em> (when it was
+finished), <em>today</em> (date of the day), <em>deviceid</em>
+(identifier of the phone), <em>username</em>… <code>start</code> and
+<code>end</code> are very useful to <strong>check the quality</strong>
+of the work: a household interview of 2 minutes or of 6 hours deserves a
+question to the enumerator.</p>
+</div>
+<div class="fr">
+<p>Dans les paramètres du formulaire (⚙ en haut à droite du
+Formbuilder), cochez les <strong>métadonnées</strong> à enregistrer sans
+rien demander : <em>start</em> (ouverture du formulaire), <em>end</em>
+(fin), <em>today</em> (date du jour), <em>deviceid</em> (identifiant du
+téléphone), <em>username</em>… <code>start</code> et <code>end</code>
+sont très utiles pour <strong>contrôler la qualité</strong> du travail :
+un entretien ménage de 2 minutes ou de 6 heures mérite une question à
+l’enquêteur.</p>
+</div>
+</div>
+<div id="preview" class="section level2">
+<h2><span class="en">Preview, save, and look behind the
+scenes</span><span class="fr">Prévisualiser, enregistrer, et regarder
+les coulisses</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li><span class="ui">Aperçu <span class="ui-en">(Preview)</span></span>
+opens the form as the enumerator will see it. Fill it in: check the
+order, the hints, that required questions block you, that numbers refuse
+letters.</li>
+<li><span class="ui">ENREGISTRER <span
+class="ui-en">(SAVE)</span></span>, then close the Formbuilder.</li>
+<li>In the <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> tab: <span class="ui">Plus d’actions
+<span class="ui-en">(More actions)</span></span> → <span
+class="ui">Télécharger XLS <span class="ui-en">(Download
+XLS)</span></span>. Open the file in Excel: <strong>this is an
+XLSForm</strong>. Each question is a row of the <code>survey</code>
+sheet; the options are in the <code>choices</code> sheet. The
+Formbuilder is only a friendly way to write this file — Session 2
+teaches you to write it directly.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li><span class="ui">Aperçu <span class="ui-en">(Preview)</span></span>
+ouvre le formulaire tel que l’enquêteur le verra. Remplissez-le :
+vérifiez l’ordre, les indications, que les questions obligatoires vous
+bloquent, que les nombres refusent les lettres.</li>
+<li><span class="ui">ENREGISTRER <span
+class="ui-en">(SAVE)</span></span>, puis fermez le Formbuilder.</li>
+<li>Dans l’onglet <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> : <span class="ui">Plus d’actions
+<span class="ui-en">(More actions)</span></span> → <span
+class="ui">Télécharger XLS <span class="ui-en">(Download
+XLS)</span></span>. Ouvrez le fichier dans Excel : <strong>c’est un
+XLSForm</strong>. Chaque question est une ligne de la feuille
+<code>survey</code> ; les options sont dans la feuille
+<code>choices</code>. Le Formbuilder n’est qu’une façon conviviale
+d’écrire ce fichier — la séance 2 vous apprend à l’écrire
+directement.</li>
+</ol>
+</div>
+<div class="application">
+<div id="application-work-1" class="section level3 en">
+<h3>Application work 1</h3>
+<p>In a new project <code>Débarquements test Ambolimailaka</code>, build
+this form in the Formbuilder:</p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Label</th>
+<th>Type</th>
+<th>Column name</th>
+<th>Required</th>
+<th>Hint / choices (value = label)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Date du débarquement</td>
+<td>Date</td>
+<td><code>date_debarq</code></td>
+<td>yes</td>
+<td>hint: <em>Jour du retour de pêche</em></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Village</td>
+<td>Select One</td>
+<td><code>village</code></td>
+<td>yes</td>
+<td><code>ambolimailaka</code> Ambolimailaka · <code>ifaty</code> Ifaty
+· <code>mangily</code> Mangily</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Engin principal</td>
+<td>Select One</td>
+<td><code>engin</code></td>
+<td>yes</td>
+<td><code>ligne</code> Ligne à main · <code>filet_maillant</code> Filet
+maillant · <code>fusil</code> Fusil harpon · <code>glanage</code> Pêche
+à pied (glanage)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Espèces débarquées</td>
+<td>Select Many</td>
+<td><code>especes</code></td>
+<td>yes</td>
+<td><code>poulpe</code> Poulpe · <code>poisson_recif</code> Poissons de
+récif · <code>calmar</code> Calmar · <code>langouste</code>
+Langouste</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Poids total débarqué (kg)</td>
+<td>Decimal</td>
+<td><code>poids_total</code></td>
+<td>yes</td>
+<td>hint: <em>Pesé avec la balance de la coopérative</em></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Nombre de pêcheurs à bord</td>
+<td>Number</td>
+<td><code>nb_pecheurs</code></td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Remarques</td>
+<td>Text</td>
+<td><code>remarque</code></td>
+<td>no</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Then: preview it and fill it in twice; save; download it with <span
+class="ui">Télécharger XLS <span class="ui-en">(Download
+XLS)</span></span> and open it in Excel. Answer the quiz with the help
+of the form and of your downloaded file.</p>
+</div>
+<div id="travail-dapplication-1" class="section level3 fr">
+<h3>Travail d’application 1</h3>
+<p>Dans un nouveau projet <code>Débarquements test Ambolimailaka</code>,
+construisez ce formulaire dans le Formbuilder :</p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Libellé</th>
+<th>Type</th>
+<th>Nom de colonne</th>
+<th>Obligatoire</th>
+<th>Indication / choix (valeur = libellé)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Date du débarquement</td>
+<td>Date</td>
+<td><code>date_debarq</code></td>
+<td>oui</td>
+<td>indication : <em>Jour du retour de pêche</em></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Village</td>
+<td>Sélectionner un</td>
+<td><code>village</code></td>
+<td>oui</td>
+<td><code>ambolimailaka</code> Ambolimailaka · <code>ifaty</code> Ifaty
+· <code>mangily</code> Mangily</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Engin principal</td>
+<td>Sélectionner un</td>
+<td><code>engin</code></td>
+<td>oui</td>
+<td><code>ligne</code> Ligne à main · <code>filet_maillant</code> Filet
+maillant · <code>fusil</code> Fusil harpon · <code>glanage</code> Pêche
+à pied (glanage)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Espèces débarquées</td>
+<td>Sélectionner plusieurs</td>
+<td><code>especes</code></td>
+<td>oui</td>
+<td><code>poulpe</code> Poulpe · <code>poisson_recif</code> Poissons de
+récif · <code>calmar</code> Calmar · <code>langouste</code>
+Langouste</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Poids total débarqué (kg)</td>
+<td>Décimal</td>
+<td><code>poids_total</code></td>
+<td>oui</td>
+<td>indication : <em>Pesé avec la balance de la coopérative</em></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Nombre de pêcheurs à bord</td>
+<td>Nombre</td>
+<td><code>nb_pecheurs</code></td>
+<td>oui</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Remarques</td>
+<td>Texte</td>
+<td><code>remarque</code></td>
+<td>non</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Ensuite : prévisualisez-le et remplissez-le deux fois ; enregistrez ;
+téléchargez-le avec <span class="ui">Télécharger XLS <span
+class="ui-en">(Download XLS)</span></span> et ouvrez-le dans Excel.
+Répondez au quiz à l’aide du formulaire et de votre fichier
+téléchargé.</p>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>In the downloaded file, the type of a choice question is written with
+the name of its list: <code>select_one</code> followed by a list name
+that the Formbuilder generated (often a random code such as
+<code>ab12cd3</code>). That is why, in XLSForm, you will choose list
+names yourself.</p>
+</div>
+<div class="fr">
+<p>Dans le fichier téléchargé, le type d’une question à choix est écrit
+avec le nom de sa liste : <code>select_one</code> suivi d’un nom de
+liste généré par le Formbuilder (souvent un code au hasard comme
+<code>ab12cd3</code>). C’est pour cela qu’en XLSForm vous choisirez
+vous-même les noms de listes.</p>
+</div>
+</div>
+<div id="quiz-k01" class="quiz" data-quiz-id="k01"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gTnVtYmVyIG9mIGNoaWxkcmVuIGluIGEgaG91c2Vob2xkOiB3aGljaCB0eXBlPyIsImZyIjoiMS4gTm9tYnJlIGQnZW5mYW50cyBkJ3VuIG3DqW5hZ2UgOiBxdWVsIHR5cGUgPyIsIm9wdGlvbnNfZW4iOlsiVGV4dCIsIk51bWJlciAoaW50ZWdlcikiLCJEZWNpbWFsIiwiU2VsZWN0IE9uZSJdLCJvcHRpb25zX2ZyIjpbIlRleHRlIiwiTm9tYnJlIChpbnRlZ2VyKSIsIkTDqWNpbWFsIiwiU8OpbGVjdGlvbm5lciB1biJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMi4gVG90YWwgbGVuZ3RoIG9mIGFuIG9jdG9wdXMgaW4gY20gKGUuZy4gNDcuNSk6IHdoaWNoIHR5cGU/IiwiZnIiOiIyLiBMb25ndWV1ciB0b3RhbGUgZCd1biBwb3VscGUgZW4gY20gKGV4LiA0Nyw1KSA6IHF1ZWwgdHlwZSA/Iiwib3B0aW9uc19lbiI6WyJOdW1iZXIgKGludGVnZXIpIiwiRGVjaW1hbCIsIlRleHQiXSwib3B0aW9uc19mciI6WyJOb21icmUgKGludGVnZXIpIiwiRMOpY2ltYWwiLCJUZXh0ZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gSGFiaXRhdHMgdmlzaXRlZCBkdXJpbmcgYSBkaXZlIChyZWVmLCBzZWFncmFzcywgc2FuZOKApiksIHNldmVyYWwgcG9zc2libGU6IHdoaWNoIHR5cGU/IiwiZnIiOiIzLiBIYWJpdGF0cyB2aXNpdMOpcyBwZW5kYW50IHVuZSBwbG9uZ8OpZSAocsOpY2lmLCBoZXJiaWVyLCBzYWJsZeKApiksIHBsdXNpZXVycyBwb3NzaWJsZXMgOiBxdWVsIHR5cGUgPyIsIm9wdGlvbnNfZW4iOlsiU2VsZWN0IE9uZSIsIlNlbGVjdCBNYW55IiwiVGV4dCIsIk5vdGUiXSwib3B0aW9uc19mciI6WyJTw6lsZWN0aW9ubmVyIHVuIiwiU8OpbGVjdGlvbm5lciBwbHVzaWV1cnMiLCJUZXh0ZSIsIk5vdGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjQuIEEgdGV4dCB0aGF0IHRlbGxzIHRoZSBlbnVtZXJhdG9yIHRvIHdlaWdoIHRoZSBjYXRjaCBiZWZvcmUgYXNraW5nIGFueXRoaW5nLCB3aXRoIG5vIGFuc3dlcjogd2hpY2ggdHlwZT8iLCJmciI6IjQuIFVuIHRleHRlIHF1aSBkZW1hbmRlIMOgIGwnZW5xdcOqdGV1ciBkZSBwZXNlciBsYSBjYXB0dXJlIGF2YW50IHRvdXRlIHF1ZXN0aW9uLCBzYW5zIHLDqXBvbnNlIDogcXVlbCB0eXBlID8iLCJvcHRpb25zX2VuIjpbIlRleHQiLCJOb3RlIiwiQ2FsY3VsYXRlIiwiQWNrbm93bGVkZ2UiXSwib3B0aW9uc19mciI6WyJUZXh0ZSIsIk5vdGUiLCJDYWxjdWwiLCJBY3F1aXR0ZW1lbnQiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdoaWNoIGRhdGEgY29sdW1uIG5hbWUgaXMgdGhlIGJlc3Q/IiwiZnIiOiI1LiBRdWVsIG5vbSBkZSBjb2xvbm5lIGVzdCBsZSBtZWlsbGV1ciA/Iiwib3B0aW9uc19lbiI6WyJQb2lkcyB0b3RhbCAoa2cpIiwicG9pZHNfdG90YWwiLCJwb2lkcy10b3RhbC1kw6liYXJxdcOpIiwiMV9wb2lkcyJdLCJvcHRpb25zX2ZyIjpbIlBvaWRzIHRvdGFsIChrZykiLCJwb2lkc190b3RhbCIsInBvaWRzLXRvdGFsLWTDqWJhcnF1w6kiLCIxX3BvaWRzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBJbiBhIGNob2ljZSBsaXN0LCB3aGF0IGlzIHN0b3JlZCBpbiB0aGUgZGF0YT8iLCJmciI6IjYuIERhbnMgdW5lIGxpc3RlIGRlIGNob2l4LCBxdSdlc3QtY2UgcXVpIGVzdCBlbnJlZ2lzdHLDqSBkYW5zIGxlcyBkb25uw6llcyA/Iiwib3B0aW9uc19lbiI6WyJUaGUgbGFiZWwiLCJUaGUgdmFsdWUgKFhNTCB2YWx1ZSkiLCJCb3RoLCBpbiB0aGUgc2FtZSBjZWxsIl0sIm9wdGlvbnNfZnIiOlsiTGUgbGliZWxsw6kiLCJMYSB2YWxldXIgKFhNTCB2YWx1ZSkiLCJMZXMgZGV1eCwgZGFucyBsYSBtw6ptZSBjZWxsdWxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBXaGVyZSBkb2VzIGEgaGludCBhcHBlYXI/IiwiZnIiOiI3LiBPw7kgYXBwYXJhw650IHVuZSBpbmRpY2F0aW9uIChoaW50KSA/Iiwib3B0aW9uc19lbiI6WyJVbmRlciB0aGUgcXVlc3Rpb24gbGFiZWwsIGluIHRoZSBmb3JtIiwiT25seSBpbiB0aGUgZXhwb3J0IiwiSW4gdGhlIHByb2plY3QgZGVzY3JpcHRpb24iXSwib3B0aW9uc19mciI6WyJTb3VzIGxlIGxpYmVsbMOpIGRlIGxhIHF1ZXN0aW9uLCBkYW5zIGxlIGZvcm11bGFpcmUiLCJTZXVsZW1lbnQgZGFucyBsJ2V4cG9ydCIsIkRhbnMgbGEgZGVzY3JpcHRpb24gZHUgcHJvamV0Il0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBJbiB0aGUgWExTRm9ybSB5b3UgZG93bmxvYWRlZCwgaW4gd2hpY2ggc2hlZXQgYXJlIHRoZSBvcHRpb25zIG9mIHRoZSB2aWxsYWdlIGxpc3Q/IiwiZnIiOiI4LiBEYW5zIGxlIFhMU0Zvcm0gdMOpbMOpY2hhcmfDqSwgZGFucyBxdWVsbGUgZmV1aWxsZSBzb250IGxlcyBvcHRpb25zIGRlIGxhIGxpc3RlIGRlcyB2aWxsYWdlcyA/Iiwib3B0aW9uc19lbiI6WyJzdXJ2ZXkiLCJjaG9pY2VzIiwic2V0dGluZ3MiXSwib3B0aW9uc19mciI6WyJzdXJ2ZXkiLCJjaG9pY2VzIiwic2V0dGluZ3MiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJudW0iLCJlbiI6IjkuIEluIHlvdXIgZG93bmxvYWRlZCBmaWxlLCBob3cgbWFueSBxdWVzdGlvbnMgb2YgdGhlIGFwcGxpY2F0aW9uIHdvcmsgaGF2ZSByZXF1aXJlZCA9IHRydWUveWVzPyIsImZyIjoiOS4gRGFucyB2b3RyZSBmaWNoaWVyIHTDqWzDqWNoYXJnw6ksIGNvbWJpZW4gZGUgcXVlc3Rpb25zIGR1IHRyYXZhaWwgZCdhcHBsaWNhdGlvbiBvbnQgcmVxdWlyZWQgPSB0cnVlL3llcyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gV2h5IG5vdCBtYWtlIHRoZSBhZ2Ugb2YgdGhlIGNhcHRhaW4gcmVxdWlyZWQ/IiwiZnIiOiIxMC4gUG91cnF1b2kgbmUgcGFzIHJlbmRyZSBvYmxpZ2F0b2lyZSBsJ8OiZ2UgZHUgY2hlZiBkZSBwaXJvZ3VlID8iLCJvcHRpb25zX2VuIjpbIkJlY2F1c2UgaW50ZWdlcnMgY2Fubm90IGJlIHJlcXVpcmVkIiwiQmVjYXVzZSBzb21lIGNhcHRhaW5zIGRvIG5vdCBrbm93IGl0LCBhbmQgdGhlIGVudW1lcmF0b3Igd291bGQgdHlwZSBhIGZhbHNlIHZhbHVlIHRvIGNvbnRpbnVlIiwiQmVjYXVzZSBpdCBzbG93cyB0aGUgc2VydmVyIl0sIm9wdGlvbnNfZnIiOlsiUGFyY2UgcXUndW4gZW50aWVyIG5lIHBldXQgcGFzIMOqdHJlIG9ibGlnYXRvaXJlIiwiUGFyY2UgcXVlIGNlcnRhaW5zIG5lIGxlIGNvbm5haXNzZW50IHBhcywgZXQgbCdlbnF1w6p0ZXVyIHRhcGVyYWl0IHVuZSB2YWxldXIgZmF1c3NlIHBvdXIgY29udGludWVyIiwiUGFyY2UgcXVlIGNlbGEgcmFsZW50aXQgbGUgc2VydmV1ciJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="k01">
+<div class="en">
+<p>1 integer · 2 decimal · 3 select_multiple · 4 note · 5
+<code>poids_total</code> · 6 the value · 7 under the label · 8
+<code>choices</code> · 9 <strong>6</strong> (all except
+<em>Remarques</em>; the Formbuilder writes <code>true</code> or
+<code>yes</code> depending on the version) · 10 a required question with
+no possible answer produces false data.</p>
+</div>
+<div class="fr">
+<p>1 integer · 2 decimal · 3 select_multiple · 4 note · 5
+<code>poids_total</code> · 6 la valeur · 7 sous le libellé · 8
+<code>choices</code> · 9 <strong>6</strong> (toutes sauf
+<em>Remarques</em> ; le Formbuilder écrit <code>true</code> ou
+<code>yes</code> selon la version) · 10 une question obligatoire sans
+réponse possible produit des données fausses.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A1</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A1 · Filtered choice lists
+(choice_filter)</span><span class="fr">A1 · Les listes de choix filtrées
+(choice_filter)</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>show only part of a choice list, depending on a previous answer,
+with <code>choice_filter</code>;</li>
+<li>add <strong>filter columns</strong> to the <code>choices</code>
+sheet and write the filter expression;</li>
+<li>filter on a <code>select_multiple</code> answer (show only the
+choices ticked before, or the ones <strong>not</strong> ticked);</li>
+<li>use several filter columns, and avoid the usual mistakes.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>n’afficher qu’une partie d’une liste de choix, selon une réponse
+précédente, avec <code>choice_filter</code> ;</li>
+<li>ajouter des <strong>colonnes de filtre</strong> à la feuille
+<code>choices</code> et écrire l’expression de filtre ;</li>
+<li>filtrer selon une réponse <code>select_multiple</code> (n’afficher
+que les choix cochés avant, ou ceux <strong>non</strong> cochés) ;</li>
+<li>utiliser plusieurs colonnes de filtre, et éviter les erreurs
+habituelles.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Shorter lists, fewer errors</span><span
+class="fr">Des listes plus courtes, moins d’erreurs</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The fisheries officers of the bay
+note the <strong>main species observed</strong> on three habitats: coral
+reef, seagrass meadow and mangrove. A single list of 10 species lets an
+officer choose “mud crab” on a coral reef — an error that the analysis
+will not see. You want the list to show <strong>only the species of the
+habitat chosen</strong>. Later in the form, among the species targeted
+by the fishers that day, the officer must say which one brings the most
+money: the list should contain <strong>only the species ticked</strong>
+just before. Form:
+<a class="btn-dl" href="data/forms/a01_choice_filter.xlsx" download>⇩
+a01_choice_filter.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Les agents de pêche de la baie
+notent l’<strong>espèce principale observée</strong> sur trois habitats
+: récif corallien, herbier marin et mangrove. Une liste unique de 10
+espèces permet à un agent de choisir « crabe de mangrove » sur un récif
+corallien — une erreur que l’analyse ne verra pas. Vous voulez que la
+liste n’affiche <strong>que les espèces de l’habitat choisi</strong>.
+Plus loin, parmi les espèces ciblées par les pêcheurs ce jour-là,
+l’agent doit dire laquelle rapporte le plus : la liste ne doit contenir
+<strong>que les espèces cochées</strong> juste avant. Formulaire :
+<a class="btn-dl" href="data/forms/a01_choice_filter.xlsx" download>⇩
+a01_choice_filter.xlsx</a></p>
+</div>
+</div>
+</div>
+<div id="how" class="section level2">
+<h2><span class="en">Filter column + choice_filter</span><span
+class="fr">Colonne de filtre + choice_filter</span></h2>
+<div class="en">
+<p><strong>1. In the <code>choices</code> sheet</strong>, add a column
+(here <code>habitat</code>) and write, for each species, the
+<strong>name</strong> of the habitat it belongs to. The header of this
+column is free (no spaces); its values are compared with the answer.</p>
+</div>
+<div class="fr">
+<p><strong>1. Dans la feuille <code>choices</code></strong>, ajoutez une
+colonne (ici <code>habitat</code>) et écrivez, pour chaque espèce, le
+<strong>name</strong> de l’habitat auquel elle appartient. L’en-tête de
+cette colonne est libre (sans espace) ; ses valeurs sont comparées à la
+réponse.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>habitat</td></tr><tr><td class='xr'>2</td><td>habitat</td><td>recif</td><td>Récif corallien</td><td></td></tr><tr><td class='xr'>3</td><td>habitat</td><td>herbier</td><td>Herbier marin</td><td></td></tr><tr><td class='xr'>4</td><td>habitat</td><td>mangrove</td><td>Mangrove</td><td></td></tr><tr class='xhl'><td class='xr'>5</td><td>espece_h</td><td>poulpe</td><td>Poulpe</td><td>recif</td></tr><tr class='xhl'><td class='xr'>6</td><td>espece_h</td><td>poisson_recif</td><td>Poissons de récif</td><td>recif</td></tr><tr class='xhl'><td class='xr'>7</td><td>espece_h</td><td>langouste</td><td>Langouste</td><td>recif</td></tr><tr class='xhl'><td class='xr'>8</td><td>espece_h</td><td>holothurie</td><td>Holothurie</td><td>herbier</td></tr><tr class='xhl'><td class='xr'>9</td><td>espece_h</td><td>oursin</td><td>Oursin</td><td>herbier</td></tr><tr class='xhl'><td class='xr'>10</td><td>espece_h</td><td>poisson_herbier</td><td>Poissons d'herbier</td><td>herbier</td></tr><tr class='xhl'><td class='xr'>11</td><td>espece_h</td><td>seiche</td><td>Seiche</td><td>herbier</td></tr><tr class='xhl'><td class='xr'>12</td><td>espece_h</td><td>crabe_mangrove</td><td>Crabe de mangrove</td><td>mangrove</td></tr><tr class='xhl'><td class='xr'>13</td><td>espece_h</td><td>crevette</td><td>Crevette</td><td>mangrove</td></tr><tr class='xhl'><td class='xr'>14</td><td>espece_h</td><td>huitre</td><td>Huître</td><td>mangrove</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+<div class="en">
+<p><strong>2. In the <code>survey</code> sheet</strong>, in the
+<strong><code>choice_filter</code></strong> column of the question to
+filter, write the condition that each choice must meet to be shown.
+<code>habitat = ${habitat}</code> reads: <em>show the choices whose
+column <code>habitat</code> equals the answer to the question
+<code>habitat</code></em>.</p>
+</div>
+<div class="fr">
+<p><strong>2. Dans la feuille <code>survey</code></strong>, dans la
+colonne <strong><code>choice_filter</code></strong> de la question à
+filtrer, écrivez la condition que chaque choix doit remplir pour être
+affiché. <code>habitat = ${habitat}</code> se lit : <em>afficher les
+choix dont la colonne <code>habitat</code> est égale à la réponse à la
+question <code>habitat</code></em>.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>choice_filter</td></tr><tr><td class='xr'>2</td><td>select_one habitat</td><td>habitat</td><td>Habitat prospecté</td><td>yes</td><td></td></tr><tr><td class='xr'>3</td><td>select_one espece_h</td><td>espece</td><td>Espèce principale observée</td><td>yes</td><td>habitat = &#36;{habitat}</td></tr><tr><td class='xr'>4</td><td>select_multiple espece_h</td><td>especes_ciblees</td><td>Espèces ciblées par les pêcheurs ce jour (tous habitats)</td><td>yes</td><td></td></tr><tr><td class='xr'>5</td><td>select_one espece_h</td><td>espece_principale</td><td>Parmi elles, laquelle rapporte le plus ?</td><td>yes</td><td>selected(&#36;{especes_ciblees}, name)</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<ul>
+<li>On the <strong>left</strong> of <code>=</code>: the name of the
+column of <code>choices</code> (no <code>${}</code>, no quotes). On the
+<strong>right</strong>: the answer, <code>${habitat}</code>.</li>
+<li>The expression is evaluated <strong>for each choice</strong>. Inside
+it, <code>name</code> and <code>label</code> are the columns of the
+choice itself: <code>selected(${especes_ciblees}, name)</code> = <em>the
+name of this choice is among the species ticked</em>.</li>
+<li>A choice whose filter cell is <strong>empty</strong> never satisfies
+<code>habitat = ${habitat}</code>: it is never shown. For a choice that
+must always appear (e.g. <em>Autre</em>), see below.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>À <strong>gauche</strong> du <code>=</code> : le nom de la colonne
+de <code>choices</code> (sans <code>${}</code>, sans apostrophes). À
+<strong>droite</strong> : la réponse, <code>${habitat}</code>.</li>
+<li>L’expression est évaluée <strong>pour chaque choix</strong>. À
+l’intérieur, <code>name</code> et <code>label</code> sont les colonnes
+du choix lui-même : <code>selected(${especes_ciblees}, name)</code> =
+<em>le name de ce choix est parmi les espèces cochées</em>.</li>
+<li>Un choix dont la cellule de filtre est <strong>vide</strong> ne
+vérifie jamais <code>habitat = ${habitat}</code> : il n’est jamais
+affiché. Pour un choix qui doit toujours apparaître (ex.
+<em>Autre</em>), voir plus bas.</li>
+</ul>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>choice_filter</code></td>
+<td>condition evaluated for each choice of the list; the choice is shown
+if true</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>filter column (choices)</td>
+<td>any extra column of <code>choices</code>, used in the
+expression</td>
+<td>names of choices of another list, codes, numbers</td>
+</tr>
+<tr class="odd">
+<td><code>col = ${q}</code></td>
+<td>parent is a select_one</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>selected(${q}, col)</code></td>
+<td>parent is a select_multiple: the choice’s col value is among those
+ticked</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>selected(${q}, name)</code></td>
+<td>show only the choices ticked in q</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>not(selected(${q}, name))</code></td>
+<td>show only the choices NOT ticked in q</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>col = ${q} or col = 'tous'</code></td>
+<td>a choice with <code>tous</code> in col is always shown</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>choice_filter</code></td>
+<td>condition évaluée pour chaque choix de la liste ; le choix est
+affiché si elle est vraie</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>filter column (choices)</td>
+<td>toute colonne supplémentaire de <code>choices</code>, utilisée dans
+l’expression</td>
+<td>names de choix d’une autre liste, codes, nombres</td>
+</tr>
+<tr class="odd">
+<td><code>col = ${q}</code></td>
+<td>le parent est un select_one</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>selected(${q}, col)</code></td>
+<td>le parent est un select_multiple : la valeur col du choix est parmi
+celles cochées</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>selected(${q}, name)</code></td>
+<td>n’afficher que les choix cochés dans q</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>not(selected(${q}, name))</code></td>
+<td>n’afficher que les choix NON cochés dans q</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>col = ${q} or col = 'tous'</code></td>
+<td>un choix avec <code>tous</code> dans col est toujours affiché</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="patterns" class="section level2">
+<h2><span class="en">Useful patterns</span><span class="fr">Modèles
+utiles</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Need</th>
+<th>Filter column(s)</th>
+<th><code>choice_filter</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>species of the habitat chosen</td>
+<td><code>habitat</code></td>
+<td><code>habitat = ${habitat}</code></td>
+</tr>
+<tr class="even">
+<td><em>Autre</em> always visible</td>
+<td><code>habitat</code> = <code>tous</code> for <em>Autre</em></td>
+<td><code>habitat = ${habitat} or habitat = 'tous'</code></td>
+</tr>
+<tr class="odd">
+<td>gears allowed in the zone (a gear allowed in several zones)</td>
+<td>one 0/1 column per zone: <code>zone_a</code>,
+<code>zone_b</code></td>
+<td><code>if(${zone} = 'a', zone_a = 1, zone_b = 1)</code></td>
+</tr>
+<tr class="even">
+<td>species of the habitat <strong>and</strong> of the season</td>
+<td><code>habitat</code>, <code>saison</code></td>
+<td><code>habitat = ${habitat} and (saison = ${saison} or saison = 'toute')</code></td>
+</tr>
+<tr class="odd">
+<td>“the most profitable among those ticked”</td>
+<td>none (uses <code>name</code>)</td>
+<td><code>selected(${especes_ciblees}, name)</code></td>
+</tr>
+<tr class="even">
+<td>“the 2nd most important, different from the 1st”</td>
+<td>none</td>
+<td><code>name != ${probleme_1}</code></td>
+</tr>
+<tr class="odd">
+<td>hide a retired choice for new forms</td>
+<td><code>actif</code> (<code>oui</code>/<code>non</code>)</td>
+<td><code>actif = 'oui'</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Besoin</th>
+<th>Colonne(s) de filtre</th>
+<th><code>choice_filter</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>espèces de l’habitat choisi</td>
+<td><code>habitat</code></td>
+<td><code>habitat = ${habitat}</code></td>
+</tr>
+<tr class="even">
+<td><em>Autre</em> toujours visible</td>
+<td><code>habitat</code> = <code>tous</code> pour <em>Autre</em></td>
+<td><code>habitat = ${habitat} or habitat = 'tous'</code></td>
+</tr>
+<tr class="odd">
+<td>engins autorisés dans la zone (un engin autorisé dans plusieurs
+zones)</td>
+<td>une colonne 0/1 par zone : <code>zone_a</code>,
+<code>zone_b</code></td>
+<td><code>if(${zone} = 'a', zone_a = 1, zone_b = 1)</code></td>
+</tr>
+<tr class="even">
+<td>espèces de l’habitat <strong>et</strong> de la saison</td>
+<td><code>habitat</code>, <code>saison</code></td>
+<td><code>habitat = ${habitat} and (saison = ${saison} or saison = 'toute')</code></td>
+</tr>
+<tr class="odd">
+<td>« la plus rentable parmi celles cochées »</td>
+<td>aucune (utilise <code>name</code>)</td>
+<td><code>selected(${especes_ciblees}, name)</code></td>
+</tr>
+<tr class="even">
+<td>« le 2e plus important, différent du 1er »</td>
+<td>aucune</td>
+<td><code>name != ${probleme_1}</code></td>
+</tr>
+<tr class="odd">
+<td>masquer un choix retiré pour les nouvelles fiches</td>
+<td><code>actif</code> (<code>oui</code>/<code>non</code>)</td>
+<td><code>actif = 'oui'</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Common mistakes.</strong> Values of the filter column that do
+not match the <code>name</code> of the parent choices exactly
+(<code>Recif</code> vs <code>recif</code>, a space at the end of the
+cell); writing the <strong>label</strong> of the habitat in the filter
+column; <code>${habitat} = habitat</code> works too, but
+<code>'habitat' = ${habitat}</code> (quotes) compares a fixed text and
+shows nothing; a filter on a question placed before its parent.
+<strong>The Formbuilder does not edit
+<code>choice_filter</code></strong>: write it in the XLSForm and upload
+with <span class="ui">Remplacer le formulaire <span
+class="ui-en">(Replace form)</span></span>. If you then open the form in
+the Formbuilder and save, check that the filter is still there.</p>
+<p><strong>Data are not filtered.</strong> The filter only changes what
+is <strong>shown</strong>. All the choices exist in the export (the 0/1
+columns of a <code>select_multiple</code> include every choice of the
+list, even those never shown).</p>
+</div>
+<div class="fr">
+<p><strong>Erreurs fréquentes.</strong> Valeurs de la colonne de filtre
+qui ne correspondent pas exactement au <code>name</code> des choix
+parents (<code>Recif</code> au lieu de <code>recif</code>, une espace en
+fin de cellule) ; écrire le <strong>libellé</strong> de l’habitat dans
+la colonne de filtre ; <code>${habitat} = habitat</code> fonctionne
+aussi, mais <code>'habitat' = ${habitat}</code> (apostrophes) compare un
+texte fixe et n’affiche rien ; un filtre sur une question placée avant
+son parent. <strong>Le Formbuilder ne modifie pas
+<code>choice_filter</code></strong> : écrivez-le dans le XLSForm et
+importez avec <span class="ui">Remplacer le formulaire <span
+class="ui-en">(Replace form)</span></span>. Si vous ouvrez ensuite le
+formulaire dans le Formbuilder et l’enregistrez, vérifiez que le filtre
+est toujours là.</p>
+<p><strong>Les données ne sont pas filtrées.</strong> Le filtre ne
+change que ce qui est <strong>affiché</strong>. Tous les choix existent
+dans l’export (les colonnes 0/1 d’un <code>select_multiple</code>
+incluent chaque choix de la liste, même ceux jamais affichés).</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-a1" class="section level3 en">
+<h3>Application work A1</h3>
+<ol style="list-style-type: decimal">
+<li>Upload <code>a01_choice_filter.xlsx</code> and test: how many
+species are offered for each habitat?</li>
+<li>In the second part, tick <em>Poulpe</em>, <em>Seiche</em> and
+<em>Huître</em>: how many choices does the last question show?</li>
+<li>Add a choice <code>autre</code> (<em>Autre espèce</em>) that is
+shown <strong>for every habitat</strong>, and a <code>text</code>
+question <em>Précisez</em> shown only when <code>autre</code> is
+chosen.</li>
+<li>Add a question <code>espece_secondaire</code> (<em>Deuxième espèce
+observée</em>), same list, filtered on the habitat <strong>and</strong>
+different from the first species.</li>
+<li>Answer the quiz.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a1" class="section level3 fr">
+<h3>Travail d’application A1</h3>
+<ol style="list-style-type: decimal">
+<li>Importez <code>a01_choice_filter.xlsx</code> et testez : combien
+d’espèces sont proposées pour chaque habitat ?</li>
+<li>Dans la seconde partie, cochez <em>Poulpe</em>, <em>Seiche</em> et
+<em>Huître</em> : combien de choix la dernière question affiche-t-elle
+?</li>
+<li>Ajoutez un choix <code>autre</code> (<em>Autre espèce</em>) affiché
+<strong>pour tous les habitats</strong>, et une question
+<code>text</code> <em>Précisez</em> affichée seulement quand
+<code>autre</code> est choisi.</li>
+<li>Ajoutez une question <code>espece_secondaire</code> (<em>Deuxième
+espèce observée</em>), même liste, filtrée sur l’habitat
+<strong>et</strong> différente de la première espèce.</li>
+<li>Répondez au quiz.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-ka1" class="quiz" data-quiz-id="ka1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU3BlY2llcyBvZmZlcmVkIGZvciB0aGUgY29yYWwgcmVlZj8iLCJmciI6IjEuIEVzcMOoY2VzIHByb3Bvc8OpZXMgcG91ciBsZSByw6ljaWYgY29yYWxsaWVuID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFNwZWNpZXMgb2ZmZXJlZCBmb3IgdGhlIG1hbmdyb3ZlPyIsImZyIjoiMi4gRXNww6hjZXMgcHJvcG9zw6llcyBwb3VyIGxhIG1hbmdyb3ZlID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIFNwZWNpZXMgb2ZmZXJlZCBmb3IgdGhlIHNlYWdyYXNzIG1lYWRvdz8iLCJmciI6IjMuIEVzcMOoY2VzIHByb3Bvc8OpZXMgcG91ciBsJ2hlcmJpZXIgPyIsImFuc3dlciI6NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gQ2hvaWNlcyBvZiB0aGUgbGFzdCBxdWVzdGlvbiBhZnRlciB0aWNraW5nIFBvdWxwZSwgU2VpY2hlLCBIdcOudHJlPyIsImZyIjoiNC4gQ2hvaXggZGUgbGEgZGVybmnDqHJlIHF1ZXN0aW9uIGFwcsOocyBhdm9pciBjb2Now6kgUG91bHBlLCBTZWljaGUsIEh1w650cmUgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gY2hvaWNlX2ZpbHRlciBmb3IgJ0F1dHJlJyBhbHdheXMgdmlzaWJsZToiLCJmciI6IjUuIGNob2ljZV9maWx0ZXIgcG91ciDCqyBBdXRyZSDCuyB0b3Vqb3VycyB2aXNpYmxlIDoiLCJvcHRpb25zX2VuIjpbImhhYml0YXQgPSAke2hhYml0YXR9IG9yIGhhYml0YXQgPSAndG91cyciLCJoYWJpdGF0ID0gJHtoYWJpdGF0fSBhbmQgaGFiaXRhdCA9ICd0b3VzJyIsImhhYml0YXQgPSAndG91cyciXSwib3B0aW9uc19mciI6WyJoYWJpdGF0ID0gJHtoYWJpdGF0fSBvciBoYWJpdGF0ID0gJ3RvdXMnIiwiaGFiaXRhdCA9ICR7aGFiaXRhdH0gYW5kIGhhYml0YXQgPSAndG91cyciLCJoYWJpdGF0ID0gJ3RvdXMnIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBjaG9pY2VfZmlsdGVyIG9mIGVzcGVjZV9zZWNvbmRhaXJlOiIsImZyIjoiNi4gY2hvaWNlX2ZpbHRlciBkZSBlc3BlY2Vfc2Vjb25kYWlyZSA6Iiwib3B0aW9uc19lbiI6WyJoYWJpdGF0ID0gJHtoYWJpdGF0fSBhbmQgbmFtZSAhPSAke2VzcGVjZX0iLCJoYWJpdGF0ID0gJHtoYWJpdGF0fSBvciBuYW1lICE9ICR7ZXNwZWNlfSIsIm5hbWUgPSAke2VzcGVjZX0iXSwib3B0aW9uc19mciI6WyJoYWJpdGF0ID0gJHtoYWJpdGF0fSBhbmQgbmFtZSAhPSAke2VzcGVjZX0iLCJoYWJpdGF0ID0gJHtoYWJpdGF0fSBvciBuYW1lICE9ICR7ZXNwZWNlfSIsIm5hbWUgPSAke2VzcGVjZX0iXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFNob3cgb25seSB0aGUgZ2VhcnMgTk9UIHRpY2tlZCBpbiAke2VuZ2luc306IiwiZnIiOiI3LiBOJ2FmZmljaGVyIHF1ZSBsZXMgZW5naW5zIE5PTiBjb2Now6lzIGRhbnMgJHtlbmdpbnN9IDoiLCJvcHRpb25zX2VuIjpbIm5vdChzZWxlY3RlZCgke2VuZ2luc30sIG5hbWUpKSIsInNlbGVjdGVkKCR7ZW5naW5zfSwgbmFtZSkiLCJuYW1lICE9ICR7ZW5naW5zfSJdLCJvcHRpb25zX2ZyIjpbIm5vdChzZWxlY3RlZCgke2VuZ2luc30sIG5hbWUpKSIsInNlbGVjdGVkKCR7ZW5naW5zfSwgbmFtZSkiLCJuYW1lICE9ICR7ZW5naW5zfSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gVGhlIGZpbHRlciBjb2x1bW4gY29udGFpbnMgJ1JlY2lmJyB3aGlsZSB0aGUgaGFiaXRhdCBuYW1lIGlzICdyZWNpZic6IiwiZnIiOiI4LiBMYSBjb2xvbm5lIGRlIGZpbHRyZSBjb250aWVudCDCqyBSZWNpZiDCuyBhbG9ycyBxdWUgbGUgbmFtZSBkZSBsJ2hhYml0YXQgZXN0IMKrIHJlY2lmIMK7IDoiLCJvcHRpb25zX2VuIjpbIml0IHdvcmtzIChjYXNlIGlzIGlnbm9yZWQpIiwibm8gc3BlY2llcyBpcyBzaG93biBmb3IgdGhlIHJlZWYiLCJ0aGUgdXBsb2FkIGZhaWxzIl0sIm9wdGlvbnNfZnIiOlsiY2VsYSBmb25jdGlvbm5lIChsYSBjYXNzZSBlc3QgaWdub3LDqWUpIiwiYXVjdW5lIGVzcMOoY2Ugbidlc3QgYWZmaWNow6llIHBvdXIgbGUgcsOpY2lmIiwibCdpbXBvcnQgw6ljaG91ZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gV2hlcmUgZG8geW91IHdyaXRlIGEgY2hvaWNlX2ZpbHRlcj8iLCJmciI6IjkuIE/DuSDDqWNyaXQtb24gdW4gY2hvaWNlX2ZpbHRlciA/Iiwib3B0aW9uc19lbiI6WyJJbiB0aGUgRm9ybWJ1aWxkZXIsIFNraXAgbG9naWMiLCJJbiB0aGUgWExTRm9ybSwgY2hvaWNlX2ZpbHRlciBjb2x1bW4gb2YgdGhlIHN1cnZleSBzaGVldCIsIkluIHRoZSBzZXR0aW5ncyBzaGVldCJdLCJvcHRpb25zX2ZyIjpbIkRhbnMgbGUgRm9ybWJ1aWxkZXIsIExvZ2lxdWUgZGUgc2F1dCIsIkRhbnMgbGUgWExTRm9ybSwgY29sb25uZSBjaG9pY2VfZmlsdGVyIGRlIGxhIGZldWlsbGUgc3VydmV5IiwiRGFucyBsYSBmZXVpbGxlIHNldHRpbmdzIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gSW4gdGhlIFhNTCBleHBvcnQgb2YgYSBzZWxlY3RfbXVsdGlwbGUgZmlsdGVyZWQgbGlzdCwgdGhlIDAvMSBjb2x1bW5zIGFyZSBjcmVhdGVkIGZvcjoiLCJmciI6IjEwLiBEYW5zIGwnZXhwb3J0IFhNTCBkJ3VuZSBsaXN0ZSBzZWxlY3RfbXVsdGlwbGUgZmlsdHLDqWUsIGxlcyBjb2xvbm5lcyAwLzEgc29udCBjcsOpw6llcyBwb3VyIDoiLCJvcHRpb25zX2VuIjpbInRoZSBjaG9pY2VzIHNob3duIG9ubHkiLCJldmVyeSBjaG9pY2Ugb2YgdGhlIGxpc3QiXSwib3B0aW9uc19mciI6WyJsZXMgY2hvaXggYWZmaWNow6lzIHNldWxlbWVudCIsImNoYXF1ZSBjaG9peCBkZSBsYSBsaXN0ZSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="ka1">
+<div class="en">
+<p>1 3 · 2 3 · 3 4 · 4 3 · 5 <code>or habitat = 'tous'</code> · 6
+<code>and name != ${espece}</code> · 7
+<code>not(selected(…, name))</code> · 8 nothing shown for the reef
+(values are compared exactly) · 9 XLSForm · 10 every choice. Rows to
+add:</p>
+</div>
+<div class="fr">
+<p>1 3 · 2 3 · 3 4 · 4 3 · 5 <code>or habitat = 'tous'</code> · 6
+<code>and name != ${espece}</code> · 7
+<code>not(selected(…, name))</code> · 8 rien n’est affiché pour le récif
+(les valeurs sont comparées exactement) · 9 XLSForm · 10 chaque choix.
+Lignes à ajouter :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>relevant</td><td class='xh'>choice_filter</td></tr><tr><td class='xr'>2</td><td>select_one espece_h</td><td>espece</td><td>Espèce principale observée</td><td></td><td>habitat = &#36;{habitat} or habitat = 'tous'</td></tr><tr><td class='xr'>3</td><td>text</td><td>espece_autre</td><td>Précisez</td><td>&#36;{espece} = 'autre'</td><td></td></tr><tr><td class='xr'>4</td><td>select_one espece_h</td><td>espece_secondaire</td><td>Deuxième espèce observée</td><td></td><td>(habitat = &#36;{habitat} or habitat = 'tous') and name != &#36;{espece}</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>habitat</td></tr><tr><td class='xr'>2</td><td>espece_h</td><td>autre</td><td>Autre espèce</td><td>tous</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

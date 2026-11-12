@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I3 · Groups of questions
+(group)</span><span class="fr">I3 · Les groupes de questions
+(group)</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>organise a questionnaire in sections with <code>begin_group</code> /
+<code>end_group</code>;</li>
+<li>show several questions on one screen with the
+<code>field-list</code> appearance;</li>
+<li>hide a whole section with one <code>relevant</code> on the
+group;</li>
+<li>nest groups, and read group names in the export headers
+(<code>group/question</code>).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>organiser un questionnaire en sections avec <code>begin_group</code>
+/ <code>end_group</code> ;</li>
+<li>afficher plusieurs questions sur un même écran avec l’apparence
+<code>field-list</code> ;</li>
+<li>masquer une section entière avec un seul <code>relevant</code> sur
+le groupe ;</li>
+<li>imbriquer des groupes, et lire les noms de groupes dans les en-têtes
+de l’export (<code>groupe/question</code>).</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Sections of a questionnaire</span><span
+class="fr">Les sections d’un questionnaire</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The household survey of the
+cooperative now has about thirty questions in four parts:
+<strong>identification</strong> of the interview, the
+<strong>household</strong> (with its members, Session I5),
+<strong>fishing</strong>, and <strong>opinions</strong>. Enumerators
+lose their way in a long list of questions; the analyst wants to know
+which part each column comes from. You organise the form in
+<strong>groups</strong>:
+<a class="btn-dl" href="data/forms/i05_menage_peche.xlsx" download>⇩
+i05_menage_peche.xlsx</a> (the full form of this level: you will meet
+its <code>rank</code> and <code>repeat</code> in Sessions I4 and
+I5).</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> L’enquête ménages de la coopérative
+compte maintenant une trentaine de questions en quatre parties :
+<strong>identification</strong> de l’entretien, le
+<strong>ménage</strong> (avec ses membres, séance I5), la
+<strong>pêche</strong> et les <strong>avis</strong>. Les enquêteurs se
+perdent dans une longue liste de questions ; l’analyste veut savoir de
+quelle partie vient chaque colonne. Vous organisez le formulaire en
+<strong>groupes</strong> :
+<a class="btn-dl" href="data/forms/i05_menage_peche.xlsx" download>⇩
+i05_menage_peche.xlsx</a> (le formulaire complet de ce niveau : vous y
+verrez le <code>rank</code> et le <code>repeat</code> aux séances I4 et
+I5).</p>
+</div>
+</div>
+</div>
+<div id="group" class="section level2">
+<h2><span class="en">begin_group and end_group</span><span
+class="fr">begin_group et end_group</span></h2>
+<div class="en">
+<p>A group starts with a row <strong><code>begin_group</code></strong>
+(with a <code>name</code> and a <code>label</code>: the title of the
+section) and ends with a row <strong><code>end_group</code></strong> (no
+name needed). Everything between the two belongs to the group.</p>
+</div>
+<div class="fr">
+<p>Un groupe commence par une ligne
+<strong><code>begin_group</code></strong> (avec un <code>name</code> et
+un <code>label</code> : le titre de la section) et se termine par une
+ligne <strong><code>end_group</code></strong> (pas besoin de name). Tout
+ce qui est entre les deux appartient au groupe.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>relevant</td><td class='xh'>appearance</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>today</td><td>today</td><td></td><td></td><td></td></tr><tr class='xhl'><td class='xr'>5</td><td>begin_group</td><td>identification</td><td>Identification</td><td></td><td>field-list</td></tr><tr><td class='xr'>6</td><td>select_one enqueteur</td><td>enqueteur</td><td>Enquêteur</td><td></td><td></td></tr><tr><td class='xr'>7</td><td>select_one village</td><td>village</td><td>Village</td><td></td><td></td></tr><tr><td class='xr'>8</td><td>date</td><td>date_enquete</td><td>Date de l'enquête</td><td></td><td></td></tr><tr class='xhl'><td class='xr'>9</td><td>end_group</td><td></td><td></td><td></td><td></td></tr><tr class='xhl'><td class='xr'>10</td><td>begin_group</td><td>menage</td><td>Le ménage</td><td></td><td></td></tr><tr><td class='xr'>11</td><td>select_one sexe</td><td>chef_sexe</td><td>Sexe du chef de ménage</td><td></td><td></td></tr><tr><td class='xr'>12</td><td>integer</td><td>chef_age</td><td>Âge du chef de ménage</td><td></td><td></td></tr><tr><td class='xr'>13</td><td>integer</td><td>nb_membres</td><td>Nombre de personnes dans le ménage (chef compris)</td><td></td><td></td></tr><tr><td class='xr'>23</td><td>calculate</td><td>nb_enfants</td><td></td><td></td><td></td></tr><tr><td class='xr'>24</td><td>note</td><td>note_enfants</td><td>Ce ménage compte &#36;{nb_enfants} enfant(s) de moins de 15 ans.</td><td></td><td></td></tr><tr class='xhl'><td class='xr'>25</td><td>end_group</td><td></td><td></td><td></td><td></td></tr><tr class='xhl'><td class='xr'>26</td><td>begin_group</td><td>peche</td><td>La pêche</td><td></td><td></td></tr><tr><td class='xr'>27</td><td>select_one oui_non</td><td>pratique_peche</td><td>Le ménage pratique-t-il la pêche ?</td><td></td><td></td></tr><tr><td class='xr'>28</td><td>select_multiple engin</td><td>engins</td><td>Engins utilisés</td><td>&#36;{pratique_peche} = 'oui'</td><td></td></tr><tr><td class='xr'>29</td><td>integer</td><td>jours_semaine</td><td>Jours de pêche par semaine</td><td>&#36;{pratique_peche} = 'oui'</td><td></td></tr><tr><td class='xr'>30</td><td>integer</td><td>revenu_peche</td><td>Revenu mensuel de la pêche (Ariary)</td><td>&#36;{pratique_peche} = 'oui'</td><td></td></tr><tr><td class='xr'>31</td><td>integer</td><td>revenu_autre</td><td>Revenu mensuel des autres activités (Ariary)</td><td></td><td></td></tr><tr><td class='xr'>32</td><td>calculate</td><td>revenu_total</td><td></td><td></td><td></td></tr><tr class='xhl'><td class='xr'>33</td><td>end_group</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>34</td><td>begin_group</td><td>avis</td><td>Avis</td><td></td><td></td></tr><tr><td class='xr'>35</td><td>rank probleme</td><td>problemes</td><td>Classez les problèmes du plus important (en haut) au moins important</td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<ul>
+<li>Rows 5–9: the group <code>identification</code>, title
+<em>Identification</em>. Its <code>appearance</code> is
+<strong><code>field-list</code></strong>: its three questions are shown
+<strong>on the same screen</strong> in KoboCollect (and on the same page
+in the web form with the <code>pages</code> style). Without it,
+KoboCollect shows one question per screen, with the group title on
+top.</li>
+<li>Row 10: the group <code>menage</code> begins; it ends further down
+(row 25, after the repeat of members).</li>
+<li>Rows 26–33: the group <code>peche</code>. Three of its questions
+carry the same <code>relevant</code>
+(<code>${pratique_peche} = 'oui'</code>).</li>
+<li>Every <code>begin_group</code> needs its <code>end_group</code>. A
+missing <code>end_group</code> is a common upload error (<em>“Unmatched
+‘begin_group’. No matching ‘end_group’ was found for the name
+‘…’”</em>).</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Lignes 5 à 9 : le groupe <code>identification</code>, titre
+<em>Identification</em>. Son <code>appearance</code> est
+<strong><code>field-list</code></strong> : ses trois questions
+s’affichent <strong>sur le même écran</strong> dans KoboCollect (et sur
+la même page du formulaire web avec le style <code>pages</code>). Sans
+cela, KoboCollect montre une question par écran, avec le titre du groupe
+en haut.</li>
+<li>Ligne 10 : le groupe <code>menage</code> commence ; il se termine
+plus bas (ligne 25, après la répétition des membres).</li>
+<li>Lignes 26 à 33 : le groupe <code>peche</code>. Trois de ses
+questions portent le même <code>relevant</code>
+(<code>${pratique_peche} = 'oui'</code>).</li>
+<li>Chaque <code>begin_group</code> doit avoir son
+<code>end_group</code>. Un <code>end_group</code> manquant est une
+erreur d’import fréquente (<em>« Unmatched ‘begin_group’. No matching
+‘end_group’ was found for the name ‘…’ »</em>).</li>
+</ul>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>begin_group</code> / <code>end_group</code></td>
+<td>start / end of a section</td>
+<td><code>begin group</code> / <code>end group</code> (with a space)
+also work</td>
+</tr>
+<tr class="even">
+<td><code>appearance</code> = <code>field-list</code></td>
+<td>all the questions of the group on one screen</td>
+<td>only for short groups without repeats</td>
+</tr>
+<tr class="odd">
+<td><code>relevant</code> on <code>begin_group</code></td>
+<td>shows or hides the whole group</td>
+<td>a condition</td>
+</tr>
+<tr class="even">
+<td><code>style</code> = <code>pages</code> (settings)</td>
+<td>web form: one page per group / question</td>
+<td><code>pages</code>, <code>theme-grid</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>begin_group</code> / <code>end_group</code></td>
+<td>début / fin d’une section</td>
+<td><code>begin group</code> / <code>end group</code> (avec une espace)
+fonctionnent aussi</td>
+</tr>
+<tr class="even">
+<td><code>appearance</code> = <code>field-list</code></td>
+<td>toutes les questions du groupe sur un écran</td>
+<td>seulement pour des groupes courts sans répétition</td>
+</tr>
+<tr class="odd">
+<td><code>relevant</code> on <code>begin_group</code></td>
+<td>affiche ou masque tout le groupe</td>
+<td>une condition</td>
+</tr>
+<tr class="even">
+<td><code>style</code> = <code>pages</code> (settings)</td>
+<td>formulaire web : une page par groupe / question</td>
+<td><code>pages</code>, <code>theme-grid</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="relevant" class="section level2">
+<h2><span class="en">A relevant for the whole section</span><span
+class="fr">Un relevant pour toute la section</span></h2>
+<div class="en">
+<p>Instead of repeating <code>${pratique_peche} = 'oui'</code> on each
+question, put the question <em>pratique_peche</em>
+<strong>before</strong> the group, and the condition
+<strong>once</strong>, on the <code>begin_group</code> row. The group,
+its title and all its questions are then shown or hidden together. Fewer
+conditions = fewer mistakes when you add a question to the section
+later.</p>
+</div>
+<div class="fr">
+<p>Au lieu de répéter <code>${pratique_peche} = 'oui'</code> sur chaque
+question, placez la question <em>pratique_peche</em>
+<strong>avant</strong> le groupe, et la condition <strong>une seule
+fois</strong>, sur la ligne <code>begin_group</code>. Le groupe, son
+titre et toutes ses questions sont alors affichés ou masqués ensemble.
+Moins de conditions = moins d’erreurs quand vous ajoutez plus tard une
+question à la section.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>relevant</td></tr><tr><td class='xr'>2</td><td>select_one oui_non</td><td>pratique_peche</td><td>Le ménage pratique-t-il la pêche ?</td><td></td></tr><tr><td class='xr'>3</td><td>begin_group</td><td>peche</td><td>La pêche</td><td>&#36;{pratique_peche} = 'oui'</td></tr><tr><td class='xr'>4</td><td>select_multiple engin</td><td>engins</td><td>Engins utilisés</td><td></td></tr><tr><td class='xr'>5</td><td>integer</td><td>jours_semaine</td><td>Jours de pêche par semaine</td><td></td></tr><tr><td class='xr'>6</td><td>integer</td><td>revenu_peche</td><td>Revenu mensuel de la pêche (Ariary)</td><td></td></tr><tr><td class='xr'>7</td><td>end_group</td><td></td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div><div class='xnote'></div></div>
+</div>
+<div id="nested" class="section level2">
+<h2><span class="en">Nested groups</span><span class="fr">Groupes
+imbriqués</span></h2>
+<div class="en">
+<p>A group can contain another group (e.g. <code>peche</code> ›
+<code>peche_poulpe</code>). Close them in the reverse order: the last
+opened is the first closed. Keep it to two levels: deeper nesting makes
+the form and the headers hard to read.</p>
+</div>
+<div class="fr">
+<p>Un groupe peut en contenir un autre (ex. <code>peche</code> ›
+<code>peche_poulpe</code>). Fermez-les dans l’ordre inverse : le dernier
+ouvert est le premier fermé. Limitez-vous à deux niveaux : au-delà, le
+formulaire et les en-têtes deviennent difficiles à lire.</p>
+</div>
+</div>
+<div id="export" class="section level2">
+<h2><span class="en">Groups in the export</span><span class="fr">Les
+groupes dans l’export</span></h2>
+<div class="en">
+<p>With the export option <span class="ui">Inclure les groupes dans les
+en-têtes <span class="ui-en">(Include groups in headers)</span></span>,
+each header is preceded by the names of its groups, separated by
+<code>/</code>: <code>identification/village</code>,
+<code>peche/engins</code>, <code>peche/engins/ligne</code>. Without the
+option: <code>village</code>, <code>engins</code>,
+<code>engins/ligne</code>. The data are the same; only the headers
+change. Download both versions of the same survey:</p>
+<p><a class="btn-dl" href="data/exports/i03_menages_groupes_xml.xlsx" download>⇩
+i03_menages_groupes_xml.xlsx</a>
+<a class="btn-dl" href="data/exports/i03_menages_sans_groupes_xml.xlsx" download>⇩
+i03_menages_sans_groupes_xml.xlsx</a></p>
+</div>
+<div class="fr">
+<p>Avec l’option d’export <span class="ui">Inclure les groupes dans les
+en-têtes <span class="ui-en">(Include groups in headers)</span></span>,
+chaque en-tête est précédé des noms de ses groupes, séparés par
+<code>/</code> : <code>identification/village</code>,
+<code>peche/engins</code>, <code>peche/engins/ligne</code>. Sans
+l’option : <code>village</code>, <code>engins</code>,
+<code>engins/ligne</code>. Les données sont identiques ; seuls les
+en-têtes changent. Téléchargez les deux versions de la même enquête
+:</p>
+<p><a class="btn-dl" href="data/exports/i03_menages_groupes_xml.xlsx" download>⇩
+i03_menages_groupes_xml.xlsx</a>
+<a class="btn-dl" href="data/exports/i03_menages_sans_groupes_xml.xlsx" download>⇩
+i03_menages_sans_groupes_xml.xlsx</a></p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th></tr><tr><td class='xr'>1</td><td class='xh'>identification/enqueteur</td><td class='xh'>identification/village</td><td class='xh'>identification/date_enquete</td><td class='xh'>menage/chef_sexe</td><td class='xh'>menage/chef_age</td><td class='xh'>menage/nb_membres</td><td class='xh'>menage/nb_enfants</td><td class='xh'>peche/pratique_peche</td><td class='xh'>peche/engins</td></tr><tr><td class='xr'>2</td><td>mamy</td><td>ifaty</td><td>2026-04-06</td><td>m</td><td>21</td><td>4</td><td>2</td><td>oui</td><td>ligne filet_maillant glanage</td></tr><tr><td class='xr'>3</td><td>fara</td><td>ifaty</td><td>2026-04-06</td><td>m</td><td>66</td><td>5</td><td>3</td><td>oui</td><td>ligne</td></tr><tr><td class='xr'>4</td><td>tojo</td><td>ifaty</td><td>2026-04-06</td><td>m</td><td>26</td><td>6</td><td>3</td><td>oui</td><td>ligne</td></tr></table><div class="xls-tab"><span>Enquête ménages pêche</span></div></div>
+<div class="en">
+<p><strong>Which one to choose?</strong> With groups, you see where each
+question comes from and you can select a whole section in R
+(<code>starts_with("peche/")</code>, Level 3). Without groups, headers
+are shorter. Choose one and <strong>keep it for the whole
+project</strong>: your scripts depend on the headers.</p>
+<p>KoboToolbox accepts the same <code>name</code> in two different
+groups (e.g. <code>age</code> in <code>menage</code> and in
+<code>peche</code>). Avoid it: without group headers, the export would
+have two columns <code>age</code>. Keep every <code>name</code> unique
+in the whole form.</p>
+</div>
+<div class="fr">
+<p><strong>Lequel choisir ?</strong> Avec les groupes, vous voyez d’où
+vient chaque question et vous pouvez sélectionner une section entière
+dans R (<code>starts_with("peche/")</code>, niveau 3). Sans les groupes,
+les en-têtes sont plus courts. Choisissez-en un et <strong>gardez-le
+pour tout le projet</strong> : vos scripts dépendent des en-têtes.</p>
+<p>KoboToolbox accepte le même <code>name</code> dans deux groupes
+différents (ex. <code>age</code> dans <code>menage</code> et dans
+<code>peche</code>). Évitez-le : sans les groupes dans les en-têtes,
+l’export aurait deux colonnes <code>age</code>. Gardez chaque
+<code>name</code> unique dans tout le formulaire.</p>
+</div>
+<div class="application">
+<div id="application-work-i3" class="section level3 en">
+<h3>Application work I3</h3>
+<ol style="list-style-type: decimal">
+<li>Open <code>i05_menage_peche.xlsx</code>. How many groups
+(<code>begin_group</code>) does it have? Which one has the
+<code>field-list</code> appearance?</li>
+<li>Rewrite the <code>peche</code> group with <strong>one</strong>
+<code>relevant</code> on the group (as above), upload it, test with a
+household that fishes and one that does not.</li>
+<li>In <code>i03_menages_groupes_xml.xlsx</code>: how many headers start
+with <code>peche/</code>? What is the full header of the total income?
+How many households do not fish? How many headers start with
+<code>identification/</code>?</li>
+<li>Compare with <code>i03_menages_sans_groupes_xml.xlsx</code>:
+difference in number of columns?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i3" class="section level3 fr">
+<h3>Travail d’application I3</h3>
+<ol style="list-style-type: decimal">
+<li>Ouvrez <code>i05_menage_peche.xlsx</code>. Combien de groupes
+(<code>begin_group</code>) contient-il ? Lequel a l’apparence
+<code>field-list</code> ?</li>
+<li>Réécrivez le groupe <code>peche</code> avec <strong>un seul</strong>
+<code>relevant</code> sur le groupe (comme ci-dessus), importez-le,
+testez avec un ménage qui pêche et un qui ne pêche pas.</li>
+<li>Dans <code>i03_menages_groupes_xml.xlsx</code> : combien d’en-têtes
+commencent par <code>peche/</code> ? Quel est l’en-tête complet du
+revenu total ? Combien de ménages ne pêchent pas ? Combien d’en-têtes
+commencent par <code>identification/</code> ?</li>
+<li>Comparez avec <code>i03_menages_sans_groupes_xml.xlsx</code> :
+différence du nombre de colonnes ?</li>
+</ol>
+</div>
+</div>
+<div id="quiz-ki3" class="quiz" data-quiz-id="ki3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGdyb3VwcyBpbiBpMDVfbWVuYWdlX3BlY2hlLnhsc3g/IiwiZnIiOiIxLiBOb21icmUgZGUgZ3JvdXBlcyBkYW5zIGkwNV9tZW5hZ2VfcGVjaGUueGxzeCA/IiwiYW5zd2VyIjo0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gTmFtZSBvZiB0aGUgZ3JvdXAgd2l0aCB0aGUgZmllbGQtbGlzdCBhcHBlYXJhbmNlPyIsImZyIjoiMi4gTmFtZSBkdSBncm91cGUgYXZlYyBsJ2FwcGFyZW5jZSBmaWVsZC1saXN0ID8iLCJhbnN3ZXIiOlsiaWRlbnRpZmljYXRpb24iXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBIZWFkZXJzIHN0YXJ0aW5nIHdpdGggcGVjaGUvPyIsImZyIjoiMy4gRW4tdMOqdGVzIGNvbW1lbsOnYW50IHBhciBwZWNoZS8gPyIsImFuc3dlciI6MTEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBGdWxsIGhlYWRlciBvZiB0aGUgdG90YWwgaW5jb21lPyIsImZyIjoiNC4gRW4tdMOqdGUgY29tcGxldCBkdSByZXZlbnUgdG90YWwgPyIsImFuc3dlciI6WyJwZWNoZS9yZXZlbnVfdG90YWwiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBIb3VzZWhvbGRzIHRoYXQgZG8gbm90IGZpc2g/IiwiZnIiOiI1LiBNw6luYWdlcyBxdWkgbmUgcMOqY2hlbnQgcGFzID8iLCJhbnN3ZXIiOjEyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBIZWFkZXJzIHN0YXJ0aW5nIHdpdGggaWRlbnRpZmljYXRpb24vPyIsImZyIjoiNi4gRW4tdMOqdGVzIGNvbW1lbsOnYW50IHBhciBpZGVudGlmaWNhdGlvbi8gPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gRGlmZmVyZW5jZSBpbiBudW1iZXIgb2YgY29sdW1ucyBiZXR3ZWVuIHRoZSB0d28gZXhwb3J0cz8iLCJmciI6IjcuIERpZmbDqXJlbmNlIGR1IG5vbWJyZSBkZSBjb2xvbm5lcyBlbnRyZSBsZXMgZGV1eCBleHBvcnRzID8iLCJhbnN3ZXIiOjAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFdoZXJlIGRvIHlvdSBwdXQgdGhlIHJlbGV2YW50IHRoYXQgaGlkZXMgdGhlIHdob2xlIGZpc2hpbmcgc2VjdGlvbj8iLCJmciI6IjguIE/DuSBtZXR0ZXotdm91cyBsZSByZWxldmFudCBxdWkgbWFzcXVlIHRvdXRlIGxhIHNlY3Rpb24gcMOqY2hlID8iLCJvcHRpb25zX2VuIjpbIk9uIHRoZSBlbmRfZ3JvdXAgcm93IiwiT24gdGhlIGJlZ2luX2dyb3VwIHJvdyIsIk9uIGV2ZXJ5IHF1ZXN0aW9uIl0sIm9wdGlvbnNfZnIiOlsiU3VyIGxhIGxpZ25lIGVuZF9ncm91cCIsIlN1ciBsYSBsaWduZSBiZWdpbl9ncm91cCIsIlN1ciBjaGFxdWUgcXVlc3Rpb24iXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIE1lc3NhZ2UgXCJVbm1hdGNoZWQgJ2JlZ2luX2dyb3VwJ1wiIGF0IHVwbG9hZCBtZWFuczoiLCJmciI6IjkuIExlIG1lc3NhZ2UgwqsgVW5tYXRjaGVkICdiZWdpbl9ncm91cCcgwrsgw6AgbCdpbXBvcnQgc2lnbmlmaWUgOiIsIm9wdGlvbnNfZW4iOlsiYSBiZWdpbl9ncm91cCB3aXRob3V0IGl0cyBlbmRfZ3JvdXAiLCJhIGdyb3VwIHdpdGhvdXQgbGFiZWwiLCJ0d28gZ3JvdXBzIHdpdGggdGhlIHNhbWUgbGFiZWwiXSwib3B0aW9uc19mciI6WyJ1biBiZWdpbl9ncm91cCBzYW5zIHNvbiBlbmRfZ3JvdXAiLCJ1biBncm91cGUgc2FucyBsaWJlbGzDqSIsImRldXggZ3JvdXBlcyBhdmVjIGxlIG3Dqm1lIGxpYmVsbMOpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gR3JvdXBzIGcxIHRoZW4gZzIgKGluc2lkZSBnMSkgYXJlIG9wZW4uIFRoZSBuZXh0IHJvdyBzaG91bGQgY2xvc2U6IiwiZnIiOiIxMC4gTGVzIGdyb3VwZXMgZzEgcHVpcyBnMiAoZGFucyBnMSkgc29udCBvdXZlcnRzLiBMYSBsaWduZSBzdWl2YW50ZSBkb2l0IGZlcm1lciA6Iiwib3B0aW9uc19lbiI6WyJnMSIsImcyIl0sIm9wdGlvbnNfZnIiOlsiZzEiLCJnMiJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="ki3">
+<div class="en">
+<p>1 4 · 2 <code>identification</code> · 3 11 · 4 peche/revenu_total · 5
+12 · 6 3 · 7 0 (none: only the headers change) · 8
+<code>begin_group</code> · 9 a missing <code>end_group</code> · 10
+<code>g2</code> (last opened, first closed).</p>
+</div>
+<div class="fr">
+<p>1 4 · 2 <code>identification</code> · 3 11 · 4 peche/revenu_total · 5
+12 · 6 3 · 7 0 (aucune : seuls les en-têtes changent) · 8
+<code>begin_group</code> · 9 un <code>end_group</code> manquant · 10
+<code>g2</code> (dernier ouvert, premier fermé).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

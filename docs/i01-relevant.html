@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I1</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I1 · Conditional display
+(relevant)</span><span class="fr">I1 · L’affichage conditionnel
+(relevant)</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>show a question only when it is useful, with the
+<code>relevant</code> column (<em>skip logic</em>);</li>
+<li>write conditions on a number, a <code>select_one</code> and a
+<code>select_multiple</code> (<code>selected()</code>,
+<code>count-selected()</code>);</li>
+<li>combine conditions with <code>and</code>, <code>or</code>,
+<code>not()</code>;</li>
+<li>understand what happens to a hidden question (not asked, not
+required, empty in the data);</li>
+<li>tell an empty cell “not asked” from a real answer when you analyse
+the data.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>n’afficher une question que lorsqu’elle est utile, avec la colonne
+<code>relevant</code> (<em>logique de saut</em>) ;</li>
+<li>écrire des conditions sur un nombre, un <code>select_one</code> et
+un <code>select_multiple</code> (<code>selected()</code>,
+<code>count-selected()</code>) ;</li>
+<li>combiner des conditions avec <code>and</code>, <code>or</code>,
+<code>not()</code> ;</li>
+<li>comprendre ce que devient une question masquée (non posée, non
+obligatoire, vide dans les données) ;</li>
+<li>distinguer une cellule vide « non posée » d’une vraie réponse lors
+de l’analyse.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Ask only what makes sense</span><span class="fr">Ne
+demander que ce qui a du sens</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In the pilot of the household
+survey, enumerators complained: they had to ask <em>“Which gears do you
+use?”</em> to households that do not fish, and <em>“Type of canoe?”</em>
+to people who own no canoe. Some typed “0”, others “aucun”, others
+skipped the question… You add <strong>conditions</strong> so that each
+question is shown only when it applies:
+<a class="btn-dl" href="data/forms/i01_depart_relevant.xlsx" download>⇩
+i01_depart_relevant.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Pendant le pilote de l’enquête
+ménages, les enquêteurs se sont plaints : ils devaient demander <em>«
+Quels engins utilisez-vous ? »</em> à des ménages qui ne pêchent pas, et
+<em>« Type de pirogue ? »</em> à des personnes sans pirogue. Certains
+tapaient « 0 », d’autres « aucun », d’autres sautaient la question… Vous
+ajoutez des <strong>conditions</strong> pour que chaque question ne
+s’affiche que lorsqu’elle s’applique :
+<a class="btn-dl" href="data/forms/i01_depart_relevant.xlsx" download>⇩
+i01_depart_relevant.xlsx</a></p>
+</div>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td></tr><tr><td class='xr'>2</td><td>select_one oui_non</td><td>peche</td><td>Pratiquez-vous la pêche ?</td><td>yes</td></tr><tr><td class='xr'>3</td><td>select_multiple engin</td><td>engins</td><td>Quels engins utilisez-vous ?</td><td>yes</td></tr><tr><td class='xr'>4</td><td>text</td><td>engin_autre</td><td>Précisez l'autre engin</td><td></td></tr><tr><td class='xr'>5</td><td>integer</td><td>jours_semaine</td><td>Combien de jours par semaine allez-vous en mer ?</td><td>yes</td></tr><tr><td class='xr'>6</td><td>select_one oui_non</td><td>pirogue</td><td>Possédez-vous une pirogue ?</td><td>yes</td></tr><tr><td class='xr'>7</td><td>select_one type_pirogue</td><td>type_pirogue</td><td>Type de pirogue</td><td></td></tr><tr><td class='xr'>8</td><td>integer</td><td>nb_enfants</td><td>Nombre d'enfants de moins de 15 ans dans le ménage</td><td>yes</td></tr><tr><td class='xr'>9</td><td>integer</td><td>nb_scolarises</td><td>Combien de ces enfants vont à l'école ?</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+<div id="relevant" class="section level2">
+<h2><span class="en">The relevant column</span><span class="fr">La
+colonne relevant</span></h2>
+<div class="en">
+<p>In the <code>relevant</code> column, write a
+<strong>condition</strong>. The question is shown only when the
+condition is <strong>true</strong>; otherwise it is skipped.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th><code>relevant</code></th>
+<th>Read it as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>engins</code></td>
+<td><code>${peche} = 'oui'</code></td>
+<td>shown if the answer to <em>peche</em> is the choice
+<code>oui</code></td>
+</tr>
+<tr class="even">
+<td><code>jours_semaine</code></td>
+<td><code>${peche} = 'oui'</code></td>
+<td>idem</td>
+</tr>
+<tr class="odd">
+<td><code>type_pirogue</code></td>
+<td><code>${pirogue} = 'oui'</code></td>
+<td>shown to canoe owners</td>
+</tr>
+<tr class="even">
+<td><code>nb_scolarises</code></td>
+<td><code>${nb_enfants} &gt; 0</code></td>
+<td>shown if there is at least one child</td>
+</tr>
+<tr class="odd">
+<td><code>engin_autre</code></td>
+<td><code>selected(${engins}, 'autre')</code></td>
+<td>shown if <em>Autre</em> is <strong>among</strong> the gears
+ticked</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>For a <code>select_one</code>: compare with the
+<strong>name</strong> of the choice, between quotes:
+<code>${peche} = 'oui'</code> (not <code>'Oui'</code>, which is the
+label).</li>
+<li>For a <code>select_multiple</code>: use
+<strong><code>selected(${question}, 'choice')</code></strong>.
+<code>${engins} = 'autre'</code> would be true only if <em>Autre</em> is
+the <strong>only</strong> choice ticked.</li>
+<li>For a number: <code>&gt;</code>, <code>&gt;=</code>,
+<code>&lt;</code>, <code>&lt;=</code>, <code>=</code>, <code>!=</code>
+without quotes: <code>${nb_enfants} &gt; 0</code>.</li>
+</ul>
+</div>
+<div class="fr">
+<p>Dans la colonne <code>relevant</code>, écrivez une
+<strong>condition</strong>. La question ne s’affiche que si la condition
+est <strong>vraie</strong> ; sinon elle est sautée.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th><code>relevant</code></th>
+<th>À lire comme</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>engins</code></td>
+<td><code>${peche} = 'oui'</code></td>
+<td>affichée si la réponse à <em>peche</em> est le choix
+<code>oui</code></td>
+</tr>
+<tr class="even">
+<td><code>jours_semaine</code></td>
+<td><code>${peche} = 'oui'</code></td>
+<td>idem</td>
+</tr>
+<tr class="odd">
+<td><code>type_pirogue</code></td>
+<td><code>${pirogue} = 'oui'</code></td>
+<td>affichée aux propriétaires de pirogue</td>
+</tr>
+<tr class="even">
+<td><code>nb_scolarises</code></td>
+<td><code>${nb_enfants} &gt; 0</code></td>
+<td>affichée s’il y a au moins un enfant</td>
+</tr>
+<tr class="odd">
+<td><code>engin_autre</code></td>
+<td><code>selected(${engins}, 'autre')</code></td>
+<td>affichée si <em>Autre</em> est <strong>parmi</strong> les engins
+cochés</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Pour un <code>select_one</code> : comparez avec le
+<strong>name</strong> du choix, entre apostrophes :
+<code>${peche} = 'oui'</code> (pas <code>'Oui'</code>, qui est le
+libellé).</li>
+<li>Pour un <code>select_multiple</code> : utilisez
+<strong><code>selected(${question}, 'choix')</code></strong>.
+<code>${engins} = 'autre'</code> ne serait vrai que si <em>Autre</em>
+est le <strong>seul</strong> choix coché.</li>
+<li>Pour un nombre : <code>&gt;</code>, <code>&gt;=</code>,
+<code>&lt;</code>, <code>&lt;=</code>, <code>=</code>, <code>!=</code>
+sans apostrophes : <code>${nb_enfants} &gt; 0</code>.</li>
+</ul>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>relevant</code></td>
+<td>condition to show the question (or the group, or the note)</td>
+<td>an expression that is true or false</td>
+</tr>
+<tr class="even">
+<td><code>selected(${q}, 'x')</code></td>
+<td>true if choice x is ticked in the select_multiple q</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>count-selected(${q})</code></td>
+<td>number of choices ticked</td>
+<td><code>count-selected(${engins}) &gt;= 2</code></td>
+</tr>
+<tr class="even">
+<td><code>and</code>, <code>or</code>, <code>not()</code></td>
+<td>combine conditions</td>
+<td><code>${peche} = 'oui' and ${jours_semaine} &gt;= 5</code></td>
+</tr>
+<tr class="odd">
+<td><code>${q} != ''</code></td>
+<td>q has been answered</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td>inside relevant: not used (it is used in constraint, Session
+I2)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>relevant</code></td>
+<td>condition pour afficher la question (ou le groupe, ou la note)</td>
+<td>une expression vraie ou fausse</td>
+</tr>
+<tr class="even">
+<td><code>selected(${q}, 'x')</code></td>
+<td>vrai si le choix x est coché dans le select_multiple q</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>count-selected(${q})</code></td>
+<td>nombre de choix cochés</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>and</code>, <code>or</code>, <code>not()</code></td>
+<td>combinent des conditions</td>
+<td>idem</td>
+</tr>
+<tr class="odd">
+<td><code>${q} != ''</code></td>
+<td>q a reçu une réponse</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td>dans relevant : pas utilisé (il sert dans constraint, séance
+I2)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="combining-conditionscombiner-des-conditions"
+class="section level3">
+<h3><span class="en">Combining conditions</span><span
+class="fr">Combiner des conditions</span></h3>
+<div class="en">
+<ul>
+<li>Both: <code>${peche} = 'oui' and ${pirogue} = 'oui'</code></li>
+<li>One of the two:
+<code>${engin} = 'fusil' or ${engin} = 'glanage'</code></li>
+<li>Not: <code>not(selected(${engins}, 'senne'))</code></li>
+<li>Brackets when you mix:
+<code>${peche} = 'oui' and (${age} &lt; 15 or ${age} &gt; 70)</code></li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Les deux : <code>${peche} = 'oui' and ${pirogue} = 'oui'</code></li>
+<li>L’une des deux :
+<code>${engin} = 'fusil' or ${engin} = 'glanage'</code></li>
+<li>Négation : <code>not(selected(${engins}, 'senne'))</code></li>
+<li>Des parenthèses quand on mélange :
+<code>${peche} = 'oui' and (${age} &lt; 15 or ${age} &gt; 70)</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="hidden" class="section level2">
+<h2><span class="en">What happens to a hidden question</span><span
+class="fr">Que devient une question masquée ?</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>It is <strong>not shown</strong> and <strong>not required</strong>,
+even if <code>required</code> = <code>yes</code> (required applies only
+when the question is shown). That is why <code>engins</code> can stay
+required: it is required <strong>for fishing households</strong>.</li>
+<li>Its answer is <strong>empty</strong> in the data.</li>
+<li>If the enumerator answered it and then <strong>changed</strong> the
+answer that controls it (e.g. <em>peche</em> from <code>oui</code> to
+<code>non</code>), the hidden answer is <strong>erased</strong> when the
+form is saved.</li>
+<li>Calculations that use it see an empty value (use
+<code>coalesce()</code>, Session I0).</li>
+</ol>
+<p><strong>When you analyse</strong>, an empty
+<code>jours_semaine</code> means “not asked, the household does not
+fish” — not “0 days” and not “unknown”. Keep this in mind when computing
+means: the mean of <code>jours_semaine</code> is the mean <strong>among
+fishing households</strong>.</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Elle n’est <strong>pas affichée</strong> et <strong>pas
+obligatoire</strong>, même si <code>required</code> = <code>yes</code>
+(l’obligation ne s’applique que si la question est affichée). C’est
+pourquoi <code>engins</code> peut rester obligatoire : elle l’est
+<strong>pour les ménages qui pêchent</strong>.</li>
+<li>Sa réponse est <strong>vide</strong> dans les données.</li>
+<li>Si l’enquêteur y a répondu puis a <strong>changé</strong> la réponse
+qui la contrôle (ex. <em>peche</em> de <code>oui</code> à
+<code>non</code>), la réponse masquée est <strong>effacée</strong> à
+l’enregistrement.</li>
+<li>Les calculs qui l’utilisent voient une valeur vide (utilisez
+<code>coalesce()</code>, séance I0).</li>
+</ol>
+<p><strong>À l’analyse</strong>, un <code>jours_semaine</code> vide
+signifie « non posée, le ménage ne pêche pas » — ni « 0 jour », ni «
+inconnu ». Gardez-le en tête pour les moyennes : la moyenne de
+<code>jours_semaine</code> est la moyenne <strong>parmi les ménages qui
+pêchent</strong>.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Notes and groups too.</strong> <code>relevant</code> works on
+a <code>note</code> (show a warning only in some cases:
+<code>${nb_pecheurs} &gt; 10</code> → “Check: more than 10 fishers?”)
+and on a whole <strong>group</strong> (Session I3): one condition hides
+all its questions. In the Formbuilder, the same thing is done in <span
+class="ui">Logique de saut <span class="ui-en">(Skip
+logic)</span></span> (⚙ of the question), by choosing the question, the
+operator and the value — or by typing the XLSForm expression.</p>
+</div>
+<div class="fr">
+<p><strong>Les notes et les groupes aussi.</strong>
+<code>relevant</code> fonctionne sur une <code>note</code> (afficher un
+avertissement seulement dans certains cas :
+<code>${nb_pecheurs} &gt; 10</code> → « Vérifiez : plus de 10 pêcheurs ?
+») et sur un <strong>groupe</strong> entier (séance I3) : une seule
+condition masque toutes ses questions. Dans le Formbuilder, on fait la
+même chose dans <span class="ui">Logique de saut <span
+class="ui-en">(Skip logic)</span></span> (⚙ de la question), en
+choisissant la question, l’opérateur et la valeur — ou en tapant
+l’expression XLSForm.</p>
+</div>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Common mistakes:</strong> <code>${peche} = oui</code> (no
+quotes: <code>oui</code> is read as a question name) ·
+<code>${peche} = 'Oui'</code> (label instead of name) ·
+<code>${engins} = 'autre'</code> for a <code>select_multiple</code> · a
+condition that refers to a question placed <strong>after</strong> it
+(the answer is not known yet: the question stays hidden) ·
+<code>${peche} == 'oui'</code> (double <code>=</code>).</p>
+</div>
+<div class="fr">
+<p><strong>Erreurs fréquentes :</strong> <code>${peche} = oui</code>
+(sans apostrophes : <code>oui</code> est lu comme un nom de question) ·
+<code>${peche} = 'Oui'</code> (libellé au lieu du name) ·
+<code>${engins} = 'autre'</code> pour un <code>select_multiple</code> ·
+une condition qui renvoie à une question placée <strong>après</strong>
+(la réponse n’est pas encore connue : la question reste masquée) ·
+<code>${peche} == 'oui'</code> (double <code>=</code>).</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-i1" class="section level3 en">
+<h3>Application work I1</h3>
+<ol style="list-style-type: decimal">
+<li>In <code>i01_depart_relevant.xlsx</code>, add a
+<code>relevant</code> column and write the five conditions of the table
+above. Upload it and test in the preview.</li>
+<li>With your form, count how many questions are shown (all questions,
+including <em>peche</em>) in these three interviews:
+<ul>
+<li><strong>H1</strong>: does not fish; no canoe; 0 children.</li>
+<li><strong>H2</strong>: fishes with hand line and “other gear”; owns a
+canoe; 2 children.</li>
+<li><strong>H3</strong>: fishes with hand line and speargun; no canoe; 3
+children.</li>
+</ul></li>
+<li>Add a <code>note</code> named <code>alerte_jours</code>, placed
+right after <code>jours_semaine</code>, shown only when the household
+fishes <strong>7 days a week</strong>, with the label <em>Vérifiez : 7
+jours sur 7 ?</em></li>
+</ol>
+</div>
+<div id="travail-dapplication-i1" class="section level3 fr">
+<h3>Travail d’application I1</h3>
+<ol style="list-style-type: decimal">
+<li>Dans <code>i01_depart_relevant.xlsx</code>, ajoutez une colonne
+<code>relevant</code> et écrivez les cinq conditions du tableau
+ci-dessus. Importez-le et testez dans l’aperçu.</li>
+<li>Avec votre formulaire, comptez combien de questions s’affichent
+(toutes les questions, <em>peche</em> compris) dans ces trois entretiens
+:
+<ul>
+<li><strong>M1</strong> : ne pêche pas ; pas de pirogue ; 0 enfant.</li>
+<li><strong>M2</strong> : pêche à la ligne et avec un « autre engin » ;
+a une pirogue ; 2 enfants.</li>
+<li><strong>M3</strong> : pêche à la ligne et au fusil ; pas de pirogue
+; 3 enfants.</li>
+</ul></li>
+<li>Ajoutez une <code>note</code> nommée <code>alerte_jours</code>,
+juste après <code>jours_semaine</code>, affichée seulement quand le
+ménage pêche <strong>7 jours sur 7</strong>, avec le libellé
+<em>Vérifiez : 7 jours sur 7 ?</em></li>
+</ol>
+</div>
+</div>
+<div id="quiz-ki1" class="quiz" data-quiz-id="ki1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUXVlc3Rpb25zIHNob3duIGZvciBIMT8iLCJmciI6IjEuIFF1ZXN0aW9ucyBhZmZpY2jDqWVzIHBvdXIgTTEgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gUXVlc3Rpb25zIHNob3duIGZvciBIMj8iLCJmciI6IjIuIFF1ZXN0aW9ucyBhZmZpY2jDqWVzIHBvdXIgTTIgPyIsImFuc3dlciI6OCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gUXVlc3Rpb25zIHNob3duIGZvciBIMz8iLCJmciI6IjMuIFF1ZXN0aW9ucyBhZmZpY2jDqWVzIHBvdXIgTTMgPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gQ29uZGl0aW9uIHRvIHNob3cgZW5naW5fYXV0cmU6IiwiZnIiOiI0LiBDb25kaXRpb24gcG91ciBhZmZpY2hlciBlbmdpbl9hdXRyZSA6Iiwib3B0aW9uc19lbiI6WyIke2VuZ2luc30gPSAnYXV0cmUnIiwic2VsZWN0ZWQoJHtlbmdpbnN9LCAnYXV0cmUnKSIsIiR7ZW5naW5zfSA9ICdBdXRyZSciLCJzZWxlY3RlZChlbmdpbnMsIGF1dHJlKSJdLCJvcHRpb25zX2ZyIjpbIiR7ZW5naW5zfSA9ICdhdXRyZSciLCJzZWxlY3RlZCgke2VuZ2luc30sICdhdXRyZScpIiwiJHtlbmdpbnN9ID0gJ0F1dHJlJyIsInNlbGVjdGVkKGVuZ2lucywgYXV0cmUpIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI1LiBDb25kaXRpb24gb2YgdGhlIG5vdGUgYWxlcnRlX2pvdXJzOiIsImZyIjoiNS4gQ29uZGl0aW9uIGRlIGxhIG5vdGUgYWxlcnRlX2pvdXJzIDoiLCJvcHRpb25zX2VuIjpbIiR7am91cnNfc2VtYWluZX0gPSA3IiwiJHtqb3Vyc19zZW1haW5lfSA9ICc3JyIsImpvdXJzX3NlbWFpbmUgPT0gNyIsIi4gPSA3Il0sIm9wdGlvbnNfZnIiOlsiJHtqb3Vyc19zZW1haW5lfSA9IDciLCIke2pvdXJzX3NlbWFpbmV9ID0gJzcnIiwiam91cnNfc2VtYWluZSA9PSA3IiwiLiA9IDciXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIGVuZ2lucyBpcyByZXF1aXJlZCBhbmQgaGlkZGVuIChob3VzZWhvbGQgZG9lcyBub3QgZmlzaCkuIFRoZSBlbnVtZXJhdG9yOiIsImZyIjoiNi4gZW5naW5zIGVzdCBvYmxpZ2F0b2lyZSBldCBtYXNxdcOpZSAobGUgbcOpbmFnZSBuZSBww6pjaGUgcGFzKS4gTCdlbnF1w6p0ZXVyIDoiLCJvcHRpb25zX2VuIjpbImlzIGJsb2NrZWQiLCJpcyBub3QgYmxvY2tlZDogcmVxdWlyZWQgYXBwbGllcyBvbmx5IHRvIHNob3duIHF1ZXN0aW9ucyIsIm11c3QgdHlwZSAwIl0sIm9wdGlvbnNfZnIiOlsiZXN0IGJsb3F1w6kiLCJuJ2VzdCBwYXMgYmxvcXXDqSA6IGwnb2JsaWdhdGlvbiBuZSBzJ2FwcGxpcXVlIHF1J2F1eCBxdWVzdGlvbnMgYWZmaWNow6llcyIsImRvaXQgdGFwZXIgMCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gSW4gdGhlIGV4cG9ydCwgam91cnNfc2VtYWluZSBvZiBhIGhvdXNlaG9sZCB0aGF0IGRvZXMgbm90IGZpc2ggaXM6IiwiZnIiOiI3LiBEYW5zIGwnZXhwb3J0LCBqb3Vyc19zZW1haW5lIGQndW4gbcOpbmFnZSBxdWkgbmUgcMOqY2hlIHBhcyBlc3QgOiIsIm9wdGlvbnNfZW4iOlsiMCIsImVtcHR5IiwiTkEgd3JpdHRlbiBpbiB0aGUgY2VsbCIsIi0xIl0sIm9wdGlvbnNfZnIiOlsiMCIsInZpZGUiLCJOQSDDqWNyaXQgZGFucyBsYSBjZWxsdWxlIiwiLTEiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFNob3cgYSBxdWVzdGlvbiB0byBob3VzZWhvbGRzIHdpdGggYXQgbGVhc3QgMiBnZWFyczoiLCJmciI6IjguIEFmZmljaGVyIHVuZSBxdWVzdGlvbiBhdXggbcOpbmFnZXMgcXVpIG9udCBhdSBtb2lucyAyIGVuZ2lucyA6Iiwib3B0aW9uc19lbiI6WyJjb3VudC1zZWxlY3RlZCgke2VuZ2luc30pID49IDIiLCIke2VuZ2luc30gPj0gMiIsInNlbGVjdGVkKCR7ZW5naW5zfSwgMikiXSwib3B0aW9uc19mciI6WyJjb3VudC1zZWxlY3RlZCgke2VuZ2luc30pID49IDIiLCIke2VuZ2luc30gPj0gMiIsInNlbGVjdGVkKCR7ZW5naW5zfSwgMikiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIFNob3cgYSBxdWVzdGlvbiB0byBmaXNoaW5nIGhvdXNlaG9sZHMgV0lUSE9VVCBhIGNhbm9lOiIsImZyIjoiOS4gQWZmaWNoZXIgdW5lIHF1ZXN0aW9uIGF1eCBtw6luYWdlcyBxdWkgcMOqY2hlbnQgU0FOUyBwaXJvZ3VlIDoiLCJvcHRpb25zX2VuIjpbIiR7cGVjaGV9ID0gJ291aScgb3IgJHtwaXJvZ3VlfSA9ICdub24nIiwiJHtwZWNoZX0gPSAnb3VpJyBhbmQgJHtwaXJvZ3VlfSA9ICdub24nIiwibm90KCR7cGVjaGV9ID0gJ291aScpIl0sIm9wdGlvbnNfZnIiOlsiJHtwZWNoZX0gPSAnb3VpJyBvciAke3Bpcm9ndWV9ID0gJ25vbiciLCIke3BlY2hlfSA9ICdvdWknIGFuZCAke3Bpcm9ndWV9ID0gJ25vbiciLCJub3QoJHtwZWNoZX0gPSAnb3VpJykiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBBIHJlbGV2YW50IHJlZmVycyB0byBhIHF1ZXN0aW9uIHBsYWNlZCBmdXJ0aGVyIGRvd24gaW4gdGhlIGZvcm0uIFJlc3VsdD8iLCJmciI6IjEwLiBVbiByZWxldmFudCByZW52b2llIMOgIHVuZSBxdWVzdGlvbiBwbGFjw6llIHBsdXMgYmFzLiBSw6lzdWx0YXQgPyIsIm9wdGlvbnNfZW4iOlsiSXQgd29ya3Mgbm9ybWFsbHkiLCJUaGUgcXVlc3Rpb24gc3RheXMgaGlkZGVuIHdoZW4gaXQgaXMgcmVhY2hlZCAodGhlIGFuc3dlciBpcyBub3Qga25vd24geWV0KSIsIlRoZSB1cGxvYWQgYWx3YXlzIGZhaWxzIl0sIm9wdGlvbnNfZnIiOlsiQ2VsYSBmb25jdGlvbm5lIG5vcm1hbGVtZW50IiwiTGEgcXVlc3Rpb24gcmVzdGUgbWFzcXXDqWUgcXVhbmQgb24geSBhcnJpdmUgKGxhIHLDqXBvbnNlIG4nZXN0IHBhcyBlbmNvcmUgY29ubnVlKSIsIkwnaW1wb3J0IMOpY2hvdWUgdG91am91cnMiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="ki1">
+<div class="en">
+<p>1 <strong>3</strong> (peche, pirogue, nb_enfants) · 2
+<strong>8</strong> (all) · 3 <strong>6</strong> (peche, engins,
+jours_semaine, pirogue, nb_enfants, nb_scolarises) · 4
+<code>selected()</code> · 5 <code>${jours_semaine} = 7</code> (a number:
+no quotes) · 6 not blocked · 7 empty · 8 <code>count-selected()</code> ·
+9 <code>and</code> · 10 stays hidden.</p>
+</div>
+<div class="fr">
+<p>1 <strong>3</strong> (peche, pirogue, nb_enfants) · 2
+<strong>8</strong> (toutes) · 3 <strong>6</strong> (peche, engins,
+jours_semaine, pirogue, nb_enfants, nb_scolarises) · 4
+<code>selected()</code> · 5 <code>${jours_semaine} = 7</code> (un nombre
+: sans apostrophes) · 6 pas bloqué · 7 vide · 8
+<code>count-selected()</code> · 9 <code>and</code> · 10 reste
+masquée.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>relevant</td></tr><tr><td class='xr'>2</td><td>select_one oui_non</td><td>peche</td><td>Pratiquez-vous la pêche ?</td><td>yes</td><td></td></tr><tr><td class='xr'>3</td><td>select_multiple engin</td><td>engins</td><td>Quels engins utilisez-vous ?</td><td>yes</td><td>&#36;{peche} = 'oui'</td></tr><tr><td class='xr'>4</td><td>text</td><td>engin_autre</td><td>Précisez l'autre engin</td><td></td><td>selected(&#36;{engins}, 'autre')</td></tr><tr><td class='xr'>5</td><td>integer</td><td>jours_semaine</td><td>Combien de jours par semaine allez-vous en mer ?</td><td>yes</td><td>&#36;{peche} = 'oui'</td></tr><tr><td class='xr'>6</td><td>note</td><td>alerte_jours</td><td>Vérifiez : 7 jours sur 7 ?</td><td></td><td>&#36;{jours_semaine} = 7</td></tr><tr><td class='xr'>7</td><td>select_one oui_non</td><td>pirogue</td><td>Possédez-vous une pirogue ?</td><td>yes</td><td></td></tr><tr><td class='xr'>8</td><td>select_one type_pirogue</td><td>type_pirogue</td><td>Type de pirogue</td><td></td><td>&#36;{pirogue} = 'oui'</td></tr><tr><td class='xr'>9</td><td>integer</td><td>nb_enfants</td><td>Nombre d'enfants de moins de 15 ans dans le ménage</td><td>yes</td><td></td></tr><tr><td class='xr'>10</td><td>integer</td><td>nb_scolarises</td><td>Combien de ces enfants vont à l'école ?</td><td></td><td>&#36;{nb_enfants} &gt; 0</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

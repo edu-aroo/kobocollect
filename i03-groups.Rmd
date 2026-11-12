@@ -1,0 +1,174 @@
+---
+title: "[I3 · Groups of questions (group)]{.en}[I3 · Les groupes de questions (group)]{.fr}"
+pagetitle: "KoboToolbox · I3"
+subtitle: "~2 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fh <- form_household()
+g  <- read_export("data/exports/i03_menages_groupes_xml.xlsx")[[1]]
+ng <- read_export("data/exports/i03_menages_sans_groupes_xml.xlsx")[[1]]
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- organise a questionnaire in sections with `begin_group` / `end_group`;
+- show several questions on one screen with the `field-list` appearance;
+- hide a whole section with one `relevant` on the group;
+- nest groups, and read group names in the export headers (`group/question`).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- organiser un questionnaire en sections avec `begin_group` / `end_group` ;
+- afficher plusieurs questions sur un même écran avec l'apparence `field-list` ;
+- masquer une section entière avec un seul `relevant` sur le groupe ;
+- imbriquer des groupes, et lire les noms de groupes dans les en-têtes de l'export (`groupe/question`).
+:::
+:::
+
+## [Sections of a questionnaire]{.en}[Les sections d'un questionnaire]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The household survey of the cooperative now has about thirty questions in four parts: **identification** of the interview, the **household** (with its members, Session I5), **fishing**, and **opinions**. Enumerators lose their way in a long list of questions; the analyst wants to know which part each column comes from. You organise the form in **groups**: `r dl("forms/i05_menage_peche.xlsx", "i05_menage_peche.xlsx")` (the full form of this level: you will meet its `rank` and `repeat` in Sessions I4 and I5).
+:::
+::: fr
+**Contexte simulé.** L'enquête ménages de la coopérative compte maintenant une trentaine de questions en quatre parties : **identification** de l'entretien, le **ménage** (avec ses membres, séance I5), la **pêche** et les **avis**. Les enquêteurs se perdent dans une longue liste de questions ; l'analyste veut savoir de quelle partie vient chaque colonne. Vous organisez le formulaire en **groupes** : `r dl("forms/i05_menage_peche.xlsx", "i05_menage_peche.xlsx")` (le formulaire complet de ce niveau : vous y verrez le `rank` et le `repeat` aux séances I4 et I5).
+:::
+:::
+
+## [begin_group and end_group]{.en}[begin_group et end_group]{.fr} {#group}
+
+::: en
+A group starts with a row **`begin_group`** (with a `name` and a `label`: the title of the section) and ends with a row **`end_group`** (no name needed). Everything between the two belongs to the group.
+:::
+::: fr
+Un groupe commence par une ligne **`begin_group`** (avec un `name` et un `label` : le titre de la section) et se termine par une ligne **`end_group`** (pas besoin de name). Tout ce qui est entre les deux appartient au groupe.
+:::
+
+`r xls(fh$survey, rows = c(2:13, 23:35), cols = c("type", "name", "label", "relevant", "appearance"), hl = c(5, 9, 10, 25, 26, 33))`
+
+::: en
+- Rows 5–9: the group `identification`, title *Identification*. Its `appearance` is **`field-list`**: its three questions are shown **on the same screen** in KoboCollect (and on the same page in the web form with the `pages` style). Without it, KoboCollect shows one question per screen, with the group title on top.
+- Row 10: the group `menage` begins; it ends further down (row 25, after the repeat of members).
+- Rows 26–33: the group `peche`. Three of its questions carry the same `relevant` (`${pratique_peche} = 'oui'`).
+- Every `begin_group` needs its `end_group`. A missing `end_group` is a common upload error (*"Unmatched 'begin_group'. No matching 'end_group' was found for the name '…'"*).
+:::
+::: fr
+- Lignes 5 à 9 : le groupe `identification`, titre *Identification*. Son `appearance` est **`field-list`** : ses trois questions s'affichent **sur le même écran** dans KoboCollect (et sur la même page du formulaire web avec le style `pages`). Sans cela, KoboCollect montre une question par écran, avec le titre du groupe en haut.
+- Ligne 10 : le groupe `menage` commence ; il se termine plus bas (ligne 25, après la répétition des membres).
+- Lignes 26 à 33 : le groupe `peche`. Trois de ses questions portent le même `relevant` (`${pratique_peche} = 'oui'`).
+- Chaque `begin_group` doit avoir son `end_group`. Un `end_group` manquant est une erreur d'import fréquente (*« Unmatched 'begin_group'. No matching 'end_group' was found for the name '…' »*).
+:::
+
+```{r, echo=FALSE}
+xf(c("`begin_group` / `end_group`", "start / end of a section", "début / fin d'une section", "`begin group` / `end group` (with a space) also work", "`begin group` / `end group` (avec une espace) fonctionnent aussi"),
+   c("`appearance` = `field-list`", "all the questions of the group on one screen", "toutes les questions du groupe sur un écran", "only for short groups without repeats", "seulement pour des groupes courts sans répétition"),
+   c("`relevant` on `begin_group`", "shows or hides the whole group", "affiche ou masque tout le groupe", "a condition", "une condition"),
+   c("`style` = `pages` (settings)", "web form: one page per group / question", "formulaire web : une page par groupe / question", "`pages`, `theme-grid`", "`pages`, `theme-grid`"))
+```
+
+## [A relevant for the whole section]{.en}[Un relevant pour toute la section]{.fr} {#relevant}
+
+::: en
+Instead of repeating `${pratique_peche} = 'oui'` on each question, put the question *pratique_peche* **before** the group, and the condition **once**, on the `begin_group` row. The group, its title and all its questions are then shown or hidden together. Fewer conditions = fewer mistakes when you add a question to the section later.
+:::
+::: fr
+Au lieu de répéter `${pratique_peche} = 'oui'` sur chaque question, placez la question *pratique_peche* **avant** le groupe, et la condition **une seule fois**, sur la ligne `begin_group`. Le groupe, son titre et toutes ses questions sont alors affichés ou masqués ensemble. Moins de conditions = moins d'erreurs quand vous ajoutez plus tard une question à la section.
+:::
+
+`r xls(data.frame(type = c("select_one oui_non", "begin_group", "select_multiple engin", "integer", "integer", "end_group"), name = c("pratique_peche", "peche", "engins", "jours_semaine", "revenu_peche", ""), label = c("Le ménage pratique-t-il la pêche ?", "La pêche", "Engins utilisés", "Jours de pêche par semaine", "Revenu mensuel de la pêche (Ariary)", ""), relevant = c("", "${pratique_peche} = 'oui'", "", "", "", "")), note = "")`
+
+## [Nested groups]{.en}[Groupes imbriqués]{.fr} {#nested}
+
+::: en
+A group can contain another group (e.g. `peche` › `peche_poulpe`). Close them in the reverse order: the last opened is the first closed. Keep it to two levels: deeper nesting makes the form and the headers hard to read.
+:::
+::: fr
+Un groupe peut en contenir un autre (ex. `peche` › `peche_poulpe`). Fermez-les dans l'ordre inverse : le dernier ouvert est le premier fermé. Limitez-vous à deux niveaux : au-delà, le formulaire et les en-têtes deviennent difficiles à lire.
+:::
+
+## [Groups in the export]{.en}[Les groupes dans l'export]{.fr} {#export}
+
+::: en
+With the export option `r ui("include_groups")`, each header is preceded by the names of its groups, separated by `/`: `identification/village`, `peche/engins`, `peche/engins/ligne`. Without the option: `village`, `engins`, `engins/ligne`. The data are the same; only the headers change. Download both versions of the same survey:
+
+`r dl("exports/i03_menages_groupes_xml.xlsx", "i03_menages_groupes_xml.xlsx")` `r dl("exports/i03_menages_sans_groupes_xml.xlsx", "i03_menages_sans_groupes_xml.xlsx")`
+:::
+::: fr
+Avec l'option d'export `r ui("include_groups")`, chaque en-tête est précédé des noms de ses groupes, séparés par `/` : `identification/village`, `peche/engins`, `peche/engins/ligne`. Sans l'option : `village`, `engins`, `engins/ligne`. Les données sont identiques ; seuls les en-têtes changent. Téléchargez les deux versions de la même enquête :
+
+`r dl("exports/i03_menages_groupes_xml.xlsx", "i03_menages_groupes_xml.xlsx")` `r dl("exports/i03_menages_sans_groupes_xml.xlsx", "i03_menages_sans_groupes_xml.xlsx")`
+:::
+
+`r xls(head(g, 3), cols = names(g)[4:12], sheet = names(read_export("data/exports/i03_menages_groupes_xml.xlsx"))[1])`
+
+::: en
+**Which one to choose?** With groups, you see where each question comes from and you can select a whole section in R (`starts_with("peche/")`, Level 3). Without groups, headers are shorter. Choose one and **keep it for the whole project**: your scripts depend on the headers.
+
+KoboToolbox accepts the same `name` in two different groups (e.g. `age` in `menage` and in `peche`). Avoid it: without group headers, the export would have two columns `age`. Keep every `name` unique in the whole form.
+:::
+::: fr
+**Lequel choisir ?** Avec les groupes, vous voyez d'où vient chaque question et vous pouvez sélectionner une section entière dans R (`starts_with("peche/")`, niveau 3). Sans les groupes, les en-têtes sont plus courts. Choisissez-en un et **gardez-le pour tout le projet** : vos scripts dépendent des en-têtes.
+
+KoboToolbox accepte le même `name` dans deux groupes différents (ex. `age` dans `menage` et dans `peche`). Évitez-le : sans les groupes dans les en-têtes, l'export aurait deux colonnes `age`. Gardez chaque `name` unique dans tout le formulaire.
+:::
+
+```{r answers, include=FALSE}
+s <- fh$survey
+a1 <- sum(s$type == "begin_group")
+a2 <- sum(grepl("^peche/", names(g)))
+a3 <- names(g)[grepl("revenu_total$", names(g))]
+a4 <- sum(g$`peche/pratique_peche` == "non")
+a5 <- sum(grepl("^identification/", names(g)))
+a6 <- ncol(g) - ncol(ng)
+```
+
+::: {.application}
+::: en
+### Application work I3
+
+1. Open `i05_menage_peche.xlsx`. How many groups (`begin_group`) does it have? Which one has the `field-list` appearance?
+2. Rewrite the `peche` group with **one** `relevant` on the group (as above), upload it, test with a household that fishes and one that does not.
+3. In `i03_menages_groupes_xml.xlsx`: how many headers start with `peche/`? What is the full header of the total income? How many households do not fish? How many headers start with `identification/`?
+4. Compare with `i03_menages_sans_groupes_xml.xlsx`: difference in number of columns?
+:::
+::: fr
+### Travail d'application I3
+
+1. Ouvrez `i05_menage_peche.xlsx`. Combien de groupes (`begin_group`) contient-il ? Lequel a l'apparence `field-list` ?
+2. Réécrivez le groupe `peche` avec **un seul** `relevant` sur le groupe (comme ci-dessus), importez-le, testez avec un ménage qui pêche et un qui ne pêche pas.
+3. Dans `i03_menages_groupes_xml.xlsx` : combien d'en-têtes commencent par `peche/` ? Quel est l'en-tête complet du revenu total ? Combien de ménages ne pêchent pas ? Combien d'en-têtes commencent par `identification/` ?
+4. Comparez avec `i03_menages_sans_groupes_xml.xlsx` : différence du nombre de colonnes ?
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ki3", list(
+  q_num("1. Number of groups in i05_menage_peche.xlsx?", "1. Nombre de groupes dans i05_menage_peche.xlsx ?", a1, tol = 0),
+  q_text("2. Name of the group with the field-list appearance?", "2. Name du groupe avec l'apparence field-list ?", "identification"),
+  q_num("3. Headers starting with peche/?", "3. En-têtes commençant par peche/ ?", a2, tol = 0),
+  q_text("4. Full header of the total income?", "4. En-tête complet du revenu total ?", a3),
+  q_num("5. Households that do not fish?", "5. Ménages qui ne pêchent pas ?", a4, tol = 0),
+  q_num("6. Headers starting with identification/?", "6. En-têtes commençant par identification/ ?", a5, tol = 0),
+  q_num("7. Difference in number of columns between the two exports?", "7. Différence du nombre de colonnes entre les deux exports ?", a6, tol = 0),
+  q_mcq("8. Where do you put the relevant that hides the whole fishing section?", "8. Où mettez-vous le relevant qui masque toute la section pêche ?",
+        c("On the end_group row", "On the begin_group row", "On every question"), c("Sur la ligne end_group", "Sur la ligne begin_group", "Sur chaque question"), correct = 2),
+  q_mcq("9. Message \"Unmatched 'begin_group'\" at upload means:", "9. Le message « Unmatched 'begin_group' » à l'import signifie :",
+        c("a begin_group without its end_group", "a group without label", "two groups with the same label"),
+        c("un begin_group sans son end_group", "un groupe sans libellé", "deux groupes avec le même libellé"), correct = 1),
+  q_mcq("10. Groups g1 then g2 (inside g1) are open. The next row should close:", "10. Les groupes g1 puis g2 (dans g1) sont ouverts. La ligne suivante doit fermer :",
+        c("g1", "g2"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="ki3"}
+::: en
+1 `r a1` · 2 `identification` · 3 `r a2` · 4 `r a3` · 5 `r a4` · 6 `r a5` · 7 `r a6` (none: only the headers change) · 8 `begin_group` · 9 a missing `end_group` · 10 `g2` (last opened, first closed).
+:::
+::: fr
+1 `r a1` · 2 `identification` · 3 `r a2` · 4 `r a3` · 5 `r a4` · 6 `r a5` · 7 `r a6` (aucune : seuls les en-têtes changent) · 8 `begin_group` · 9 un `end_group` manquant · 10 `g2` (dernier ouvert, premier fermé).
+:::
+:::

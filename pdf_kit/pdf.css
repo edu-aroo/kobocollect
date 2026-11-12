@@ -1,0 +1,26 @@
+/* pdf.css — look of the PDF version of the sessions (used by R/make_pdf_kit.R) */
+@page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+body { padding-top: 0 !important; font-size: 11pt; }
+.navbar, #rc-login, .rc-side, .rc-done-btn, .rc-copy { display: none !important; }
+.main-container { max-width: none !important; visibility: visible !important; }   /* no login in the PDF */
+pre, .callout, .svg-fig, table, .figure { break-inside: avoid; }
+h2 { break-after: avoid; }
+/* watermark repeated on every page (position: fixed repeats when printing) */
+.pdf-watermark { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 1; }
+.pdf-footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: right;
+              font-family: Georgia, serif; font-style: italic; font-size: 9pt; color: #6b7b84; }
+/* quizzes are done online: replace them by a short note */
+.quiz { border: 2px dashed #1b7f8c; border-radius: 8px; padding: 10px 14px; }
+.quiz::after { content: attr(data-note); font-weight: 600; color: #0b3d5c; }
+/* hints are printed open */
+.hint { display: block !important; }
+
+/* Bootstrap removes all backgrounds when printing: put back the important ones
+   (a class selector + !important wins over Bootstrap's "* { ... !important }") */
+@media print {
+  pre { background: #f7f9fa !important; border: 1px solid #c9d3d8 !important; border-left: 4px solid #1b7f8c !important; }
+  .callout, .application, .objectives { border: 1px solid #c9d3d8 !important; }
+  .objectives, .objectives h4 { color: #0b3d5c !important; }
+  a[href]:after { content: "" !important; }      /* Bootstrap prints the URL after every link */
+  pre > code.sourceCode > span { text-indent: 0 !important; padding-left: 0 !important; }  /* pandoc print indent */
+}

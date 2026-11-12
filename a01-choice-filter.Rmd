@@ -1,0 +1,179 @@
+---
+title: "[A1 · Filtered choice lists (choice_filter)]{.en}[A1 · Les listes de choix filtrées (choice_filter)]{.fr}"
+pagetitle: "KoboToolbox · A1"
+subtitle: "~2 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fcf <- form_choice_filter()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- show only part of a choice list, depending on a previous answer, with `choice_filter`;
+- add **filter columns** to the `choices` sheet and write the filter expression;
+- filter on a `select_multiple` answer (show only the choices ticked before, or the ones **not** ticked);
+- use several filter columns, and avoid the usual mistakes.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- n'afficher qu'une partie d'une liste de choix, selon une réponse précédente, avec `choice_filter` ;
+- ajouter des **colonnes de filtre** à la feuille `choices` et écrire l'expression de filtre ;
+- filtrer selon une réponse `select_multiple` (n'afficher que les choix cochés avant, ou ceux **non** cochés) ;
+- utiliser plusieurs colonnes de filtre, et éviter les erreurs habituelles.
+:::
+:::
+
+## [Shorter lists, fewer errors]{.en}[Des listes plus courtes, moins d'erreurs]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The fisheries officers of the bay note the **main species observed** on three habitats: coral reef, seagrass meadow and mangrove. A single list of 10 species lets an officer choose "mud crab" on a coral reef — an error that the analysis will not see. You want the list to show **only the species of the habitat chosen**. Later in the form, among the species targeted by the fishers that day, the officer must say which one brings the most money: the list should contain **only the species ticked** just before. Form: `r dl("forms/a01_choice_filter.xlsx", "a01_choice_filter.xlsx")`
+:::
+::: fr
+**Contexte simulé.** Les agents de pêche de la baie notent l'**espèce principale observée** sur trois habitats : récif corallien, herbier marin et mangrove. Une liste unique de 10 espèces permet à un agent de choisir « crabe de mangrove » sur un récif corallien — une erreur que l'analyse ne verra pas. Vous voulez que la liste n'affiche **que les espèces de l'habitat choisi**. Plus loin, parmi les espèces ciblées par les pêcheurs ce jour-là, l'agent doit dire laquelle rapporte le plus : la liste ne doit contenir **que les espèces cochées** juste avant. Formulaire : `r dl("forms/a01_choice_filter.xlsx", "a01_choice_filter.xlsx")`
+:::
+:::
+
+## [Filter column + choice_filter]{.en}[Colonne de filtre + choice_filter]{.fr} {#how}
+
+::: en
+**1. In the `choices` sheet**, add a column (here `habitat`) and write, for each species, the **name** of the habitat it belongs to. The header of this column is free (no spaces); its values are compared with the answer.
+:::
+::: fr
+**1. Dans la feuille `choices`**, ajoutez une colonne (ici `habitat`) et écrivez, pour chaque espèce, le **name** de l'habitat auquel elle appartient. L'en-tête de cette colonne est libre (sans espace) ; ses valeurs sont comparées à la réponse.
+:::
+
+`r xls(fcf$choices, sheet = "choices", hl = 5:14)`
+
+::: en
+**2. In the `survey` sheet**, in the **`choice_filter`** column of the question to filter, write the condition that each choice must meet to be shown. `habitat = ${habitat}` reads: *show the choices whose column `habitat` equals the answer to the question `habitat`*.
+:::
+::: fr
+**2. Dans la feuille `survey`**, dans la colonne **`choice_filter`** de la question à filtrer, écrivez la condition que chaque choix doit remplir pour être affiché. `habitat = ${habitat}` se lit : *afficher les choix dont la colonne `habitat` est égale à la réponse à la question `habitat`*.
+:::
+
+`r xls(fcf$survey, cols = c("type", "name", "label", "required", "choice_filter"))`
+
+::: en
+- On the **left** of `=`: the name of the column of `choices` (no `${}`, no quotes). On the **right**: the answer, `${habitat}`.
+- The expression is evaluated **for each choice**. Inside it, `name` and `label` are the columns of the choice itself: `selected(${especes_ciblees}, name)` = *the name of this choice is among the species ticked*.
+- A choice whose filter cell is **empty** never satisfies `habitat = ${habitat}`: it is never shown. For a choice that must always appear (e.g. *Autre*), see below.
+:::
+::: fr
+- À **gauche** du `=` : le nom de la colonne de `choices` (sans `${}`, sans apostrophes). À **droite** : la réponse, `${habitat}`.
+- L'expression est évaluée **pour chaque choix**. À l'intérieur, `name` et `label` sont les colonnes du choix lui-même : `selected(${especes_ciblees}, name)` = *le name de ce choix est parmi les espèces cochées*.
+- Un choix dont la cellule de filtre est **vide** ne vérifie jamais `habitat = ${habitat}` : il n'est jamais affiché. Pour un choix qui doit toujours apparaître (ex. *Autre*), voir plus bas.
+:::
+
+```{r, echo=FALSE}
+xf(c("`choice_filter`", "condition evaluated for each choice of the list; the choice is shown if true", "condition évaluée pour chaque choix de la liste ; le choix est affiché si elle est vraie", "", ""),
+   c("filter column (choices)", "any extra column of `choices`, used in the expression", "toute colonne supplémentaire de `choices`, utilisée dans l'expression", "names of choices of another list, codes, numbers", "names de choix d'une autre liste, codes, nombres"),
+   c("`col = ${q}`", "parent is a select_one", "le parent est un select_one", "", ""),
+   c("`selected(${q}, col)`", "parent is a select_multiple: the choice's col value is among those ticked", "le parent est un select_multiple : la valeur col du choix est parmi celles cochées", "", ""),
+   c("`selected(${q}, name)`", "show only the choices ticked in q", "n'afficher que les choix cochés dans q", "", ""),
+   c("`not(selected(${q}, name))`", "show only the choices NOT ticked in q", "n'afficher que les choix NON cochés dans q", "", ""),
+   c("`col = ${q} or col = 'tous'`", "a choice with `tous` in col is always shown", "un choix avec `tous` dans col est toujours affiché", "", ""))
+```
+
+## [Useful patterns]{.en}[Modèles utiles]{.fr} {#patterns}
+
+::: en
+| Need | Filter column(s) | `choice_filter` |
+|---|---|---|
+| species of the habitat chosen | `habitat` | `habitat = ${habitat}` |
+| *Autre* always visible | `habitat` = `tous` for *Autre* | `habitat = ${habitat} or habitat = 'tous'` |
+| gears allowed in the zone (a gear allowed in several zones) | one 0/1 column per zone: `zone_a`, `zone_b` | `if(${zone} = 'a', zone_a = 1, zone_b = 1)` |
+| species of the habitat **and** of the season | `habitat`, `saison` | `habitat = ${habitat} and (saison = ${saison} or saison = 'toute')` |
+| "the most profitable among those ticked" | none (uses `name`) | `selected(${especes_ciblees}, name)` |
+| "the 2nd most important, different from the 1st" | none | `name != ${probleme_1}` |
+| hide a retired choice for new forms | `actif` (`oui`/`non`) | `actif = 'oui'` |
+:::
+::: fr
+| Besoin | Colonne(s) de filtre | `choice_filter` |
+|---|---|---|
+| espèces de l'habitat choisi | `habitat` | `habitat = ${habitat}` |
+| *Autre* toujours visible | `habitat` = `tous` pour *Autre* | `habitat = ${habitat} or habitat = 'tous'` |
+| engins autorisés dans la zone (un engin autorisé dans plusieurs zones) | une colonne 0/1 par zone : `zone_a`, `zone_b` | `if(${zone} = 'a', zone_a = 1, zone_b = 1)` |
+| espèces de l'habitat **et** de la saison | `habitat`, `saison` | `habitat = ${habitat} and (saison = ${saison} or saison = 'toute')` |
+| « la plus rentable parmi celles cochées » | aucune (utilise `name`) | `selected(${especes_ciblees}, name)` |
+| « le 2e plus important, différent du 1er » | aucune | `name != ${probleme_1}` |
+| masquer un choix retiré pour les nouvelles fiches | `actif` (`oui`/`non`) | `actif = 'oui'` |
+:::
+
+::: {.callout .warning}
+::: en
+**Common mistakes.** Values of the filter column that do not match the `name` of the parent choices exactly (`Recif` vs `recif`, a space at the end of the cell); writing the **label** of the habitat in the filter column; `${habitat} = habitat` works too, but `'habitat' = ${habitat}` (quotes) compares a fixed text and shows nothing; a filter on a question placed before its parent. **The Formbuilder does not edit `choice_filter`**: write it in the XLSForm and upload with `r ui("replace_form")`. If you then open the form in the Formbuilder and save, check that the filter is still there.
+
+**Data are not filtered.** The filter only changes what is **shown**. All the choices exist in the export (the 0/1 columns of a `select_multiple` include every choice of the list, even those never shown).
+:::
+::: fr
+**Erreurs fréquentes.** Valeurs de la colonne de filtre qui ne correspondent pas exactement au `name` des choix parents (`Recif` au lieu de `recif`, une espace en fin de cellule) ; écrire le **libellé** de l'habitat dans la colonne de filtre ; `${habitat} = habitat` fonctionne aussi, mais `'habitat' = ${habitat}` (apostrophes) compare un texte fixe et n'affiche rien ; un filtre sur une question placée avant son parent. **Le Formbuilder ne modifie pas `choice_filter`** : écrivez-le dans le XLSForm et importez avec `r ui("replace_form")`. Si vous ouvrez ensuite le formulaire dans le Formbuilder et l'enregistrez, vérifiez que le filtre est toujours là.
+
+**Les données ne sont pas filtrées.** Le filtre ne change que ce qui est **affiché**. Tous les choix existent dans l'export (les colonnes 0/1 d'un `select_multiple` incluent chaque choix de la liste, même ceux jamais affichés).
+:::
+:::
+
+```{r answers, include=FALSE}
+ch <- fcf$choices[fcf$choices$list_name == "espece_h", ]
+f1 <- sum(ch$habitat == "recif"); f2 <- sum(ch$habitat == "mangrove")
+f3 <- sum(ch$habitat == "herbier")
+```
+
+::: {.application}
+::: en
+### Application work A1
+
+1. Upload `a01_choice_filter.xlsx` and test: how many species are offered for each habitat?
+2. In the second part, tick *Poulpe*, *Seiche* and *Huître*: how many choices does the last question show?
+3. Add a choice `autre` (*Autre espèce*) that is shown **for every habitat**, and a `text` question *Précisez* shown only when `autre` is chosen.
+4. Add a question `espece_secondaire` (*Deuxième espèce observée*), same list, filtered on the habitat **and** different from the first species.
+5. Answer the quiz.
+:::
+::: fr
+### Travail d'application A1
+
+1. Importez `a01_choice_filter.xlsx` et testez : combien d'espèces sont proposées pour chaque habitat ?
+2. Dans la seconde partie, cochez *Poulpe*, *Seiche* et *Huître* : combien de choix la dernière question affiche-t-elle ?
+3. Ajoutez un choix `autre` (*Autre espèce*) affiché **pour tous les habitats**, et une question `text` *Précisez* affichée seulement quand `autre` est choisi.
+4. Ajoutez une question `espece_secondaire` (*Deuxième espèce observée*), même liste, filtrée sur l'habitat **et** différente de la première espèce.
+5. Répondez au quiz.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ka1", list(
+  q_num("1. Species offered for the coral reef?", "1. Espèces proposées pour le récif corallien ?", f1, tol = 0),
+  q_num("2. Species offered for the mangrove?", "2. Espèces proposées pour la mangrove ?", f2, tol = 0),
+  q_num("3. Species offered for the seagrass meadow?", "3. Espèces proposées pour l'herbier ?", f3, tol = 0),
+  q_num("4. Choices of the last question after ticking Poulpe, Seiche, Huître?", "4. Choix de la dernière question après avoir coché Poulpe, Seiche, Huître ?", 3, tol = 0),
+  q_mcq("5. choice_filter for 'Autre' always visible:", "5. choice_filter pour « Autre » toujours visible :",
+        c("habitat = ${habitat} or habitat = 'tous'", "habitat = ${habitat} and habitat = 'tous'", "habitat = 'tous'"), correct = 1),
+  q_mcq("6. choice_filter of espece_secondaire:", "6. choice_filter de espece_secondaire :",
+        c("habitat = ${habitat} and name != ${espece}", "habitat = ${habitat} or name != ${espece}", "name = ${espece}"), correct = 1),
+  q_mcq("7. Show only the gears NOT ticked in ${engins}:", "7. N'afficher que les engins NON cochés dans ${engins} :",
+        c("not(selected(${engins}, name))", "selected(${engins}, name)", "name != ${engins}"), correct = 1),
+  q_mcq("8. The filter column contains 'Recif' while the habitat name is 'recif':", "8. La colonne de filtre contient « Recif » alors que le name de l'habitat est « recif » :",
+        c("it works (case is ignored)", "no species is shown for the reef", "the upload fails"),
+        c("cela fonctionne (la casse est ignorée)", "aucune espèce n'est affichée pour le récif", "l'import échoue"), correct = 2),
+  q_mcq("9. Where do you write a choice_filter?", "9. Où écrit-on un choice_filter ?",
+        c("In the Formbuilder, Skip logic", "In the XLSForm, choice_filter column of the survey sheet", "In the settings sheet"),
+        c("Dans le Formbuilder, Logique de saut", "Dans le XLSForm, colonne choice_filter de la feuille survey", "Dans la feuille settings"), correct = 2),
+  q_mcq("10. In the XML export of a select_multiple filtered list, the 0/1 columns are created for:", "10. Dans l'export XML d'une liste select_multiple filtrée, les colonnes 0/1 sont créées pour :",
+        c("the choices shown only", "every choice of the list"), c("les choix affichés seulement", "chaque choix de la liste"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="ka1"}
+::: en
+1 `r f1` · 2 `r f2` · 3 `r f3` · 4 3 · 5 `or habitat = 'tous'` · 6 `and name != ${espece}` · 7 `not(selected(…, name))` · 8 nothing shown for the reef (values are compared exactly) · 9 XLSForm · 10 every choice. Rows to add:
+:::
+::: fr
+1 `r f1` · 2 `r f2` · 3 `r f3` · 4 3 · 5 `or habitat = 'tous'` · 6 `and name != ${espece}` · 7 `not(selected(…, name))` · 8 rien n'est affiché pour le récif (les valeurs sont comparées exactement) · 9 XLSForm · 10 chaque choix. Lignes à ajouter :
+:::
+
+`r xls(data.frame(type = c("select_one espece_h", "text", "select_one espece_h"), name = c("espece", "espece_autre", "espece_secondaire"), label = c("Espèce principale observée", "Précisez", "Deuxième espèce observée"), relevant = c("", "${espece} = 'autre'", ""), choice_filter = c("habitat = ${habitat} or habitat = 'tous'", "", "(habitat = ${habitat} or habitat = 'tous') and name != ${espece}")))`
+`r xls(data.frame(list_name = "espece_h", name = "autre", label = "Autre espèce", habitat = "tous"), sheet = "choices")`
+:::

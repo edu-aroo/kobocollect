@@ -1,0 +1,115 @@
+/* ============================================================================
+   slides.css — look of the slides (used with slides-engine.html)
+   Same colours as the website. Change :root to re-brand.
+   No web fonts: the slides must work offline (projector, no internet).
+   ============================================================================ */
+:root { --ocean: #0b3d5c; --lagoon: #1b7f8c; --seagrass: #4a7d3a; --coral: #d9694a;
+        --sand: #f6f1e7; --ink: #1f2a33; --muted: #5d6b75; --k: 1; }
+
+/* slides are in French: hide the English labels of the bilingual SVG figures */
+.en { display: none !important; }
+
+html, body { margin: 0; height: 100%; background: #0f1d26; overflow: hidden; }
+body.deck { font-family: "Source Sans 3", "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); }
+
+/* ---- one slide = a 1280 x 720 box, scaled with --k ------------------------- */
+.slide { display: none; position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px;
+         transform: translate(-50%, -50%) scale(var(--k)); background: #fff;
+         box-shadow: 0 10px 40px rgba(0,0,0,.4); overflow: hidden; }
+.slide.current { display: block; }
+.slide-inner { box-sizing: border-box; height: 100%; padding: 46px 70px 56px; font-size: 100%; overflow: hidden; }
+.slide::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
+                 background: linear-gradient(90deg, var(--seagrass), var(--lagoon), var(--coral)); }
+
+/* typography inside slides */
+.slide-inner { font-size: 27px; line-height: 1.4; }
+.slide h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; color: var(--ocean);
+            font-size: 1.65em; font-weight: 600; margin: 0 0 .45em; padding-bottom: .2em; border-bottom: 2px solid #e3e9ec; }
+.slide h3 { color: var(--lagoon); font-size: 1.1em; margin: .4em 0 .2em; }
+.slide p { margin: .35em 0; }
+.slide ul, .slide ol { margin: .3em 0; padding-left: 1.3em; }
+.slide li { margin: .22em 0; }
+.slide a { color: var(--lagoon); }
+.slide strong { color: var(--ocean); }
+
+/* title slide */
+.slide.title-slide { background: linear-gradient(135deg, #0b3d5c 0%, #1b7f8c 70%, #4a7d3a 100%); }
+.slide.title-slide .slide-inner { display: flex; flex-direction: column; justify-content: center; padding: 80px 100px; }
+.slide.title-slide h1 { font-family: "Source Serif 4", Georgia, serif; color: #fff; font-size: 64px; margin: 0 0 20px; line-height: 1.1; }
+.slide.title-slide .subtitle { color: #d8eef1; font-size: 30px; font-weight: 400; margin: 0 0 40px; }
+.slide.title-slide .author { color: #fff; font-family: Georgia, serif; font-style: italic; font-size: 26px; font-weight: 400; margin: 0; }
+
+/* section divider: ## Title {.segue} */
+.slide.segue { background: var(--ocean); }
+.slide.segue .slide-inner { display: flex; align-items: center; }
+.slide.segue h2 { color: #fff; border: 0; font-size: 2.3em; }
+
+/* code */
+pre, code { font-family: "JetBrains Mono", Consolas, "Courier New", monospace; }
+.slide pre { font-size: .66em; line-height: 1.35; background: #f7f9fa; border: 1px solid #dde3e6;
+             border-left: 5px solid var(--lagoon); border-radius: 6px; padding: 8px 14px; margin: .35em 0; white-space: pre-wrap; }
+.slide pre:not(.r) { border-left-color: #b9c4ca; background: #fbfcfc; }
+.slide :not(pre) > code { background: #eef4f5; color: #0d4f63; padding: 0 5px; border-radius: 4px; font-size: .9em; }
+.slide img { max-width: 100%; max-height: 420px; display: block; margin: 6px auto; }
+.slide .svg-fig { margin: 0 auto; text-align: center; }
+.slide .svg-fig svg { max-height: 540px; width: auto; max-width: 100%; }
+
+/* tables */
+.slide table { border-collapse: collapse; margin: .4em 0; font-size: .8em; }
+.slide th { background: var(--ocean); color: #fff; padding: 6px 12px; text-align: left; }
+.slide td { padding: 5px 12px; border-bottom: 1px solid #dde3e6; }
+
+/* boxes */
+.box { border-radius: 10px; padding: 8px 18px; margin: 12px 0; background: var(--sand); font-size: .92em; }
+.box.tip  { background: #eef5ea; border-left: 6px solid var(--seagrass); }
+.box.warn { background: #fdf0eb; border-left: 6px solid var(--coral); }
+.box.eco  { background: #e9f4f6; border-left: 6px solid var(--lagoon); }
+
+/* two columns: ::: cols  ::: {.c .base} ... ::: ::: {.c .pkg} ... ::: :::  */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cols > .c > p:first-child { margin: 0; font-weight: 700; font-size: .7em; letter-spacing: .06em; text-transform: uppercase; }
+.cols > .base > p:first-child { color: #8a6a32; }
+.cols > .pkg > p:first-child { color: var(--lagoon); }
+.cols img { max-height: 330px; }
+
+/* speaker notes: hidden; press N to show them at the bottom of the slide */
+.notes { display: none; }
+body.show-notes .notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 40%; overflow: auto;
+                          background: #fff7e6; border-top: 3px solid #e3b04b; padding: 10px 70px; font-size: 20px; color: #5a4a20; }
+
+/* progress bar, counter and signature */
+#deck-bar { --p: 0%; position: fixed; left: 0; right: 0; bottom: 0; height: 22px; color: #9fb3bd; font-size: 13px;
+            text-align: right; padding-right: 12px; line-height: 22px;
+            background: linear-gradient(90deg, var(--lagoon) var(--p), transparent var(--p)) no-repeat bottom / 100% 3px; }
+#deck-sign { position: fixed; left: 14px; bottom: 3px; color: #9fb3bd; font-family: Georgia, serif; font-style: italic; font-size: 13px; }
+
+/* overview mode (O): all slides as thumbnails */
+body.overview { overflow: auto; }
+body.overview #stage { display: grid; grid-template-columns: repeat(auto-fill, 330px); gap: 16px; padding: 16px; }
+body.overview .slide { display: block; position: relative; left: auto; top: auto; transform: scale(.25);
+                       transform-origin: top left; width: 1280px; height: 720px; margin: 0 -960px -540px 0; cursor: pointer; }
+body.overview .slide.current { outline: 12px solid var(--coral); }
+
+/* printing (Ctrl + P → PDF): one slide per page */
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body { overflow: visible; background: #fff; }
+  .slide { display: block !important; position: relative; left: 0; top: 0; transform: none; box-shadow: none; page-break-after: always; }
+  #deck-bar, #deck-sign { display: none; }
+}
+.slide pre code { white-space: pre-wrap; }
+
+/* ---- KoboToolbox course: XLSForm tables and interface labels in the slides ---- */
+.xls-wrap { margin: .4em 0; overflow-x: auto; }
+.xls { border-collapse: collapse; font-family: Consolas, "Courier New", monospace; font-size: .62em; background: #fff; }
+.xls td, .xls th { border: 1px solid #d0d7de; padding: 2px 6px; vertical-align: top; }
+.xls th.xc, .xls td.xr { background: #f2f4f5; color: #6b7780; text-align: center; }
+.xls td.xh { background: #ddebf7; font-weight: 700; color: #0b3d5c; }
+.xls tr.xhl td:not(.xr) { background: #fff4cc; }
+.xls-tab span { display: inline-block; border: 1px solid #d0d7de; border-top: 2px solid #217346; padding: 0 10px; color: #217346; font-weight: 700; font-size: .6em; }
+.xnote { font-size: .6em; color: #5d6b75; }
+.ui { font-weight: 700; color: #0b3d5c; background: #eef3f6; border-radius: 4px; padding: 0 4px; }
+.ui-en { font-weight: 400; color: #5d6b75; font-size: .85em; }
+kbd { background: #f7f7f7; border: 1px solid #ccc; border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; font-size: .85em; }
+.svg-fig svg { max-width: 100%; height: auto; }
+.svg-fig .en { display: none; }

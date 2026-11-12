@@ -1,0 +1,180 @@
+---
+title: "Collecte de données avec KoboToolbox"
+subtitle: "Niveau Débutant · Diaporama 1 · Séances 0 à 3 — KoboToolbox, Formbuilder, XLSForm, questionnaire multilingue"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null              # no Bootstrap: the look comes from slides.css
+    highlight: tango
+    mathjax: null            # no internet needed
+    self_contained: true     # ONE file with everything inside (works offline)
+    css: slides.css
+    includes:
+      in_header: slides-engine.html   # turns each "## Title" into a slide
+---
+
+<!-- "## Titre" = one slide · "## Titre {.segue}" = section divider slide
+     <div class="notes"> = speaker notes (press N during the presentation)
+     Keys: arrows / space = navigate · F = full screen · O = overview -->
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))   # run code from the project root
+```
+
+```{r, include=FALSE}
+source("slides/_setup.R")
+f  <- form_landing()
+fm <- form_landing(multilingual = TRUE)
+```
+
+## Programme du niveau Débutant
+
+| Diaporama | Séances | Durée |
+|---|---|---|
+| **1** | 0 KoboToolbox et compte · 1 Formbuilder · 2 XLSForm · 3 Multilingue | ~1 h 30 |
+| **2** | 4 Importer, déployer, collecter · 5 Télécharger · 6 Exercices · 7 Projet final | ~1 h 30 |
+
+<div class="box tip">
+Le cours en ligne (avec quiz et fichiers d'exercice) reprend tout en détail : ces diapositives en sont la version présentée.
+</div>
+
+<div class="notes">
+Demander qui a déjà rempli un formulaire sur téléphone, qui a déjà utilisé Kobo ou ODK. Vérifier que chacun a un compte (séance 0) avant la séance 1.
+</div>
+
+## Séance 0 — KoboToolbox : le découvrir et créer son compte {.segue}
+
+## Pourquoi collecter sur téléphone ?
+
+| Problème du papier | Ce que fait le formulaire |
+|---|---|
+| villages écrits de six façons | l'enquêteur **choisit** dans une liste |
+| date manquante | question **obligatoire** |
+| « 350 kg » au lieu de « 35,0 » | **contrainte** (niveau Intermédiaire) |
+| quatre jours de saisie | données sur le serveur dès qu'il y a du réseau |
+
+<div class="box warn">
+Un formulaire numérique ne corrige **pas** une question mal conçue.
+</div>
+
+## Les outils
+
+`r fig_svg("kobo-cycle")`
+
+- **KoboToolbox** (site web) : construire, déployer, voir et télécharger les données
+- **Formbuilder** : l'éditeur à la souris · **XLSForm** : le formulaire écrit dans Excel
+- **KoboCollect** (Android, hors ligne) · **Enketo** (formulaire web, tout navigateur)
+
+## Serveur et compte
+
+| Serveur | Site | Adresse KoboCollect |
+|---|---|---|
+| **Global** | `kf.kobotoolbox.org` | `https://kc.kobotoolbox.org` |
+| Union européenne | `eu.kobotoolbox.org` | `https://kc-eu.kobotoolbox.org` |
+
+- un compte n'existe **que sur un serveur**
+- nom d'utilisateur : **minuscules, chiffres, `_`** (`coop_ranobe`) — on ne peut plus le changer
+- **un compte par enquêteur**, projet partagé avec chacun
+
+<div class="notes">
+Faire créer les comptes en direct. Le mail d'activation arrive parfois dans les spams.
+</div>
+
+## Un projet, quatre onglets
+
+| Onglet | On y… |
+|---|---|
+| `r ui("summary_tab", en = FALSE)` | voit le nombre de soumissions, qui a accès |
+| `r ui("form_tab", en = FALSE)` | modifie, prévisualise, déploie, obtient les liens de collecte |
+| `r ui("data_tab", en = FALSE)` | consulte le tableau, la carte, les photos, télécharge |
+| `r ui("settings_tab", en = FALSE)` | partage, archive, supprime |
+
+**Avant d'ouvrir KoboToolbox** : unité d'observation · indicateurs · questions et types · listes de choix · qui collecte, avec quoi.
+
+## Séance 1 — Construire un formulaire sur la plateforme {.segue}
+
+## Formbuilder : ajouter une question
+
+1. `r ui("new", en = FALSE)` → `r ui("build_scratch", en = FALSE)` → détails du projet
+2. **+** → taper le **libellé** → choisir le **type**
+3. ⚙ : **nom de colonne**, **réponse obligatoire**, **indication**
+4. `r ui("preview", en = FALSE)` → `r ui("save", en = FALSE)`
+
+<div class="box tip">
+Toujours : le libellé d'abord, puis le type.
+</div>
+
+## Choisir le bon type
+
+| Information | Type |
+|---|---|
+| nombre de pêcheurs | Nombre (`integer`) |
+| poids, longueur | Décimal (`decimal`) |
+| village, engin | Sélectionner un (`select_one`) |
+| espèces présentes | Sélectionner plusieurs (`select_multiple`) |
+| date, position, photo | `date`, `geopoint`, `image` |
+| consigne sans réponse | Note (`note`) |
+
+<div class="box warn">
+Comptage en texte, village en texte, poids en entier : les trois erreurs classiques.
+</div>
+
+## Libellé et valeur d'un choix
+
+- **libellé** : ce qu'on lit — `Pêche à pied (glanage)`
+- **valeur** (XML value) : ce qui est enregistré — `glanage`
+- courte, minuscules, sans espace ni accent ; **la fixer avant la collecte**
+
+Obligatoire : seulement ce sans quoi la fiche est inutilisable. Une question obligatoire sans réponse possible = des données fausses.
+
+## Séance 2 — Écrire un questionnaire sous Excel (XLSForm) {.segue}
+
+## Trois feuilles
+
+`r fig_svg("xlsform-anatomy")`
+
+## La feuille survey
+
+`r xls(f$survey, rows = 2:14, cols = c("type", "name", "label", "required"))`
+
+<div class="notes">
+Lignes 2-5 : métadonnées sans libellé. Ligne 6 : note. select_one village = liste « village ». required = yes.
+</div>
+
+## La feuille choices
+
+`r xls(f$choices, rows = 2:12, sheet = "choices")`
+
+- `list_name` = le nom écrit après `select_one` / `select_multiple`
+- `name` unique dans sa liste ; **jamais d'espace** (les choix multiples sont séparés par des espaces)
+
+## Règles des noms
+
+- commence par une **lettre** ; lettres, chiffres, `_`
+- minuscules, sans accent, sans `-` (pensez à R et Excel)
+- **unique** ; **jamais renommé** une fois la collecte commencée
+- `settings` : `form_title`, `form_id`, `version` (`2026-01-v1`)
+
+## Séance 3 — Questionnaire multilingue {.segue}
+
+## Une colonne par langue
+
+`r xls(fm$survey, rows = 7:11, cols = c("name", "label::Français (fr)", "label::Malagasy (mg)", "label::English (en)"))`
+
+- `label::Nom (code)`, `hint::Nom (code)` — codes ISO : `fr`, `mg`, `en`
+- les **choix** aussi ; jamais les `name`
+- `settings` → `default_language` = `Français (fr)`
+
+<div class="box warn">
+Une colonne `label` ou `hint` **sans langue** crée une langue « default ».
+</div>
+
+## À vous
+
+- Séance 1 : construire le formulaire test dans le Formbuilder, puis `r ui("download_xls", en = FALSE)`
+- Séance 2 : lire `k02_debarquement.xlsx`, ajouter deux questions
+- Séance 3 : traduire `k03_a_traduire.xlsx` en malgache
+
+<div class="box tip">
+Les quiz se font en ligne : 2 tentatives, 75 % pour ouvrir la séance suivante.
+</div>

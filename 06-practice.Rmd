@@ -1,0 +1,229 @@
+---
+title: "[6 · Practice session]{.en}[6 · Séance d'exercices]{.fr}"
+pagetitle: "KoboToolbox · 6"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fs <- form_practice_seagrass()
+hb <- read_export("data/exports/k06_herbiers_xml.xlsx")[[1]]
+```
+
+::: objectives
+::: en
+#### Four exercises to consolidate the Beginner level
+1. turn a paper form into an XLSForm;
+2. correct an XLSForm that KoboToolbox refuses;
+3. answer questions from an export;
+4. make the right design choices.
+
+The four quizzes count **together**: you need 75 % of their total points to open Session 7.
+:::
+::: fr
+#### Quatre exercices pour consolider le niveau Débutant
+1. transformer une fiche papier en XLSForm ;
+2. corriger un XLSForm refusé par KoboToolbox ;
+3. répondre à des questions à partir d'un export ;
+4. faire les bons choix de conception.
+
+Les quatre quiz comptent **ensemble** : il faut 75 % de leur total de points pour ouvrir la séance 7.
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** A Master's student monitors the **seagrass meadows** of four stations of the Bay of Ranobe. In each station, she places quadrats of 50 × 50 cm along the shore and notes the dominant species, the cover (%), the canopy height and the threats seen. She used paper forms in 2025; in February 2026 she moves to KoboToolbox, with a colleague (accounts `obs_lova` and `obs_haja`).
+
+**Type of data:** ecological monitoring — one submission per quadrat; percentages, measurements, single and multiple choices.
+:::
+::: fr
+**Contexte simulé.** Une étudiante de Master suit les **herbiers marins** de quatre stations de la baie de Ranobe. Dans chaque station, elle pose des quadrats de 50 × 50 cm le long du rivage et note l'espèce dominante, le recouvrement (%), la hauteur de la canopée et les menaces observées. Elle utilisait des fiches papier en 2025 ; en février 2026 elle passe à KoboToolbox, avec un collègue (comptes `obs_lova` et `obs_haja`).
+
+**Type de données :** suivi écologique — une soumission par quadrat ; pourcentages, mesures, choix uniques et multiples.
+:::
+:::
+
+## [Exercise 1 — From paper to XLSForm]{.en}[Exercice 1 — Du papier au XLSForm]{.fr} {#ex1}
+
+::: en
+Here is her paper form. Write the XLSForm (sheets `survey`, `choices`, `settings`) in Excel, upload it to KoboToolbox and preview it.
+
+> **SEAGRASS MONITORING — one form per quadrat**
+> Date: ___ · Station: ☐ Ambolimailaka nord ☐ Ambolimailaka sud ☐ Ifaty lagon ☐ Mangily récif
+> Quadrat number (1 to 10): ___ · Dominant species: ☐ *Thalassia hemprichii* ☐ *Syringodium isoetifolium* ☐ *Cymodocea serrulata* ☐ *Halodule uninervis*
+> Seagrass cover (%): ___ *(visual estimate in the 50 × 50 cm quadrat)* · Canopy height (cm): ___
+> Threats seen (tick all): ☐ None ☐ Trampling ☐ Net marks ☐ Siltation ☐ Algal bloom
+> Observer: ___
+
+Rules: record `start` and `end`; date, station, quadrat, species, cover and observer are **required**; canopy height and threats are not; add the hint written in italics; list names `station`, `espece_h`, `menace`; form title `Suivi herbiers`, form_id `suivi_herbiers`.
+:::
+::: fr
+Voici sa fiche papier. Écrivez le XLSForm (feuilles `survey`, `choices`, `settings`) dans Excel, importez-le dans KoboToolbox et prévisualisez-le.
+
+> **SUIVI HERBIERS — une fiche par quadrat**
+> Date : ___ · Station : ☐ Ambolimailaka nord ☐ Ambolimailaka sud ☐ Ifaty lagon ☐ Mangily récif
+> Numéro du quadrat (1 à 10) : ___ · Espèce dominante : ☐ *Thalassia hemprichii* ☐ *Syringodium isoetifolium* ☐ *Cymodocea serrulata* ☐ *Halodule uninervis*
+> Recouvrement de l'herbier (%) : ___ *(estimation visuelle dans le quadrat de 50 × 50 cm)* · Hauteur de la canopée (cm) : ___
+> Menaces observées (cochez tout) : ☐ Aucune ☐ Piétinement ☐ Traces de filet ☐ Envasement ☐ Prolifération d'algues
+> Observateur : ___
+
+Règles : enregistrez `start` et `end` ; date, station, quadrat, espèce, recouvrement et observateur sont **obligatoires** ; hauteur de canopée et menaces ne le sont pas ; ajoutez l'indication écrite en italique ; noms de listes `station`, `espece_h`, `menace` ; titre `Suivi herbiers`, form_id `suivi_herbiers`.
+:::
+
+```{r ans1, include=FALSE}
+s1 <- fs$survey
+e1 <- nrow(s1); e2 <- sum(s1$required == "yes"); e3 <- nrow(fs$choices)
+```
+
+```{r quiz1, echo=FALSE}
+quiz("kp1", title_en = "Exercise 1", title_fr = "Exercice 1", list(
+  q_num("1. Rows in your survey sheet (without header, start and end included)?", "1. Lignes de votre feuille survey (sans l'en-tête, start et end compris) ?", e1, tol = 0),
+  q_num("2. Required questions?", "2. Questions obligatoires ?", e2, tol = 0),
+  q_num("3. Rows in your choices sheet (without header)?", "3. Lignes de votre feuille choices (sans l'en-tête) ?", e3, tol = 0),
+  q_mcq("4. Type of the cover question?", "4. Type de la question sur le recouvrement ?", c("decimal", "integer", "text", "select_one"), correct = 2),
+  q_mcq("5. Type of the canopy height?", "5. Type de la hauteur de canopée ?", c("integer", "decimal", "text"), correct = 2),
+  q_text("6. Full type of the threats question?", "6. Type complet de la question sur les menaces ?", "select_multiple menace")
+))
+```
+
+::: {.solution data-quiz="kp1"}
+`r xls(fs$survey, cols = c("type", "name", "label", "hint", "required"))`
+`r xls(fs$choices, sheet = "choices")`
+`r xls(fs$settings, sheet = "settings")`
+:::
+
+## [Exercise 2 — Correct the file]{.en}[Exercice 2 — Corriger le fichier]{.fr} {#ex2}
+
+::: en
+Her colleague wrote another version of the form, which KoboToolbox refuses: `r dl("forms/k06_ex2_erreurs.xlsx", "k06_ex2_erreurs.xlsx")`. Upload it, read each message, correct **only** what the message points to, and upload again until it works. Note the messages.
+:::
+::: fr
+Son collègue a écrit une autre version du formulaire, que KoboToolbox refuse : `r dl("forms/k06_ex2_erreurs.xlsx", "k06_ex2_erreurs.xlsx")`. Importez-la, lisez chaque message, corrigez **seulement** ce que le message désigne, et ré-importez jusqu'à ce que cela fonctionne. Notez les messages.
+:::
+
+::: hint
+::: en
+Four errors. One of them is only reported after another one is fixed. One message gives no row number: search the word it quotes with `r key("Ctrl+F")`. The form_id `suivi-herbiers-v1` is **not** an error (hyphens are allowed), even if `_` is a better habit.
+:::
+::: fr
+Quatre erreurs. L'une d'elles n'est signalée qu'après la correction d'une autre. Un message ne donne pas de numéro de ligne : cherchez le mot qu'il cite avec `r key("Ctrl+F")`. Le form_id `suivi-herbiers-v1` n'est **pas** une erreur (les tirets sont acceptés), même si `_` est une meilleure habitude.
+:::
+:::
+
+```{r quiz2, echo=FALSE}
+quiz("kp2", title_en = "Exercise 2", title_fr = "Exercice 2", list(
+  q_num("1. Excel row of the first error reported?", "1. Ligne Excel de la première erreur signalée ?", 5, tol = 0),
+  q_text("2. Which list name is missing from the choices sheet?", "2. Quel nom de liste est absent de la feuille choices ?", "stations"),
+  q_text("3. Corrected name of the question of row 9?", "3. Name corrigé de la question de la ligne 9 ?", "hauteur_canopee"),
+  q_text("4. Which name is used twice?", "4. Quel name est utilisé deux fois ?", "quadrat"),
+  q_text("5. Correct spelling of the misspelled type (without the list name)?", "5. Orthographe correcte du type mal écrit (sans le nom de liste) ?", "select_multiple"),
+  q_num("6. Total number of uploads (the successful one included)?", "6. Nombre total d'imports (celui qui réussit compris) ?", 5, tol = 0)
+))
+```
+
+::: {.solution data-quiz="kp2"}
+::: en
+| Upload | Message | Correction |
+|---|---|---|
+| 1 | `[row : 5] List name not in choices sheet: stations` | `select_one stations` → `select_one station` |
+| 2 | `[row : 9] … the 'name' value is invalid…` | `hauteur canopee` → `hauteur_canopee` |
+| 3 | `[row : 11] … the 'name' value 'quadrat' is invalid… must be unique` | row 11: `quadrat` → `observateur` |
+| 4 | `Unknown question type 'select_multipe menace'.` | `select_multipe` → `select_multiple` (row 10) |
+| 5 | form created ✓ | |
+:::
+::: fr
+| Import | Message | Correction |
+|---|---|---|
+| 1 | `[row : 5] List name not in choices sheet: stations` | `select_one stations` → `select_one station` |
+| 2 | `[row : 9] … the 'name' value is invalid…` | `hauteur canopee` → `hauteur_canopee` |
+| 3 | `[row : 11] … the 'name' value 'quadrat' is invalid… must be unique` | ligne 11 : `quadrat` → `observateur` |
+| 4 | `Unknown question type 'select_multipe menace'.` | `select_multipe` → `select_multiple` (ligne 10) |
+| 5 | formulaire créé ✓ | |
+:::
+:::
+
+## [Exercise 3 — Read the export]{.en}[Exercice 3 — Lire l'export]{.fr} {#ex3}
+
+::: en
+After three weeks, she downloads the data (XLS, XML values and headers): `r dl("exports/k06_herbiers_xml.xlsx", "k06_herbiers_xml.xlsx")`. Answer with Excel.
+:::
+::: fr
+Après trois semaines, elle télécharge les données (XLS, valeurs et en-têtes XML) : `r dl("exports/k06_herbiers_xml.xlsx", "k06_herbiers_xml.xlsx")`. Répondez avec Excel.
+:::
+
+```{r ans3, include=FALSE}
+m_st <- tapply(hb$recouvrement, hb$station, mean)
+x1 <- nrow(hb)
+x2 <- names(which.max(m_st))
+x3 <- round(max(m_st), 1)
+x4 <- sum(hb$`menaces/pietinement`)
+x5 <- round(mean(hb$hauteur_canopee, na.rm = TRUE), 2)
+x6 <- sum(hb$`menaces/aucune`)
+x7 <- round(100 * mean(hb$espece_dominante == "thalassia"), 1)
+x8 <- sum(hb$`_submitted_by` == "obs_haja")
+```
+
+```{r quiz3, echo=FALSE}
+quiz("kp3", title_en = "Exercise 3", title_fr = "Exercice 3", list(
+  q_num("1. Number of quadrats recorded?", "1. Nombre de quadrats enregistrés ?", x1, tol = 0),
+  q_text("2. Code (name) of the station with the highest mean cover?", "2. Code (name) de la station au plus fort recouvrement moyen ?", x2),
+  q_num("3. Its mean cover (%, 1 decimal)?", "3. Son recouvrement moyen (%, 1 décimale) ?", x3, tol = 0.05),
+  q_num("4. Quadrats with trampling?", "4. Quadrats avec piétinement ?", x4, tol = 0),
+  q_num("5. Mean canopy height (cm, 2 decimals, empty cells excluded)?", "5. Hauteur moyenne de canopée (cm, 2 décimales, cellules vides exclues) ?", x5, tol = 0.006),
+  q_num("6. Quadrats with no threat (aucune)?", "6. Quadrats sans menace (aucune) ?", x6, tol = 0),
+  q_num("7. % of quadrats dominated by Thalassia (1 decimal)?", "7. % de quadrats dominés par Thalassia (1 décimale) ?", x7, tol = 0.05),
+  q_num("8. Quadrats sent by obs_haja?", "8. Quadrats envoyés par obs_haja ?", x8, tol = 0)
+))
+```
+
+::: {.solution data-quiz="kp3"}
+::: en
+1 `r x1` · 2 `r x2` · 3 `r x3` % · 4 `r x4` (sum of `menaces/pietinement`) · 5 `r x5` cm (`AVERAGE` ignores empty cells) · 6 `r x6` · 7 `r x7` % · 8 `r x8`. Pivot table: rows `station`, values *Average of recouvrement*.
+:::
+::: fr
+1 `r x1` · 2 `r x2` · 3 `r x3` % · 4 `r x4` (somme de `menaces/pietinement`) · 5 `r x5` cm (`MOYENNE` ignore les cellules vides) · 6 `r x6` · 7 `r x7` % · 8 `r x8`. Tableau croisé : lignes `station`, valeurs *Moyenne de recouvrement*.
+:::
+:::
+
+::: {.callout .tip}
+::: en
+Did you notice? In the form, a quadrat can be marked **"None" and "Trampling" at the same time** — a contradiction the form does not prevent. At the Intermediate level you will forbid it with a `constraint`.
+:::
+::: fr
+L'avez-vous remarqué ? Dans le formulaire, un quadrat peut être marqué **« Aucune » et « Piétinement » à la fois** — une contradiction que le formulaire n'empêche pas. Au niveau Intermédiaire, vous l'interdirez avec une `constraint`.
+:::
+:::
+
+## [Exercise 4 — Design choices]{.en}[Exercice 4 — Choix de conception]{.fr} {#ex4}
+
+```{r quiz4, echo=FALSE}
+quiz("kp4", title_en = "Exercise 4", title_fr = "Exercice 4", list(
+  q_mcq("1. Name of the fisher's village, in a survey of 5 known villages:", "1. Village du pêcheur, dans une enquête sur 5 villages connus :",
+        c("text", "select_one with a list of the 5 villages", "select_multiple"), c("text", "select_one avec une liste des 5 villages", "select_multiple"), correct = 2),
+  q_mcq("2. Price per kg in Ariary (whole numbers):", "2. Prix au kg en Ariary (nombres entiers) :", c("integer", "decimal", "text"), correct = 1),
+  q_mcq("3. Header of the column for the Malagasy hints:", "3. En-tête de la colonne des indications en malgache :",
+        c("hint_mg", "hint::Malagasy (mg)", "hint::mg", "Hint::Malagasy"), correct = 2),
+  q_mcq("4. Export for an analysis in R:", "4. Export pour une analyse dans R :",
+        c("CSV with labels", "XLS with XML values and headers", "KML"), c("CSV avec étiquettes", "XLS avec valeurs et en-têtes XML", "KML"), correct = 2),
+  q_mcq("5. The most reliable column to identify a submission across exports:", "5. La colonne la plus fiable pour identifier une soumission d'un export à l'autre :",
+        c("_index", "_uuid", "today"), correct = 2),
+  q_mcq("6. To know how long each interview lasted:", "6. Pour connaître la durée de chaque entretien :",
+        c("start and end", "_submission_time", "today"), correct = 1),
+  q_mcq("7. A team of 4 enumerators with Android phones:", "7. Une équipe de 4 enquêteurs avec téléphones Android :",
+        c("One shared account", "4 accounts, project shared with View form + Add submissions", "Your account on the 4 phones"),
+        c("Un compte commun", "4 comptes, projet partagé avec Voir le formulaire + Ajouter des soumissions", "Votre compte sur les 4 téléphones"), correct = 2),
+  q_mcq("8. A choice value written `filet maillant` (with a space) in a select_multiple list:", "8. Une valeur de choix écrite `filet maillant` (avec une espace) dans une liste select_multiple :",
+        c("is fine", "is a problem: selected values are separated by spaces", "only changes the colour"),
+        c("ne pose pas de problème", "pose problème : les valeurs choisies sont séparées par des espaces", "change seulement la couleur"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="kp4"}
+::: en
+1 `select_one` · 2 `integer` · 3 `hint::Malagasy (mg)` · 4 XLS, XML values and headers · 5 `_uuid` · 6 `start` and `end` · 7 one account each, shared project · 8 a problem (in fact KoboToolbox refuses spaces in choice names of `select_multiple` lists).
+:::
+::: fr
+1 `select_one` · 2 `integer` · 3 `hint::Malagasy (mg)` · 4 XLS, valeurs et en-têtes XML · 5 `_uuid` · 6 `start` et `end` · 7 un compte chacun, projet partagé · 8 un problème (KoboToolbox refuse d'ailleurs les espaces dans les noms de choix des listes `select_multiple`).
+:::
+:::

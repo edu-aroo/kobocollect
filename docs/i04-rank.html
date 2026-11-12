@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I4</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I4 · Ranking questions
+(rank)</span><span class="fr">I4 · Les questions de classement
+(rank)</span></h1>
+<h3 class="subtitle">~1 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>choose between a ranking, a multiple choice and a rating scale;</li>
+<li>write a <code>rank</code> question in XLSForm, and know its
+equivalent in the Formbuilder (<em>Ranking</em>);</li>
+<li>read a ranking in the export, and summarise it (share ranked first,
+mean rank, points).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>choisir entre un classement, un choix multiple et une échelle de
+notation ;</li>
+<li>écrire une question <code>rank</code> en XLSForm, et connaître son
+équivalent dans le Formbuilder (<em>Classement</em>) ;</li>
+<li>lire un classement dans l’export, et le résumer (part classée en
+premier, rang moyen, points).</li>
+</ul>
+</div>
+</div>
+<div id="when" class="section level2">
+<h2><span class="en">When to ask for a ranking</span><span
+class="fr">Quand demander un classement ?</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The cooperative will prepare its
+2027 action plan. It wants to know which problems matter
+<strong>most</strong> to fishing households: falling catches, low
+prices, bad weather, conflicts between fishers, access to the market. A
+multiple choice would say that “everything is a problem”; the
+cooperative needs an <strong>order of priority</strong>.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> La coopérative va préparer son plan
+d’action 2027. Elle veut savoir quels problèmes comptent le
+<strong>plus</strong> pour les ménages de pêcheurs : baisse des
+captures, prix bas, mauvais temps, conflits entre pêcheurs, accès au
+marché. Un choix multiple dirait que « tout est un problème » ; la
+coopérative a besoin d’un <strong>ordre de priorité</strong>.</p>
+</div>
+</div>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>You want to know…</th>
+<th>Question type</th>
+<th>Answer looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>which items apply</td>
+<td><code>select_multiple</code></td>
+<td><code>prix_bas meteo</code> (no order)</td>
+</tr>
+<tr class="even">
+<td>how strongly one statement is agreed with</td>
+<td><code>select_one</code> with a scale (Likert)</td>
+<td><code>4</code> = <em>Rather agree</em></td>
+</tr>
+<tr class="odd">
+<td><strong>the order of importance</strong> of several items</td>
+<td><strong><code>rank</code></strong></td>
+<td><code>prix_bas baisse_captures meteo conflits acces_marche</code>
+(first = most important)</td>
+</tr>
+</tbody>
+</table>
+<p>Ranking is demanding for the respondent: keep it to <strong>5–7
+items</strong> at most, all of the same kind, and read the items aloud
+before asking for the order.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Vous voulez savoir…</th>
+<th>Type de question</th>
+<th>La réponse ressemble à</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>quels éléments s’appliquent</td>
+<td><code>select_multiple</code></td>
+<td><code>prix_bas meteo</code> (sans ordre)</td>
+</tr>
+<tr class="even">
+<td>à quel point on est d’accord avec une affirmation</td>
+<td><code>select_one</code> avec une échelle (Likert)</td>
+<td><code>4</code> = <em>Plutôt d’accord</em></td>
+</tr>
+<tr class="odd">
+<td><strong>l’ordre d’importance</strong> de plusieurs éléments</td>
+<td><strong><code>rank</code></strong></td>
+<td><code>prix_bas baisse_captures meteo conflits acces_marche</code>
+(premier = plus important)</td>
+</tr>
+</tbody>
+</table>
+<p>Un classement est exigeant pour le répondant : limitez-vous à
+<strong>5 à 7 éléments</strong> au maximum, tous de même nature, et
+lisez les éléments à voix haute avant de demander l’ordre.</p>
+</div>
+</div>
+<div id="xlsform" class="section level2">
+<h2><span class="en">The rank question in XLSForm</span><span
+class="fr">La question rank en XLSForm</span></h2>
+<div class="en">
+<p>Exactly like a select question: <code>rank</code> followed by the
+<strong>list name</strong>, and the items in the <code>choices</code>
+sheet.</p>
+</div>
+<div class="fr">
+<p>Exactement comme une question à choix : <code>rank</code> suivi du
+<strong>nom de liste</strong>, et les éléments dans la feuille
+<code>choices</code>.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td></tr><tr><td class='xr'>2</td><td>rank probleme</td><td>problemes</td><td>Classez les problèmes du plus important (en haut) au moins important</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label</td></tr><tr><td class='xr'>2</td><td>probleme</td><td>baisse_captures</td><td>Baisse des captures</td></tr><tr><td class='xr'>3</td><td>probleme</td><td>prix_bas</td><td>Prix de vente trop bas</td></tr><tr><td class='xr'>4</td><td>probleme</td><td>meteo</td><td>Mauvais temps plus fréquent</td></tr><tr><td class='xr'>5</td><td>probleme</td><td>conflits</td><td>Conflits entre pêcheurs</td></tr><tr><td class='xr'>6</td><td>probleme</td><td>acces_marche</td><td>Accès difficile au marché</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+<div class="en">
+<p>On the screen (KoboCollect and web form), the enumerator
+<strong>drags</strong> the items to put them in order, the most
+important at the top. All the items are ordered. The value stored is the
+list of choice <strong>names</strong>, in the order chosen, separated by
+spaces.</p>
+<p><strong>In the Formbuilder</strong>, the question type <span
+class="ui">Classement <span class="ui-en">(Ranking)</span></span> builds
+a ranking differently: you set the <strong>items to rank</strong> and
+the <strong>number of ranks</strong> (<em>1st choice</em>, <em>2nd
+choice</em>…; it can be fewer than the number of items, e.g. “the 3 most
+important out of 7”); KoboToolbox adds a check that the same item is not
+chosen twice. Each rank is then stored as a separate answer. The two
+versions do not look or export the same way: choose one and test the
+export before collection.</p>
+</div>
+<div class="fr">
+<p>À l’écran (KoboCollect et formulaire web), l’enquêteur <strong>fait
+glisser</strong> les éléments pour les mettre dans l’ordre, le plus
+important en haut. Tous les éléments sont classés. La valeur enregistrée
+est la liste des <strong>names</strong> des choix, dans l’ordre choisi,
+séparés par des espaces.</p>
+<p><strong>Dans le Formbuilder</strong>, le type de question <span
+class="ui">Classement <span class="ui-en">(Ranking)</span></span>
+construit un classement différemment : on règle les <strong>éléments à
+classer</strong> et le <strong>nombre de rangs</strong> (<em>1er
+choix</em>, <em>2e choix</em>… ; il peut être inférieur au nombre
+d’éléments, ex. « les 3 plus importants sur 7 ») ; KoboToolbox ajoute un
+contrôle pour qu’un même élément ne soit pas choisi deux fois. Chaque
+rang est alors enregistré comme une réponse séparée. Les deux versions
+n’ont ni le même aspect ni le même export : choisissez-en une et testez
+l’export avant la collecte.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>“The 3 most important” in XLSForm</strong>: three
+<code>select_one probleme</code> questions (<em>1st</em>, <em>2nd</em>,
+<em>3rd</em>), where the 2nd cannot repeat the 1st — with a
+<code>constraint</code> (<code>. != ${probleme_1}</code>), or better
+with a filtered list (<code>choice_filter</code>, Session A1) that
+removes the items already chosen.</p>
+</div>
+<div class="fr">
+<p><strong>« Les 3 plus importants » en XLSForm</strong> : trois
+questions <code>select_one probleme</code> (<em>1er</em>, <em>2e</em>,
+<em>3e</em>), où la 2e ne peut pas répéter la 1re — avec une
+<code>constraint</code> (<code>. != ${probleme_1}</code>), ou mieux avec
+une liste filtrée (<code>choice_filter</code>, séance A1) qui retire les
+éléments déjà choisis.</p>
+</div>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="en">Summarising a ranking</span><span
+class="fr">Résumer un classement</span></h2>
+<div class="en">
+<p>In the export of the household survey
+(<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a>), the column <code>avis/problemes</code>
+contains the order given by each household:</p>
+</div>
+<div class="fr">
+<p>Dans l’export de l’enquête ménages
+(<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a>), la colonne <code>avis/problemes</code>
+contient l’ordre donné par chaque ménage :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th></tr><tr><td class='xr'>1</td><td class='xh'>identification/village</td><td class='xh'>avis/problemes</td></tr><tr><td class='xr'>2</td><td>ifaty</td><td>prix_bas baisse_captures meteo conflits acces_marche</td></tr><tr><td class='xr'>3</td><td>ifaty</td><td>acces_marche baisse_captures prix_bas meteo conflits</td></tr><tr><td class='xr'>4</td><td>ifaty</td><td>meteo prix_bas acces_marche baisse_captures conflits</td></tr><tr><td class='xr'>5</td><td>andrevo</td><td>prix_bas baisse_captures conflits meteo acces_marche</td></tr><tr><td class='xr'>6</td><td>ifaty</td><td>prix_bas baisse_captures acces_marche meteo conflits</td></tr></table><div class="xls-tab"><span>Enquête ménages pêche</span></div></div>
+<div class="en">
+<p>Three simple summaries:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Ranked first</strong>: the first word of each cell. Excel:
+<code>=LEFT(A2, FIND(" ", A2) - 1)</code>, then a pivot table. The item
+most often ranked first is the top priority for the largest group.</li>
+<li><strong>Mean rank</strong> of an item: its position in each cell (1
+to 5), averaged. A low mean rank = important.</li>
+<li><strong>Points</strong> (Borda count): 5 points for rank 1, 4 for
+rank 2… 1 for rank 5; add the points of each item. It uses the whole
+order, not only the first place.</li>
+</ol>
+<p>These summaries can disagree: an item rarely first but always second
+may get more points than an item first for some and last for others.
+Report the method you used.</p>
+</div>
+<div class="fr">
+<p>Trois résumés simples :</p>
+<ol style="list-style-type: decimal">
+<li><strong>Classé en premier</strong> : le premier mot de chaque
+cellule. Excel : <code>=GAUCHE(A2; TROUVE(" "; A2) - 1)</code>, puis un
+tableau croisé dynamique. L’élément le plus souvent classé premier est
+la priorité du groupe le plus nombreux.</li>
+<li><strong>Rang moyen</strong> d’un élément : sa position dans chaque
+cellule (1 à 5), en moyenne. Un rang moyen faible = important.</li>
+<li><strong>Points</strong> (méthode de Borda) : 5 points pour le rang
+1, 4 pour le rang 2… 1 pour le rang 5 ; additionnez les points de chaque
+élément. Elle utilise tout l’ordre, pas seulement la première
+place.</li>
+</ol>
+<p>Ces résumés peuvent se contredire : un élément rarement premier mais
+toujours deuxième peut obtenir plus de points qu’un élément premier pour
+certains et dernier pour d’autres. Indiquez la méthode utilisée.</p>
+</div>
+<div class="application">
+<div id="application-work-i4" class="section level3 en">
+<h3>Application work I4</h3>
+<ol style="list-style-type: decimal">
+<li>Write a small XLSForm with the <code>rank probleme</code> question
+and its list; upload it and try to rank in the preview (web) — and in
+KoboCollect if you can.</li>
+<li>Add the Formbuilder version: in the same project, open the
+Formbuilder, add a <span class="ui">Classement <span
+class="ui-en">(Ranking)</span></span> question with the same 5 items and
+<strong>3 ranks</strong>. Save, deploy, send two test forms, and compare
+the two columns in an XML export.</li>
+<li>With <code>i05_menages_xml.xlsx</code> (column
+<code>avis/problemes</code>, 80 households), answer the quiz.</li>
+</ol>
+</div>
+<div id="travail-dapplication-i4" class="section level3 fr">
+<h3>Travail d’application I4</h3>
+<ol style="list-style-type: decimal">
+<li>Écrivez un petit XLSForm avec la question <code>rank probleme</code>
+et sa liste ; importez-le et essayez de classer dans l’aperçu (web) — et
+dans KoboCollect si possible.</li>
+<li>Ajoutez la version Formbuilder : dans le même projet, ouvrez le
+Formbuilder, ajoutez une question <span class="ui">Classement <span
+class="ui-en">(Ranking)</span></span> avec les 5 mêmes éléments et
+<strong>3 rangs</strong>. Enregistrez, déployez, envoyez deux fiches de
+test, et comparez les deux colonnes dans un export XML.</li>
+<li>Avec <code>i05_menages_xml.xlsx</code> (colonne
+<code>avis/problemes</code>, 80 ménages), répondez au quiz.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>In Excel, the rank of <code>prix_bas</code> in a cell:
+<code>=(LEN(LEFT(A2, FIND("prix_bas", A2))) - LEN(SUBSTITUTE(LEFT(A2, FIND("prix_bas", A2)), " ", ""))) + 1</code>
+(number of spaces before the word, plus 1). Or use <em>Data → Text to
+columns</em> with the space as separator: column 1 = rank 1, column 2 =
+rank 2…</p>
+</div>
+<div class="fr">
+<p>Dans Excel, le rang de <code>prix_bas</code> dans une cellule :
+<code>=(NBCAR(GAUCHE(A2; TROUVE("prix_bas"; A2))) - NBCAR(SUBSTITUE(GAUCHE(A2; TROUVE("prix_bas"; A2)); " "; ""))) + 1</code>
+(nombre d’espaces avant le mot, plus 1). Ou utilisez <em>Données →
+Convertir</em> avec l’espace comme séparateur : colonne 1 = rang 1,
+colonne 2 = rang 2…</p>
+</div>
+</div>
+<div id="quiz-ki4" class="quiz" data-quiz-id="ki4"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIFByb2JsZW0gbW9zdCBvZnRlbiByYW5rZWQgZmlyc3QgKGNob2ljZSBuYW1lKT8iLCJmciI6IjEuIFByb2Jsw6htZSBsZSBwbHVzIHNvdXZlbnQgY2xhc3PDqSBwcmVtaWVyIChuYW1lIGR1IGNob2l4KSA/IiwiYW5zd2VyIjpbImJhaXNzZV9jYXB0dXJlcyJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIEJ5IGhvdyBtYW55IGhvdXNlaG9sZHM/IiwiZnIiOiIyLiBQYXIgY29tYmllbiBkZSBtw6luYWdlcyA/IiwiYW5zd2VyIjoyNSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gTWVhbiByYW5rIG9mIHByaXhfYmFzICgyIGRlY2ltYWxzKT8iLCJmciI6IjMuIFJhbmcgbW95ZW4gZGUgcHJpeF9iYXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6Mi41MiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBQcm9ibGVtIHdpdGggdGhlIG1vc3QgQm9yZGEgcG9pbnRzICg1IGZvciByYW5rIDEg4oCmIDEgZm9yIHJhbmsgNSk/IiwiZnIiOiI0LiBQcm9ibMOobWUgYXZlYyBsZSBwbHVzIGRlIHBvaW50cyBkZSBCb3JkYSAoNSBwb3VyIGxlIHJhbmcgMSDigKYgMSBwb3VyIGxlIHJhbmcgNSkgPyIsImFuc3dlciI6WyJiYWlzc2VfY2FwdHVyZXMiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBJdHMgbnVtYmVyIG9mIHBvaW50cz8iLCJmciI6IjUuIFNvbiBub21icmUgZGUgcG9pbnRzID8iLCJhbnN3ZXIiOjI4OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gSG91c2Vob2xkcyB0aGF0IHJhbmtlZCBtZXRlbyBmaXJzdD8iLCJmciI6IjYuIE3DqW5hZ2VzIHF1aSBvbnQgY2xhc3PDqSBtZXRlbyBlbiBwcmVtaWVyID8iLCJhbnN3ZXIiOjE4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNy4gUHJvYmxlbSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gcmFuayAodGhlIGxlYXN0IGltcG9ydGFudCk/IiwiZnIiOiI3LiBQcm9ibMOobWUgYXUgcmFuZyBtb3llbiBsZSBwbHVzIMOpbGV2w6kgKGxlIG1vaW5zIGltcG9ydGFudCkgPyIsImFuc3dlciI6WyJjb25mbGl0cyJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIFlvdSB3YW50IHRvIGtub3cgd2hpY2ggb2YgNiBhY3Rpdml0aWVzIGVhY2ggaG91c2Vob2xkIHByYWN0aXNlczoiLCJmciI6IjguIFZvdXMgdm91bGV6IHNhdm9pciBsZXNxdWVsbGVzIGRlIDYgYWN0aXZpdMOpcyBjaGFxdWUgbcOpbmFnZSBwcmF0aXF1ZSA6Iiwib3B0aW9uc19lbiI6WyJyYW5rIiwic2VsZWN0X211bHRpcGxlIiwic2VsZWN0X29uZSJdLCJvcHRpb25zX2ZyIjpbInJhbmsiLCJzZWxlY3RfbXVsdGlwbGUiLCJzZWxlY3Rfb25lIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBJbiBhbiBYTFNGb3JtIHJhbmsgYW5zd2VyIGBtZXRlbyBwcml4X2JhcyBjb25mbGl0cyBhY2Nlc19tYXJjaGUgYmFpc3NlX2NhcHR1cmVzYCwgdGhlIG1vc3QgaW1wb3J0YW50IHByb2JsZW0gaXM6IiwiZnIiOiI5LiBEYW5zIHVuZSByw6lwb25zZSByYW5rIFhMU0Zvcm0gYG1ldGVvIHByaXhfYmFzIGNvbmZsaXRzIGFjY2VzX21hcmNoZSBiYWlzc2VfY2FwdHVyZXNgLCBsZSBwcm9ibMOobWUgbGUgcGx1cyBpbXBvcnRhbnQgZXN0IDoiLCJvcHRpb25zX2VuIjpbIm1ldGVvIiwiYmFpc3NlX2NhcHR1cmVzIiwiaW1wb3NzaWJsZSB0byBrbm93Il0sIm9wdGlvbnNfZnIiOlsibWV0ZW8iLCJiYWlzc2VfY2FwdHVyZXMiLCJpbXBvc3NpYmxlIMOgIHNhdm9pciJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFRvIGFzayBvbmx5IGZvciB0aGUgMyBtb3N0IGltcG9ydGFudCBwcm9ibGVtcyBvdXQgb2YgNywgaW4gdGhlIEZvcm1idWlsZGVyOiIsImZyIjoiMTAuIFBvdXIgZGVtYW5kZXIgc2V1bGVtZW50IGxlcyAzIHByb2Jsw6htZXMgbGVzIHBsdXMgaW1wb3J0YW50cyBzdXIgNywgZGFucyBsZSBGb3JtYnVpbGRlciA6Iiwib3B0aW9uc19lbiI6WyJSYW5raW5nIHdpdGggNyBpdGVtcyBhbmQgMyByYW5rcyIsIlNlbGVjdCBNYW55IHdpdGggYSBtYXhpbXVtIG9mIDMiLCJOb3QgcG9zc2libGUiXSwib3B0aW9uc19mciI6WyJDbGFzc2VtZW50IGF2ZWMgNyDDqWzDqW1lbnRzIGV0IDMgcmFuZ3MiLCJTw6lsZWN0aW9ubmVyIHBsdXNpZXVycyBhdmVjIHVuIG1heGltdW0gZGUgMyIsIkltcG9zc2libGUiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="ki4">
+<div class="en">
+<p>1 baisse_captures · 2 25 · 3 2.52 · 4 baisse_captures · 5 289 points
+· 6 18 · 7 conflits · 8 <code>select_multiple</code> · 9
+<code>meteo</code> (first in the list) · 10 Ranking with 3 ranks.</p>
+<p>In R (Level 3), the same summaries take a few lines:</p>
+</div>
+<div class="fr">
+<p>1 baisse_captures · 2 25 · 3 2.52 · 4 baisse_captures · 5 289 points
+· 6 18 · 7 conflits · 8 <code>select_multiple</code> · 9
+<code>meteo</code> (premier de la liste) · 10 Classement avec 3
+rangs.</p>
+<p>En R (niveau 3), les mêmes résumés tiennent en quelques lignes :</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(readxl); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;i05_menages_xml.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>rangs <span class="ot">&lt;-</span> hh <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>, <span class="at">problemes =</span> <span class="st">`</span><span class="at">avis/problemes</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">separate_rows</span>(problemes, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>) <span class="sc">|&gt;</span>            <span class="co"># one row per item</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rang =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>rangs <span class="sc">|&gt;</span> <span class="fu">group_by</span>(problemes) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">premier =</span> <span class="fu">sum</span>(rang <span class="sc">==</span> <span class="dv">1</span>), <span class="at">rang_moyen =</span> <span class="fu">mean</span>(rang), <span class="at">points =</span> <span class="fu">sum</span>(<span class="dv">6</span> <span class="sc">-</span> rang)) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(points))</span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

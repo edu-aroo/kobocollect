@@ -1,0 +1,229 @@
+---
+title: "[A2 · Cascading questions (region › district › commune)]{.en}[A2 · Les questions en cascade (région › district › commune)]{.fr}"
+pagetitle: "KoboToolbox · A2"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+adm <- admin_units()
+cc  <- cascade_choices(adm)
+fca <- form_cascade()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- build a cascade of lists (region › district › commune) where each list depends on the previous answer;
+- write the `choices` sheet of a cascade from an administrative table, by hand or with R;
+- give unique `name` values when the same place name exists at two levels or in two districts;
+- use the Formbuilder's *cascading select* import, and an **external list** (`select_one_from_file`) for very long lists.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- construire une cascade de listes (région › district › commune) où chaque liste dépend de la réponse précédente ;
+- écrire la feuille `choices` d'une cascade à partir d'un tableau administratif, à la main ou avec R ;
+- donner des `name` uniques quand un même nom de lieu existe à deux niveaux ou dans deux districts ;
+- utiliser l'import *sélection en cascade* du Formbuilder, et une **liste externe** (`select_one_from_file`) pour les très longues listes.
+:::
+:::
+
+## [Location without spelling mistakes]{.en}[Une localisation sans faute d'orthographe]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The reef monitoring network (Session A0) works in three regions. In last year's spreadsheet, the commune of Saint Augustin is written *St Augustin*, *Saint-Augustin*, *Anantsono* and *St Aug.*, and some communes were attached to the wrong district. You want the divers to **choose** the region, then a district **of that region**, then a commune **of that district**. The administrative table: `r dl("forms/a02_regions_districts_communes.csv", "a02_regions_districts_communes.csv")` · the form: `r dl("forms/a02_cascade.xlsx", "a02_cascade.xlsx")`
+:::
+::: fr
+**Contexte simulé.** Le réseau de suivi des récifs (séance A0) travaille dans trois régions. Dans le tableur de l'an dernier, la commune de Saint Augustin est écrite *St Augustin*, *Saint-Augustin*, *Anantsono* et *St Aug.*, et certaines communes étaient rattachées au mauvais district. Vous voulez que les plongeurs **choisissent** la région, puis un district **de cette région**, puis une commune **de ce district**. Le tableau administratif : `r dl("forms/a02_regions_districts_communes.csv", "a02_regions_districts_communes.csv")` · le formulaire : `r dl("forms/a02_cascade.xlsx", "a02_cascade.xlsx")`
+:::
+:::
+
+::: {.callout .warning}
+::: en
+**The administrative list of this course is a partial example** (`r length(unique(adm$region))` regions, `r nrow(unique(adm[c("region", "district")]))` districts, `r nrow(adm)` communes), made to learn the method. For a real survey, use the **official list** (national statistics institute, or the common operational datasets of administrative boundaries published by OCHA on HDX) and check the names with the local authorities: communes are sometimes created, merged or renamed.
+:::
+::: fr
+**La liste administrative de ce cours est un exemple partiel** (`r length(unique(adm$region))` régions, `r nrow(unique(adm[c("region", "district")]))` districts, `r nrow(adm)` communes), fait pour apprendre la méthode. Pour une vraie enquête, utilisez la **liste officielle** (institut national de la statistique, ou les jeux de données opérationnels communs des limites administratives publiés par OCHA sur HDX) et vérifiez les noms avec les autorités locales : des communes sont parfois créées, fusionnées ou renommées.
+:::
+:::
+
+`r fig_svg("cascade", "Each list is filtered by the answer to the previous question.", "Chaque liste est filtrée par la réponse à la question précédente.")`
+
+## [A cascade = filters in a chain]{.en}[Une cascade = des filtres en chaîne]{.fr} {#chain}
+
+::: en
+A cascade is nothing more than Session A1 applied twice: the district list is filtered by the region, the commune list by the district.
+:::
+::: fr
+Une cascade n'est rien d'autre que la séance A1 appliquée deux fois : la liste des districts est filtrée par la région, celle des communes par le district.
+:::
+
+`r xls(fca$survey, cols = c("type", "name", "label", "required", "choice_filter"))`
+
+`r xls(cc, rows = c(2:4, 5:12, 13:20), sheet = "choices", note = "…")`
+
+::: en
+- Three lists: `region`, `district`, `commune`. Each list has a column named after the level above, that contains the **name** of the parent: the districts have a column `region`; the communes have `region` and `district`.
+- The `name` values are **slugs**: lowercase, no accents, `_` instead of spaces (`atsimo_andrefana`, `toliara_ii`).
+- The **commune** names are prefixed with their district (`toliara_ii_belalanda`): the same name can exist twice (the commune *Morombe* in the district *Morombe*; two communes with the same name in two districts). Within a list, every `name` must be unique — otherwise the upload fails (*"Choice names must be unique for each choice list"*), unless you set `allow_choice_duplicates` = `yes` in `settings`, which makes the analysis ambiguous. Unique names are safer.
+:::
+::: fr
+- Trois listes : `region`, `district`, `commune`. Chaque liste a une colonne au nom du niveau supérieur, qui contient le **name** du parent : les districts ont une colonne `region` ; les communes ont `region` et `district`.
+- Les valeurs `name` sont des **identifiants** (*slugs*) : minuscules, sans accents, `_` au lieu des espaces (`atsimo_andrefana`, `toliara_ii`).
+- Les `name` des **communes** sont préfixés par leur district (`toliara_ii_belalanda`) : un même nom peut exister deux fois (la commune *Morombe* dans le district *Morombe* ; deux communes homonymes dans deux districts). Dans une liste, chaque `name` doit être unique — sinon l'import échoue (*« Choice names must be unique for each choice list »*), sauf avec `allow_choice_duplicates` = `yes` dans `settings`, ce qui rend l'analyse ambiguë. Des noms uniques sont plus sûrs.
+:::
+
+::: {.callout .tip}
+::: en
+**The commune list is filtered by `district` only.** Its `region` column is not needed for the filter, but it is useful in the analysis (and for a "commune" question asked directly after the region, without district: `region = ${region}`).
+:::
+::: fr
+**La liste des communes n'est filtrée que par `district`.** Sa colonne `region` n'est pas nécessaire au filtre, mais elle est utile à l'analyse (et pour une question « commune » posée directement après la région, sans district : `region = ${region}`).
+:::
+:::
+
+## [Build the choices sheet from a table]{.en}[Construire la feuille choices à partir d'un tableau]{.fr} {#build}
+
+::: en
+The administrative table has one row per commune:
+:::
+::: fr
+Le tableau administratif a une ligne par commune :
+:::
+
+`r xls(head(adm, 8), sheet = "a02_regions_districts_communes.csv")`
+
+::: en
+**In Excel.** Copy the unique regions (*Data → Remove duplicates*) into the `choices` sheet with `list_name` = `region`; then the unique region–district pairs with `list_name` = `district`; then all the rows with `list_name` = `commune`. Build the names with formulas, e.g. `=LOWER(SUBSTITUTE(B2," ","_"))` (and remove accents with *Find and replace*).
+
+**In R** — reproducible, and re-run in one second when the list changes:
+:::
+::: fr
+**Dans Excel.** Copiez les régions uniques (*Données → Supprimer les doublons*) dans la feuille `choices` avec `list_name` = `region` ; puis les paires région–district uniques avec `list_name` = `district` ; puis toutes les lignes avec `list_name` = `commune`. Construisez les names avec des formules, ex. `=MINUSCULE(SUBSTITUE(B2;" ";"_"))` (et retirez les accents avec *Rechercher et remplacer*).
+
+**Dans R** — reproductible, et relancé en une seconde quand la liste change :
+:::
+
+```{r, eval=FALSE}
+library(dplyr)
+adm <- read.csv("a02_regions_districts_communes.csv", encoding = "UTF-8")
+
+slug <- function(x) {                         # "Saint Augustin" -> "saint_augustin"
+  x <- iconv(x, "UTF-8", "ASCII//TRANSLIT")    # removes accents
+  x <- tolower(gsub("[^A-Za-z0-9]+", "_", x))
+  gsub("^_|_$", "", x)
+}
+
+regions   <- adm |> distinct(region) |>
+  transmute(list_name = "region", name = slug(region), label = region)
+districts <- adm |> distinct(region, district) |>
+  transmute(list_name = "district", name = slug(district), label = district,
+            region = slug(region))
+communes  <- adm |>
+  transmute(list_name = "commune", name = slug(paste(district, commune)), label = commune,
+            region = slug(region), district = slug(district))
+
+choices <- bind_rows(regions, districts, communes)       # missing columns become NA
+choices[is.na(choices)] <- ""
+stopifnot(!any(duplicated(choices[c("list_name", "name")])))   # unique names per list
+writexl::write_xlsx(list(choices = choices), "choices_cascade.xlsx")  # paste into the XLSForm
+```
+
+```{r, echo=FALSE}
+fa(c("`distinct()`", "keeps one row per combination", "garde une ligne par combinaison", "", ""),
+   c("`transmute()`", "creates new columns and keeps only them", "crée de nouvelles colonnes et ne garde qu'elles", "", ""),
+   c("`iconv(x, \"UTF-8\", \"ASCII//TRANSLIT\")`", "replaces accented letters (é → e)", "remplace les lettres accentuées (é → e)", "", ""),
+   c("`bind_rows()`", "stacks tables; missing columns are filled with NA", "empile des tableaux ; les colonnes absentes sont remplies de NA", "", ""))
+```
+
+## [In the Formbuilder]{.en}[Dans le Formbuilder]{.fr} {#formbuilder}
+
+::: en
+The Formbuilder can create a cascade of `select_one` questions from a pasted table: `r ui("cascade")`. Prepare in Excel a table with the columns `list_name`, `name`, `label` and one column per parent level (the same structure as above), paste it, and click *Done*: the Formbuilder creates the questions and the filters. It works only for `select_one`; for anything else (a cascade starting from a `select_multiple`, filters on several columns), use XLSForm.
+:::
+::: fr
+Le Formbuilder peut créer une cascade de questions `select_one` à partir d'un tableau collé : `r ui("cascade")`. Préparez dans Excel un tableau avec les colonnes `list_name`, `name`, `label` et une colonne par niveau parent (la même structure que ci-dessus), collez-le et cliquez sur *Terminé* : le Formbuilder crée les questions et les filtres. Cela ne fonctionne que pour des `select_one` ; pour tout le reste (cascade partant d'un `select_multiple`, filtres sur plusieurs colonnes), utilisez XLSForm.
+:::
+
+## [Very long lists: external file]{.en}[Très longues listes : fichier externe]{.fr} {#external}
+
+::: en
+With thousands of choices (all the fokontany of Madagascar, a list of species), the form becomes slow. Put the list in a **CSV file** instead of the `choices` sheet:
+
+1. CSV with the columns `list_name`, `name`, `label` (+ filter columns), UTF-8;
+2. in `survey`: `select_one_from_file fokontany.csv` (instead of `select_one fokontany`), with the same `choice_filter` as before;
+3. in KoboToolbox: upload the CSV as a **media file** of the project (`r ui("settings_tab")` → *Media*), then redeploy.
+
+Keep the `choices` sheet for short lists: it is easier to check and to translate.
+:::
+::: fr
+Avec des milliers de choix (tous les fokontany de Madagascar, une liste d'espèces), le formulaire devient lent. Mettez la liste dans un **fichier CSV** au lieu de la feuille `choices` :
+
+1. CSV avec les colonnes `list_name`, `name`, `label` (+ colonnes de filtre), en UTF-8 ;
+2. dans `survey` : `select_one_from_file fokontany.csv` (au lieu de `select_one fokontany`), avec le même `choice_filter` qu'avant ;
+3. dans KoboToolbox : importez le CSV comme **fichier média** du projet (`r ui("settings_tab")` → *Média*), puis redéployez.
+
+Gardez la feuille `choices` pour les listes courtes : elle est plus facile à vérifier et à traduire.
+:::
+
+```{r answers, include=FALSE}
+g1 <- sum(cc$list_name == "district" & cc$region == "menabe")
+g2 <- sum(cc$list_name == "commune" & cc$district == "toliara_ii")
+g3 <- nrow(cc)
+g4 <- cc$name[cc$list_name == "commune" & cc$label == "Saint Augustin"]
+g5 <- sum(cc$list_name == "commune" & cc$region == "atsimo_andrefana")
+g6 <- cc$region[cc$list_name == "district" & cc$label == "Mahajanga II"]
+```
+
+::: {.application}
+::: en
+### Application work A2
+
+1. Upload `a02_cascade.xlsx` and test the cascade in the preview.
+2. With the CSV and R (code above) — or Excel — rebuild the `choices` sheet yourself and compare with the file.
+3. Add a fourth level: a `select_one site` filtered by the commune, with three sites of your choice in the commune of Belalanda and two in Soalara Sud.
+4. Answer the quiz.
+:::
+::: fr
+### Travail d'application A2
+
+1. Importez `a02_cascade.xlsx` et testez la cascade dans l'aperçu.
+2. Avec le CSV et R (code ci-dessus) — ou Excel — reconstruisez vous-même la feuille `choices` et comparez avec le fichier.
+3. Ajoutez un quatrième niveau : un `select_one site` filtré par la commune, avec trois sites de votre choix dans la commune de Belalanda et deux à Soalara Sud.
+4. Répondez au quiz.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ka2", list(
+  q_num("1. Districts offered when the region is Menabe?", "1. Districts proposés quand la région est Menabe ?", g1, tol = 0),
+  q_num("2. Communes offered when the district is Toliara II?", "2. Communes proposées quand le district est Toliara II ?", g2, tol = 0),
+  q_num("3. Rows of the choices sheet (without header)?", "3. Lignes de la feuille choices (sans l'en-tête) ?", g3, tol = 0),
+  q_text("4. name of the commune Saint Augustin?", "4. name de la commune Saint Augustin ?", g4),
+  q_num("5. Communes of the region Atsimo-Andrefana?", "5. Communes de la région Atsimo-Andrefana ?", g5, tol = 0),
+  q_text("6. Value of the region column for the district Mahajanga II?", "6. Valeur de la colonne region pour le district Mahajanga II ?", g6),
+  q_mcq("7. choice_filter of the new question site (4th level):", "7. choice_filter de la nouvelle question site (4e niveau) :",
+        c("commune = ${commune}", "district = ${district}", "site = ${commune}"), correct = 1),
+  q_mcq("8. Why prefix the commune names with the district?", "8. Pourquoi préfixer les names des communes par le district ?",
+        c("to make them longer", "so that every name is unique in the list, even for homonyms", "the Formbuilder requires it"),
+        c("pour les rallonger", "pour que chaque name soit unique dans la liste, même pour les homonymes", "le Formbuilder l'exige"), correct = 2),
+  q_mcq("9. 4 000 fokontany in a cascade:", "9. 4 000 fokontany dans une cascade :",
+        c("choices sheet", "select_one_from_file with a CSV uploaded as media", "a text question"),
+        c("feuille choices", "select_one_from_file avec un CSV importé comme média", "une question texte"), correct = 2),
+  q_mcq("10. The Formbuilder's cascading select import works for:", "10. L'import de sélection en cascade du Formbuilder fonctionne pour :",
+        c("select_one questions", "select_multiple questions", "both"), c("des questions select_one", "des questions select_multiple", "les deux"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="ka2"}
+::: en
+1 `r g1` · 2 `r g2` · 3 `r g3` · 4 `r g4` · 5 `r g5` · 6 `r g6` · 7 `commune = ${commune}` · 8 unique names · 9 external CSV · 10 select_one. Rows for question 3 (sites are examples):
+:::
+::: fr
+1 `r g1` · 2 `r g2` · 3 `r g3` · 4 `r g4` · 5 `r g5` · 6 `r g6` · 7 `commune = ${commune}` · 8 des names uniques · 9 CSV externe · 10 select_one. Lignes de la question 3 (sites donnés en exemple) :
+:::
+
+`r xls(data.frame(type = "select_one site", name = "site", label = "Site", required = "yes", choice_filter = "commune = ${commune}"))`
+`r xls(data.frame(list_name = "site", name = c("ankaraiky", "massif_roses", "ambolimailaka_nord", "anakao_recif", "nosy_ve"), label = c("Ankaraiky", "Massif des roses", "Ambolimailaka nord", "Anakao récif", "Nosy Ve"), commune = c(rep("toliara_ii_belalanda", 3), rep("toliara_ii_soalara_sud", 2))), sheet = "choices")`
+:::

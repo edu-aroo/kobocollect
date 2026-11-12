@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 2</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">2 · Write a questionnaire
+in Excel (XLSForm)</span><span class="fr">2 · Écrire un questionnaire
+sous Excel (XLSForm)</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>describe the three sheets of an XLSForm (<code>survey</code>,
+<code>choices</code>, <code>settings</code>) and their columns;</li>
+<li>write questions of every basic type, with <code>required</code>,
+<code>required_message</code> and <code>hint</code>;</li>
+<li>write choice lists and link them to questions through the
+<strong>list name</strong>;</li>
+<li>respect the rules for <code>name</code> values, and add automatic
+metadata (<code>start</code>, <code>end</code>, <code>today</code>,
+<code>deviceid</code>);</li>
+<li>read an XLSForm written by someone else and find what each row
+does.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>décrire les trois feuilles d’un XLSForm (<code>survey</code>,
+<code>choices</code>, <code>settings</code>) et leurs colonnes ;</li>
+<li>écrire des questions de chaque type de base, avec
+<code>required</code>, <code>required_message</code> et
+<code>hint</code> ;</li>
+<li>écrire des listes de choix et les relier aux questions grâce au
+<strong>nom de liste</strong> ;</li>
+<li>respecter les règles des valeurs <code>name</code>, et ajouter les
+métadonnées automatiques (<code>start</code>, <code>end</code>,
+<code>today</code>, <code>deviceid</code>) ;</li>
+<li>lire un XLSForm écrit par quelqu’un d’autre et comprendre ce que
+fait chaque ligne.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Why write the form in Excel?</span><span
+class="fr">Pourquoi écrire le formulaire dans Excel ?</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The one-week test in
+Ambolimailaka went well. The cooperative now wants the <strong>full
+landing form</strong> for its five villages: 11 questions, three choice
+lists, GPS and photo. The coordinator will maintain it for years and
+will copy parts of it into other surveys. You write it as an
+<strong>XLSForm</strong>. Download the official version of the
+cooperative to follow this session:
+<a class="btn-dl" href="data/forms/k02_debarquement.xlsx" download>⇩
+k02_debarquement.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> La semaine de test à Ambolimailaka
+s’est bien passée. La coopérative veut maintenant la <strong>fiche de
+débarquement complète</strong> pour ses cinq villages : 11 questions,
+trois listes de choix, GPS et photo. Le coordinateur la maintiendra
+pendant des années et copiera certaines parties dans d’autres enquêtes.
+Vous l’écrivez en <strong>XLSForm</strong>. Téléchargez la version
+officielle de la coopérative pour suivre cette séance :
+<a class="btn-dl" href="data/forms/k02_debarquement.xlsx" download>⇩
+k02_debarquement.xlsx</a></p>
+</div>
+</div>
+<div class="en">
+<p>An XLSForm is an ordinary Excel file (<code>.xlsx</code>) with a
+<strong>fixed structure</strong>. KoboToolbox reads it and turns it into
+the form (in the ODK “XForm” format) used by KoboCollect and Enketo.
+Advantages: you see the whole questionnaire at once, you can copy,
+paste, sort and search, share the file by e-mail, keep the versions, and
+reuse blocks between surveys.</p>
+</div>
+<div class="fr">
+<p>Un XLSForm est un fichier Excel ordinaire (<code>.xlsx</code>) avec
+une <strong>structure fixe</strong>. KoboToolbox le lit et le transforme
+en formulaire (au format ODK « XForm ») utilisé par KoboCollect et
+Enketo. Avantages : on voit tout le questionnaire d’un coup, on peut
+copier, coller, trier, chercher, partager le fichier par e-mail, garder
+les versions, et réutiliser des blocs d’une enquête à l’autre.</p>
+</div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-label="The three sheets of an XLSForm" font-family="Source Sans 3, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="xa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d9694a"/></marker></defs>
+<g font-family="JetBrains Mono, Consolas, monospace" font-size="12.5">
+<rect x="10" y="20" width="430" height="200" fill="#fff" stroke="#9aa5ad"/>
+<rect x="10" y="20" width="430" height="26" fill="#ddebf7" stroke="#9aa5ad"/>
+<text x="20" y="38" font-weight="700" fill="#0b3d5c">type</text><text x="190" y="38" font-weight="700" fill="#0b3d5c">name</text><text x="310" y="38" font-weight="700" fill="#0b3d5c">label</text>
+<g fill="#1f2a33"><text x="20" y="68">date</text><text x="190" y="68">date_debarq</text><text x="310" y="68">Date</text>
+<text x="20" y="94">select_one <tspan fill="#d9694a" font-weight="700">village</tspan></text><text x="190" y="94">village</text><text x="310" y="94">Village</text>
+<text x="20" y="120">integer</text><text x="190" y="120">nb_pecheurs</text><text x="310" y="120">Nb pêcheurs</text>
+<text x="20" y="146">decimal</text><text x="190" y="146">poids_total</text><text x="310" y="146">Poids (kg)</text></g>
+<path d="M180 46v174M300 46v174" stroke="#d0d7de"/>
+<rect x="10" y="220" width="70" height="22" fill="#fff" stroke="#9aa5ad"/><text x="20" y="236" font-weight="700" fill="#217346">survey</text>
+<rect x="490" y="20" width="400" height="150" fill="#fff" stroke="#9aa5ad"/>
+<rect x="490" y="20" width="400" height="26" fill="#ddebf7" stroke="#9aa5ad"/>
+<text x="500" y="38" font-weight="700" fill="#0b3d5c">list_name</text><text x="630" y="38" font-weight="700" fill="#0b3d5c">name</text><text x="760" y="38" font-weight="700" fill="#0b3d5c">label</text>
+<g fill="#1f2a33"><text x="500" y="68" fill="#d9694a" font-weight="700">village</text><text x="630" y="68">ifaty</text><text x="760" y="68">Ifaty</text>
+<text x="500" y="94" fill="#d9694a" font-weight="700">village</text><text x="630" y="94">mangily</text><text x="760" y="94">Mangily</text>
+<text x="500" y="120" fill="#d9694a" font-weight="700">village</text><text x="630" y="120">madiorano</text><text x="760" y="120">Madiorano</text></g>
+<path d="M620 46v124M750 46v124" stroke="#d0d7de"/>
+<rect x="490" y="170" width="78" height="22" fill="#fff" stroke="#9aa5ad"/><text x="498" y="186" font-weight="700" fill="#217346">choices</text>
+<rect x="490" y="215" width="400" height="56" fill="#fff" stroke="#9aa5ad"/>
+<rect x="490" y="215" width="400" height="26" fill="#ddebf7" stroke="#9aa5ad"/>
+<text x="500" y="233" font-weight="700" fill="#0b3d5c">form_title</text><text x="680" y="233" font-weight="700" fill="#0b3d5c">version</text>
+<text x="500" y="260">Fiche de débarquement</text><text x="680" y="260">2026-01-v1</text>
+<rect x="490" y="271" width="86" height="22" fill="#fff" stroke="#9aa5ad"/><text x="498" y="287" font-weight="700" fill="#217346">settings</text></g>
+<path d="M262 86 C 360 62, 420 64, 490 64" stroke="#d9694a" stroke-width="2" fill="none" marker-end="url(#xa)"/>
+<g font-size="13" fill="#5d6b75"><text x="20" y="270" class="en">one row = one question</text><text x="20" y="270" class="fr">une ligne = une question</text>
+<text x="20" y="288" class="en">the list name links a select question to its choices</text><text x="20" y="288" class="fr">le nom de liste relie une question à choix à ses options</text></g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpkNWE1Y2U5NS0yMGM5LTRmNDAtOGMyMS02ZjllZjVhMzBlODgAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaIZ5l2wFqtEp8DZdT0YJvkEAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpiOTNiYzY0YS05NGEzLTQyNTItYTdjNC04OWZmZGUwNTFkYzRscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNo3Ll3SLR0pG7X5gckzHvv/wAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgghSr47a5RVFDILYo75/UyC7ML7KI3u8ExhOYwHsoiW5+kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaIBPFuNL6NzFav/pk1eCPmgAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIDjHv+bELmTTHYIFInGQOIFGNjFKvlI8s8u0qHwWabolZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQ3OZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmQ1YTVjZTk1LTIwYzktNGY0MC04YzIxLTZmOWVmNWEzMGU4OC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjQyZjFjMmE2LWExZGQtNDQyYS04NTQ0LWYyNmFiOTk1NDdiNXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCFKvjtrlFUUMgtijvn9TILswvsoje7wTGE5jAeyiJbn6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggReHrowyMEn1S3kPKybJNYLc7QPZongYGwB31V+fVjmCiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg9LaGsqiduTlNSlHBCaFRnDLX+llx5Adg8axQHzHcdMt0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQHx7n1+EpC4AXBhWWBBr0fHk7suSbXPOcCm7T6/d7+gGIlWI6zNQ5nSVwDh14PUfMcS4JzMuO2Q5gPstq6XfldI=</c2pa:manifest></metadata></svg><figcaption><span class="en">The three sheets of an XLSForm. The list name written after select_one links the question to its options.</span><span class="fr">Les trois feuilles d'un XLSForm. Le nom de liste écrit après select_one relie la question à ses options.</span></figcaption></figure>
+<div class="callout warning">
+<div class="en">
+<p><strong>The names of the sheets and of the column headers are fixed
+and in English</strong>: <code>survey</code>, <code>choices</code>,
+<code>settings</code>, <code>type</code>, <code>name</code>,
+<code>label</code>… Write them in lowercase, as here (KoboToolbox
+tolerates some variations, but other tools do not). A file whose
+questions are in a sheet called <code>questions</code> is refused:
+<em>“You must have a sheet named ‘survey’”</em>. The <strong>order of
+the columns</strong> does not matter; their <strong>names</strong>
+do.</p>
+</div>
+<div class="fr">
+<p><strong>Les noms des feuilles et des en-têtes de colonnes sont fixes
+et en anglais</strong> : <code>survey</code>, <code>choices</code>,
+<code>settings</code>, <code>type</code>, <code>name</code>,
+<code>label</code>… Écrivez-les en minuscules, comme ici (KoboToolbox
+tolère quelques variantes, mais d’autres outils non). Un fichier dont
+les questions sont dans une feuille nommée <code>questions</code> est
+refusé : <em>« You must have a sheet named ‘survey’ »</em>.
+L’<strong>ordre des colonnes</strong> n’a pas d’importance ; leurs
+<strong>noms</strong>, si.</p>
+</div>
+</div>
+</div>
+<div id="survey" class="section level2">
+<h2><span class="en">The survey sheet</span><span class="fr">La feuille
+survey</span></h2>
+<div class="en">
+<p>One row = one question (or one note, one piece of metadata). Three
+columns are essential:</p>
+<ul>
+<li><strong><code>type</code></strong> — the question type
+(<code>integer</code>, <code>decimal</code>, <code>text</code>,
+<code>date</code>, <code>select_one listname</code>…);</li>
+<li><strong><code>name</code></strong> — the column name in the data.
+Unique, short, no spaces;</li>
+<li><strong><code>label</code></strong> — the text shown to the
+enumerator.</li>
+</ul>
+<p>Here is the <code>survey</code> sheet of the official form (columns
+<code>type</code>, <code>name</code>, <code>label</code>,
+<code>hint</code>, <code>required</code>; the Excel row numbers are on
+the left):</p>
+</div>
+<div class="fr">
+<p>Une ligne = une question (ou une note, une métadonnée). Trois
+colonnes sont indispensables :</p>
+<ul>
+<li><strong><code>type</code></strong> — le type de question
+(<code>integer</code>, <code>decimal</code>, <code>text</code>,
+<code>date</code>, <code>select_one nomdeliste</code>…) ;</li>
+<li><strong><code>name</code></strong> — le nom de la colonne dans les
+données. Unique, court, sans espace ;</li>
+<li><strong><code>label</code></strong> — le texte affiché à
+l’enquêteur.</li>
+</ul>
+<p>Voici la feuille <code>survey</code> du formulaire officiel (colonnes
+<code>type</code>, <code>name</code>, <code>label</code>,
+<code>hint</code>, <code>required</code> ; les numéros de ligne Excel
+sont à gauche) :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>hint</td><td class='xh'>required</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>today</td><td>today</td><td></td><td></td><td></td></tr><tr><td class='xr'>5</td><td>deviceid</td><td>deviceid</td><td></td><td></td><td></td></tr><tr><td class='xr'>6</td><td>note</td><td>intro</td><td>**Fiche de débarquement** — une fiche par pirogue, au retour de pêche.</td><td></td><td></td></tr><tr><td class='xr'>7</td><td>date</td><td>date_debarq</td><td>Date du débarquement</td><td>Jour du retour de pêche</td><td>yes</td></tr><tr><td class='xr'>8</td><td>select_one village</td><td>village</td><td>Village</td><td></td><td>yes</td></tr><tr><td class='xr'>9</td><td>text</td><td>nom_pecheur</td><td>Nom du chef de pirogue</td><td></td><td>yes</td></tr><tr><td class='xr'>10</td><td>integer</td><td>age</td><td>Âge du chef de pirogue (années)</td><td>Si la personne ne sait pas, estimez</td><td></td></tr><tr><td class='xr'>11</td><td>integer</td><td>nb_pecheurs</td><td>Nombre de pêcheurs à bord</td><td></td><td>yes</td></tr><tr><td class='xr'>12</td><td>select_one engin</td><td>engin</td><td>Engin principal</td><td></td><td>yes</td></tr><tr><td class='xr'>13</td><td>select_multiple espece</td><td>especes</td><td>Espèces débarquées</td><td>Cochez toutes les espèces présentes</td><td>yes</td></tr><tr><td class='xr'>14</td><td>decimal</td><td>poids_total</td><td>Poids total débarqué (kg)</td><td>Pesé avec la balance de la coopérative</td><td>yes</td></tr><tr><td class='xr'>15</td><td>geopoint</td><td>gps</td><td>Position du site de débarquement</td><td></td><td></td></tr><tr><td class='xr'>16</td><td>image</td><td>photo</td><td>Photo de la capture</td><td></td><td></td></tr><tr><td class='xr'>17</td><td>text</td><td>remarque</td><td>Remarques</td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<p>Read it from top to bottom:</p>
+<ul>
+<li><strong>rows 2–5</strong>: automatic <strong>metadata</strong>.
+Their <code>type</code> and <code>name</code> are the same and they have
+no label: nothing is asked, the device records the start and end time of
+the interview, the date and the device identifier;</li>
+<li><strong>row 6</strong>: a <strong>note</strong> (text in bold with
+<code>**…**</code>, as in Markdown);</li>
+<li><strong>rows 7–17</strong>: the questions.
+<code>select_one village</code> means “one answer from the list called
+<code>village</code>”;</li>
+<li>the <strong><code>required</code></strong> column contains
+<code>yes</code> for the questions that cannot be skipped
+(<code>true</code> also works). Empty = not required.</li>
+</ul>
+</div>
+<div class="fr">
+<p>Lisez-la de haut en bas :</p>
+<ul>
+<li><strong>lignes 2 à 5</strong> : les <strong>métadonnées</strong>
+automatiques. Leur <code>type</code> et leur <code>name</code> sont
+identiques et elles n’ont pas de libellé : rien n’est demandé,
+l’appareil enregistre l’heure de début et de fin de l’entretien, la date
+et l’identifiant de l’appareil ;</li>
+<li><strong>ligne 6</strong> : une <strong>note</strong> (texte en gras
+avec <code>**…**</code>, comme en Markdown) ;</li>
+<li><strong>lignes 7 à 17</strong> : les questions.
+<code>select_one village</code> signifie « une réponse dans la liste
+nommée <code>village</code> » ;</li>
+<li>la colonne <strong><code>required</code></strong> contient
+<code>yes</code> pour les questions qu’on ne peut pas sauter
+(<code>true</code> fonctionne aussi). Vide = non obligatoire.</li>
+</ul>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>type</code></td>
+<td>question type; for a list: <code>select_one list</code> or
+<code>select_multiple list</code></td>
+<td><code>text</code>, <code>integer</code>, <code>decimal</code>,
+<code>date</code>, <code>time</code>, <code>dateTime</code>,
+<code>select_one …</code>, <code>select_multiple …</code>,
+<code>geopoint</code>, <code>image</code>, <code>audio</code>,
+<code>note</code>…</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>column name in the data; unique in the form</td>
+<td>starts with a letter; letters, digits, <code>_</code> (avoid spaces,
+accents, <code>-</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>label</code></td>
+<td>text shown to the enumerator; can be bold <code>**…**</code> or
+italic <code>*…*</code></td>
+<td>any text</td>
+</tr>
+<tr class="even">
+<td><code>hint</code></td>
+<td>help text in grey under the label</td>
+<td>any text</td>
+</tr>
+<tr class="odd">
+<td><code>required</code></td>
+<td>the question must be answered</td>
+<td><code>yes</code> / empty</td>
+</tr>
+<tr class="even">
+<td><code>required_message</code></td>
+<td>message shown when a required question is left empty</td>
+<td>any text</td>
+</tr>
+<tr class="odd">
+<td><code>default</code></td>
+<td>value filled in in advance</td>
+<td>a value of the right type, e.g. <code>today()</code> for a date</td>
+</tr>
+<tr class="even">
+<td><code>parameters</code></td>
+<td>extra settings of some types, e.g. photo size</td>
+<td><code>max-pixels=1024</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>type</code></td>
+<td>type de question ; pour une liste : <code>select_one liste</code> ou
+<code>select_multiple liste</code></td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>nom de la colonne dans les données ; unique dans le formulaire</td>
+<td>commence par une lettre ; lettres, chiffres, <code>_</code> (évitez
+espaces, accents, <code>-</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>label</code></td>
+<td>texte affiché à l’enquêteur ; peut être en gras <code>**…**</code>
+ou italique <code>*…*</code></td>
+<td>tout texte</td>
+</tr>
+<tr class="even">
+<td><code>hint</code></td>
+<td>texte d’aide en gris sous le libellé</td>
+<td>tout texte</td>
+</tr>
+<tr class="odd">
+<td><code>required</code></td>
+<td>la question doit avoir une réponse</td>
+<td><code>yes</code> / vide</td>
+</tr>
+<tr class="even">
+<td><code>required_message</code></td>
+<td>message affiché quand une question obligatoire est laissée vide</td>
+<td>tout texte</td>
+</tr>
+<tr class="odd">
+<td><code>default</code></td>
+<td>valeur pré-remplie</td>
+<td>une valeur du bon type, ex. <code>today()</code> pour une date</td>
+</tr>
+<tr class="even">
+<td><code>parameters</code></td>
+<td>réglages supplémentaires de certains types, ex. taille des
+photos</td>
+<td><code>max-pixels=1024</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="metadata-typesles-types-de-métadonnées" class="section level3">
+<h3><span class="en">Metadata types</span><span class="fr">Les types de
+métadonnées</span></h3>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>What it records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code></td>
+<td>date and time when the form was <strong>opened</strong></td>
+</tr>
+<tr class="even">
+<td><code>end</code></td>
+<td>date and time when the form was <strong>finished</strong></td>
+</tr>
+<tr class="odd">
+<td><code>today</code></td>
+<td>date of the day of the interview</td>
+</tr>
+<tr class="even">
+<td><code>deviceid</code></td>
+<td>identifier of the device (with KoboCollect)</td>
+</tr>
+<tr class="odd">
+<td><code>username</code></td>
+<td>the username configured in KoboCollect</td>
+</tr>
+<tr class="even">
+<td><code>audit</code></td>
+<td>a log of the time spent on each question (advanced quality
+control)</td>
+</tr>
+</tbody>
+</table>
+<p>Always put <code>start</code>, <code>end</code> and
+<code>today</code> at the top: they cost nothing and they let you check
+the duration of each interview.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Ce qu’il enregistre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code></td>
+<td>date et heure d’<strong>ouverture</strong> du formulaire</td>
+</tr>
+<tr class="even">
+<td><code>end</code></td>
+<td>date et heure de <strong>fin</strong> du formulaire</td>
+</tr>
+<tr class="odd">
+<td><code>today</code></td>
+<td>date du jour de l’entretien</td>
+</tr>
+<tr class="even">
+<td><code>deviceid</code></td>
+<td>identifiant de l’appareil (avec KoboCollect)</td>
+</tr>
+<tr class="odd">
+<td><code>username</code></td>
+<td>le nom d’utilisateur configuré dans KoboCollect</td>
+</tr>
+<tr class="even">
+<td><code>audit</code></td>
+<td>un journal du temps passé sur chaque question (contrôle qualité
+avancé)</td>
+</tr>
+</tbody>
+</table>
+<p>Mettez toujours <code>start</code>, <code>end</code> et
+<code>today</code> en haut : ils ne coûtent rien et permettent de
+vérifier la durée de chaque entretien.</p>
+</div>
+</div>
+<div id="rules-for-namesrègles-pour-les-noms" class="section level3">
+<h3><span class="en">Rules for names</span><span class="fr">Règles pour
+les noms</span></h3>
+<div class="en">
+<p>KoboToolbox refuses a <code>name</code> that starts with a digit or
+contains a space or a sign such as <code>(</code>, <code>'</code>,
+<code>/</code>. It accepts letters, digits, <code>_</code>,
+<code>-</code> and <code>.</code>. For data that you will analyse in
+Excel or R, follow stricter rules:</p>
+<ul>
+<li><strong>lowercase</strong>, words separated by <code>_</code>:
+<code>nb_pecheurs</code>, <code>poids_total</code>;</li>
+<li><strong>no accents</strong> and no <code>-</code> (in R,
+<code>poids-total</code> is read as “poids minus total”);</li>
+<li><strong>short but clear</strong>: <code>age</code> rather than
+<code>a</code>, <code>nb_pecheurs</code> rather than
+<code>nombre_de_pecheurs_a_bord_de_la_pirogue</code>;</li>
+<li><strong>unique</strong>: two questions cannot have the same
+name;</li>
+<li><strong>never rename</strong> a question once collection has
+started: the export would then contain two columns.</li>
+</ul>
+</div>
+<div class="fr">
+<p>KoboToolbox refuse un <code>name</code> qui commence par un chiffre
+ou qui contient une espace ou un signe comme <code>(</code>,
+<code>'</code>, <code>/</code>. Il accepte les lettres, chiffres,
+<code>_</code>, <code>-</code> et <code>.</code>. Pour des données que
+vous analyserez dans Excel ou R, suivez des règles plus strictes :</p>
+<ul>
+<li><strong>minuscules</strong>, mots séparés par <code>_</code> :
+<code>nb_pecheurs</code>, <code>poids_total</code> ;</li>
+<li><strong>sans accents</strong> et sans <code>-</code> (dans R,
+<code>poids-total</code> se lit « poids moins total ») ;</li>
+<li><strong>court mais clair</strong> : <code>age</code> plutôt que
+<code>a</code>, <code>nb_pecheurs</code> plutôt que
+<code>nombre_de_pecheurs_a_bord_de_la_pirogue</code> ;</li>
+<li><strong>unique</strong> : deux questions ne peuvent pas avoir le
+même nom ;</li>
+<li><strong>ne jamais renommer</strong> une question une fois la
+collecte commencée : l’export contiendrait alors deux colonnes.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="choices" class="section level2">
+<h2><span class="en">The choices sheet</span><span class="fr">La feuille
+choices</span></h2>
+<div class="en">
+<p>One row = one option. Three columns:
+<strong><code>list_name</code></strong> (the name of the list, the same
+as after <code>select_one</code> / <code>select_multiple</code>),
+<strong><code>name</code></strong> (the value stored) and
+<strong><code>label</code></strong> (the text shown). The options appear
+in the form in the order of the rows.</p>
+</div>
+<div class="fr">
+<p>Une ligne = une option. Trois colonnes :
+<strong><code>list_name</code></strong> (le nom de la liste, le même
+qu’après <code>select_one</code> / <code>select_multiple</code>),
+<strong><code>name</code></strong> (la valeur enregistrée) et
+<strong><code>label</code></strong> (le texte affiché). Les options
+apparaissent dans le formulaire dans l’ordre des lignes.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label</td></tr><tr><td class='xr'>2</td><td>village</td><td>ambolimailaka</td><td>Ambolimailaka</td></tr><tr><td class='xr'>3</td><td>village</td><td>ifaty</td><td>Ifaty</td></tr><tr><td class='xr'>4</td><td>village</td><td>mangily</td><td>Mangily</td></tr><tr><td class='xr'>5</td><td>village</td><td>madiorano</td><td>Madiorano</td></tr><tr><td class='xr'>6</td><td>village</td><td>andrevo</td><td>Andrevo</td></tr><tr><td class='xr'>7</td><td>engin</td><td>ligne</td><td>Ligne à main</td></tr><tr><td class='xr'>8</td><td>engin</td><td>filet_maillant</td><td>Filet maillant</td></tr><tr><td class='xr'>9</td><td>engin</td><td>fusil</td><td>Fusil harpon</td></tr><tr><td class='xr'>10</td><td>engin</td><td>senne</td><td>Senne de plage</td></tr><tr><td class='xr'>11</td><td>engin</td><td>glanage</td><td>Pêche à pied (glanage)</td></tr><tr><td class='xr'>12</td><td>espece</td><td>poulpe</td><td>Poulpe</td></tr><tr><td class='xr'>13</td><td>espece</td><td>poisson_recif</td><td>Poissons de récif</td></tr><tr><td class='xr'>14</td><td>espece</td><td>calmar</td><td>Calmar</td></tr><tr><td class='xr'>15</td><td>espece</td><td>langouste</td><td>Langouste</td></tr><tr><td class='xr'>16</td><td>espece</td><td>crabe</td><td>Crabe</td></tr><tr><td class='xr'>17</td><td>espece</td><td>holothurie</td><td>Holothurie</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+<div class="en">
+<ul>
+<li>The list <code>village</code> is used by the question
+<code>select_one village</code>; the list <code>espece</code> by
+<code>select_multiple espece</code>.</li>
+<li>A list can be used by <strong>several questions</strong> (e.g. the
+same <code>oui_non</code> list for twenty yes/no questions).</li>
+<li>The <code>name</code> of an option must be <strong>unique within its
+list</strong> (two options <code>ifaty</code> in the list
+<code>village</code> = error).</li>
+<li>With <code>select_multiple</code>, the data contain the selected
+values <strong>separated by spaces</strong>: <code>poulpe calmar</code>.
+That is why option names must <strong>never contain
+spaces</strong>.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>La liste <code>village</code> est utilisée par la question
+<code>select_one village</code> ; la liste <code>espece</code> par
+<code>select_multiple espece</code>.</li>
+<li>Une liste peut servir à <strong>plusieurs questions</strong> (ex. la
+même liste <code>oui_non</code> pour vingt questions oui/non).</li>
+<li>Le <code>name</code> d’une option doit être <strong>unique dans sa
+liste</strong> (deux options <code>ifaty</code> dans la liste
+<code>village</code> = erreur).</li>
+<li>Avec <code>select_multiple</code>, les données contiennent les
+valeurs choisies <strong>séparées par des espaces</strong> :
+<code>poulpe calmar</code>. C’est pourquoi les noms d’options ne doivent
+<strong>jamais contenir d’espace</strong>.</li>
+</ul>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>“Other, specify”.</strong> Add an option <code>autre</code>
+(<em>Autre</em>) to the list, then a <code>text</code> question
+<em>“Précisez”</em> shown only when <code>autre</code> is chosen
+(<code>relevant</code>, Intermediate level). XLSForm also has the
+shortcut <code>select_one engin or_other</code>, but it gives a column
+that is harder to analyse; the explicit <code>autre</code> + text
+question is clearer.</p>
+</div>
+<div class="fr">
+<p><strong>« Autre, précisez ».</strong> Ajoutez une option
+<code>autre</code> (<em>Autre</em>) à la liste, puis une question
+<code>text</code> <em>« Précisez »</em> affichée seulement quand
+<code>autre</code> est choisi (<code>relevant</code>, niveau
+Intermédiaire). XLSForm a aussi le raccourci
+<code>select_one engin or_other</code>, mais il donne une colonne plus
+difficile à analyser ; l’option <code>autre</code> + une question texte
+explicite est plus claire.</p>
+</div>
+</div>
+</div>
+<div id="settings" class="section level2">
+<h2><span class="en">The settings sheet</span><span class="fr">La
+feuille settings</span></h2>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>form_title</td><td class='xh'>form_id</td><td class='xh'>version</td></tr><tr><td class='xr'>2</td><td>Fiche de débarquement</td><td>debarquement_ranobe</td><td>2026-01-v1</td></tr></table><div class="xls-tab"><span>settings</span></div></div>
+<div class="en">
+<p>One header row and <strong>one row of values</strong>. All columns
+are optional, but fill in at least:</p>
+<ul>
+<li><strong><code>form_title</code></strong> — the title shown at the
+top of the form and in KoboCollect;</li>
+<li><strong><code>form_id</code></strong> — an identifier without spaces
+(<code>debarquement_ranobe</code>);</li>
+<li><strong><code>version</code></strong> — a text that changes at each
+new version (<code>2026-01-v1</code>, then <code>2026-02-v2</code>).
+KoboToolbox also records its own version code for each deployment
+(column <code>__version__</code> of the export).</li>
+</ul>
+<p>Other useful settings: <code>default_language</code> (Session 3),
+<code>style</code> (<code>pages</code> = one question per screen in the
+web form), <code>allow_choice_duplicates</code>.</p>
+</div>
+<div class="fr">
+<p>Une ligne d’en-têtes et <strong>une ligne de valeurs</strong>. Toutes
+les colonnes sont facultatives, mais remplissez au moins :</p>
+<ul>
+<li><strong><code>form_title</code></strong> — le titre affiché en haut
+du formulaire et dans KoboCollect ;</li>
+<li><strong><code>form_id</code></strong> — un identifiant sans espace
+(<code>debarquement_ranobe</code>) ;</li>
+<li><strong><code>version</code></strong> — un texte qui change à chaque
+nouvelle version (<code>2026-01-v1</code>, puis
+<code>2026-02-v2</code>). KoboToolbox enregistre aussi son propre code
+de version à chaque déploiement (colonne <code>__version__</code> de
+l’export).</li>
+</ul>
+<p>Autres réglages utiles : <code>default_language</code> (séance 3),
+<code>style</code> (<code>pages</code> = une question par écran dans le
+formulaire web), <code>allow_choice_duplicates</code>.</p>
+</div>
+</div>
+<div id="habits" class="section level2">
+<h2><span class="en">Good habits</span><span class="fr">Bonnes
+habitudes</span></h2>
+<div class="en">
+<ul>
+<li>Start from a <strong>template</strong> (the file of this session)
+rather than an empty file: the headers are already right.</li>
+<li>Freeze the first row (<em>View → Freeze top row</em>) and widen the
+columns.</li>
+<li>Keep <strong>one file per version</strong>
+(<code>debarquement_v1.xlsx</code>, <code>debarquement_v2.xlsx</code>)
+or use the <code>version</code> setting and a change log in an extra
+sheet (extra sheets are ignored by KoboToolbox).</li>
+<li>Do not merge cells, do not colour cells to carry information
+(colours are ignored), do not leave blank rows in the middle of a
+sheet.</li>
+<li>Write <code>name</code> values <strong>before</strong> the labels
+are final: labels can change, names should not.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Partez d’un <strong>modèle</strong> (le fichier de cette séance)
+plutôt que d’un fichier vide : les en-têtes sont déjà justes.</li>
+<li>Figez la première ligne (<em>Affichage → Figer la ligne
+supérieure</em>) et élargissez les colonnes.</li>
+<li>Gardez <strong>un fichier par version</strong>
+(<code>debarquement_v1.xlsx</code>, <code>debarquement_v2.xlsx</code>)
+ou utilisez le réglage <code>version</code> et un journal des
+modifications dans une feuille supplémentaire (les autres feuilles sont
+ignorées par KoboToolbox).</li>
+<li>Ne fusionnez pas de cellules, ne colorez pas de cellules pour porter
+une information (les couleurs sont ignorées), ne laissez pas de lignes
+vides au milieu d’une feuille.</li>
+<li>Fixez les valeurs <code>name</code> <strong>avant</strong> que les
+libellés soient définitifs : les libellés peuvent changer, les noms ne
+devraient pas.</li>
+</ul>
+</div>
+<div class="application">
+<div id="application-work-2" class="section level3 en">
+<h3>Application work 2</h3>
+<p>Open <code>k02_debarquement.xlsx</code> in Excel.</p>
+<ol style="list-style-type: decimal">
+<li>How many rows (without the header) does the <code>survey</code>
+sheet have?</li>
+<li>How many of them are questions really <strong>asked</strong> to the
+respondent (not metadata, not notes)?</li>
+<li>How many questions are required?</li>
+<li>How many options does the list <code>espece</code> have?</li>
+<li>In which Excel row is the GPS question?</li>
+<li>Type of the question <code>poids_total</code>?</li>
+<li>How many fishing gears can be chosen?</li>
+<li>Full <code>type</code> of the question on species (as written in the
+cell)?</li>
+<li><strong>Write</strong> in the file two new questions after
+<code>nb_pecheurs</code>: <code>heure_depart</code> (<em>Heure de départ
+en mer</em>, type <code>time</code>) and <code>duree_peche</code>
+(<em>Durée de la pêche (heures)</em>, type <code>decimal</code>, hint
+<em>Du départ au retour</em>). Save as
+<code>k02_debarquement_v2.xlsx</code> and change <code>version</code> to
+<code>2026-02-v2</code>. Keep this file: you will import it in Session
+4.</li>
+<li>Which <code>name</code> would be <strong>refused</strong> by
+KoboToolbox?</li>
+</ol>
+</div>
+<div id="travail-dapplication-2" class="section level3 fr">
+<h3>Travail d’application 2</h3>
+<p>Ouvrez <code>k02_debarquement.xlsx</code> dans Excel.</p>
+<ol style="list-style-type: decimal">
+<li>Combien de lignes (sans l’en-tête) la feuille <code>survey</code>
+contient-elle ?</li>
+<li>Combien sont des questions réellement <strong>posées</strong> au
+répondant (ni métadonnées, ni notes) ?</li>
+<li>Combien de questions sont obligatoires ?</li>
+<li>Combien d’options la liste <code>espece</code> contient-elle ?</li>
+<li>À quelle ligne Excel se trouve la question GPS ?</li>
+<li>Type de la question <code>poids_total</code> ?</li>
+<li>Combien d’engins de pêche peut-on choisir ?</li>
+<li><code>type</code> complet de la question sur les espèces (tel
+qu’écrit dans la cellule) ?</li>
+<li><strong>Écrivez</strong> dans le fichier deux nouvelles questions
+après <code>nb_pecheurs</code> : <code>heure_depart</code> (<em>Heure de
+départ en mer</em>, type <code>time</code>) et <code>duree_peche</code>
+(<em>Durée de la pêche (heures)</em>, type <code>decimal</code>,
+indication <em>Du départ au retour</em>). Enregistrez sous
+<code>k02_debarquement_v2.xlsx</code> et changez <code>version</code> en
+<code>2026-02-v2</code>. Gardez ce fichier : vous l’importerez à la
+séance 4.</li>
+<li>Quel <code>name</code> serait <strong>refusé</strong> par
+KoboToolbox ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 2: count the rows whose type is not <code>start</code>,
+<code>end</code>, <code>today</code>, <code>deviceid</code> or
+<code>note</code>. Question 5: the header is row 1, so the first
+question under it is row 2.</p>
+</div>
+<div class="fr">
+<p>Question 2 : comptez les lignes dont le type n’est ni
+<code>start</code>, <code>end</code>, <code>today</code>,
+<code>deviceid</code>, ni <code>note</code>. Question 5 : l’en-tête est
+la ligne 1, la première question en dessous est donc la ligne 2.</p>
+</div>
+</div>
+<div id="quiz-k02" class="quiz" data-quiz-id="k02"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBvZiB0aGUgc3VydmV5IHNoZWV0ICh3aXRob3V0IGhlYWRlcik/IiwiZnIiOiIxLiBMaWduZXMgZGUgbGEgZmV1aWxsZSBzdXJ2ZXkgKHNhbnMgbCdlbi10w6p0ZSkgPyIsImFuc3dlciI6MTYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFF1ZXN0aW9ucyByZWFsbHkgYXNrZWQ/IiwiZnIiOiIyLiBRdWVzdGlvbnMgcsOpZWxsZW1lbnQgcG9zw6llcyA/IiwiYW5zd2VyIjoxMSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gUmVxdWlyZWQgcXVlc3Rpb25zPyIsImZyIjoiMy4gUXVlc3Rpb25zIG9ibGlnYXRvaXJlcyA/IiwiYW5zd2VyIjo3LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBPcHRpb25zIG9mIHRoZSBsaXN0IGVzcGVjZT8iLCJmciI6IjQuIE9wdGlvbnMgZGUgbGEgbGlzdGUgZXNwZWNlID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIEV4Y2VsIHJvdyBvZiB0aGUgR1BTIHF1ZXN0aW9uPyIsImZyIjoiNS4gTGlnbmUgRXhjZWwgZGUgbGEgcXVlc3Rpb24gR1BTID8iLCJhbnN3ZXIiOjE1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNi4gVHlwZSBvZiBwb2lkc190b3RhbD8iLCJmciI6IjYuIFR5cGUgZGUgcG9pZHNfdG90YWwgPyIsImFuc3dlciI6WyJkZWNpbWFsIl19LHsidHlwZSI6Im51bSIsImVuIjoiNy4gTnVtYmVyIG9mIGdlYXJzIGluIHRoZSBsaXN0PyIsImZyIjoiNy4gTm9tYnJlIGQnZW5naW5zIGRhbnMgbGEgbGlzdGUgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjguIEZ1bGwgdHlwZSBvZiB0aGUgc3BlY2llcyBxdWVzdGlvbj8iLCJmciI6IjguIFR5cGUgY29tcGxldCBkZSBsYSBxdWVzdGlvbiBzdXIgbGVzIGVzcMOoY2VzID8iLCJhbnN3ZXIiOlsic2VsZWN0X211bHRpcGxlIGVzcGVjZSJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIFlvdXIgdHdvIG5ldyBxdWVzdGlvbnM6IHdoaWNoIHR5cGUgZm9yIHRoZSBzdGFydCB0aW1lPyIsImZyIjoiOS4gVm9zIGRldXggbm91dmVsbGVzIHF1ZXN0aW9ucyA6IHF1ZWwgdHlwZSBwb3VyIGwnaGV1cmUgZGUgZMOpcGFydCA/Iiwib3B0aW9uc19lbiI6WyJkYXRlIiwidGltZSIsImRhdGVUaW1lIiwidGV4dCJdLCJvcHRpb25zX2ZyIjpbImRhdGUiLCJ0aW1lIiwiZGF0ZVRpbWUiLCJ0ZXh0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gV2hpY2ggbmFtZSB3b3VsZCBiZSByZWZ1c2VkPyIsImZyIjoiMTAuIFF1ZWwgbmFtZSBzZXJhaXQgcmVmdXPDqSA/Iiwib3B0aW9uc19lbiI6WyJuYl9wZWNoZXVycyIsInBvaWRzX3RvdGFsMiIsIjJfcG9pZHMiLCJfbm90ZV9pbnRlcm5lIl0sIm9wdGlvbnNfZnIiOlsibmJfcGVjaGV1cnMiLCJwb2lkc190b3RhbDIiLCIyX3BvaWRzIiwiX25vdGVfaW50ZXJuZSJdLCJhbnN3ZXIiOjJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="k02">
+<div class="en">
+<p>1 16 · 2 11 (the 4 metadata and the note are not asked) · 3 7 · 4 6 ·
+5 row 15 · 6 decimal · 7 5 · 8 <code>select_multiple espece</code> · 9
+<code>time</code> (a <code>dateTime</code> would also record the date,
+already in <code>date_debarq</code>) · 10 <code>2_poids</code> (a name
+must start with a letter or <code>_</code>).</p>
+<p>Rows to add (question 9), right after <code>nb_pecheurs</code>:</p>
+</div>
+<div class="fr">
+<p>1 16 · 2 11 (les 4 métadonnées et la note ne sont pas posées) · 3 7 ·
+4 6 · 5 ligne 15 · 6 decimal · 7 5 · 8
+<code>select_multiple espece</code> · 9 <code>time</code> (un
+<code>dateTime</code> enregistrerait aussi la date, déjà dans
+<code>date_debarq</code>) · 10 <code>2_poids</code> (un nom doit
+commencer par une lettre ou <code>_</code>).</p>
+<p>Lignes à ajouter (question 9), juste après <code>nb_pecheurs</code>
+:</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>hint</td><td class='xh'>required</td></tr><tr><td class='xr'>2</td><td>time</td><td>heure_depart</td><td>Heure de départ en mer</td><td></td><td></td></tr><tr><td class='xr'>3</td><td>decimal</td><td>duree_peche</td><td>Durée de la pêche (heures)</td><td>Du départ au retour</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

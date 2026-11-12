@@ -1,0 +1,117 @@
+---
+title: "Collecte de données avec KoboToolbox"
+subtitle: "Niveau Débutant · Diaporama 2 · Séances 4 à 7 — Importer, déployer, collecter, télécharger"
+author: "Aroo Falinirina"
+output:
+  html_document:
+    theme: null
+    highlight: tango
+    mathjax: null
+    self_contained: true
+    css: slides.css
+    includes:
+      in_header: slides-engine.html
+---
+
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r, include=FALSE}
+source("slides/_setup.R")
+xml <- read_export("data/exports/k05_debarquements_xml.xlsx")[[1]]
+```
+
+## Séance 4 — Importer, déployer et collecter {.segue}
+
+## Importer un XLSForm
+
+- **nouveau projet** : `r ui("new", en = FALSE)` → `r ui("upload_xlsform", en = FALSE)`
+- **projet existant** : `r ui("form_tab", en = FALSE)` → `r ui("more_actions", en = FALSE)` → `r ui("replace_form", en = FALSE)`
+
+<div class="box warn">
+KoboToolbox n'affiche que la **première** erreur. `[row : 9]` = ligne Excel (en-tête = 1).
+</div>
+
+## Lire les messages (fichier k04_erreurs.xlsx)
+
+| Import | Message | Correction |
+|---|---|---|
+| 1 | `[row : 5] … Choice names must be unique…` | 2e `ifaty` → `madiorano` |
+| 2 | `[row : 9] … Names must begin with a letter…` | `nom pecheur` → `nom_pecheur` |
+| 3 | `[row : 11] … 'age' … must be unique` | → `nb_pecheurs` |
+| 4 | `[row : 12] List name not in choices sheet: engins` | → `engin` |
+| 5 | `[row : 14] … Names must begin with a letter…` | `1_poids` → `poids_total` |
+| 6 | `Unknown question type 'integr'.` | → `integer` |
+
+<div class="notes">
+Faire l'exercice en direct : projeter KoboToolbox, importer, lire, corriger dans Excel, ré-importer.
+</div>
+
+## Déployer, redéployer
+
+- `r ui("deploy", en = FALSE)` → le formulaire reçoit des données
+- correction → `r ui("redeploy", en = FALSE)` : les données déjà reçues sont **conservées** (`__version__`)
+- sans risque : libellés, indications, traductions, ajout de questions ou de choix
+- **à éviter** : renommer un `name`, changer le `name` d'un choix, changer un type
+
+## Collecter
+
+| Outil | Quand |
+|---|---|
+| `r ui("online_offline", en = FALSE)` | téléphones (Android ou iPhone), réseau instable |
+| `r ui("online_multi", en = FALSE)` | saisie au bureau |
+| `r ui("online_single", en = FALSE)` | questionnaire en ligne, une réponse par personne |
+| **KoboCollect** | Android, hors ligne — URL `https://kc.kobotoolbox.org` |
+
+KoboCollect : `r ui("kc_manual", en = FALSE)` → `r ui("kc_download", en = FALSE)` → `r ui("kc_start", en = FALSE)` → `r ui("kc_finalize", en = FALSE)` → `r ui("kc_send", en = FALSE)`
+
+## Partager et tester
+
+- `r ui("settings_tab", en = FALSE)` → Partage : enquêteur = *Voir le formulaire* + *Ajouter des soumissions*
+- 5 à 10 fiches de test (valeurs normales **et** extrêmes), sur les vrais appareils
+- vérifier le tableau et un export → corriger → **supprimer les tests**
+
+## Séance 5 — Consulter et télécharger les données {.segue}
+
+## L'onglet DONNÉES
+
+- `r ui("table", en = FALSE)` : filtrer, ouvrir, **modifier**, **valider**
+- `r ui("reports", en = FALSE)`, carte, `r ui("gallery", en = FALSE)`
+- `r ui("downloads", en = FALSE)` : **XLS** + `r ui("xml_values", en = FALSE)` pour l'analyse
+
+<div class="box tip">
+Regarder les données **chaque jour** pendant la collecte.
+</div>
+
+## Lire un export
+
+`r xls(head(xml, 4), cols = c("village", "engin", "especes", "especes/poulpe", "poids_total", "_gps_latitude", "_submitted_by", "__version__", "_index"), sheet = "Fiche de débarquement")`
+
+- `select_multiple` : 1 colonne + **1 colonne 0/1 par choix**
+- `_uuid` : identifiant permanent · `_submission_time` : réception (UTC) · `_index` : n° de ligne **de cet export**
+
+## Attention aux versions
+
+- *Crabe* ajouté en v2 → `especes/crabe` = 0 pour les fiches v1 parce que le choix **n'existait pas**
+- toujours regarder `__version__` avant de comparer des périodes
+- dates : `date_debarq`, pas `_submission_time`
+
+## Séances 6 et 7 — Exercices et projet final {.segue}
+
+## Exercices (séance 6)
+
+1. fiche papier « suivi herbiers » → XLSForm
+2. corriger `k06_ex2_erreurs.xlsx` (4 erreurs, 5 imports)
+3. lire l'export `k06_herbiers_xml.xlsx` dans Excel
+4. choix de conception
+
+## Projet final (séance 7)
+
+- formulaire **pêche à pied du poulpe**, français + malgache, noms imposés
+- importer → corriger → déployer → saisir **8 fiches papier** → télécharger (XLS, valeurs XML)
+- le quiz se répond **avec votre propre export** : s'il est juste, les réponses tombent juste
+
+<div class="box tip">
+Certificat du niveau Débutant : 75 % des points de tous les quiz du niveau.
+</div>

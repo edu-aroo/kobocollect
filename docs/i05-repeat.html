@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I5</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I5 · Repeats
+(repeat)</span><span class="fr">I5 · Les répétitions
+(repeat)</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>repeat a set of questions as many times as needed (household
+members, trips, catches) with <code>begin_repeat</code> /
+<code>end_repeat</code>;</li>
+<li>fix the number of repetitions with <code>repeat_count</code>, or let
+the enumerator add them;</li>
+<li>number the repetitions with <code>position(..)</code>, and summarise
+them outside the repeat with <code>sum()</code> and
+<code>count()</code>;</li>
+<li>understand the export of a repeat (a separate sheet) and link it to
+the main sheet with <code>_index</code> /
+<code>_parent_index</code>.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>répéter un ensemble de questions autant de fois que nécessaire
+(membres du ménage, sorties, captures) avec <code>begin_repeat</code> /
+<code>end_repeat</code> ;</li>
+<li>fixer le nombre de répétitions avec <code>repeat_count</code>, ou
+laisser l’enquêteur les ajouter ;</li>
+<li>numéroter les répétitions avec <code>position(..)</code>, et les
+résumer hors de la répétition avec <code>sum()</code> et
+<code>count()</code> ;</li>
+<li>comprendre l’export d’une répétition (une feuille séparée) et la
+relier à la feuille principale avec <code>_index</code> /
+<code>_parent_index</code>.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">One household, several members</span><span
+class="fr">Un ménage, plusieurs membres</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In April 2026, three enumerators
+interviewed <strong>80 households</strong> of the five villages of the
+bay. For each household, they recorded the head of household, then
+<strong>each member</strong> (first name, sex, age, school, main
+activity). Households have 1 to 12 members: you cannot write “member 1,
+member 2… member 12” as 60 questions. You use a <strong>repeat</strong>:
+<a class="btn-dl" href="data/forms/i05_menage_peche.xlsx" download>⇩
+i05_menage_peche.xlsx</a> and the export
+<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a>.</p>
+<p><strong>Type of data:</strong> socio-economic survey at two levels —
+the household (one row each) and the individual (one row per
+member).</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> En avril 2026, trois enquêteurs ont
+interrogé <strong>80 ménages</strong> des cinq villages de la baie. Pour
+chaque ménage, ils ont noté le chef de ménage, puis <strong>chaque
+membre</strong> (prénom, sexe, âge, scolarisation, activité principale).
+Les ménages ont de 1 à 12 membres : impossible d’écrire « membre 1,
+membre 2… membre 12 » en 60 questions. Vous utilisez une
+<strong>répétition</strong> :
+<a class="btn-dl" href="data/forms/i05_menage_peche.xlsx" download>⇩
+i05_menage_peche.xlsx</a> et l’export
+<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a>.</p>
+<p><strong>Type de données :</strong> enquête socio-économique à deux
+niveaux — le ménage (une ligne chacun) et l’individu (une ligne par
+membre).</p>
+</div>
+</div>
+</div>
+<div id="repeat" class="section level2">
+<h2><span class="en">begin_repeat and end_repeat</span><span
+class="fr">begin_repeat et end_repeat</span></h2>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>relevant</td><td class='xh'>calculation</td><td class='xh'>repeat_count</td></tr><tr><td class='xr'>10</td><td>begin_group</td><td>menage</td><td>Le ménage</td><td></td><td></td><td></td></tr><tr><td class='xr'>11</td><td>select_one sexe</td><td>chef_sexe</td><td>Sexe du chef de ménage</td><td></td><td></td><td></td></tr><tr><td class='xr'>12</td><td>integer</td><td>chef_age</td><td>Âge du chef de ménage</td><td></td><td></td><td></td></tr><tr><td class='xr'>13</td><td>integer</td><td>nb_membres</td><td>Nombre de personnes dans le ménage (chef compris)</td><td></td><td></td><td></td></tr><tr class='xhl'><td class='xr'>14</td><td>begin_repeat</td><td>membres</td><td>Membre du ménage</td><td></td><td></td><td>&#36;{nb_membres}</td></tr><tr><td class='xr'>15</td><td>calculate</td><td>num_membre</td><td></td><td></td><td>position(..)</td><td></td></tr><tr><td class='xr'>16</td><td>text</td><td>prenom</td><td>Prénom du membre &#36;{num_membre}</td><td></td><td></td><td></td></tr><tr><td class='xr'>17</td><td>select_one sexe</td><td>sexe</td><td>Sexe</td><td></td><td></td><td></td></tr><tr><td class='xr'>18</td><td>integer</td><td>age_membre</td><td>Âge (années révolues)</td><td></td><td></td><td></td></tr><tr><td class='xr'>19</td><td>select_one oui_non</td><td>scolarise</td><td>Va à l'école ?</td><td>&#36;{age_membre} &gt;= 6 and &#36;{age_membre} &lt;= 17</td><td></td><td></td></tr><tr><td class='xr'>20</td><td>select_one activite</td><td>activite</td><td>Activité principale</td><td>&#36;{age_membre} &gt;= 15</td><td></td><td></td></tr><tr><td class='xr'>21</td><td>calculate</td><td>est_enfant</td><td></td><td></td><td>if(&#36;{age_membre} &lt; 15, 1, 0)</td><td></td></tr><tr class='xhl'><td class='xr'>22</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>23</td><td>calculate</td><td>nb_enfants</td><td></td><td></td><td>sum(&#36;{est_enfant})</td><td></td></tr><tr><td class='xr'>24</td><td>note</td><td>note_enfants</td><td>Ce ménage compte &#36;{nb_enfants} enfant(s) de moins de 15 ans.</td><td></td><td></td><td></td></tr><tr><td class='xr'>25</td><td>end_group</td><td></td><td></td><td></td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<ul>
+<li>Like a group: <strong><code>begin_repeat</code></strong> (name +
+label) … <strong><code>end_repeat</code></strong>. The questions between
+them are asked <strong>once per repetition</strong> (once per
+member).</li>
+<li><strong><code>repeat_count</code></strong> = number of repetitions.
+Here <code>${nb_membres}</code>: the form creates exactly as many
+members as announced. It can also be a number (<code>3</code>) or a
+calculation.</li>
+<li><strong>Without <code>repeat_count</code></strong>, after each
+member the enumerator is asked <em>“Add another Membre du ménage?”</em>
+— flexible, but easy to forget a member or add one too many.</li>
+<li>Inside the repeat, <strong><code>${age_membre}</code> means the age
+of <em>this</em> member</strong>: the <code>relevant</code> of
+<code>scolarise</code>
+(<code>${age_membre} &gt;= 6 and ${age_membre} &lt;= 17</code>) is
+evaluated for each member separately.</li>
+<li><strong><code>position(..)</code></strong> gives the number of the
+current repetition (1, 2, 3…): used here to show <em>“Prénom du membre
+2”</em>.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Comme un groupe : <strong><code>begin_repeat</code></strong> (name +
+libellé) … <strong><code>end_repeat</code></strong>. Les questions entre
+les deux sont posées <strong>une fois par répétition</strong> (une fois
+par membre).</li>
+<li><strong><code>repeat_count</code></strong> = nombre de répétitions.
+Ici <code>${nb_membres}</code> : le formulaire crée exactement autant de
+membres qu’annoncé. Ce peut aussi être un nombre (<code>3</code>) ou un
+calcul.</li>
+<li><strong>Sans <code>repeat_count</code></strong>, après chaque membre
+l’enquêteur voit <em>« Ajouter un autre Membre du ménage ? »</em> —
+souple, mais il est facile d’oublier un membre ou d’en ajouter un de
+trop.</li>
+<li>Dans la répétition, <strong><code>${age_membre}</code> désigne l’âge
+de <em>ce</em> membre</strong> : le <code>relevant</code> de
+<code>scolarise</code>
+(<code>${age_membre} &gt;= 6 and ${age_membre} &lt;= 17</code>) est
+évalué pour chaque membre séparément.</li>
+<li><strong><code>position(..)</code></strong> donne le numéro de la
+répétition en cours (1, 2, 3…) : utilisé ici pour afficher <em>« Prénom
+du membre 2 »</em>.</li>
+</ul>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>begin_repeat</code> / <code>end_repeat</code></td>
+<td>start / end of the repeated questions</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>repeat_count</code></td>
+<td>number of repetitions (on the begin_repeat row)</td>
+<td>a number, <code>${question}</code>, a calculation</td>
+</tr>
+<tr class="odd">
+<td><code>position(..)</code></td>
+<td>number of the current repetition</td>
+<td>1, 2, 3…</td>
+</tr>
+<tr class="even">
+<td><code>sum(${x})</code></td>
+<td>outside the repeat: sum of x over all repetitions</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>count(${repeat_name})</code></td>
+<td>outside the repeat: number of repetitions</td>
+<td><code>count(${membres})</code></td>
+</tr>
+<tr class="even">
+<td><code>max(${x})</code>, <code>min(${x})</code></td>
+<td>largest / smallest value over the repetitions</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>indexed-repeat(${x}, ${rep}, n)</code></td>
+<td>value of x in repetition n (advanced)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>begin_repeat</code> / <code>end_repeat</code></td>
+<td>début / fin des questions répétées</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>repeat_count</code></td>
+<td>nombre de répétitions (sur la ligne begin_repeat)</td>
+<td>un nombre, <code>${question}</code>, un calcul</td>
+</tr>
+<tr class="odd">
+<td><code>position(..)</code></td>
+<td>numéro de la répétition en cours</td>
+<td>1, 2, 3…</td>
+</tr>
+<tr class="even">
+<td><code>sum(${x})</code></td>
+<td>hors de la répétition : somme de x sur toutes les répétitions</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>count(${repeat_name})</code></td>
+<td>hors de la répétition : nombre de répétitions</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>max(${x})</code>, <code>min(${x})</code></td>
+<td>plus grande / plus petite valeur sur les répétitions</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>indexed-repeat(${x}, ${rep}, n)</code></td>
+<td>valeur de x dans la répétition n (avancé)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="en">Summarise the repetitions in the form</span><span
+class="fr">Résumer les répétitions dans le formulaire</span></h2>
+<div class="en">
+<p><strong>Outside</strong> the repeat, a reference to a question of the
+repeat means “all its values”. Two steps to count the children:</p>
+<ol style="list-style-type: decimal">
+<li>inside the repeat, a calculation that gives 1 for a child and 0
+otherwise: <code>est_enfant</code> =
+<code>if(${age_membre} &lt; 15, 1, 0)</code>;</li>
+<li>after <code>end_repeat</code>, the sum: <code>nb_enfants</code> =
+<code>sum(${est_enfant})</code>, shown in a note to check it with the
+respondent.</li>
+</ol>
+<p>The same way: <code>count(${membres})</code> = number of members
+entered; <code>max(${age_membre})</code> = age of the oldest;
+<code>sum(${revenu_membre})</code> = total income.</p>
+</div>
+<div class="fr">
+<p><strong>Hors</strong> de la répétition, une référence à une question
+de la répétition signifie « toutes ses valeurs ». Deux étapes pour
+compter les enfants :</p>
+<ol style="list-style-type: decimal">
+<li>dans la répétition, un calcul qui donne 1 pour un enfant et 0 sinon
+: <code>est_enfant</code> = <code>if(${age_membre} &lt; 15, 1, 0)</code>
+;</li>
+<li>après <code>end_repeat</code>, la somme : <code>nb_enfants</code> =
+<code>sum(${est_enfant})</code>, affichée dans une note pour
+vérification avec le répondant.</li>
+</ol>
+<p>De la même façon : <code>count(${membres})</code> = nombre de membres
+saisis ; <code>max(${age_membre})</code> = âge du plus âgé ;
+<code>sum(${revenu_membre})</code> = revenu total.</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Do not put a repeat inside a <code>field-list</code>
+group</strong>, and avoid very long repeats in the web form (one page
+per member is easier with the <code>pages</code> style). A repeat can
+contain groups, and even another repeat (<strong>nested
+repeats</strong>, e.g. trips › catches: Level 3).</p>
+</div>
+<div class="fr">
+<p><strong>Ne mettez pas de répétition dans un groupe
+<code>field-list</code></strong>, et évitez les très longues répétitions
+dans le formulaire web (une page par membre est plus simple avec le
+style <code>pages</code>). Une répétition peut contenir des groupes, et
+même une autre répétition (<strong>répétitions imbriquées</strong>, ex.
+sorties › captures : niveau 3).</p>
+</div>
+</div>
+</div>
+<div id="export" class="section level2">
+<h2><span class="en">Repeats in the export</span><span class="fr">Les
+répétitions dans l’export</span></h2>
+<div class="en">
+<p>In an <strong>XLS</strong> export, each repeat has <strong>its own
+sheet</strong>, named after the repeat (<code>membres</code>), with
+<strong>one row per repetition</strong>. The <strong>CSV</strong> export
+contains the main data only: always use XLS for a form with repeats.</p>
+</div>
+<div class="fr">
+<p>Dans un export <strong>XLS</strong>, chaque répétition a <strong>sa
+propre feuille</strong>, au nom de la répétition (<code>membres</code>),
+avec <strong>une ligne par répétition</strong>. L’export
+<strong>CSV</strong> ne contient que les données principales : utilisez
+toujours XLS pour un formulaire avec répétitions.</p>
+</div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 270" role="img" aria-label="Main sheet and repeat sheets of a Kobo export" font-family="Source Sans 3, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="es" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d9694a"/></marker></defs>
+<g font-family="JetBrains Mono, Consolas, monospace" font-size="12">
+<rect x="10" y="30" width="270" height="150" fill="#fff" stroke="#9aa5ad"/><rect x="10" y="30" width="270" height="24" fill="#ddebf7" stroke="#9aa5ad"/>
+<text x="18" y="47" font-weight="700" fill="#0b3d5c">village</text><text x="110" y="47" font-weight="700" fill="#0b3d5c">nb_membres</text><text x="210" y="47" font-weight="700" fill="#d9694a">_index</text>
+<text x="18" y="76">ifaty</text><text x="130" y="76">4</text><text x="225" y="76" fill="#d9694a" font-weight="700">1</text>
+<text x="18" y="102">mangily</text><text x="130" y="102">2</text><text x="225" y="102" fill="#d9694a" font-weight="700">2</text>
+<text x="18" y="128">…</text>
+<rect x="10" y="180" width="200" height="22" fill="#fff" stroke="#9aa5ad"/><text x="16" y="196" font-weight="700" fill="#217346" font-size="11">Enquête ménages pêche</text>
+<rect x="390" y="30" width="500" height="200" fill="#fff" stroke="#9aa5ad"/><rect x="390" y="30" width="500" height="24" fill="#ddebf7" stroke="#9aa5ad"/>
+<text x="398" y="47" font-weight="700" fill="#0b3d5c">prenom</text><text x="460" y="47" font-weight="700" fill="#0b3d5c">age_membre</text><text x="548" y="47" font-weight="700" fill="#0b3d5c">_index</text><text x="610" y="47" font-weight="700" fill="#d9694a">_parent_index</text><text x="728" y="47" font-weight="700" fill="#0b3d5c">_submission__uuid</text>
+<g><text x="398" y="76">Lova</text><text x="480" y="76">21</text><text x="565" y="76">1</text><text x="650" y="76" fill="#d9694a" font-weight="700">1</text><text x="740" y="76">b72386e2…</text>
+<text x="398" y="100">Soa</text><text x="480" y="100">19</text><text x="565" y="100">2</text><text x="650" y="100" fill="#d9694a" font-weight="700">1</text><text x="740" y="100">b72386e2…</text>
+<text x="398" y="124">Zafy</text><text x="480" y="124">6</text><text x="565" y="124">3</text><text x="650" y="124" fill="#d9694a" font-weight="700">1</text><text x="740" y="124">b72386e2…</text>
+<text x="398" y="148">Tiana</text><text x="480" y="148">2</text><text x="565" y="148">4</text><text x="650" y="148" fill="#d9694a" font-weight="700">1</text><text x="740" y="148">b72386e2…</text>
+<text x="398" y="172">Rivo</text><text x="480" y="172">44</text><text x="565" y="172">5</text><text x="650" y="172" fill="#d9694a" font-weight="700">2</text><text x="740" y="172">e01f9c41…</text>
+<text x="398" y="196">Vola</text><text x="480" y="196">40</text><text x="565" y="196">6</text><text x="650" y="196" fill="#d9694a" font-weight="700">2</text><text x="740" y="196">e01f9c41…</text></g>
+<rect x="390" y="230" width="80" height="22" fill="#fff" stroke="#9aa5ad"/><text x="398" y="246" font-weight="700" fill="#217346">membres</text></g>
+<path d="M245 72 C 320 72, 330 70, 640 66" stroke="#d9694a" stroke-width="2" fill="none" marker-end="url(#es)"/>
+<path d="M245 98 C 330 120, 330 168, 640 168" stroke="#d9694a" stroke-width="2" fill="none" marker-end="url(#es)"/>
+<g font-size="13" fill="#5d6b75"><text x="10" y="232" class="en">one row per submission (household)</text><text x="10" y="232" class="fr">une ligne par soumission (ménage)</text>
+<text x="10" y="250" class="en">_index (main) = _parent_index (repeat)</text><text x="10" y="250" class="fr">_index (principale) = _parent_index (répétition)</text>
+<text x="480" y="266" class="en">one row per repeat (household member)</text><text x="480" y="266" class="fr">une ligne par répétition (membre du ménage)</text></g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpmNzcwMjllMi1lNGZmLTRiNzEtOTMyZS0xZTk5NjNiYjJkMWIAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaCCrYN7nCEotPOPoQWIJ4kIAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDphYTI0N2Q1MS0wYzA0LTQzOGUtOGZiMy0wYzA1ZWY5NWMyNDZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoQihgMBlMOOF0XMqmBONjQQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggMFztFQ5hc3G8GJDb4MHwvmLOiFBJeZm6X1KqLod6P+WkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaKD/jW2ukMHxUTaX2s4T7ZMAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIHUUownocLv4znKEoBm4VRx5a+cTecJXmfqDVn/glfxhZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQ83Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmY3NzAyOWUyLWU0ZmYtNGI3MS05MzJlLTFlOTk2M2JiMmQxYi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmFkYmJmYTQ1LTU0YmMtNDE1ZS1iYmQyLTA2Y2NlYzg3OTdhOHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAwXO0VDmFzcbwYkNvgwfC+Ys6IUEl5mbpfUqouh3o/5aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggu0c2Mk7Ecz39C+QZLiXmiaPuNVvyfCIH8fyRiw2MPaKiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg+H+hWLzlKQUvQtEq2bCAC5GdBQFq+xy7fYEDSWrWXu10Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQIZmzaLcX9/MpxaEoDgxD+Msc91joJUYe7h5GTWRO2YfylDfuiK5tqGjN+G4/a53k2hg3FeWXWHyweEwqaSx3rU=</c2pa:manifest></metadata></svg><figcaption><span class="en">The main sheet and the repeat sheet are linked by _index (main) = _parent_index (repeat).</span><span class="fr">La feuille principale et la feuille de répétition sont reliées par _index (principale) = _parent_index (répétition).</span></figcaption></figure>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th></tr><tr><td class='xr'>1</td><td class='xh'>menage/membres/num_membre</td><td class='xh'>menage/membres/prenom</td><td class='xh'>menage/membres/sexe</td><td class='xh'>menage/membres/age_membre</td><td class='xh'>menage/membres/scolarise</td><td class='xh'>_index</td><td class='xh'>_parent_table_name</td><td class='xh'>_parent_index</td><td class='xh'>_submission__uuid</td></tr><tr><td class='xr'>2</td><td>1</td><td>Lova</td><td>m</td><td>21</td><td></td><td>1</td><td>Enquête ménages pêche</td><td>1</td><td>b72386e2-f6f8-4cf4-86a4-740ee0e44367</td></tr><tr><td class='xr'>3</td><td>2</td><td>Jao</td><td>m</td><td>55</td><td></td><td>2</td><td>Enquête ménages pêche</td><td>1</td><td>b72386e2-f6f8-4cf4-86a4-740ee0e44367</td></tr><tr><td class='xr'>4</td><td>3</td><td>Tovo</td><td>m</td><td>13</td><td>oui</td><td>3</td><td>Enquête ménages pêche</td><td>1</td><td>b72386e2-f6f8-4cf4-86a4-740ee0e44367</td></tr><tr><td class='xr'>5</td><td>4</td><td>Tsiry</td><td>m</td><td>5</td><td></td><td>4</td><td>Enquête ménages pêche</td><td>1</td><td>b72386e2-f6f8-4cf4-86a4-740ee0e44367</td></tr><tr><td class='xr'>6</td><td>1</td><td>Tsiry</td><td>m</td><td>66</td><td></td><td>5</td><td>Enquête ménages pêche</td><td>2</td><td>58214e49-6f5f-4cc3-93ea-75e1397d21c7</td></tr><tr><td class='xr'>7</td><td>2</td><td>Botra</td><td>m</td><td>3</td><td></td><td>6</td><td>Enquête ménages pêche</td><td>2</td><td>58214e49-6f5f-4cc3-93ea-75e1397d21c7</td></tr></table><div class="xls-tab"><span>membres</span></div></div>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column of the repeat sheet</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>your questions</td>
+<td>with the path of groups and repeat if <em>Include groups in
+headers</em> is ticked: <code>menage/membres/age_membre</code></td>
+</tr>
+<tr class="even">
+<td><code>_index</code></td>
+<td>row number in this sheet</td>
+</tr>
+<tr class="odd">
+<td><code>_parent_table_name</code></td>
+<td>name of the parent sheet (the main sheet = the form title)</td>
+</tr>
+<tr class="even">
+<td><code>_parent_index</code></td>
+<td><strong><code>_index</code> of the parent row</strong> in the parent
+sheet: the household of this member</td>
+</tr>
+<tr class="odd">
+<td><code>_submission__uuid</code>, <code>_submission__id</code>,
+<code>_submission__submission_time</code>…</td>
+<td>copies of the metadata of the submission (household)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>To bring household information next to each member</strong>
+(e.g. the village), match <code>_parent_index</code> of the member with
+<code>_index</code> of the household. In Excel:
+<code>=XLOOKUP(J2, 'Enquête ménages pêche'!AG:AG, 'Enquête ménages pêche'!E:E)</code>
+(J = <code>_parent_index</code>, AG = <code>_index</code>, E = village)
+(or <code>INDEX/MATCH</code>, <code>VLOOKUP</code>). In R: a join (Level
+3). <code>_index</code> changes from one export to another: always link
+the sheets <strong>of the same export file</strong>;
+<code>_submission__uuid</code> = <code>_uuid</code> is the permanent
+link.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne de la feuille de répétition</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>vos questions</td>
+<td>avec le chemin des groupes et de la répétition si <em>Inclure les
+groupes dans les en-têtes</em> est coché :
+<code>menage/membres/age_membre</code></td>
+</tr>
+<tr class="even">
+<td><code>_index</code></td>
+<td>numéro de ligne dans cette feuille</td>
+</tr>
+<tr class="odd">
+<td><code>_parent_table_name</code></td>
+<td>nom de la feuille parente (la feuille principale = le titre du
+formulaire)</td>
+</tr>
+<tr class="even">
+<td><code>_parent_index</code></td>
+<td><strong><code>_index</code> de la ligne parente</strong> dans la
+feuille parente : le ménage de ce membre</td>
+</tr>
+<tr class="odd">
+<td><code>_submission__uuid</code>, <code>_submission__id</code>,
+<code>_submission__submission_time</code>…</td>
+<td>copies des métadonnées de la soumission (ménage)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pour amener une information du ménage à côté de chaque
+membre</strong> (ex. le village), faites correspondre
+<code>_parent_index</code> du membre avec <code>_index</code> du ménage.
+Dans Excel :
+<code>=RECHERCHEX(J2; 'Enquête ménages pêche'!AG:AG; 'Enquête ménages pêche'!E:E)</code>
+(J = <code>_parent_index</code>, AG = <code>_index</code>, E = village)
+(ou <code>INDEX/EQUIV</code>, <code>RECHERCHEV</code>). Dans R : une
+jointure (niveau 3). <code>_index</code> change d’un export à l’autre :
+reliez toujours les feuilles <strong>d’un même fichier d’export</strong>
+; <code>_submission__uuid</code> = <code>_uuid</code> est le lien
+permanent.</p>
+</div>
+<div class="application">
+<div id="application-work-i5" class="section level3 en">
+<h3>Application work I5</h3>
+<p><strong>A.</strong> Upload <code>i05_menage_peche.xlsx</code>, open
+the preview, enter a household of 4 people (one child of 8, one of 3).
+Check that the school question appears only for the child of 8, and that
+the note shows 2 children. Then remove <code>repeat_count</code> (copy
+of the file), re-upload and see the difference.</p>
+<p><strong>B.</strong> Add to the repeat a question
+<code>revenu_membre</code> (integer, <em>Revenu mensuel de ce membre
+(Ar)</em>, shown only for members aged 15 or more) and, after the
+repeat, a calculation <code>revenu_membres</code> = sum of these
+incomes. Upload and test.</p>
+<p><strong>C.</strong> With <code>i05_menages_xml.xlsx</code>:</p>
+<ol style="list-style-type: decimal">
+<li>Number of rows of the <code>membres</code> sheet?</li>
+<li>Mean number of members per household (members ÷ households, 2
+decimals)?</li>
+<li>Members under 15 years?</li>
+<li>Members who go to school (<code>scolarise</code> =
+<code>oui</code>)?</li>
+<li>Among members asked the school question, % who go to school (1
+decimal)?</li>
+<li>How many members has the household whose <code>_index</code> is
+10?</li>
+<li>How many members live in Ifaty (link to the main sheet)?</li>
+<li>% of women among the members (1 decimal)?</li>
+<li>Size of the largest household?</li>
+<li>Sum of <code>menage/nb_enfants</code> in the main sheet (it must
+equal question 3)?</li>
+</ol>
+</div>
+<div id="travail-dapplication-i5" class="section level3 fr">
+<h3>Travail d’application I5</h3>
+<p><strong>A.</strong> Importez <code>i05_menage_peche.xlsx</code>,
+ouvrez l’aperçu, saisissez un ménage de 4 personnes (un enfant de 8 ans,
+un de 3 ans). Vérifiez que la question sur l’école n’apparaît que pour
+l’enfant de 8 ans, et que la note affiche 2 enfants. Puis supprimez
+<code>repeat_count</code> (copie du fichier), ré-importez et voyez la
+différence.</p>
+<p><strong>B.</strong> Ajoutez dans la répétition une question
+<code>revenu_membre</code> (entier, <em>Revenu mensuel de ce membre
+(Ar)</em>, affichée seulement pour les membres de 15 ans ou plus) et,
+après la répétition, un calcul <code>revenu_membres</code> = somme de
+ces revenus. Importez et testez.</p>
+<p><strong>C.</strong> Avec <code>i05_menages_xml.xlsx</code> :</p>
+<ol style="list-style-type: decimal">
+<li>Nombre de lignes de la feuille <code>membres</code> ?</li>
+<li>Nombre moyen de membres par ménage (membres ÷ ménages, 2 décimales)
+?</li>
+<li>Membres de moins de 15 ans ?</li>
+<li>Membres scolarisés (<code>scolarise</code> = <code>oui</code>)
+?</li>
+<li>Parmi les membres à qui la question sur l’école a été posée, %
+scolarisés (1 décimale) ?</li>
+<li>Combien de membres compte le ménage dont l’<code>_index</code> est
+10 ?</li>
+<li>Combien de membres vivent à Ifaty (lien avec la feuille principale)
+?</li>
+<li>% de femmes parmi les membres (1 décimale) ?</li>
+<li>Taille du plus grand ménage ?</li>
+<li>Somme de <code>menage/nb_enfants</code> dans la feuille principale
+(elle doit égaler la question 3) ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 5: the denominator is the number of
+<strong>non-empty</strong> cells of <code>scolarise</code>
+(<code>COUNTA</code>), not all the members. Question 7: add a column
+<em>village</em> to the <code>membres</code> sheet with
+<code>XLOOKUP</code> (French Excel: <code>RECHERCHEX</code>) on
+<code>_parent_index</code>, then count <code>ifaty</code>. Question 9: a
+pivot table on <code>_parent_index</code> (count), or <code>MAX</code>
+of <code>menage/nb_membres</code> in the main sheet.</p>
+</div>
+<div class="fr">
+<p>Question 5 : le dénominateur est le nombre de cellules <strong>non
+vides</strong> de <code>scolarise</code> (<code>NBVAL</code>), pas tous
+les membres. Question 7 : ajoutez une colonne <em>village</em> à la
+feuille <code>membres</code> avec <code>RECHERCHEX</code> sur
+<code>_parent_index</code>, puis comptez <code>ifaty</code>. Question 9
+: un tableau croisé sur <code>_parent_index</code> (nombre), ou le
+<code>MAX</code> de <code>menage/nb_membres</code> dans la feuille
+principale.</p>
+</div>
+</div>
+<div id="quiz-ki5" class="quiz" data-quiz-id="ki5"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBvZiB0aGUgbWVtYnJlcyBzaGVldD8iLCJmciI6IjEuIExpZ25lcyBkZSBsYSBmZXVpbGxlIG1lbWJyZXMgPyIsImFuc3dlciI6Mzk5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBNZWFuIG1lbWJlcnMgcGVyIGhvdXNlaG9sZCAoMiBkZWNpbWFscyk/IiwiZnIiOiIyLiBNZW1icmVzIHBhciBtw6luYWdlIGVuIG1veWVubmUgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NC45OSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lbWJlcnMgdW5kZXIgMTU/IiwiZnIiOiIzLiBNZW1icmVzIGRlIG1vaW5zIGRlIDE1IGFucyA/IiwiYW5zd2VyIjoxMTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lbWJlcnMgYXQgc2Nob29sPyIsImZyIjoiNC4gTWVtYnJlcyBzY29sYXJpc8OpcyA/IiwiYW5zd2VyIjo1OSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gJSBhdCBzY2hvb2wgYW1vbmcgdGhvc2UgYXNrZWQgKDEgZGVjaW1hbCk/IiwiZnIiOiI1LiAlIHNjb2xhcmlzw6lzIHBhcm1pIGNldXggaW50ZXJyb2fDqXMgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo2Ni4zLCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBNZW1iZXJzIG9mIGhvdXNlaG9sZCBfaW5kZXggMTA/IiwiZnIiOiI2LiBNZW1icmVzIGR1IG3DqW5hZ2UgX2luZGV4IDEwID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE1lbWJlcnMgbGl2aW5nIGluIElmYXR5PyIsImZyIjoiNy4gTWVtYnJlcyB2aXZhbnQgw6AgSWZhdHkgPyIsImFuc3dlciI6OTUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguICUgd29tZW4gYW1vbmcgbWVtYmVycyAoMSBkZWNpbWFsKT8iLCJmciI6IjguICUgZGUgZmVtbWVzIHBhcm1pIGxlcyBtZW1icmVzICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NDUuNiwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOS4gU2l6ZSBvZiB0aGUgbGFyZ2VzdCBob3VzZWhvbGQ/IiwiZnIiOiI5LiBUYWlsbGUgZHUgcGx1cyBncmFuZCBtw6luYWdlID8iLCJhbnN3ZXIiOjEyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMC4gU3VtIG9mIG1lbmFnZS9uYl9lbmZhbnRzPyIsImZyIjoiMTAuIFNvbW1lIGRlIG1lbmFnZS9uYl9lbmZhbnRzID8iLCJhbnN3ZXIiOjExNCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiMTEuIFRvdGFsIGluY29tZSBvZiB0aGUgbWVtYmVycywgYWZ0ZXIgZW5kX3JlcGVhdDoiLCJmciI6IjExLiBSZXZlbnUgdG90YWwgZGVzIG1lbWJyZXMsIGFwcsOocyBlbmRfcmVwZWF0IDoiLCJvcHRpb25zX2VuIjpbInN1bSgke3JldmVudV9tZW1icmV9KSIsIiR7cmV2ZW51X21lbWJyZX0gKyAke3JldmVudV9tZW1icmV9IiwiY291bnQoJHtyZXZlbnVfbWVtYnJlfSkiXSwib3B0aW9uc19mciI6WyJzdW0oJHtyZXZlbnVfbWVtYnJlfSkiLCIke3JldmVudV9tZW1icmV9ICsgJHtyZXZlbnVfbWVtYnJlfSIsImNvdW50KCR7cmV2ZW51X21lbWJyZX0pIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gV2hpY2ggZXhwb3J0IGtlZXBzIHRoZSBtZW1iZXJzPyIsImZyIjoiMTIuIFF1ZWwgZXhwb3J0IGdhcmRlIGxlcyBtZW1icmVzID8iLCJvcHRpb25zX2VuIjpbIkNTViIsIlhMUyIsImJvdGgiXSwib3B0aW9uc19mciI6WyJDU1YiLCJYTFMiLCJsZXMgZGV1eCJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="ki5">
+<div class="en">
+<p>1 399 · 2 4.99 · 3 114 · 4 59 · 5 66.3 % · 6 5 · 7 95 · 8 45.6 % · 9
+12 · 10 114 (= question 3: the form’s calculation and your count agree)
+· 11 <code>sum()</code> · 12 XLS.</p>
+<p>Part B — rows to add (inside the repeat, then after
+<code>end_repeat</code>):</p>
+</div>
+<div class="fr">
+<p>1 399 · 2 4.99 · 3 114 · 4 59 · 5 66.3 % · 6 5 · 7 95 · 8 45.6 % · 9
+12 · 10 114 (= question 3 : le calcul du formulaire et votre comptage
+concordent) · 11 <code>sum()</code> · 12 XLS.</p>
+<p>Partie B — lignes à ajouter (dans la répétition, puis après
+<code>end_repeat</code>) :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>relevant</td><td class='xh'>constraint</td><td class='xh'>calculation</td></tr><tr><td class='xr'>2</td><td>integer</td><td>revenu_membre</td><td>Revenu mensuel de ce membre (Ar)</td><td>&#36;{age_membre} &gt;= 15</td><td>. &gt;= 0</td><td></td></tr><tr><td class='xr'>3</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>calculate</td><td>revenu_membres</td><td></td><td></td><td></td><td>sum(&#36;{revenu_membre})</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

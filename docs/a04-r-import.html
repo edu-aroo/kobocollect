@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A4</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A4 · Reading a Kobo export
+in R: main sheet and groups</span><span class="fr">A4 · Lire un export
+Kobo dans R : feuille principale et groupes</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>list and read the sheets of a KoboToolbox XLS export with
+<code>readxl</code>;</li>
+<li>deal with headers containing <code>/</code> (groups) and shorten
+them safely;</li>
+<li>convert the metadata (<code>start</code>, <code>end</code>,
+<code>_submission_time</code>) and dates into R date-times, and compute
+the interview duration;</li>
+<li>use <code>select_multiple</code> answers (0/1 columns or the single
+column);</li>
+<li>replace choice names by their labels using the XLSForm itself.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>lister et lire les feuilles d’un export XLS de KoboToolbox avec
+<code>readxl</code> ;</li>
+<li>gérer les en-têtes contenant <code>/</code> (groupes) et les
+raccourcir sans risque ;</li>
+<li>convertir les métadonnées (<code>start</code>, <code>end</code>,
+<code>_submission_time</code>) et les dates en date-heures R, et
+calculer la durée d’un entretien ;</li>
+<li>utiliser les réponses <code>select_multiple</code> (colonnes 0/1 ou
+colonne unique) ;</li>
+<li>remplacer les names des choix par leurs libellés en utilisant le
+XLSForm lui-même.</li>
+</ul>
+</div>
+</div>
+<div id="project" class="section level2">
+<h2><span class="en">Prepare the project</span><span class="fr">Préparer
+le projet</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The analyst of the reef network
+receives the XML export (Session A3) and the XLSForm. She wants a script
+that reads them, cleans them and produces the summary of the dives — and
+that can be <strong>re-run unchanged</strong> on next year’s export.
+Files:
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_xml.xlsx" download>⇩
+a03_suivi_recifs_xml.xlsx</a>,
+<a class="btn-dl" href="data/forms/a03_suivi_recifs.xlsx" download>⇩
+a03_suivi_recifs.xlsx</a> and the helper script
+<a class="btn-dl" href="templates/kobo_import.R" download>⇩
+kobo_import.R</a>.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> L’analyste du réseau des récifs
+reçoit l’export XML (séance A3) et le XLSForm. Elle veut un script qui
+les lit, les nettoie et produit le bilan des plongées — et qui puisse
+être <strong>relancé sans modification</strong> sur l’export de l’an
+prochain. Fichiers :
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_xml.xlsx" download>⇩
+a03_suivi_recifs_xml.xlsx</a>,
+<a class="btn-dl" href="data/forms/a03_suivi_recifs.xlsx" download>⇩
+a03_suivi_recifs.xlsx</a> et le script d’aide
+<a class="btn-dl" href="templates/kobo_import.R" download>⇩
+kobo_import.R</a>.</p>
+</div>
+</div>
+<div class="en">
+<p>Create an RStudio project with this structure, and <strong>never
+modify the files of <code>data/raw/</code></strong> (they are the copy
+of what KoboToolbox gave you):</p>
+<pre><code>suivi_recifs/
+├── suivi_recifs.Rproj
+├── data/raw/      a03_suivi_recifs_xml.xlsx, a03_suivi_recifs.xlsx (form)
+├── data/clean/    tables written by the scripts
+└── R/             kobo_import.R, 01_import.R, 02_repeats.R</code></pre>
+</div>
+<div class="fr">
+<p>Créez un projet RStudio avec cette structure, et <strong>ne modifiez
+jamais les fichiers de <code>data/raw/</code></strong> (c’est la copie
+de ce que KoboToolbox vous a donné) :</p>
+<pre><code>suivi_recifs/
+├── suivi_recifs.Rproj
+├── data/raw/      a03_suivi_recifs_xml.xlsx, a03_suivi_recifs.xlsx (formulaire)
+├── data/clean/    tables écrites par les scripts
+└── R/             kobo_import.R, 01_import.R, 02_repeats.R</code></pre>
+</div>
+</div>
+<div id="read" class="section level2">
+<h2><span class="en">Read the sheets</span><span class="fr">Lire les
+feuilles</span></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">excel_sheets</span>(f_xml)                       <span class="co"># names of the sheets</span></span></code></pre></div>
+<pre><code>#&gt; [1] &quot;Suivi des récifs&quot; &quot;transects&quot;        &quot;poissons&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>visites <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(f_xml, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">guess_max =</span> <span class="dv">10000</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">dim</span>(visites)</span></code></pre></div>
+<pre><code>#&gt; [1] 24 33</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">names</span>(visites)[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]</span></code></pre></div>
+<pre><code>#&gt;  [1] &quot;start&quot;                       &quot;end&quot;                         &quot;localisation/region&quot;        
+#&gt;  [4] &quot;localisation/district&quot;       &quot;localisation/commune&quot;        &quot;localisation/site&quot;          
+#&gt;  [7] &quot;localisation/statut&quot;         &quot;localisation/gps&quot;            &quot;localisation/_gps_latitude&quot; 
+#&gt; [10] &quot;localisation/_gps_longitude&quot; &quot;localisation/_gps_altitude&quot;  &quot;localisation/_gps_precision&quot;</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>excel_sheets(path)</code></td>
+<td>names of the sheets of an Excel file</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>read_excel(path, sheet = 1)</code></td>
+<td>reads one sheet; <code>sheet</code> = position or name</td>
+<td>a number or a text</td>
+</tr>
+<tr class="odd">
+<td>  <code>guess_max</code></td>
+<td>number of rows used to guess the type of each column</td>
+<td>a large number (columns often empty at the top)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>excel_sheets(path)</code></td>
+<td>noms des feuilles d’un fichier Excel</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>read_excel(path, sheet = 1)</code></td>
+<td>lit une feuille ; <code>sheet</code> = position ou nom</td>
+<td>un nombre ou un texte</td>
+</tr>
+<tr class="odd">
+<td>  <code>guess_max</code></td>
+<td>nombre de lignes utilisées pour deviner le type de chaque
+colonne</td>
+<td>un grand nombre (colonnes souvent vides en haut)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="en">
+<p><code>f_xml</code> is the path of the file (in your project:
+<code>"data/raw/a03_suivi_recifs_xml.xlsx"</code>). Read the main sheet
+by its <strong>position</strong> (1): its name is the form title and
+contains accents and spaces. Increase
+<strong><code>guess_max</code></strong>: a column empty in the first
+1000 rows (a rare question, remarks) would otherwise be read as
+“logical” and lose its values.</p>
+</div>
+<div class="fr">
+<p><code>f_xml</code> est le chemin du fichier (dans votre projet :
+<code>"data/raw/a03_suivi_recifs_xml.xlsx"</code>). Lisez la feuille
+principale par sa <strong>position</strong> (1) : son nom est le titre
+du formulaire et contient accents et espaces. Augmentez
+<strong><code>guess_max</code></strong> : une colonne vide sur les 1000
+premières lignes (une question rare, des remarques) serait sinon lue
+comme « logique » et perdrait ses valeurs.</p>
+</div>
+</div>
+<div id="names" class="section level2">
+<h2><span class="en">Headers with groups</span><span class="fr">En-têtes
+avec groupes</span></h2>
+<div class="en">
+<p>Headers like <code>localisation/site</code> must be written between
+backticks in R: <code>visites$`localisation/site`</code>. Two
+options:</p>
+<ol style="list-style-type: decimal">
+<li><strong>keep</strong> them and use them to select sections:
+<code>select(visites, starts_with("plongee/"))</code>;</li>
+<li><strong>shorten</strong> them (remove the groups), keeping
+<code>question/choice</code> for the 0/1 columns of a
+<code>select_multiple</code>. That is what <code>shorten_names()</code>
+of <code>kobo_import.R</code> does, and it <strong>warns</strong> you if
+two columns would get the same name.</li>
+</ol>
+</div>
+<div class="fr">
+<p>Les en-têtes comme <code>localisation/site</code> s’écrivent entre
+accents graves dans R : <code>visites$`localisation/site`</code>. Deux
+possibilités :</p>
+<ol style="list-style-type: decimal">
+<li>les <strong>garder</strong> et s’en servir pour sélectionner des
+sections : <code>select(visites, starts_with("plongee/"))</code> ;</li>
+<li>les <strong>raccourcir</strong> (retirer les groupes), en gardant
+<code>question/choix</code> pour les colonnes 0/1 d’un
+<code>select_multiple</code>. C’est ce que fait
+<code>shorten_names()</code> de <code>kobo_import.R</code>, qui
+<strong>vous prévient</strong> si deux colonnes recevaient le même
+nom.</li>
+</ol>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>visites <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;plongee/&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 3 × 9
+#&gt;   `plongee/date_plongee` `plongee/observateurs` `plongee/observateurs/hery` plongee/observateurs/lov…¹
+#&gt;   &lt;chr&gt;                  &lt;chr&gt;                                        &lt;dbl&gt;                      &lt;dbl&gt;
+#&gt; 1 2026-05-04             hery rindra                                      1                          0
+#&gt; 2 2026-05-10             hery soa                                         1                          0
+#&gt; 3 2026-05-11             lova rindra                                      0                          1
+#&gt; # ℹ abbreviated name: ¹​`plongee/observateurs/lova`
+#&gt; # ℹ 5 more variables: `plongee/observateurs/nomena` &lt;dbl&gt;, `plongee/observateurs/rindra` &lt;dbl&gt;,
+#&gt; #   `plongee/observateurs/soa` &lt;dbl&gt;, `plongee/visibilite` &lt;dbl&gt;, `plongee/nb_transects` &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;templates/kobo_import.R&quot;</span>)      <span class="co"># read_kobo(), shorten_names(), kobo_label(), join_parent()</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">shorten_names</span>(visites)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">names</span>(v)[<span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>]</span></code></pre></div>
+<pre><code>#&gt;  [1] &quot;start&quot;             &quot;end&quot;               &quot;region&quot;            &quot;district&quot;         
+#&gt;  [5] &quot;commune&quot;           &quot;site&quot;              &quot;statut&quot;            &quot;gps&quot;              
+#&gt;  [9] &quot;_gps_latitude&quot;     &quot;_gps_longitude&quot;    &quot;_gps_altitude&quot;     &quot;_gps_precision&quot;   
+#&gt; [13] &quot;date_plongee&quot;      &quot;observateurs&quot;      &quot;observateurs/hery&quot; &quot;observateurs/lova&quot;</code></pre>
+</div>
+<div id="dates" class="section level2">
+<h2><span class="en">Dates and durations</span><span class="fr">Dates et
+durées</span></h2>
+<div class="en">
+<p><code>start</code> and <code>end</code> are texts such as
+<code>2026-05-04T09:01:59.000+03:00</code> (local time of the device,
+with its offset). <code>_submission_time</code> is in UTC.
+<code>date_plongee</code> is a date. Convert them:</p>
+</div>
+<div class="fr">
+<p><code>start</code> et <code>end</code> sont des textes comme
+<code>2026-05-04T09:01:59.000+03:00</code> (heure locale de l’appareil,
+avec son décalage). <code>_submission_time</code> est en UTC.
+<code>date_plongee</code> est une date. Convertissez-les :</p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> v <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="at">debut =</span> <span class="fu">as.POSIXct</span>(<span class="fu">substr</span>(start, <span class="dv">1</span>, <span class="dv">19</span>), <span class="at">format =</span> <span class="st">&quot;%Y-%m-%dT%H:%M:%S&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Indian/Antananarivo&quot;</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="at">fin   =</span> <span class="fu">as.POSIXct</span>(<span class="fu">substr</span>(end,   <span class="dv">1</span>, <span class="dv">19</span>), <span class="at">format =</span> <span class="st">&quot;%Y-%m-%dT%H:%M:%S&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;Indian/Antananarivo&quot;</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="at">duree_min    =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(fin, debut, <span class="at">units =</span> <span class="st">&quot;mins&quot;</span>)),</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="at">date_plongee =</span> <span class="fu">as.Date</span>(date_plongee),</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>    <span class="at">recu_le      =</span> <span class="fu">as.POSIXct</span>(<span class="st">`</span><span class="at">_submission_time</span><span class="st">`</span>, <span class="at">format =</span> <span class="st">&quot;%Y-%m-%dT%H:%M:%S&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;UTC&quot;</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>    <span class="at">delai_jours  =</span> <span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(recu_le) <span class="sc">-</span> date_plongee)   <span class="co"># days between dive and sending</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  )</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">summary</span>(v<span class="sc">$</span>duree_min)</span></code></pre></div>
+<pre><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;    4.00   10.72   15.41   14.32   19.20   20.77</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>substr(x, 1, 19)</code></td>
+<td>keeps the first 19 characters (date and time, without milliseconds
+and offset)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>as.POSIXct(x, format, tz)</code></td>
+<td>text → date-time</td>
+<td><code>%Y-%m-%dT%H:%M:%S</code>; tz = time zone</td>
+</tr>
+<tr class="odd">
+<td><code>difftime(a, b, units = "mins")</code></td>
+<td>time between two date-times</td>
+<td><code>"secs"</code>, <code>"mins"</code>, <code>"hours"</code>,
+<code>"days"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>substr(x, 1, 19)</code></td>
+<td>garde les 19 premiers caractères (date et heure, sans millisecondes
+ni décalage)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>as.POSIXct(x, format, tz)</code></td>
+<td>texte → date-heure</td>
+<td><code>%Y-%m-%dT%H:%M:%S</code> ; tz = fuseau horaire</td>
+</tr>
+<tr class="odd">
+<td><code>difftime(a, b, units = "mins")</code></td>
+<td>durée entre deux date-heures</td>
+<td>idem</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>Quality checks you can run on every export: durations that are too
+short or too long
+(<code>filter(duree_min &lt; 5 | duree_min &gt; 120)</code>), forms sent
+long after the interview (<code>delai_jours &gt; 7</code>), enumerators
+with unusual results (<code>count(_submitted_by)</code>), duplicated
+<code>_uuid</code>.</p>
+</div>
+<div class="fr">
+<p>Contrôles qualité à lancer sur chaque export : durées trop courtes ou
+trop longues
+(<code>filter(duree_min &lt; 5 | duree_min &gt; 120)</code>), fiches
+envoyées longtemps après l’entretien (<code>delai_jours &gt; 7</code>),
+enquêteurs aux résultats inhabituels
+(<code>count(_submitted_by)</code>), <code>_uuid</code> en double.</p>
+</div>
+</div>
+</div>
+<div id="multiple" class="section level2">
+<h2><span class="en">select_multiple answers</span><span class="fr">Les
+réponses select_multiple</span></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># 0/1 columns: number of dives per diver</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;observateurs/&quot;</span>), sum))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 1 × 5
+#&gt;   `observateurs/hery` `observateurs/lova` `observateurs/nomena` `observateurs/rindra`
+#&gt;                 &lt;dbl&gt;               &lt;dbl&gt;                 &lt;dbl&gt;                 &lt;dbl&gt;
+#&gt; 1                  18                  16                    10                    11
+#&gt; # ℹ 1 more variable: `observateurs/soa` &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># single column: number of divers per dive, and &quot;was Hery there?&quot;</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>v <span class="ot">&lt;-</span> v <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">nb_plongeurs =</span> <span class="fu">str_count</span>(observateurs, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">S+&quot;</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>                 <span class="at">avec_hery    =</span> <span class="fu">str_detect</span>(observateurs, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">bhery</span><span class="sc">\\</span><span class="st">b&quot;</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">table</span>(v<span class="sc">$</span>nb_plongeurs)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  2  3  4 
+#&gt; 15  8  1</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># long format: one row per dive and diver</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">_uuid</span><span class="st">`</span>, observateurs) <span class="sc">|&gt;</span> <span class="fu">separate_rows</span>(observateurs, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>) <span class="sc">|&gt;</span> <span class="fu">count</span>(observateurs)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 5 × 2
+#&gt;   observateurs     n
+#&gt;   &lt;chr&gt;        &lt;int&gt;
+#&gt; 1 hery            18
+#&gt; 2 lova            16
+#&gt; 3 nomena          10
+#&gt; 4 rindra          11
+#&gt; 5 soa              3</code></pre>
+<div class="fa-box">
+<div class="en">
+<p><strong>Functions and arguments used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function / argument</th>
+<th>What it does</th>
+<th>Value it expects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>across(starts_with("x/"), sum)</code></td>
+<td>applies <code>sum</code> to every column whose name starts with
+<code>x/</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>str_count(x, "\\S+")</code></td>
+<td>number of words (choices) in the single column</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>str_detect(x, "\\bhery\\b")</code></td>
+<td>TRUE if the word <code>hery</code> is present (<code>\b</code> =
+word boundary, so <code>hery</code> does not match
+<code>heryna</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>separate_rows(df, col, sep = " ")</code></td>
+<td>one row per choice</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Fonctions et arguments utilisés ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction / argument</th>
+<th>Ce qu’il fait</th>
+<th>Valeur attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>across(starts_with("x/"), sum)</code></td>
+<td>applique <code>sum</code> à chaque colonne dont le nom commence par
+<code>x/</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>str_count(x, "\\S+")</code></td>
+<td>nombre de mots (choix) dans la colonne unique</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>str_detect(x, "\\bhery\\b")</code></td>
+<td>TRUE si le mot <code>hery</code> est présent (<code>\b</code> =
+limite de mot, pour que <code>hery</code> ne corresponde pas à
+<code>heryna</code>)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>separate_rows(df, col, sep = " ")</code></td>
+<td>une ligne par choix</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="labels" class="section level2">
+<h2><span class="en">From names to labels</span><span class="fr">Des
+names aux libellés</span></h2>
+<div class="en">
+<p>For tables and graphs you want <em>AMP — réserve (no-take)</em>, not
+<code>amp_reserve</code>. Do not type the labels again: read them from
+the <strong>XLSForm</strong> (<code>choices</code> sheet).
+<code>kobo_label(x, form, list_name)</code> does it for one column:</p>
+</div>
+<div class="fr">
+<p>Pour les tableaux et graphiques, vous voulez <em>AMP — réserve
+(no-take)</em>, pas <code>amp_reserve</code>. Ne retapez pas les
+libellés : lisez-les dans le <strong>XLSForm</strong> (feuille
+<code>choices</code>). <code>kobo_label(x, formulaire, list_name)</code>
+le fait pour une colonne :</p>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> v <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="at">statut_lab  =</span> <span class="fu">kobo_label</span>(statut,  f_form, <span class="st">&quot;statut&quot;</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="at">region_lab  =</span> <span class="fu">kobo_label</span>(region,  f_form, <span class="st">&quot;region&quot;</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="at">commune_lab =</span> <span class="fu">kobo_label</span>(commune, f_form, <span class="st">&quot;commune&quot;</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="at">statut_lab  =</span> <span class="fu">factor</span>(statut_lab, <span class="at">levels =</span> <span class="fu">kobo_choices</span>(f_form) <span class="sc">|&gt;</span> <span class="fu">filter</span>(list_name <span class="sc">==</span> <span class="st">&quot;statut&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(label))</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>)</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">group_by</span>(statut_lab) <span class="sc">|&gt;</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">plongees =</span> <span class="fu">n</span>(), <span class="at">sites =</span> <span class="fu">n_distinct</span>(site), <span class="at">corail_moyen =</span> <span class="fu">round</span>(<span class="fu">mean</span>(couv_moy), <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 4 × 4
+#&gt;   statut_lab                       plongees sites corail_moyen
+#&gt;   &lt;fct&gt;                               &lt;int&gt; &lt;int&gt;        &lt;dbl&gt;
+#&gt; 1 AMP — zone d&#39;utilisation durable        6     2         34  
+#&gt; 2 AMP — réserve (no-take)                 3     1         43.4
+#&gt; 3 LMMA / Dina communautaire               9     3         29.7
+#&gt; 4 Non protégé                             6     2         20.2</code></pre>
+<div class="en">
+<p>The <code>levels</code> of the factor follow the order of the choices
+in the form: tables and graphs keep the order you designed. If the form
+is multilingual, <code>kobo_choices()</code> uses the first
+<code>label</code> column; choose another one by changing the column in
+the function.</p>
+</div>
+<div class="fr">
+<p>Les <code>levels</code> du facteur suivent l’ordre des choix du
+formulaire : tableaux et graphiques gardent l’ordre que vous avez conçu.
+Si le formulaire est multilingue, <code>kobo_choices()</code> prend la
+première colonne <code>label</code> ; changez la colonne dans la
+fonction pour en choisir une autre.</p>
+</div>
+</div>
+<div id="save" class="section level2">
+<h2><span class="en">Save the clean table</span><span
+class="fr">Enregistrer la table propre</span></h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;data/clean&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>start, <span class="sc">-</span>end) <span class="sc">|&gt;</span> writexl<span class="sc">::</span><span class="fu">write_xlsx</span>(<span class="st">&quot;data/clean/visites.xlsx&quot;</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="fu">saveRDS</span>(v, <span class="st">&quot;data/clean/visites.rds&quot;</span>)     <span class="co"># keeps the types (dates, factors) for the next script</span></span></code></pre></div>
+<div class="application">
+<div id="application-work-a4" class="section level3 en">
+<h3>Application work A4</h3>
+<p>Write <code>R/01_import.R</code> that reads the XML export, shortens
+the names, converts the dates, adds the labels and saves
+<code>visites.rds</code>. Then answer:</p>
+<ol style="list-style-type: decimal">
+<li>Number of dives?</li>
+<li>Mean duration of the forms (minutes, 1 decimal)?</li>
+<li>Mean visibility (m, 2 decimals)?</li>
+<li>Dives with 3 divers or more?</li>
+<li>Mean <code>couv_moy</code> of the dives in no-take reserves
+(<code>amp_reserve</code>, 1 decimal)?</li>
+<li>Site with the highest mean <code>couv_moy</code>?</li>
+<li>Number of different communes?</li>
+<li>Dives with Hery?</li>
+<li>Largest delay between the dive and the reception by the server
+(days)?</li>
+<li>Commune (label) with the most dives?</li>
+</ol>
+</div>
+<div id="travail-dapplication-a4" class="section level3 fr">
+<h3>Travail d’application A4</h3>
+<p>Écrivez <code>R/01_import.R</code> qui lit l’export XML, raccourcit
+les noms, convertit les dates, ajoute les libellés et enregistre
+<code>visites.rds</code>. Puis répondez :</p>
+<ol style="list-style-type: decimal">
+<li>Nombre de plongées ?</li>
+<li>Durée moyenne des fiches (minutes, 1 décimale) ?</li>
+<li>Visibilité moyenne (m, 2 décimales) ?</li>
+<li>Plongées avec 3 plongeurs ou plus ?</li>
+<li><code>couv_moy</code> moyen des plongées en réserve
+(<code>amp_reserve</code>, 1 décimale) ?</li>
+<li>Site au <code>couv_moy</code> moyen le plus élevé ?</li>
+<li>Nombre de communes différentes ?</li>
+<li>Plongées avec Hery ?</li>
+<li>Plus long délai entre la plongée et la réception par le serveur
+(jours) ?</li>
+<li>Commune (libellé) avec le plus de plongées ?</li>
+</ol>
+</div>
+</div>
+<div id="quiz-ka4" class="quiz" data-quiz-id="ka4"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGRpdmVzPyIsImZyIjoiMS4gTm9tYnJlIGRlIHBsb25nw6llcyA/IiwiYW5zd2VyIjoyNCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTWVhbiBkdXJhdGlvbiAobWluLCAxIGRlY2ltYWwpPyIsImZyIjoiMi4gRHVyw6llIG1veWVubmUgKG1pbiwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjE0LjMsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gdmlzaWJpbGl0eSAobSwgMiBkZWNpbWFscyk/IiwiZnIiOiIzLiBWaXNpYmlsaXTDqSBtb3llbm5lIChtLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE0LjkyLCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gRGl2ZXMgd2l0aCAzIGRpdmVycyBvciBtb3JlPyIsImZyIjoiNC4gUGxvbmfDqWVzIGF2ZWMgMyBwbG9uZ2V1cnMgb3UgcGx1cyA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBNZWFuIGNvdXZfbW95IGluIGFtcF9yZXNlcnZlICgxIGRlY2ltYWwpPyIsImZyIjoiNS4gY291dl9tb3kgbW95ZW4gZW4gYW1wX3Jlc2VydmUgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo0My40LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNi4gU2l0ZSB3aXRoIHRoZSBoaWdoZXN0IG1lYW4gY291dl9tb3k/IiwiZnIiOiI2LiBTaXRlIGF1IGNvdXZfbW95IG1veWVuIGxlIHBsdXMgw6lsZXbDqSA/IiwiYW5zd2VyIjpbIkFua2FyYWlreSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIE51bWJlciBvZiBkaWZmZXJlbnQgY29tbXVuZXM/IiwiZnIiOiI3LiBOb21icmUgZGUgY29tbXVuZXMgZGlmZsOpcmVudGVzID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIERpdmVzIHdpdGggSGVyeT8iLCJmciI6IjguIFBsb25nw6llcyBhdmVjIEhlcnkgPyIsImFuc3dlciI6MTgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjkuIExhcmdlc3QgZGVsYXkgZGl2ZSDihpIgc2VydmVyIChkYXlzKT8iLCJmciI6IjkuIFBsdXMgbG9uZyBkw6lsYWkgcGxvbmfDqWUg4oaSIHNlcnZldXIgKGpvdXJzKSA/IiwiYW5zd2VyIjozLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMTAuIENvbW11bmUgKGxhYmVsKSB3aXRoIHRoZSBtb3N0IGRpdmVzPyIsImZyIjoiMTAuIENvbW11bmUgKGxpYmVsbMOpKSBhdmVjIGxlIHBsdXMgZGUgcGxvbmfDqWVzID8iLCJhbnN3ZXIiOlsiQmVsYWxhbmRhIl19XQ==">
+
+</div>
+<div class="solution" data-quiz="ka4">
+<div class="en">
+<p>1 24 · 2 14.3 · 3 14.92 · 4 9 · 5 43.4 · 6 Ankaraiky · 7 6 · 8 18 · 9
+3 · 10 Belalanda. The code of this page, in order, answers all the
+questions:</p>
+</div>
+<div class="fr">
+<p>1 24 · 2 14.3 · 3 14.92 · 4 9 · 5 43.4 · 6 Ankaraiky · 7 6 · 8 18 · 9
+3 · 10 Belalanda. Le code de cette page, dans l’ordre, répond à toutes
+les questions :</p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">nrow</span>(v)                                                   <span class="co"># 1</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(v<span class="sc">$</span>duree_min), <span class="dv">1</span>)                               <span class="co"># 2</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(v<span class="sc">$</span>visibilite), <span class="dv">2</span>)                              <span class="co"># 3</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">sum</span>(v<span class="sc">$</span>nb_plongeurs <span class="sc">&gt;=</span> <span class="dv">3</span>)                                  <span class="co"># 4</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">filter</span>(statut <span class="sc">==</span> <span class="st">&quot;amp_reserve&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">round</span>(<span class="fu">mean</span>(couv_moy), <span class="dv">1</span>))   <span class="co"># 5</span></span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>v <span class="sc">|&gt;</span> <span class="fu">group_by</span>(site) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(couv_moy)) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(m))      <span class="co"># 6</span></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="fu">n_distinct</span>(v<span class="sc">$</span>commune)                                     <span class="co"># 7</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="fu">sum</span>(v<span class="sc">$</span>avec_hery)                                          <span class="co"># 8</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a><span class="fu">max</span>(v<span class="sc">$</span>delai_jours)                                        <span class="co"># 9</span></span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="fu">count</span>(v, commune_lab, <span class="at">sort =</span> <span class="cn">TRUE</span>)                        <span class="co"># 10</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

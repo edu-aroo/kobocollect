@@ -1,0 +1,65 @@
+# =============================================================================
+# _site.yml — settings shared by ALL pages of the R Markdown website
+# Build the whole site with:  source("R/build_site.R")
+# =============================================================================
+name: "kobo-data-collection"
+output_dir: "docs"          # GitHub Pages will publish this folder
+
+# files/folders NOT copied into docs/ (they are for you, not for students)
+exclude: ["R", "apps-script", "slides", "pdf_kit", "README.md", "*.Rproj", "docs", "accounts_to_paste.csv"]
+
+navbar:
+  title: "KoboToolbox"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Beginner"
+      menu:
+        - { text: "0 · Account & interface",       href: 00-kobo-account.html }
+        - { text: "1 · Formbuilder",               href: 01-formbuilder.html }
+        - { text: "2 · XLSForm basics",            href: 02-xlsform.html }
+        - { text: "3 · Multilingual forms",        href: 03-multilingual.html }
+        - { text: "4 · Import, deploy, collect",   href: 04-deploy.html }
+        - { text: "5 · Download the data",         href: 05-download.html }
+        - { text: "6 · Practice",                  href: 06-practice.html }
+        - { text: "7 · Final project",             href: 07-final-project.html }
+    - text: "Intermediate"
+      menu:
+        - { text: "I0 · calculate",                href: i00-calculate.html }
+        - { text: "I1 · relevant",                 href: i01-relevant.html }
+        - { text: "I2 · constraint",               href: i02-constraint.html }
+        - { text: "I3 · group",                    href: i03-groups.html }
+        - { text: "I4 · rank",                     href: i04-rank.html }
+        - { text: "I5 · repeat",                   href: i05-repeat.html }
+        - { text: "I6 · Practice",                 href: i06-practice.html }
+        - { text: "I7 · Final project",            href: i07-final-project.html }
+    - text: "Advanced"
+      menu:
+        - { text: "A0 · A complete form",          href: a00-review.html }
+        - { text: "A1 · choice_filter",            href: a01-choice-filter.html }
+        - { text: "A2 · Cascading questions",      href: a02-cascade.html }
+        - { text: "A3 · Exports for analysis",     href: a03-export.html }
+        - { text: "A4 · R: main sheet & groups",   href: a04-r-import.html }
+        - { text: "A5 · R: repeat sheets",         href: a05-r-repeats.html }
+        - { text: "A6 · Practice",                 href: a06-practice.html }
+        - { text: "A7 · Final project",            href: a07-final-project.html }
+    - text: "Resources"
+      menu:
+        - { text: "Course files",                  href: downloads.html }
+        - { text: "Cheatsheet · Beginner",         href: cheatsheet.html }
+        - { text: "Cheatsheet · Intermediate",     href: cheatsheet-intermediate.html }
+        - { text: "Cheatsheet · Advanced",         href: cheatsheet-advanced.html }
+        - { text: "Error messages & fixes",        href: common-errors.html }
+        - { text: "Glossary FR / EN",              href: glossary.html }
+        - { text: "Need help?",                    href: help.html }
+        - { text: "What's new",                    href: whats-new.html }
+
+output:
+  html_document:
+    theme: flatly            # Bootstrap theme (colours overridden in course.css)
+    highlight: tango
+    css: assets/course.css
+    toc: false               # the table of contents is built by course.js
+    self_contained: false    # keep JS/CSS as separate files (required for a site)
+    includes:
+      in_header: assets/header.html   # loads config.js + course.js on every page

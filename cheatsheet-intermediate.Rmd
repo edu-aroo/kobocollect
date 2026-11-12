@@ -1,0 +1,71 @@
+---
+title: "[Cheatsheet · Intermediate]{.en}[Aide-mémoire · Intermédiaire]{.fr}"
+pagetitle: "KoboToolbox · Cheatsheet Intermediate"
+subtitle: "[calculate, relevant, constraint, group, rank, repeat]{.en}[calculate, relevant, constraint, group, rank, repeat]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: cheat
+
+## [References and operators]{.en}[Références et opérateurs]{.fr} {.no-track}
+
+| [Write]{.en}[Écrire]{.fr} | [Meaning]{.en}[Sens]{.fr} |
+|---|---|
+| `${name}` | [answer to the question `name`]{.en}[réponse à la question `name`]{.fr} |
+| `.` | [the answer of this question (in `constraint`)]{.en}[la réponse de cette question (dans `constraint`)]{.fr} |
+| `+ - * div mod` | [arithmetic — **`div`**, not `/`]{.en}[arithmétique — **`div`**, pas `/`]{.fr} |
+| `= != < <= > >=` | [comparison — `=`, not `==`]{.en}[comparaison — `=`, pas `==`]{.fr} |
+| `and or not()` | [logic]{.en}[logique]{.fr} |
+| `'oui'` | [a text / a choice name, between single quotes]{.en}[un texte / un name de choix, entre apostrophes]{.fr} |
+
+## [Functions]{.en}[Fonctions]{.fr} {.no-track}
+
+| [Function]{.en}[Fonction]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|
+| `if(c, a, b)` | `if(${poids} >= 10, 'grosse', 'petite')` |
+| `round(x, n)`, `int(x)` | `round(${valeur} div ${nb}, 0)` |
+| `coalesce(a, b)` | `coalesce(${revenu_autre}, 0)` |
+| `concat()` | `concat(${village}, '-', ${num})` |
+| `today()`, `now()`, `format-date()`, `date()` | `int(format-date(today(), '%Y')) - ${annee}` · `. >= date('2026-04-01')` |
+| `selected(${q}, 'x')`, `count-selected(${q})` | `selected(${engins}, 'autre')` |
+| `regex(., 'motif')` | `regex(., '^03[2-9][0-9]{7}$')` |
+| `position(..)` | [number of the current repetition]{.en}[numéro de la répétition en cours]{.fr} |
+| `sum()`, `count()`, `max()`, `min()` | `sum(${est_enfant})` · `count(${membres})` |
+
+## [Columns]{.en}[Colonnes]{.fr} {.no-track}
+
+| [Column]{.en}[Colonne]{.fr} | [Use]{.en}[Usage]{.fr} | [Example]{.en}[Exemple]{.fr} |
+|---|---|---|
+| `calculation` (type `calculate`) | [hidden value computed and stored]{.en}[valeur cachée calculée et enregistrée]{.fr} | `${poids} * ${prix_kg}` |
+| `relevant` | [show only if true]{.en}[afficher seulement si vrai]{.fr} | `${peche} = 'oui'` |
+| `constraint` + `constraint_message` | [refuse invalid answers]{.en}[refuser les réponses invalides]{.fr} | `. >= 0 and . <= 7` |
+| `appearance` | `field-list` ([group on one screen]{.en}[groupe sur un écran]{.fr}), `likert`, `minimal` | |
+| `repeat_count` | [number of repetitions]{.en}[nombre de répétitions]{.fr} | `${nb_membres}` |
+
+## [Structure]{.en}[Structure]{.fr} {.no-track}
+
+| [Rows]{.en}[Lignes]{.fr} | [Export]{.en}[Export]{.fr} |
+|---|---|
+| `begin_group` … `end_group` | [prefix `group/` in headers (option)]{.en}[préfixe `groupe/` dans les en-têtes (option)]{.fr} |
+| `begin_repeat` … `end_repeat` | [**own sheet** (XLS only); `_parent_index` → `_index` of the parent]{.en}[**feuille propre** (XLS seulement) ; `_parent_index` → `_index` du parent]{.fr} |
+| `rank list` | [one cell: names in order, separated by spaces]{.en}[une cellule : names dans l'ordre, séparés par des espaces]{.fr} |
+
+## [Reminders]{.en}[Rappels]{.fr} {.no-track}
+
+::: en
+- a hidden question is not required and is **empty** in the data (≠ 0);
+- an empty answer is not checked by `constraint` (use `required`);
+- impossible value → `constraint`; unusual but possible → warning `note` with `relevant`;
+- test each constraint with a value just inside and just outside.
+:::
+::: fr
+- une question masquée n'est pas obligatoire et est **vide** dans les données (≠ 0) ;
+- une réponse vide n'est pas contrôlée par `constraint` (utilisez `required`) ;
+- valeur impossible → `constraint` ; inhabituelle mais possible → `note` d'avertissement avec `relevant` ;
+- testez chaque contrainte avec une valeur juste dedans et juste dehors.
+:::
+
+:::

@@ -1,0 +1,316 @@
+---
+title: "[5 · Look at and download the data]{.en}[5 · Consulter et télécharger les données]{.fr}"
+pagetitle: "KoboToolbox · 5"
+subtitle: "~2 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+xml <- read_export("data/exports/k05_debarquements_xml.xlsx")[[1]]
+lab <- read_export("data/exports/k05_debarquements_labels.xlsx")[[1]]
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- look at the data in the `r ui("data_tab")` tab: table, filters, reports, map, photo gallery;
+- correct a submission and give it a **validation status**;
+- choose the right **export** (XLS or CSV, labels or XML values, options) and download it;
+- recognise every column of an export, including the metadata (`_id`, `_uuid`, `_submission_time`, `_index`…);
+- answer simple questions on the export with Excel (`COUNTIF`, `AVERAGEIF`, pivot table).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- consulter les données dans l'onglet `r ui("data_tab")` : tableau, filtres, rapports, carte, galerie de photos ;
+- corriger une soumission et lui donner un **statut de validation** ;
+- choisir le bon **export** (XLS ou CSV, étiquettes ou valeurs XML, options) et le télécharger ;
+- reconnaître chaque colonne d'un export, y compris les métadonnées (`_id`, `_uuid`, `_submission_time`, `_index`…) ;
+- répondre à des questions simples sur l'export avec Excel (`NB.SI`, `MOYENNE.SI`, tableau croisé dynamique).
+:::
+:::
+
+## [The data of the first quarter]{.en}[Les données du premier trimestre]{.fr} {#context}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The landing survey ran from 5 January to 27 March 2026 in the five villages, with three enumerators (accounts `enq_fara`, `enq_tojo`, `enq_mamy`) using KoboCollect. On 15 February the form was **redeployed**: the choice *Crabe* was added to the species list (version `2026-02-v2`). The supervisor approved part of the forms. You download the data to prepare the quarterly summary for the cooperative.
+
+Download the two exports of the same data: `r dl("exports/k05_debarquements_xml.xlsx", "k05_debarquements_xml.xlsx")` (XML values and headers) and `r dl("exports/k05_debarquements_labels.xlsx", "k05_debarquements_labels.xlsx")` (labels).
+
+**Type of data:** one row per landing (`r nrow(xml)` submissions); counts, weights, choices, GPS points, photos, and metadata.
+:::
+::: fr
+**Contexte simulé.** L'enquête débarquements a eu lieu du 5 janvier au 27 mars 2026 dans les cinq villages, avec trois enquêteurs (comptes `enq_fara`, `enq_tojo`, `enq_mamy`) utilisant KoboCollect. Le 15 février, le formulaire a été **redéployé** : le choix *Crabe* a été ajouté à la liste des espèces (version `2026-02-v2`). Le superviseur a validé une partie des fiches. Vous téléchargez les données pour préparer le bilan trimestriel de la coopérative.
+
+Téléchargez les deux exports des mêmes données : `r dl("exports/k05_debarquements_xml.xlsx", "k05_debarquements_xml.xlsx")` (valeurs et en-têtes XML) et `r dl("exports/k05_debarquements_labels.xlsx", "k05_debarquements_labels.xlsx")` (étiquettes).
+
+**Type de données :** une ligne par débarquement (`r nrow(xml)` soumissions) ; comptages, poids, choix, points GPS, photos et métadonnées.
+:::
+:::
+
+## [The DATA tab]{.en}[L'onglet DONNÉES]{.fr} {#data-tab}
+
+::: en
+Open a project → `r ui("data_tab")`. On the left:
+
+| Page | What it shows |
+|---|---|
+| `r ui("table")` | one row per submission. Sort and **filter** each column (e.g. village = Ifaty), hide columns, open a submission (👁) to see it as a form, **edit** it (✎), change its **validation status**, select and **delete** |
+| `r ui("reports")` | a frequency table and a chart for each question; useful to check the first days of collection |
+| `r ui("gallery")` | the photos, by question or by submission |
+| Map | the GPS points (`geopoint` questions) |
+| `r ui("downloads")` | the exports (below) |
+
+**Check the data every day during collection**, not at the end: a problem found on day 2 (an enumerator who always chooses the first option, a GPS that does not work) is solved on day 3.
+:::
+::: fr
+Ouvrez un projet → `r ui("data_tab")`. À gauche :
+
+| Page | Ce qu'elle montre |
+|---|---|
+| `r ui("table")` | une ligne par soumission. Triez et **filtrez** chaque colonne (ex. village = Ifaty), masquez des colonnes, ouvrez une soumission (👁) pour la voir comme un formulaire, **modifiez-la** (✎), changez son **statut de validation**, sélectionnez et **supprimez** |
+| `r ui("reports")` | un tableau de fréquences et un graphique pour chaque question ; utile pour vérifier les premiers jours de collecte |
+| `r ui("gallery")` | les photos, par question ou par soumission |
+| Carte | les points GPS (questions `geopoint`) |
+| `r ui("downloads")` | les exports (ci-dessous) |
+
+**Vérifiez les données chaque jour pendant la collecte**, pas à la fin : un problème trouvé le 2e jour (un enquêteur qui choisit toujours la première option, un GPS qui ne marche pas) se règle le 3e jour.
+:::
+
+### [Edit and validate]{.en}[Modifier et valider]{.fr}
+
+::: en
+- **Edit**: opens the submission in the web form; correct the answer and submit. The original is replaced (keep a note of the change, e.g. in a "corrections" sheet).
+- **Validation status**: `r ui("approved")`, `r ui("not_approved")`, `r ui("on_hold")`. It does not change the data; it adds the column `_validation_status` to the export, so that you can keep only approved forms in the analysis. A simple rule: the supervisor approves after checking the form with the enumerator.
+:::
+::: fr
+- **Modifier** : ouvre la soumission dans le formulaire web ; corrigez la réponse et envoyez. L'original est remplacé (notez la modification, ex. dans une feuille « corrections »).
+- **Statut de validation** : `r ui("approved")`, `r ui("not_approved")`, `r ui("on_hold")`. Il ne change pas les données ; il ajoute la colonne `_validation_status` à l'export, pour ne garder que les fiches validées dans l'analyse. Règle simple : le superviseur valide après avoir vérifié la fiche avec l'enquêteur.
+:::
+
+## [Create an export]{.en}[Créer un export]{.fr} {#export}
+
+::: en
+`r ui("data_tab")` → `r ui("downloads")`:
+
+1. `r ui("export_type")`: **XLS** (Excel, one sheet per table — the best choice), **CSV** (one table, main data only), GeoJSON, SPSS labels, KML (GPS), media attachments (ZIP of photos).
+2. `r ui("value_header")`:
+   - `r ui("labels")` — headers = question labels, values = choice labels (`Pêche à pied (glanage)`): easy to read, for a quick look or for partners;
+   - `r ui("xml_values")` — headers = `name`, values = choice `name` (`glanage`): short, stable, **the right choice for analysis** (Excel formulas, R);
+   - labels in one of the languages of the form.
+3. `r ui("advanced_options")` — the main ones (Level 3 explains them in detail):
+   - `r ui("select_many_as")` — for `select_multiple`: one column with all the choices + one 0/1 column per choice (default), only the separate columns, or only the single column;
+   - `r ui("include_versions")` — keep the columns of every version deployed (keep it ticked);
+   - `r ui("include_groups")` — `group/question` headers (Intermediate level);
+   - `r ui("store_text")`, `r ui("media_urls")`, `r ui("select_questions")`, date range…
+4. `r ui("export")`. The export is prepared (a few seconds to minutes) and appears in the list below; click `r ui("download")`.
+5. `r ui("save_selection")` saves these settings under a name: next time, apply them in one click.
+:::
+::: fr
+`r ui("data_tab")` → `r ui("downloads")` :
+
+1. `r ui("export_type")` : **XLS** (Excel, une feuille par table — le meilleur choix), **CSV** (une seule table, données principales seulement), GeoJSON, SPSS labels, KML (GPS), pièces jointes (ZIP des photos).
+2. `r ui("value_header")` :
+   - `r ui("labels")` — en-têtes = libellés des questions, valeurs = libellés des choix (`Pêche à pied (glanage)`) : faciles à lire, pour un coup d'œil ou des partenaires ;
+   - `r ui("xml_values")` — en-têtes = `name`, valeurs = `name` des choix (`glanage`) : courts, stables, **le bon choix pour l'analyse** (formules Excel, R) ;
+   - les libellés dans l'une des langues du formulaire.
+3. `r ui("advanced_options")` — les principales (le niveau 3 les détaille) :
+   - `r ui("select_many_as")` — pour les `select_multiple` : une colonne avec tous les choix + une colonne 0/1 par choix (défaut), seulement les colonnes séparées, ou seulement la colonne unique ;
+   - `r ui("include_versions")` — garder les colonnes de toutes les versions déployées (laissez coché) ;
+   - `r ui("include_groups")` — en-têtes `groupe/question` (niveau Intermédiaire) ;
+   - `r ui("store_text")`, `r ui("media_urls")`, `r ui("select_questions")`, plage de dates…
+4. `r ui("export")`. L'export se prépare (quelques secondes à quelques minutes) et apparaît dans la liste en dessous ; cliquez sur `r ui("download")`.
+5. `r ui("save_selection")` enregistre ces réglages sous un nom : la prochaine fois, appliquez-les en un clic.
+:::
+
+## [Read an export, column by column]{.en}[Lire un export, colonne par colonne]{.fr} {#columns}
+
+::: en
+The first rows of the XML export (some columns only):
+:::
+::: fr
+Les premières lignes de l'export XML (quelques colonnes seulement) :
+:::
+
+`r xls(head(xml, 6), cols = c("date_debarq", "village", "engin", "especes", "especes/poulpe", "especes/calmar", "poids_total", "_gps_latitude", "_submitted_by", "__version__", "_index"), sheet = names(read_export("data/exports/k05_debarquements_xml.xlsx"))[1])`
+
+::: en
+- **Your questions**, in the order of the form. `select_multiple` gives **one column with all the choices** (`poulpe calmar`) and **one column per choice** (`especes/poulpe` = 1 if chosen, 0 if not). The 0/1 columns are the easiest to count: the sum of `especes/poulpe` = number of landings with octopus.
+- **`geopoint`** gives the full text (`-23.15 43.61 4.2 5.0`) and four columns `_gps_latitude`, `_gps_longitude`, `_gps_altitude`, `_gps_precision` (accuracy in metres).
+- **`image`** gives the file name of the photo and, with *Include media URLs*, a column `…_URL` with its address.
+- **Metadata at the end** — these columns are added by KoboToolbox:
+
+| Column | Meaning |
+|---|---|
+| `start`, `end`, `today`, `deviceid` | the metadata you put in the form (Session 2) |
+| `_id` | number of the submission on the server (unique in the project) |
+| `_uuid` | universal unique identifier of the submission — the safest key |
+| `_submission_time` | date and time the server **received** the form (UTC); can be days after the interview |
+| `_validation_status` | `Approved`, `Not Approved`, `On Hold` or empty |
+| `_submitted_by` | account that sent the form |
+| `__version__` | version of the form used for this submission |
+| `_status`, `_notes`, `_tags` | rarely used |
+| `_index` | row number **in this export** (1, 2, 3…). Used to link the sheets of repeats (Level 2–3). Changes from one export to the next: never use it as a permanent identifier |
+:::
+::: fr
+- **Vos questions**, dans l'ordre du formulaire. Un `select_multiple` donne **une colonne avec tous les choix** (`poulpe calmar`) et **une colonne par choix** (`especes/poulpe` = 1 si choisi, 0 sinon). Les colonnes 0/1 sont les plus faciles à compter : la somme de `especes/poulpe` = nombre de débarquements avec du poulpe.
+- **`geopoint`** donne le texte complet (`-23.15 43.61 4.2 5.0`) et quatre colonnes `_gps_latitude`, `_gps_longitude`, `_gps_altitude`, `_gps_precision` (précision en mètres).
+- **`image`** donne le nom du fichier photo et, avec *Inclure les URL des médias*, une colonne `…_URL` avec son adresse.
+- **Les métadonnées à la fin** — ces colonnes sont ajoutées par KoboToolbox :
+
+| Colonne | Signification |
+|---|---|
+| `start`, `end`, `today`, `deviceid` | les métadonnées mises dans le formulaire (séance 2) |
+| `_id` | numéro de la soumission sur le serveur (unique dans le projet) |
+| `_uuid` | identifiant unique universel de la soumission — la clé la plus sûre |
+| `_submission_time` | date et heure de **réception** par le serveur (UTC) ; peut être plusieurs jours après l'entretien |
+| `_validation_status` | `Approved`, `Not Approved`, `On Hold` ou vide |
+| `_submitted_by` | compte qui a envoyé la fiche |
+| `__version__` | version du formulaire utilisée pour cette soumission |
+| `_status`, `_notes`, `_tags` | rarement utilisés |
+| `_index` | numéro de ligne **dans cet export** (1, 2, 3…). Sert à relier les feuilles des répétitions (niveaux 2–3). Change d'un export à l'autre : ne l'utilisez jamais comme identifiant permanent |
+:::
+
+::: {.callout .warning}
+::: en
+**Versions.** Submissions of version `2026-01-v1` were filled in when *Crabe* did not exist: their `especes/crabe` is 0 because the choice **was not offered**, not because there was no crab. Always check `__version__` before comparing periods.
+
+**Dates.** Use `date_debarq` (or `today`) for the date of the landing, not `_submission_time` (date of sending, in UTC).
+:::
+::: fr
+**Versions.** Les soumissions de la version `2026-01-v1` ont été remplies quand *Crabe* n'existait pas : leur `especes/crabe` vaut 0 parce que le choix **n'était pas proposé**, pas parce qu'il n'y avait pas de crabe. Vérifiez toujours `__version__` avant de comparer des périodes.
+
+**Dates.** Utilisez `date_debarq` (ou `today`) pour la date du débarquement, pas `_submission_time` (date d'envoi, en UTC).
+:::
+:::
+
+## [Quick answers with Excel]{.en}[Réponses rapides avec Excel]{.fr} {#excel}
+
+::: en
+Open the XML export and convert the data into a table (`r key("Ctrl+T")`). Then:
+
+| Question | Formula (English Excel) | Formula (French Excel) |
+|---|---|---|
+| number of landings | `=COUNTA(A2:A121)` or the table's row count | `=NBVAL(A2:A121)` |
+| landings in Ifaty | `=COUNTIF(F:F,"ifaty")` | `=NB.SI(F:F;"ifaty")` |
+| landings with octopus | `=SUM(L:L)` (column `especes/poulpe`) | `=SOMME(L:L)` |
+| mean weight with gillnet | `=AVERAGEIF(J:J,"filet_maillant",R:R)` | `=MOYENNE.SI(J:J;"filet_maillant";R:R)` |
+| missing GPS | `=COUNTBLANK(T2:T121)` | `=NB.VIDE(T2:T121)` |
+
+For several questions at once, a **pivot table** (*Insert → PivotTable*): rows = `village`, values = count of `_id` and mean of `poids_total`.
+:::
+::: fr
+Ouvrez l'export XML et transformez les données en tableau (`r key("Ctrl+L")` dans Excel en français, `r key("Ctrl+T")` en anglais). Ensuite :
+
+| Question | Formule (Excel anglais) | Formule (Excel français) |
+|---|---|---|
+| nombre de débarquements | `=COUNTA(A2:A121)` ou le nombre de lignes du tableau | `=NBVAL(A2:A121)` |
+| débarquements à Ifaty | `=COUNTIF(F:F,"ifaty")` | `=NB.SI(F:F;"ifaty")` |
+| débarquements avec poulpe | `=SUM(L:L)` (colonne `especes/poulpe`) | `=SOMME(L:L)` |
+| poids moyen au filet maillant | `=AVERAGEIF(J:J,"filet_maillant",R:R)` | `=MOYENNE.SI(J:J;"filet_maillant";R:R)` |
+| GPS manquants | `=COUNTBLANK(T2:T121)` | `=NB.VIDE(T2:T121)` |
+
+Pour plusieurs questions à la fois, un **tableau croisé dynamique** (*Insertion → Tableau croisé dynamique*) : lignes = `village`, valeurs = nombre de `_id` et moyenne de `poids_total`.
+:::
+
+::: {.callout .tip}
+::: en
+**CSV or XLS?** A CSV opened by double-click in a French Excel often shows accents badly or puts everything in one column. Open it with *Data → From Text/CSV*, choose the **UTF-8** encoding and the right separator. The XLS export avoids these problems and keeps the repeat sheets: prefer it.
+:::
+::: fr
+**CSV ou XLS ?** Un CSV ouvert par double-clic dans un Excel français affiche souvent mal les accents ou met tout dans une seule colonne. Ouvrez-le avec *Données → À partir d'un fichier texte/CSV*, choisissez l'encodage **UTF-8** et le bon séparateur. L'export XLS évite ces problèmes et garde les feuilles des répétitions : préférez-le.
+:::
+:::
+
+```{r answers, include=FALSE}
+a1 <- nrow(xml)
+a2 <- length(grep("^especes/", names(xml)))
+a3 <- sum(xml$`especes/poulpe`)
+a4 <- round(mean(xml$poids_total), 2)
+a5 <- names(which.max(table(lab$Village)))
+a6 <- sum(xml$`_submitted_by` == "enq_tojo")
+a7 <- sum(xml$`__version__` == "2026-02-v2")
+a8 <- sum(xml$`_validation_status` == "Approved", na.rm = TRUE)
+a9 <- sum(is.na(xml$`_gps_latitude`))
+a10 <- round(mean(xml$poids_total[xml$engin == "filet_maillant"]), 1)
+a11 <- sum(xml$`especes/crabe`[xml$`__version__` == "2026-02-v2"])
+```
+
+::: {.application}
+::: en
+### Application work 5
+
+**A. In your own project** (Session 4): look at your test submissions in the table, edit one, approve one, then create an **XLS** export with **XML values and headers** and download it. Find your questions and the metadata columns.
+
+**B. With the course exports** (`k05_debarquements_xml.xlsx`, and `k05_debarquements_labels.xlsx` for question 5):
+
+1. Number of submissions?
+2. How many columns start with `especes/`?
+3. Number of landings with octopus?
+4. Mean total weight per landing (kg, 2 decimals)?
+5. Village with the most landings (as written in the labels export)?
+6. Number of forms sent by `enq_tojo`?
+7. Number of submissions of version `2026-02-v2`?
+8. Number of approved submissions?
+9. Number of submissions without GPS position?
+10. Mean weight of the landings with gillnet (`filet_maillant`, kg, 1 decimal)?
+11. Among version `2026-02-v2` submissions, how many landings with crab?
+:::
+::: fr
+### Travail d'application 5
+
+**A. Dans votre propre projet** (séance 4) : regardez vos soumissions de test dans le tableau, modifiez-en une, validez-en une, puis créez un export **XLS** avec les **valeurs et en-têtes XML** et téléchargez-le. Retrouvez vos questions et les colonnes de métadonnées.
+
+**B. Avec les exports du cours** (`k05_debarquements_xml.xlsx`, et `k05_debarquements_labels.xlsx` pour la question 5) :
+
+1. Nombre de soumissions ?
+2. Combien de colonnes commencent par `especes/` ?
+3. Nombre de débarquements avec du poulpe ?
+4. Poids total moyen par débarquement (kg, 2 décimales) ?
+5. Village avec le plus de débarquements (tel qu'écrit dans l'export étiquettes) ?
+6. Nombre de fiches envoyées par `enq_tojo` ?
+7. Nombre de soumissions de la version `2026-02-v2` ?
+8. Nombre de soumissions validées (Approved) ?
+9. Nombre de soumissions sans position GPS ?
+10. Poids moyen des débarquements au filet maillant (`filet_maillant`, kg, 1 décimale) ?
+11. Parmi les soumissions de la version `2026-02-v2`, combien de débarquements avec du crabe ?
+:::
+:::
+
+::: hint
+::: en
+Question 9: count the empty cells of `_gps_latitude`. Question 11: filter `__version__` on `2026-02-v2`, then sum `especes/crabe` (with a filter on, Excel's `SUBTOTAL(9, …)` sums the visible rows only).
+:::
+::: fr
+Question 9 : comptez les cellules vides de `_gps_latitude`. Question 11 : filtrez `__version__` sur `2026-02-v2`, puis faites la somme de `especes/crabe` (avec un filtre actif, `SOUS.TOTAL(9; …)` ne somme que les lignes visibles).
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("k05", list(
+  q_num("1. Number of submissions?", "1. Nombre de soumissions ?", a1, tol = 0),
+  q_num("2. Columns starting with especes/?", "2. Colonnes commençant par especes/ ?", a2, tol = 0),
+  q_num("3. Landings with octopus?", "3. Débarquements avec du poulpe ?", a3, tol = 0),
+  q_num("4. Mean total weight (kg, 2 decimals)?", "4. Poids total moyen (kg, 2 décimales) ?", a4, tol = 0.006),
+  q_text("5. Village with the most landings?", "5. Village avec le plus de débarquements ?", a5),
+  q_num("6. Forms sent by enq_tojo?", "6. Fiches envoyées par enq_tojo ?", a6, tol = 0),
+  q_num("7. Submissions of version 2026-02-v2?", "7. Soumissions de la version 2026-02-v2 ?", a7, tol = 0),
+  q_num("8. Approved submissions?", "8. Soumissions validées ?", a8, tol = 0),
+  q_num("9. Submissions without GPS?", "9. Soumissions sans GPS ?", a9, tol = 0),
+  q_num("10. Mean weight with gillnet (1 decimal)?", "10. Poids moyen au filet maillant (1 décimale) ?", a10, tol = 0.05),
+  q_num("11. Version 2 landings with crab?", "11. Débarquements de la version 2 avec du crabe ?", a11, tol = 0)
+))
+```
+
+::: {.solution data-quiz="k05"}
+::: en
+1 `r a1` · 2 `r a2` (one per option of the list `espece`) · 3 `r a3` · 4 `r a4` kg · 5 `r a5` · 6 `r a6` · 7 `r a7` · 8 `r a8` · 9 `r a9` · 10 `r a10` kg · 11 `r a11`.
+
+With a pivot table: rows `village`, values *Count of _id*; rows `engin`, values *Average of poids_total*. With formulas: see the table *Quick answers with Excel*.
+:::
+::: fr
+1 `r a1` · 2 `r a2` (une par option de la liste `espece`) · 3 `r a3` · 4 `r a4` kg · 5 `r a5` · 6 `r a6` · 7 `r a7` · 8 `r a8` · 9 `r a9` · 10 `r a10` kg · 11 `r a11`.
+
+Avec un tableau croisé dynamique : lignes `village`, valeurs *Nombre de _id* ; lignes `engin`, valeurs *Moyenne de poids_total*. Avec des formules : voir le tableau *Réponses rapides avec Excel*.
+:::
+:::

@@ -1,0 +1,306 @@
+---
+title: "[4 · Import, deploy and collect (web and KoboCollect)]{.en}[4 · Importer, déployer et collecter (web et KoboCollect)]{.fr}"
+pagetitle: "KoboToolbox · 4"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fe <- form_with_errors()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- import an XLSForm into KoboToolbox, and replace the form of an existing project;
+- read an error message, find the row it points to and correct the file;
+- deploy a form, and redeploy a corrected version without losing data;
+- collect with the **web form** (Enketo), online or offline, and with **KoboCollect** on Android;
+- test a form properly, and share the project with your enumerators.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- importer un XLSForm dans KoboToolbox, et remplacer le formulaire d'un projet existant ;
+- lire un message d'erreur, trouver la ligne qu'il désigne et corriger le fichier ;
+- déployer un formulaire, et redéployer une version corrigée sans perdre de données ;
+- collecter avec le **formulaire web** (Enketo), en ligne ou hors ligne, et avec **KoboCollect** sur Android ;
+- tester correctement un formulaire, et partager le projet avec vos enquêteurs.
+:::
+:::
+
+## [Import an XLSForm]{.en}[Importer un XLSForm]{.fr} {#import}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** A volunteer of the cooperative wrote the landing form in Excel from memory. KoboToolbox refuses it. You have to find and correct **all** the errors before the start of the survey on Monday: `r dl("forms/k04_erreurs.xlsx", "k04_erreurs.xlsx")`
+:::
+::: fr
+**Contexte simulé.** Un bénévole de la coopérative a écrit la fiche de débarquement dans Excel de mémoire. KoboToolbox la refuse. Vous devez trouver et corriger **toutes** les erreurs avant le début de l'enquête lundi : `r dl("forms/k04_erreurs.xlsx", "k04_erreurs.xlsx")`
+:::
+:::
+
+::: en
+**New project from a file:** `r ui("new")` → `r ui("upload_xlsform")` → drag the `.xlsx` file or click to choose it → fill in the project details → *Create project*. KoboToolbox converts the file; if it succeeds, the project opens in the `r ui("form_tab")` tab, as a *Draft*.
+
+**Replace the form of an existing project** (e.g. a corrected version): open the project → `r ui("form_tab")` → `r ui("more_actions")` → `r ui("replace_form")` → choose the file. The project, its sharing settings and its data are kept.
+:::
+::: fr
+**Nouveau projet à partir d'un fichier :** `r ui("new")` → `r ui("upload_xlsform")` → glissez le fichier `.xlsx` ou cliquez pour le choisir → remplissez les détails du projet → *Créer le projet*. KoboToolbox convertit le fichier ; si cela réussit, le projet s'ouvre dans l'onglet `r ui("form_tab")`, en *Brouillon*.
+
+**Remplacer le formulaire d'un projet existant** (ex. une version corrigée) : ouvrez le projet → `r ui("form_tab")` → `r ui("more_actions")` → `r ui("replace_form")` → choisissez le fichier. Le projet, ses partages et ses données sont conservés.
+:::
+
+## [Read an error message]{.en}[Lire un message d'erreur]{.fr} {#errors}
+
+::: en
+When the file has a problem, KoboToolbox shows a message and does not create (or replace) the form. Two things to know:
+
+1. The message gives the **sheet** and the **row number** (`[row : 9]`) — it is the Excel row number, header = row 1.
+2. KoboToolbox stops at the **first error**. After you correct it, the next upload shows the next error. With six errors, expect up to seven uploads. That is why it pays to **check the file yourself** before uploading (checklist below).
+
+Here is the `survey` sheet of the volunteer's file:
+:::
+::: fr
+Quand le fichier a un problème, KoboToolbox affiche un message et ne crée (ou ne remplace) pas le formulaire. Deux choses à savoir :
+
+1. Le message donne la **feuille** et le **numéro de ligne** (`[row : 9]`) — c'est le numéro de ligne Excel, en-tête = ligne 1.
+2. KoboToolbox s'arrête à la **première erreur**. Une fois corrigée, l'import suivant montre l'erreur suivante. Avec six erreurs, comptez jusqu'à sept imports. C'est pourquoi il vaut la peine de **vérifier le fichier vous-même** avant l'import (liste de contrôle plus bas).
+
+Voici la feuille `survey` du fichier du bénévole :
+:::
+
+`r xls(fe$survey, cols = c("type", "name", "label", "required"))`
+
+::: en
+These are the messages you get (pyxform, the converter used by KoboToolbox; the exact wording may change a little between versions), if you correct **only** the error shown each time:
+
+| Upload | Message (excerpt) | Where | Correction |
+|---|---|---|---|
+| 1 | `[row : 5] On the 'choices' sheet, the 'name' value is invalid. Choice names must be unique for each choice list.` | `choices`, row 5 | the 2nd `ifaty` is in fact `madiorano` |
+| 2 | `[row : 9] On the 'survey' sheet, the 'name' value is invalid. Names must begin with a letter or underscore…` | `survey`, row 9 | `nom pecheur` → `nom_pecheur` (space) |
+| 3 | `[row : 11] … the 'name' value 'age' is invalid. Questions, groups, and repeats must be unique…` | `survey`, row 11 | duplicate name: `age` → `nb_pecheurs` |
+| 4 | `[row : 12] List name not in choices sheet: engins` | `survey`, row 12 | `select_one engins` → `select_one engin` |
+| 5 | `[row : 14] … the 'name' value is invalid. Names must begin with a letter or underscore…` | `survey`, row 14 | `1_poids` → `poids_total` |
+| 6 | `Unknown question type 'integr'.` | `survey` (no row!) | `integr` → `integer` (search the word in Excel: `r key("Ctrl+F")`) |
+| 7 | — | | the form is created ✓ |
+:::
+::: fr
+Voici les messages obtenus (pyxform, le convertisseur utilisé par KoboToolbox ; la formulation exacte peut un peu changer d'une version à l'autre), si vous corrigez **seulement** l'erreur affichée à chaque fois :
+
+| Import | Message (extrait) | Où | Correction |
+|---|---|---|---|
+| 1 | `[row : 5] On the 'choices' sheet, the 'name' value is invalid. Choice names must be unique for each choice list.` | `choices`, ligne 5 | le 2e `ifaty` est en fait `madiorano` |
+| 2 | `[row : 9] On the 'survey' sheet, the 'name' value is invalid. Names must begin with a letter or underscore…` | `survey`, ligne 9 | `nom pecheur` → `nom_pecheur` (espace) |
+| 3 | `[row : 11] … the 'name' value 'age' is invalid. Questions, groups, and repeats must be unique…` | `survey`, ligne 11 | nom en double : `age` → `nb_pecheurs` |
+| 4 | `[row : 12] List name not in choices sheet: engins` | `survey`, ligne 12 | `select_one engins` → `select_one engin` |
+| 5 | `[row : 14] … the 'name' value is invalid. Names must begin with a letter or underscore…` | `survey`, ligne 14 | `1_poids` → `poids_total` |
+| 6 | `Unknown question type 'integr'.` | `survey` (pas de ligne !) | `integr` → `integer` (cherchez le mot dans Excel : `r key("Ctrl+F")`) |
+| 7 | — | | le formulaire est créé ✓ |
+:::
+
+::: {.callout .tip}
+::: en
+**Checklist before uploading** (it catches most errors in two minutes):
+
+1. Sheet names: `survey`, `choices`, `settings`, in lowercase.
+2. `name` column of `survey`: sort a copy A→Z to see **duplicates**; look for spaces, accents, names starting with a digit.
+3. Every list after `select_one` / `select_multiple` exists in `choices` with **exactly** the same spelling.
+4. In `choices`: no duplicate `name` inside a list; no spaces in names.
+5. Types spelled correctly (`select_multiple`, not `select_many` or `select multiple`).
+6. No empty row in the middle; nothing written below the last row "by mistake".
+:::
+::: fr
+**Liste de contrôle avant l'import** (elle attrape la plupart des erreurs en deux minutes) :
+
+1. Noms des feuilles : `survey`, `choices`, `settings`, en minuscules.
+2. Colonne `name` de `survey` : triez une copie A→Z pour voir les **doublons** ; cherchez les espaces, les accents, les noms qui commencent par un chiffre.
+3. Chaque liste après `select_one` / `select_multiple` existe dans `choices` avec **exactement** la même orthographe.
+4. Dans `choices` : pas de `name` en double dans une liste ; pas d'espace dans les noms.
+5. Types bien orthographiés (`select_multiple`, pas `select_many` ni `select multiple`).
+6. Pas de ligne vide au milieu ; rien d'écrit « par erreur » sous la dernière ligne.
+:::
+:::
+
+::: en
+**Warnings** (in yellow) do not block the import: e.g. a missing translation, or *"Use the max-pixels parameter to speed up submission sending"* for a photo question. Read them anyway: the photo warning is a good advice — add `max-pixels=1024` in the `parameters` column of the `image` question to keep photos light (Session 2).
+:::
+::: fr
+Les **avertissements** (en jaune) ne bloquent pas l'import : ex. une traduction manquante, ou *« Use the max-pixels parameter to speed up submission sending »* pour une question photo. Lisez-les quand même : l'avertissement photo est un bon conseil — ajoutez `max-pixels=1024` dans la colonne `parameters` de la question `image` pour garder des photos légères (séance 2).
+:::
+
+## [Deploy, then redeploy]{.en}[Déployer, puis redéployer]{.fr} {#deploy}
+
+::: en
+1. In the `r ui("form_tab")` tab, check the form with `r ui("preview")`.
+2. Click `r ui("deploy")`. The status becomes *Deployed*: the form can receive data.
+3. After a correction (`r ui("replace_form")` or the Formbuilder), the button becomes `r ui("redeploy")`. Click it: the new version replaces the old one for the **next** forms. The data already received are kept and each submission remembers its version (`__version__`).
+
+**What you can change safely after collection has started:** labels, hints, translations, the order of questions, adding questions or choices. **What causes trouble:** renaming a `name` (the export then has an old and a new column), changing a choice `name` (old and new codes mixed), changing the type of a question (e.g. text → integer). KoboCollect users must download the new version of the form (see below).
+:::
+::: fr
+1. Dans l'onglet `r ui("form_tab")`, vérifiez le formulaire avec `r ui("preview")`.
+2. Cliquez sur `r ui("deploy")`. Le statut devient *Déployé* : le formulaire peut recevoir des données.
+3. Après une correction (`r ui("replace_form")` ou le Formbuilder), le bouton devient `r ui("redeploy")`. Cliquez dessus : la nouvelle version remplace l'ancienne pour les **prochaines** fiches. Les données déjà reçues sont conservées et chaque soumission garde sa version (`__version__`).
+
+**Ce que vous pouvez changer sans risque après le début de la collecte :** libellés, indications, traductions, ordre des questions, ajout de questions ou de choix. **Ce qui pose problème :** renommer un `name` (l'export a alors une ancienne et une nouvelle colonne), changer le `name` d'un choix (anciens et nouveaux codes mélangés), changer le type d'une question (ex. texte → entier). Les utilisateurs de KoboCollect doivent télécharger la nouvelle version du formulaire (voir plus bas).
+:::
+
+## [Collect with the web form (Enketo)]{.en}[Collecter avec le formulaire web (Enketo)]{.fr} {#web}
+
+::: en
+Once deployed, `r ui("form_tab")` → `r ui("collect_data")` offers several **links**. Choose one, then `r ui("copy")` or `r ui("open")`:
+
+| Link | Use it when |
+|---|---|
+| `r ui("online_offline")` | enumerators on a phone or tablet (Android **or iPhone**) with an unstable connection: the form is kept in the browser and the data are sent when the connection comes back |
+| `r ui("online_multi")` | data entry on a computer with a good connection (e.g. typing paper forms at the office) |
+| `r ui("online_single")` | a link sent to respondents who fill in **once** (online questionnaire) |
+| `r ui("android_app")` | the instructions and the server address for KoboCollect |
+
+By default the link asks for a KoboToolbox **login** of an account that has access to the project. For an online questionnaire open to anybody, the owner can allow submissions without login in the project settings — only for surveys where that is acceptable.
+:::
+::: fr
+Une fois déployé, `r ui("form_tab")` → `r ui("collect_data")` propose plusieurs **liens**. Choisissez-en un, puis `r ui("copy")` ou `r ui("open")` :
+
+| Lien | À utiliser quand |
+|---|---|
+| `r ui("online_offline")` | des enquêteurs sur téléphone ou tablette (Android **ou iPhone**) avec une connexion instable : le formulaire est gardé dans le navigateur et les données partent quand la connexion revient |
+| `r ui("online_multi")` | la saisie sur ordinateur avec une bonne connexion (ex. saisie de fiches papier au bureau) |
+| `r ui("online_single")` | un lien envoyé à des répondants qui remplissent **une fois** (questionnaire en ligne) |
+| `r ui("android_app")` | les instructions et l'adresse du serveur pour KoboCollect |
+
+Par défaut, le lien demande la **connexion** d'un compte KoboToolbox qui a accès au projet. Pour un questionnaire en ligne ouvert à tous, le propriétaire peut autoriser les soumissions sans connexion dans les paramètres du projet — seulement pour les enquêtes où c'est acceptable.
+:::
+
+::: {.callout .warning}
+::: en
+**Offline web form:** open the *Online-Offline* link **once with a connection** on the device (the form is then stored in the browser), and do not clear the browser data while forms are waiting to be sent. Each queued form is sent automatically when the connection returns; check the counter of forms in the queue before leaving the field.
+:::
+::: fr
+**Formulaire web hors ligne :** ouvrez le lien *En ligne-Hors ligne* **une fois avec une connexion** sur l'appareil (le formulaire est alors gardé dans le navigateur), et n'effacez pas les données du navigateur tant que des fiches attendent d'être envoyées. Chaque fiche en attente part automatiquement quand la connexion revient ; vérifiez le compteur des fiches en attente avant de quitter le terrain.
+:::
+:::
+
+## [Collect with KoboCollect (Android)]{.en}[Collecter avec KoboCollect (Android)]{.fr} {#kobocollect}
+
+::: en
+**Install and configure (once per device)**
+
+1. Install **KoboCollect** from the Google Play Store (publisher: KoboToolbox).
+2. At the first opening: `r ui("kc_manual")`. Enter the **KoboCollect URL** `https://kc.kobotoolbox.org` (Global server; `https://kc-eu.kobotoolbox.org` for the EU server), then the **username** and **password** of the enumerator → `r ui("kc_add")`.
+3. To configure many phones quickly: configure one, then in its project settings display the **QR code** of the configuration; on the other phones choose `r ui("kc_qr")` and scan it. ⚠ The QR code contains the password: do not post it in a WhatsApp group.
+
+**Every day**
+
+4. `r ui("kc_download")` → tick the form → *Get selected*. Do it again after each **redeploy**.
+5. `r ui("kc_start")` → choose the form → swipe from right to left to go to the next question. A required question left empty blocks you with a message.
+6. At the end: `r ui("kc_finalize")` (the form is complete and goes to *Ready to send*) — or save it as a **draft** to finish it later (`r ui("kc_drafts")`).
+7. `r ui("kc_ready")` → select → `r ui("kc_send")` when there is a connection. You can also turn on **automatic sending** in the settings.
+
+The forms stay on the phone after sending (you can see them in *Sent*). Ask enumerators **never to uninstall the app or clear its data** before checking that everything has been sent.
+:::
+::: fr
+**Installer et configurer (une fois par appareil)**
+
+1. Installez **KoboCollect** depuis le Google Play Store (éditeur : KoboToolbox).
+2. À la première ouverture : `r ui("kc_manual")`. Saisissez l'**URL KoboCollect** `https://kc.kobotoolbox.org` (serveur Global ; `https://kc-eu.kobotoolbox.org` pour le serveur UE), puis le **nom d'utilisateur** et le **mot de passe** de l'enquêteur → `r ui("kc_add")`.
+3. Pour configurer rapidement plusieurs téléphones : configurez-en un, puis affichez le **QR code** de sa configuration dans les paramètres du projet ; sur les autres téléphones, choisissez `r ui("kc_qr")` et scannez-le. ⚠ Le QR code contient le mot de passe : ne le publiez pas dans un groupe WhatsApp.
+
+**Chaque jour**
+
+4. `r ui("kc_download")` → cochez le formulaire → *Récupérer la sélection*. Recommencez après chaque **redéploiement**.
+5. `r ui("kc_start")` → choisissez le formulaire → glissez de droite à gauche pour passer à la question suivante. Une question obligatoire laissée vide vous bloque avec un message.
+6. À la fin : `r ui("kc_finalize")` (la fiche est complète et passe dans *Prêt à envoyer*) — ou enregistrez-la comme **brouillon** pour la finir plus tard (`r ui("kc_drafts")`).
+7. `r ui("kc_ready")` → sélectionnez → `r ui("kc_send")` quand il y a du réseau. Vous pouvez aussi activer l'**envoi automatique** dans les paramètres.
+
+Les fiches restent sur le téléphone après l'envoi (visibles dans *Envoyés*). Demandez aux enquêteurs de **ne jamais désinstaller l'application ni effacer ses données** avant d'avoir vérifié que tout est envoyé.
+:::
+
+## [Share the project with the team]{.en}[Partager le projet avec l'équipe]{.fr} {#share}
+
+::: en
+`r ui("settings_tab")` → *Sharing* → add the **username** of each enumerator and give the permissions they need. For an enumerator: **View form** and **Add submissions** are enough. For a supervisor: also **View submissions** and **Validate submissions**. Only you keep **Edit form** and **Delete**. An enumerator's KoboCollect then shows only the forms shared with them.
+:::
+::: fr
+`r ui("settings_tab")` → *Partage* → ajoutez le **nom d'utilisateur** de chaque enquêteur et donnez-lui les autorisations nécessaires. Pour un enquêteur : **Voir le formulaire** et **Ajouter des soumissions** suffisent. Pour un superviseur : aussi **Voir les soumissions** et **Valider les soumissions**. Gardez pour vous seul **Modifier le formulaire** et **Supprimer**. Le KoboCollect d'un enquêteur n'affiche alors que les formulaires partagés avec lui.
+:::
+
+## [Test before the field]{.en}[Tester avant le terrain]{.fr} {#test}
+
+::: en
+1. Fill in **5 to 10 test forms** with realistic and extreme answers (0 fisher, 300 kg, no species, every gear…), on the devices that will be used in the field.
+2. Check them in `r ui("data_tab")` → `r ui("table")`, and download an export (Session 5): are the columns what you expected?
+3. Correct, redeploy, re-test.
+4. **Delete the test submissions** (in the table, select them → delete) before the real collection starts — or test in a copy of the project.
+5. Train the enumerators with the final version, in the language they will use.
+:::
+::: fr
+1. Remplissez **5 à 10 fiches de test** avec des réponses réalistes et extrêmes (0 pêcheur, 300 kg, aucune espèce, tous les engins…), sur les appareils qui serviront sur le terrain.
+2. Vérifiez-les dans `r ui("data_tab")` → `r ui("table")`, et téléchargez un export (séance 5) : les colonnes sont-elles celles attendues ?
+3. Corrigez, redéployez, re-testez.
+4. **Supprimez les soumissions de test** (dans le tableau, sélectionnez-les → supprimer) avant le début de la vraie collecte — ou testez dans une copie du projet.
+5. Formez les enquêteurs avec la version finale, dans la langue qu'ils utiliseront.
+:::
+
+::: {.application}
+::: en
+### Application work 4
+
+1. Upload `k04_erreurs.xlsx` as a new project. Correct the file **one message at a time** and re-upload until the form is created. Note each message.
+2. Deploy it. Open the `r ui("online_multi")` link and send **3 test forms** (one with a photo, one without the optional questions).
+3. If you have an Android phone: install KoboCollect, configure it with your account, download the form, fill in **2 forms**, one finalized and sent, one saved as draft. Change the language if your form has several.
+4. Upload your file of Session 3 (`k03_a_traduire.xlsx` translated) as another project: check the language menu in the preview.
+5. In the landing project, `r ui("replace_form")` with your file `k02_debarquement_v2.xlsx` of Session 2 (two new questions), then `r ui("redeploy")`. Send one more test form: it contains the new questions; the old ones do not.
+
+Answer the quiz.
+:::
+::: fr
+### Travail d'application 4
+
+1. Importez `k04_erreurs.xlsx` comme nouveau projet. Corrigez le fichier **un message à la fois** et ré-importez jusqu'à ce que le formulaire soit créé. Notez chaque message.
+2. Déployez-le. Ouvrez le lien `r ui("online_multi")` et envoyez **3 fiches de test** (une avec photo, une sans les questions facultatives).
+3. Si vous avez un téléphone Android : installez KoboCollect, configurez-le avec votre compte, téléchargez le formulaire, remplissez **2 fiches**, une finalisée et envoyée, une enregistrée en brouillon. Changez de langue si votre formulaire en a plusieurs.
+4. Importez votre fichier de la séance 3 (`k03_a_traduire.xlsx` traduit) comme un autre projet : vérifiez le menu des langues dans l'aperçu.
+5. Dans le projet des débarquements, `r ui("replace_form")` avec votre fichier `k02_debarquement_v2.xlsx` de la séance 2 (deux nouvelles questions), puis `r ui("redeploy")`. Envoyez une fiche de test de plus : elle contient les nouvelles questions ; les anciennes non.
+
+Répondez au quiz.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("k04", list(
+  q_text("1. At the first upload of k04_erreurs.xlsx, which sheet does the error message point to?", "1. Au premier import de k04_erreurs.xlsx, quelle feuille le message d'erreur désigne-t-il ?", "choices"),
+  q_num("2. And which row number?", "2. Et quel numéro de ligne ?", 5, tol = 0),
+  q_num("3. Correcting only the error shown each time, how many uploads in total until the form is created?",
+        "3. En corrigeant seulement l'erreur affichée à chaque fois, combien d'imports au total jusqu'à la création du formulaire ?", 7, tol = 0),
+  q_text("4. Which name appears twice in the survey sheet?", "4. Quel name apparaît deux fois dans la feuille survey ?", "age"),
+  q_mcq("5. Which error message gives no row number?", "5. Quel message d'erreur ne donne pas de numéro de ligne ?",
+        c("List name not in choices sheet", "Unknown question type 'integr'", "Choice names must be unique"), correct = 2),
+  q_mcq("6. Enumerators with Android phones and a poor connection. Best tools?", "6. Enquêteurs avec téléphones Android et mauvaise connexion. Meilleurs outils ?",
+        c("Online-Only (single submission) link", "KoboCollect, or the Online-Offline web link", "Online-Only (multiple submissions) link"),
+        c("Lien En ligne uniquement (soumission unique)", "KoboCollect, ou le lien web En ligne-Hors ligne", "Lien En ligne uniquement (soumissions multiples)"), correct = 2),
+  q_text("7. KoboCollect URL for the Global server (with https://)?", "7. URL KoboCollect pour le serveur Global (avec https://) ?",
+         c("https://kc.kobotoolbox.org", "https://kc.kobotoolbox.org/")),
+  q_mcq("8. You redeploy a corrected form. What must KoboCollect users do?", "8. Vous redéployez un formulaire corrigé. Que doivent faire les utilisateurs de KoboCollect ?",
+        c("Nothing", "Download the form again", "Reinstall the app"), c("Rien", "Télécharger à nouveau le formulaire", "Réinstaller l'application"), correct = 2),
+  q_mcq("9. Which change after the start of collection causes trouble in the data?", "9. Quel changement après le début de la collecte pose problème dans les données ?",
+        c("Correcting a spelling mistake in a label", "Adding a hint", "Renaming the name poids_total to poids", "Adding a choice to a list"),
+        c("Corriger une faute dans un libellé", "Ajouter une indication", "Renommer le name poids_total en poids", "Ajouter un choix à une liste"), correct = 3),
+  q_mcq("10. Permissions to give to an enumerator:", "10. Autorisations à donner à un enquêteur :",
+        c("Edit form and Delete", "View form and Add submissions", "None: give them your password"),
+        c("Modifier le formulaire et Supprimer", "Voir le formulaire et Ajouter des soumissions", "Aucune : donnez-lui votre mot de passe"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="k04"}
+::: en
+1 `choices` · 2 row **5** (the second `ifaty`) · 3 **7** uploads (6 errors + the successful one) · 4 `age` (row 11 should be `nb_pecheurs`) · 5 the unknown type `integr` · 6 KoboCollect or the Online-Offline link · 7 `https://kc.kobotoolbox.org` · 8 download the form again · 9 renaming a `name` · 10 View form + Add submissions.
+
+Corrected file = `k02_debarquement.xlsx` of Session 2 (compare them).
+:::
+::: fr
+1 `choices` · 2 ligne **5** (le second `ifaty`) · 3 **7** imports (6 erreurs + celui qui réussit) · 4 `age` (la ligne 11 devrait être `nb_pecheurs`) · 5 le type inconnu `integr` · 6 KoboCollect ou le lien En ligne-Hors ligne · 7 `https://kc.kobotoolbox.org` · 8 télécharger à nouveau le formulaire · 9 renommer un `name` · 10 Voir le formulaire + Ajouter des soumissions.
+
+Fichier corrigé = `k02_debarquement.xlsx` de la séance 2 (comparez-les).
+:::
+:::

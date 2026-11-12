@@ -1,0 +1,295 @@
+---
+title: "[A4 · Reading a Kobo export in R: main sheet and groups]{.en}[A4 · Lire un export Kobo dans R : feuille principale et groupes]{.fr}"
+pagetitle: "KoboToolbox · A4"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+suppressMessages({library(readxl); library(dplyr); library(tidyr); library(stringr)})
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+f_xml  <- "data/exports/a03_suivi_recifs_xml.xlsx"
+f_form <- "data/forms/a03_suivi_recifs.xlsx"
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- list and read the sheets of a KoboToolbox XLS export with `readxl`;
+- deal with headers containing `/` (groups) and shorten them safely;
+- convert the metadata (`start`, `end`, `_submission_time`) and dates into R date-times, and compute the interview duration;
+- use `select_multiple` answers (0/1 columns or the single column);
+- replace choice names by their labels using the XLSForm itself.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- lister et lire les feuilles d'un export XLS de KoboToolbox avec `readxl` ;
+- gérer les en-têtes contenant `/` (groupes) et les raccourcir sans risque ;
+- convertir les métadonnées (`start`, `end`, `_submission_time`) et les dates en date-heures R, et calculer la durée d'un entretien ;
+- utiliser les réponses `select_multiple` (colonnes 0/1 ou colonne unique) ;
+- remplacer les names des choix par leurs libellés en utilisant le XLSForm lui-même.
+:::
+:::
+
+## [Prepare the project]{.en}[Préparer le projet]{.fr} {#project}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The analyst of the reef network receives the XML export (Session A3) and the XLSForm. She wants a script that reads them, cleans them and produces the summary of the dives — and that can be **re-run unchanged** on next year's export. Files: `r dl("exports/a03_suivi_recifs_xml.xlsx", "a03_suivi_recifs_xml.xlsx")`, `r dl("forms/a03_suivi_recifs.xlsx", "a03_suivi_recifs.xlsx")` and the helper script `r dl("kobo_import.R", "kobo_import.R", dir = "templates")`.
+:::
+::: fr
+**Contexte simulé.** L'analyste du réseau des récifs reçoit l'export XML (séance A3) et le XLSForm. Elle veut un script qui les lit, les nettoie et produit le bilan des plongées — et qui puisse être **relancé sans modification** sur l'export de l'an prochain. Fichiers : `r dl("exports/a03_suivi_recifs_xml.xlsx", "a03_suivi_recifs_xml.xlsx")`, `r dl("forms/a03_suivi_recifs.xlsx", "a03_suivi_recifs.xlsx")` et le script d'aide `r dl("kobo_import.R", "kobo_import.R", dir = "templates")`.
+:::
+:::
+
+::: en
+Create an RStudio project with this structure, and **never modify the files of `data/raw/`** (they are the copy of what KoboToolbox gave you):
+
+```
+suivi_recifs/
+├── suivi_recifs.Rproj
+├── data/raw/      a03_suivi_recifs_xml.xlsx, a03_suivi_recifs.xlsx (form)
+├── data/clean/    tables written by the scripts
+└── R/             kobo_import.R, 01_import.R, 02_repeats.R
+```
+:::
+::: fr
+Créez un projet RStudio avec cette structure, et **ne modifiez jamais les fichiers de `data/raw/`** (c'est la copie de ce que KoboToolbox vous a donné) :
+
+```
+suivi_recifs/
+├── suivi_recifs.Rproj
+├── data/raw/      a03_suivi_recifs_xml.xlsx, a03_suivi_recifs.xlsx (formulaire)
+├── data/clean/    tables écrites par les scripts
+└── R/             kobo_import.R, 01_import.R, 02_repeats.R
+```
+:::
+
+## [Read the sheets]{.en}[Lire les feuilles]{.fr} {#read}
+
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+excel_sheets(f_xml)                       # names of the sheets
+visites <- read_excel(f_xml, sheet = 1, guess_max = 10000)
+dim(visites)
+names(visites)[1:12]
+```
+
+```{r, echo=FALSE}
+fa(c("`excel_sheets(path)`", "names of the sheets of an Excel file", "noms des feuilles d'un fichier Excel", "", ""),
+   c("`read_excel(path, sheet = 1)`", "reads one sheet; `sheet` = position or name", "lit une feuille ; `sheet` = position ou nom", "a number or a text", "un nombre ou un texte"),
+   c("&nbsp;&nbsp;`guess_max`", "number of rows used to guess the type of each column", "nombre de lignes utilisées pour deviner le type de chaque colonne", "a large number (columns often empty at the top)", "un grand nombre (colonnes souvent vides en haut)"))
+```
+
+::: en
+`f_xml` is the path of the file (in your project: `"data/raw/a03_suivi_recifs_xml.xlsx"`). Read the main sheet by its **position** (1): its name is the form title and contains accents and spaces. Increase **`guess_max`**: a column empty in the first 1000 rows (a rare question, remarks) would otherwise be read as "logical" and lose its values.
+:::
+::: fr
+`f_xml` est le chemin du fichier (dans votre projet : `"data/raw/a03_suivi_recifs_xml.xlsx"`). Lisez la feuille principale par sa **position** (1) : son nom est le titre du formulaire et contient accents et espaces. Augmentez **`guess_max`** : une colonne vide sur les 1000 premières lignes (une question rare, des remarques) serait sinon lue comme « logique » et perdrait ses valeurs.
+:::
+
+## [Headers with groups]{.en}[En-têtes avec groupes]{.fr} {#names}
+
+::: en
+Headers like `localisation/site` must be written between backticks in R: `` visites$`localisation/site` ``. Two options:
+
+1. **keep** them and use them to select sections: `select(visites, starts_with("plongee/"))`;
+2. **shorten** them (remove the groups), keeping `question/choice` for the 0/1 columns of a `select_multiple`. That is what `shorten_names()` of `kobo_import.R` does, and it **warns** you if two columns would get the same name.
+:::
+::: fr
+Les en-têtes comme `localisation/site` s'écrivent entre accents graves dans R : `` visites$`localisation/site` ``. Deux possibilités :
+
+1. les **garder** et s'en servir pour sélectionner des sections : `select(visites, starts_with("plongee/"))` ;
+2. les **raccourcir** (retirer les groupes), en gardant `question/choix` pour les colonnes 0/1 d'un `select_multiple`. C'est ce que fait `shorten_names()` de `kobo_import.R`, qui **vous prévient** si deux colonnes recevaient le même nom.
+:::
+
+```{r}
+visites |> select(starts_with("plongee/")) |> head(3)
+
+source("templates/kobo_import.R")      # read_kobo(), shorten_names(), kobo_label(), join_parent()
+v <- shorten_names(visites)
+names(v)[1:16]
+```
+
+## [Dates and durations]{.en}[Dates et durées]{.fr} {#dates}
+
+::: en
+`start` and `end` are texts such as `2026-05-04T09:01:59.000+03:00` (local time of the device, with its offset). `_submission_time` is in UTC. `date_plongee` is a date. Convert them:
+:::
+::: fr
+`start` et `end` sont des textes comme `2026-05-04T09:01:59.000+03:00` (heure locale de l'appareil, avec son décalage). `_submission_time` est en UTC. `date_plongee` est une date. Convertissez-les :
+:::
+
+```{r}
+v <- v |>
+  mutate(
+    debut = as.POSIXct(substr(start, 1, 19), format = "%Y-%m-%dT%H:%M:%S", tz = "Indian/Antananarivo"),
+    fin   = as.POSIXct(substr(end,   1, 19), format = "%Y-%m-%dT%H:%M:%S", tz = "Indian/Antananarivo"),
+    duree_min    = as.numeric(difftime(fin, debut, units = "mins")),
+    date_plongee = as.Date(date_plongee),
+    recu_le      = as.POSIXct(`_submission_time`, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
+    delai_jours  = as.numeric(as.Date(recu_le) - date_plongee)   # days between dive and sending
+  )
+summary(v$duree_min)
+```
+
+```{r, echo=FALSE}
+fa(c("`substr(x, 1, 19)`", "keeps the first 19 characters (date and time, without milliseconds and offset)", "garde les 19 premiers caractères (date et heure, sans millisecondes ni décalage)", "", ""),
+   c("`as.POSIXct(x, format, tz)`", "text → date-time", "texte → date-heure", "`%Y-%m-%dT%H:%M:%S`; tz = time zone", "`%Y-%m-%dT%H:%M:%S` ; tz = fuseau horaire"),
+   c("`difftime(a, b, units = \"mins\")`", "time between two date-times", "durée entre deux date-heures", "`\"secs\"`, `\"mins\"`, `\"hours\"`, `\"days\"`", "idem"))
+```
+
+::: {.callout .tip}
+::: en
+Quality checks you can run on every export: durations that are too short or too long (`filter(duree_min < 5 | duree_min > 120)`), forms sent long after the interview (`delai_jours > 7`), enumerators with unusual results (`count(_submitted_by)`), duplicated `_uuid`.
+:::
+::: fr
+Contrôles qualité à lancer sur chaque export : durées trop courtes ou trop longues (`filter(duree_min < 5 | duree_min > 120)`), fiches envoyées longtemps après l'entretien (`delai_jours > 7`), enquêteurs aux résultats inhabituels (`count(_submitted_by)`), `_uuid` en double.
+:::
+:::
+
+## [select_multiple answers]{.en}[Les réponses select_multiple]{.fr} {#multiple}
+
+```{r}
+# 0/1 columns: number of dives per diver
+v |> summarise(across(starts_with("observateurs/"), sum))
+
+# single column: number of divers per dive, and "was Hery there?"
+v <- v |> mutate(nb_plongeurs = str_count(observateurs, "\\S+"),
+                 avec_hery    = str_detect(observateurs, "\\bhery\\b"))
+table(v$nb_plongeurs)
+
+# long format: one row per dive and diver
+v |> select(`_uuid`, observateurs) |> separate_rows(observateurs, sep = " ") |> count(observateurs)
+```
+
+```{r, echo=FALSE}
+fa(c("`across(starts_with(\"x/\"), sum)`", "applies `sum` to every column whose name starts with `x/`", "applique `sum` à chaque colonne dont le nom commence par `x/`", "", ""),
+   c("`str_count(x, \"\\\\S+\")`", "number of words (choices) in the single column", "nombre de mots (choix) dans la colonne unique", "", ""),
+   c("`str_detect(x, \"\\\\bhery\\\\b\")`", "TRUE if the word `hery` is present (`\\b` = word boundary, so `hery` does not match `heryna`)", "TRUE si le mot `hery` est présent (`\\b` = limite de mot, pour que `hery` ne corresponde pas à `heryna`)", "", ""),
+   c("`separate_rows(df, col, sep = \" \")`", "one row per choice", "une ligne par choix", "", ""))
+```
+
+## [From names to labels]{.en}[Des names aux libellés]{.fr} {#labels}
+
+::: en
+For tables and graphs you want *AMP — réserve (no-take)*, not `amp_reserve`. Do not type the labels again: read them from the **XLSForm** (`choices` sheet). `kobo_label(x, form, list_name)` does it for one column:
+:::
+::: fr
+Pour les tableaux et graphiques, vous voulez *AMP — réserve (no-take)*, pas `amp_reserve`. Ne retapez pas les libellés : lisez-les dans le **XLSForm** (feuille `choices`). `kobo_label(x, formulaire, list_name)` le fait pour une colonne :
+:::
+
+```{r}
+v <- v |> mutate(
+  statut_lab  = kobo_label(statut,  f_form, "statut"),
+  region_lab  = kobo_label(region,  f_form, "region"),
+  commune_lab = kobo_label(commune, f_form, "commune"),
+  statut_lab  = factor(statut_lab, levels = kobo_choices(f_form) |> filter(list_name == "statut") |> pull(label))
+)
+v |> group_by(statut_lab) |>
+  summarise(plongees = n(), sites = n_distinct(site), corail_moyen = round(mean(couv_moy), 1))
+```
+
+::: en
+The `levels` of the factor follow the order of the choices in the form: tables and graphs keep the order you designed. If the form is multilingual, `kobo_choices()` uses the first `label` column; choose another one by changing the column in the function.
+:::
+::: fr
+Les `levels` du facteur suivent l'ordre des choix du formulaire : tableaux et graphiques gardent l'ordre que vous avez conçu. Si le formulaire est multilingue, `kobo_choices()` prend la première colonne `label` ; changez la colonne dans la fonction pour en choisir une autre.
+:::
+
+## [Save the clean table]{.en}[Enregistrer la table propre]{.fr} {#save}
+
+```{r, eval=FALSE}
+dir.create("data/clean", showWarnings = FALSE)
+v |> select(-start, -end) |> writexl::write_xlsx("data/clean/visites.xlsx")
+saveRDS(v, "data/clean/visites.rds")     # keeps the types (dates, factors) for the next script
+```
+
+```{r answers, include=FALSE}
+s1 <- nrow(v)
+s2 <- round(mean(v$duree_min), 1)
+s3 <- round(mean(v$visibilite), 2)
+s4 <- sum(v$nb_plongeurs >= 3)
+s5 <- round(mean(v$couv_moy[v$statut == "amp_reserve"]), 1)
+s6 <- names(which.max(tapply(v$couv_moy, v$site, mean)))
+s7 <- n_distinct(v$commune)
+s8 <- sum(v$avec_hery)
+s9 <- round(max(v$delai_jours), 0)
+s10 <- names(sort(table(v$commune_lab), decreasing = TRUE))[1]
+```
+
+::: {.application}
+::: en
+### Application work A4
+
+Write `R/01_import.R` that reads the XML export, shortens the names, converts the dates, adds the labels and saves `visites.rds`. Then answer:
+
+1. Number of dives?
+2. Mean duration of the forms (minutes, 1 decimal)?
+3. Mean visibility (m, 2 decimals)?
+4. Dives with 3 divers or more?
+5. Mean `couv_moy` of the dives in no-take reserves (`amp_reserve`, 1 decimal)?
+6. Site with the highest mean `couv_moy`?
+7. Number of different communes?
+8. Dives with Hery?
+9. Largest delay between the dive and the reception by the server (days)?
+10. Commune (label) with the most dives?
+:::
+::: fr
+### Travail d'application A4
+
+Écrivez `R/01_import.R` qui lit l'export XML, raccourcit les noms, convertit les dates, ajoute les libellés et enregistre `visites.rds`. Puis répondez :
+
+1. Nombre de plongées ?
+2. Durée moyenne des fiches (minutes, 1 décimale) ?
+3. Visibilité moyenne (m, 2 décimales) ?
+4. Plongées avec 3 plongeurs ou plus ?
+5. `couv_moy` moyen des plongées en réserve (`amp_reserve`, 1 décimale) ?
+6. Site au `couv_moy` moyen le plus élevé ?
+7. Nombre de communes différentes ?
+8. Plongées avec Hery ?
+9. Plus long délai entre la plongée et la réception par le serveur (jours) ?
+10. Commune (libellé) avec le plus de plongées ?
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ka4", list(
+  q_num("1. Number of dives?", "1. Nombre de plongées ?", s1, tol = 0),
+  q_num("2. Mean duration (min, 1 decimal)?", "2. Durée moyenne (min, 1 décimale) ?", s2, tol = 0.05),
+  q_num("3. Mean visibility (m, 2 decimals)?", "3. Visibilité moyenne (m, 2 décimales) ?", s3, tol = 0.006),
+  q_num("4. Dives with 3 divers or more?", "4. Plongées avec 3 plongeurs ou plus ?", s4, tol = 0),
+  q_num("5. Mean couv_moy in amp_reserve (1 decimal)?", "5. couv_moy moyen en amp_reserve (1 décimale) ?", s5, tol = 0.05),
+  q_text("6. Site with the highest mean couv_moy?", "6. Site au couv_moy moyen le plus élevé ?", s6),
+  q_num("7. Number of different communes?", "7. Nombre de communes différentes ?", s7, tol = 0),
+  q_num("8. Dives with Hery?", "8. Plongées avec Hery ?", s8, tol = 0),
+  q_num("9. Largest delay dive → server (days)?", "9. Plus long délai plongée → serveur (jours) ?", s9, tol = 0),
+  q_text("10. Commune (label) with the most dives?", "10. Commune (libellé) avec le plus de plongées ?", s10)
+))
+```
+
+::: {.solution data-quiz="ka4"}
+::: en
+1 `r s1` · 2 `r s2` · 3 `r s3` · 4 `r s4` · 5 `r s5` · 6 `r s6` · 7 `r s7` · 8 `r s8` · 9 `r s9` · 10 `r s10`. The code of this page, in order, answers all the questions:
+:::
+::: fr
+1 `r s1` · 2 `r s2` · 3 `r s3` · 4 `r s4` · 5 `r s5` · 6 `r s6` · 7 `r s7` · 8 `r s8` · 9 `r s9` · 10 `r s10`. Le code de cette page, dans l'ordre, répond à toutes les questions :
+:::
+
+```{r, eval=FALSE}
+nrow(v)                                                   # 1
+round(mean(v$duree_min), 1)                               # 2
+round(mean(v$visibilite), 2)                              # 3
+sum(v$nb_plongeurs >= 3)                                  # 4
+v |> filter(statut == "amp_reserve") |> summarise(round(mean(couv_moy), 1))   # 5
+v |> group_by(site) |> summarise(m = mean(couv_moy)) |> arrange(desc(m))      # 6
+n_distinct(v$commune)                                     # 7
+sum(v$avec_hery)                                          # 8
+max(v$delai_jours)                                        # 9
+count(v, commune_lab, sort = TRUE)                        # 10
+```
+:::

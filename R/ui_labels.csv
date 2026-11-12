@@ -1,0 +1,81 @@
+key,fr,en,checked,note
+signup,Créer un compte,Create an account,no,login page
+login,Se connecter,Login,no,
+new,NOUVEAU,NEW,no,top-left button of the project list
+build_scratch,Construire à partir de zéro,Build from scratch,no,
+use_template,Utiliser un modèle,Use a template,no,
+upload_xlsform,Téléverser un XLSForm,Upload an XLSForm,no,
+import_url,Importer un XLSForm via une URL,Import an XLSForm via URL,no,
+form_tab,FORMULAIRE,FORM,doc,project tab
+summary_tab,RÉSUMÉ,SUMMARY,no,project tab
+data_tab,DONNÉES,DATA,doc,project tab
+settings_tab,PARAMÈTRES,SETTINGS,no,project tab
+deploy,DÉPLOYER,DEPLOY,no,
+redeploy,REDÉPLOYER,REDEPLOY,no,
+edit_form,Modifier le formulaire,Edit form,no,pencil icon in FORM tab
+more_actions,Plus d'actions,More actions,doc,
+download_xls,Télécharger XLS,Download XLS,doc,More actions menu
+replace_form,Remplacer le formulaire,Replace form,doc,More actions menu
+preview,Aperçu,Preview,no,eye icon
+collect_data,Collecter les données,Collect data,doc,FORM tab
+android_app,Application Android,Android application,doc,Collect data menu
+online_offline,En ligne-Hors ligne (soumissions multiples),Online-Offline (multiple submission),no,Collect data menu
+online_multi,En ligne uniquement (soumissions multiples),Online-Only (multiple submissions),no,Collect data menu
+online_single,En ligne uniquement (soumission unique),Online-Only (single submission),no,Collect data menu
+copy,COPIER,COPY,no,
+open,OUVRIR,OPEN,no,
+table,Tableau,Table,no,DATA tab
+reports,Rapports,Reports,no,DATA tab
+gallery,Galerie,Gallery,no,DATA tab
+downloads,Téléchargements,Downloads,doc,DATA tab
+export_type,Sélectionner le type d'export,Select export type,no,
+value_header,Format des valeurs et des en-têtes,Value and header format,doc,
+labels,Étiquettes,Labels (default),doc,
+xml_values,Valeurs et en-têtes XML,XML values and headers,doc,
+advanced_options,Options avancées,Advanced options,doc,
+select_many_as,Exporter les questions à choix multiples en…,Export Select Many questions as…,doc,
+single_separate,Colonnes uniques et séparées,Single and separate columns,doc,
+include_versions,Inclure les données de toutes les versions,Include data from all versions,doc,
+include_groups,Inclure les groupes dans les en-têtes,Include groups in headers,doc,
+store_text,Stocker les dates et les nombres en texte,Store date and number responses as text,doc,
+media_urls,Inclure les URL des médias,Include media URLs,doc,
+select_questions,Sélectionner les questions à exporter,Select questions to be exported,doc,
+save_selection,Enregistrer la sélection sous…,Save selection as…,doc,
+export,EXPORTER,EXPORT,doc,
+download,TÉLÉCHARGER,DOWNLOAD,doc,
+add_question,Ajouter une question,Add question,no,Formbuilder (+ button)
+q_text,Texte,Text,no,Formbuilder question type
+q_number,Nombre,Number,no,Formbuilder question type
+q_decimal,Décimal,Decimal,no,Formbuilder question type
+q_select_one,Sélectionner un,Select One,no,Formbuilder question type
+q_select_many,Sélectionner plusieurs,Select Many,no,Formbuilder question type
+q_date,Date,Date,no,Formbuilder question type
+q_point,Point,Point,no,Formbuilder question type
+q_photo,Photo,Photo,no,Formbuilder question type
+q_note,Note,Note,no,Formbuilder question type
+q_calculate,Calcul,Calculate,no,Formbuilder question type
+q_ranking,Classement,Ranking,doc,Formbuilder question type
+settings_cog,Paramètres de la question,Question settings,no,cog icon of a question
+mandatory,Réponse obligatoire,Mandatory response,no,question settings
+hint,Indice,Hint,no,question settings
+data_name,Nom de colonne de données,Data Column Name,no,question settings
+skip_logic,Logique de saut,Skip logic,no,question settings
+validation,Critères de validation,Validation criteria,no,question settings
+save,ENREGISTRER,SAVE,no,Formbuilder
+cascade,Insérer une sélection en cascade,Insert cascading select,doc,Formbuilder
+translations,Gérer les traductions,Manage translations,no,FORM tab
+library,Bibliothèque,Library,no,left menu
+projects,Projets,Projects,no,left menu
+account_settings,Paramètres du compte,Account settings,no,
+approved,Approuvé,Approved,doc,validation status
+not_approved,Non approuvé,Not Approved,doc,validation status
+on_hold,En attente,On Hold,doc,validation status
+kc_manual,Saisir manuellement les détails du projet,Manually enter project details,doc,KoboCollect first screen
+kc_qr,Configurer avec un code QR,Configure with QR Code,doc,KoboCollect first screen
+kc_add,Ajouter,Add,doc,KoboCollect
+kc_download,Télécharger un formulaire,Download form,no,KoboCollect main menu
+kc_start,Commencer un nouveau formulaire,Start new form,no,KoboCollect main menu
+kc_drafts,Brouillons,Drafts,no,KoboCollect main menu
+kc_ready,Prêt à envoyer,Ready to send,no,KoboCollect main menu
+kc_send,Envoyer,Send,no,KoboCollect
+kc_finalize,Finaliser,Finalize,no,KoboCollect end of form

@@ -1,0 +1,57 @@
+---
+title: "[Cheatsheet · Advanced]{.en}[Aide-mémoire · Avancé]{.fr}"
+pagetitle: "KoboToolbox · Cheatsheet Advanced"
+subtitle: "[choice_filter, cascades, exports, R]{.en}[choice_filter, cascades, exports, R]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: cheat
+
+## [Filtered lists]{.en}[Listes filtrées]{.fr} {.no-track}
+
+| [Need]{.en}[Besoin]{.fr} | `choice_filter` |
+|---|---|
+| [children of the parent answer]{.en}[enfants de la réponse parente]{.fr} | `district = ${district}` |
+| [+ a choice always shown]{.en}[+ un choix toujours affiché]{.fr} | `habitat = ${habitat} or habitat = 'tous'` |
+| [parent is a select_multiple]{.en}[parent select_multiple]{.fr} | `selected(${engins}, name)` · `selected(${q}, colonne)` |
+| [exclude what was ticked / chosen]{.en}[exclure ce qui a été coché / choisi]{.fr} | `not(selected(${q}, name))` · `name != ${probleme_1}` |
+| [retired choices]{.en}[choix retirés]{.fr} | `actif = 'oui'` |
+| [very long list]{.en}[très longue liste]{.fr} | `select_one_from_file liste.csv` [+ CSV as project media]{.en}[+ CSV en média du projet]{.fr} |
+
+[Cascade: one filter column per parent level in `choices`; unique names (prefix the district: `toliara_ii_belalanda`).]{.en}[Cascade : une colonne de filtre par niveau parent dans `choices` ; names uniques (préfixe du district : `toliara_ii_belalanda`).]{.fr}
+
+## [Export for analysis]{.en}[Export pour l'analyse]{.fr} {.no-track}
+
+XLS · `r ui("xml_values")` · `r ui("include_groups")` · `r ui("include_versions")` · [Select Many: single and separate columns]{.en}[Choix multiples : colonnes uniques et séparées]{.fr} · `r ui("save_selection")`
+
+## [R recipes]{.en}[Recettes R]{.fr} {.no-track}
+
+```r
+library(readxl); library(dplyr); library(tidyr); library(stringr)
+source("kobo_import.R")                      # read_kobo(), shorten_names(), kobo_label(), join_parent()
+k <- read_kobo("export.xlsx")                # list: main, <repeat 1>, <repeat 2>...
+excel_sheets("export.xlsx")
+d <- read_excel("export.xlsx", sheet = 1, guess_max = 10000)
+d |> select(starts_with("peche/"))           # one section (groups in headers)
+# dates
+as.POSIXct(substr(d$start, 1, 19), format = "%Y-%m-%dT%H:%M:%S", tz = "Indian/Antananarivo")
+# select_multiple
+d |> summarise(across(starts_with("engins/"), sum))
+d |> separate_rows(engins, sep = " ") |> count(engins)
+str_detect(d$observateurs, "\\bhery\\b")
+# labels from the XLSForm
+d$statut_lab <- kobo_label(d$statut, "formulaire.xlsx", "statut")
+# repeat -> parent (same export file!)
+k$membres |> left_join(k$main |> select(`_index`, village), by = c("_parent_index" = "_index"))
+# nested repeat: two steps (child -> repeat -> main), or _submission__uuid = _uuid
+# checks
+anti_join(k$membres, k$main, by = c("_parent_index" = "_index")) |> nrow()   # orphans = 0
+# wide table
+x |> pivot_wider(names_from = famille, values_from = n, values_fill = 0)
+writexl::write_xlsx(list(main = k$main, membres = k$membres), "tables.xlsx")
+```
+
+:::

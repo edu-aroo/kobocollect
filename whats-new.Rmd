@@ -1,0 +1,22 @@
+---
+title: "[What's new]{.en}[Nouveautés]{.fr}"
+pagetitle: "KoboToolbox · What's new"
+---
+
+<!-- Add a section at the TOP each time you publish a new version, and change
+     "version" and "versionDate" in assets/config.js -->
+
+## v1.0 — 2026-11 {.no-track}
+
+::: en
+- First version of the course: three levels, 24 sessions, 33 quizzes.
+- **Beginner**: account and interface, Formbuilder, XLSForm, multilingual forms, import/deploy/collect (web form and KoboCollect), downloading data; practice session and final project (octopus gleaning survey).
+- **Intermediate**: calculate, relevant, constraint, group, rank, repeat; practice session and final project (fishers' trip logbook).
+- **Advanced**: a complete form from paper to KoboToolbox, choice_filter, cascades (region › district › commune), exports for analysis, reading exports with groups and repeats in R; practice session and final project (complete household survey).
+:::
+::: fr
+- Première version du cours : trois niveaux, 24 séances, 33 quiz.
+- **Débutant** : compte et interface, Formbuilder, XLSForm, formulaires multilingues, importer/déployer/collecter (formulaire web et KoboCollect), télécharger les données ; séance d'exercices et projet final (suivi de la pêche à pied du poulpe).
+- **Intermédiaire** : calculate, relevant, constraint, group, rank, repeat ; séance d'exercices et projet final (carnet des sorties de pêche).
+- **Avancé** : un formulaire complet du papier à KoboToolbox, choice_filter, cascades (région › district › commune), exports pour l'analyse, lecture des exports avec groupes et répétitions dans R ; séance d'exercices et projet final (enquête ménages complète).
+:::

@@ -1,0 +1,69 @@
+---
+title: "[Error messages and how to fix them]{.en}[Messages d'erreur et comment les corriger]{.fr}"
+pagetitle: "KoboToolbox · Errors"
+subtitle: "[Upload errors (XLSForm) and problems in the field]{.en}[Erreurs d'import (XLSForm) et problèmes sur le terrain]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+::: en
+The messages below were produced by **pyxform**, the converter used by KoboToolbox, with the files of this course. The wording may change a little between versions; the key words stay. Remember: KoboToolbox shows **the first error only** — correct it and upload again. `[row : 9]` is the **Excel row number** (header = row 1).
+:::
+::: fr
+Les messages ci-dessous ont été produits par **pyxform**, le convertisseur utilisé par KoboToolbox, avec les fichiers de ce cours. La formulation peut un peu changer d'une version à l'autre ; les mots-clés restent. Rappel : KoboToolbox n'affiche **que la première erreur** — corrigez-la et ré-importez. `[row : 9]` est le **numéro de ligne Excel** (en-tête = ligne 1).
+:::
+
+## [Upload errors]{.en}[Erreurs à l'import]{.fr} {.no-track}
+
+| [Message (key words)]{.en}[Message (mots-clés)]{.fr} | [Cause]{.en}[Cause]{.fr} | [Fix]{.en}[Correction]{.fr} | [Session]{.en}[Séance]{.fr} |
+|---|---|---|---|
+| `Unknown question type 'integr'.` | [misspelled type (no row number given)]{.en}[type mal orthographié (pas de numéro de ligne)]{.fr} | [search the word with Ctrl+F; check the spelling]{.en}[cherchez le mot avec Ctrl+F ; vérifiez l'orthographe]{.fr} | 4 |
+| `Unknown question type 'select_one'.` | [`select_one` without list name]{.en}[`select_one` sans nom de liste]{.fr} | `select_one village` | 2 |
+| `List name not in choices sheet: engins` | [the list after `select_one` / `select_multiple` does not exist in `choices`]{.en}[la liste après `select_one` / `select_multiple` n'existe pas dans `choices`]{.fr} | [same spelling in both sheets; no space at the end of the cell]{.en}[même orthographe dans les deux feuilles ; pas d'espace en fin de cellule]{.fr} | 4 |
+| `… the 'name' value is invalid. Names must begin with a letter or underscore…` | [space, sign, digit at the start (`1_poids`, `nom pecheur`)]{.en}[espace, signe, chiffre au début (`1_poids`, `nom pecheur`)]{.fr} | `poids_total`, `nom_pecheur` | 2, 4 |
+| `… the 'name' value 'age' is invalid. Questions, groups, and repeats must be unique…` | [two questions with the same name]{.en}[deux questions avec le même name]{.fr} | [rename one; sort a copy of the column to find duplicates]{.en}[renommez-en une ; triez une copie de la colonne pour voir les doublons]{.fr} | 4 |
+| `Question or group with no name.` | [empty `name` cell]{.en}[cellule `name` vide]{.fr} | [give a name (only `end_group` / `end_repeat` have none)]{.en}[donnez un name (seuls `end_group` / `end_repeat` n'en ont pas)]{.fr} | 2 |
+| `Choice names must be unique for each choice list.` | [two options with the same name in one list]{.en}[deux options avec le même name dans une liste]{.fr} | [unique names (prefix: `toliara_ii_belalanda`), or `allow_choice_duplicates` = `yes`]{.en}[names uniques (préfixe : `toliara_ii_belalanda`), ou `allow_choice_duplicates` = `yes`]{.fr} | 4, A2 |
+| `Choice names with spaces cannot be added to multiple choice selects.` | [space in a choice name of a `select_multiple` list]{.en}[espace dans un name de choix d'une liste `select_multiple`]{.fr} | `filet_maillant` | 6 |
+| `Unmatched 'begin_group'. No matching 'end_group' was found for the name 'avis'.` | [group never closed (the row given is the `begin_group`)]{.en}[groupe jamais fermé (la ligne donnée est celle du `begin_group`)]{.fr} | [add `end_group` at the right place]{.en}[ajoutez `end_group` au bon endroit]{.fr} | I3, I6 |
+| `Unmatched 'begin_repeat'. No matching 'end_repeat'…` | [repeat never closed]{.en}[répétition jamais fermée]{.fr} | [add `end_repeat`]{.en}[ajoutez `end_repeat`]{.fr} | I5 |
+| `Unmatched 'end_group'. No matching 'begin_group'…` | [an `end_group` too many, or groups closed in the wrong order]{.en}[un `end_group` de trop, ou groupes fermés dans le mauvais ordre]{.fr} | [last opened, first closed]{.en}[dernier ouvert, premier fermé]{.fr} | I3 |
+| `… the 'calculation' value is invalid. Reference variables must contain a name from the 'survey' sheet. Could not find the name 'est_enfants'.` | [`${…}` refers to a name that does not exist (also for `relevant`, `constraint`, `choice_filter`…)]{.en}[`${…}` renvoie à un name qui n'existe pas (aussi pour `relevant`, `constraint`, `choice_filter`…)]{.fr} | [copy the exact name from the `name` column]{.en}[copiez le name exact depuis la colonne `name`]{.fr} | I6 |
+| `You must have a sheet named 'survey'.` | [the questions sheet has another name]{.en}[la feuille des questions porte un autre nom]{.fr} | [rename the sheet `survey`]{.en}[renommez la feuille `survey`]{.fr} | 2 |
+| `Language 'default' is missing the survey hint column.` (**[warning]{.en}[avertissement]{.fr}**) | [a column without language next to translated columns]{.en}[une colonne sans langue à côté de colonnes traduites]{.fr} | `hint` → `hint::Français (fr)` | 3 |
+| `Use the max-pixels parameter…` (**[warning]{.en}[avertissement]{.fr}**) | [photo question without size limit]{.en}[question photo sans limite de taille]{.fr} | `parameters` = `max-pixels=1024` | 4 |
+
+## [Expressions that pass the upload but fail later]{.en}[Expressions qui passent l'import mais échouent ensuite]{.fr} {.no-track}
+
+::: en
+Some mistakes are not detected at upload: the form then **fails to open** in the preview / web form / KoboCollect, or behaves wrongly. Always open the preview after an upload.
+:::
+::: fr
+Certaines erreurs ne sont pas détectées à l'import : le formulaire **ne s'ouvre pas** dans l'aperçu / le formulaire web / KoboCollect, ou se comporte mal. Ouvrez toujours l'aperçu après un import.
+:::
+
+| [Written]{.en}[Écrit]{.fr} | [Problem]{.en}[Problème]{.fr} | [Correct]{.en}[Correct]{.fr} |
+|---|---|---|
+| `${a} / 2` | [`/` is not division in XPath: the form fails to load]{.en}[`/` n'est pas la division en XPath : le formulaire ne se charge pas]{.fr} | `${a} div 2` |
+| `. >= 3000 and <= 20000` | [second part without left side: invalid expression]{.en}[deuxième partie sans côté gauche : expression invalide]{.fr} | `. >= 3000 and . <= 20000` |
+| `${peche} = oui` | [no quotes: `oui` is read as a path; the condition is never true]{.en}[sans apostrophes : `oui` est lu comme un chemin ; la condition n'est jamais vraie]{.fr} | `${peche} = 'oui'` |
+| `${peche} = 'Oui'` | [label instead of choice name: never true]{.en}[libellé au lieu du name : jamais vrai]{.fr} | `${peche} = 'oui'` |
+| `${engins} = 'autre'` ([select_multiple]{.en}[select_multiple]{.fr}) | [true only if *autre* is the only choice]{.en}[vrai seulement si *autre* est le seul choix]{.fr} | `selected(${engins}, 'autre')` |
+| `. > 0 or . < 7` | [always true]{.en}[toujours vrai]{.fr} | `. >= 0 and . <= 7` |
+| `${a} + ${b}` [with `b` empty]{.en}[avec `b` vide]{.fr} | [result empty / NaN]{.en}[résultat vide / NaN]{.fr} | `${a} + coalesce(${b}, 0)` |
+| [filter column `Recif`, choice name `recif`]{.en}[colonne de filtre `Recif`, name du choix `recif`]{.fr} | [nothing shown in the filtered list]{.en}[rien n'est affiché dans la liste filtrée]{.fr} | [same values, exactly]{.en}[mêmes valeurs, exactement]{.fr} |
+
+## [Problems in the field]{.en}[Problèmes sur le terrain]{.fr} {.no-track}
+
+| [Symptom]{.en}[Symptôme]{.fr} | [Likely cause]{.en}[Cause probable]{.fr} | [Solution]{.en}[Solution]{.fr} |
+|---|---|---|
+| [KoboCollect: the form is not in the list]{.en}[KoboCollect : le formulaire n'est pas dans la liste]{.fr} | [not deployed, not shared with this account, or wrong server URL]{.en}[non déployé, non partagé avec ce compte, ou mauvaise URL de serveur]{.fr} | `r ui("deploy")`; [Sharing]{.en}[Partage]{.fr}; `https://kc.kobotoolbox.org` |
+| [Enumerators still see the old version]{.en}[Les enquêteurs voient encore l'ancienne version]{.fr} | [form not downloaded again after redeploy]{.en}[formulaire non re-téléchargé après le redéploiement]{.fr} | `r ui("kc_download")` [again]{.en}[à nouveau]{.fr} |
+| [Forms stay in *Ready to send*]{.en}[Des fiches restent dans *Prêt à envoyer*]{.fr} | [no connection, wrong password, or form deleted/archived on the server]{.en}[pas de réseau, mauvais mot de passe, ou formulaire supprimé/archivé sur le serveur]{.fr} | [check connection and account; never uninstall the app before sending]{.en}[vérifiez le réseau et le compte ; ne jamais désinstaller l'application avant l'envoi]{.fr} |
+| [Web form offline: forms lost]{.en}[Formulaire web hors ligne : fiches perdues]{.fr} | [browser data cleared, or private browsing]{.en}[données du navigateur effacées, ou navigation privée]{.fr} | [normal window; do not clear data while forms are queued]{.en}[fenêtre normale ; ne pas effacer les données tant que des fiches attendent]{.fr} |
+| [Export: a column is empty for some rows]{.en}[Export : une colonne vide pour certaines lignes]{.fr} | [question hidden by `relevant`, or added in a later version]{.en}[question masquée par `relevant`, ou ajoutée dans une version ultérieure]{.fr} | [check `relevant` and `__version__`]{.en}[vérifiez `relevant` et `__version__`]{.fr} |
+| [Export: no repeat sheets]{.en}[Export : pas de feuilles de répétition]{.fr} | [CSV export]{.en}[export CSV]{.fr} | [use XLS]{.en}[utilisez XLS]{.fr} |
+| [R: a column read as all NA]{.en}[R : une colonne lue entièrement en NA]{.fr} | [type guessed on the first rows]{.en}[type deviné sur les premières lignes]{.fr} | `read_excel(…, guess_max = 10000)` |
+| [R: a join adds rows]{.en}[R : une jointure ajoute des lignes]{.fr} | [wrong key, or sheets of two different exports]{.en}[mauvaise clé, ou feuilles de deux exports différents]{.fr} | `_parent_index` = `_index` [in the same file; or `_submission__uuid` = `_uuid`]{.en}[dans le même fichier ; ou `_submission__uuid` = `_uuid`]{.fr} |

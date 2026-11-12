@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 4</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">4 · Import, deploy and
+collect (web and KoboCollect)</span><span class="fr">4 · Importer,
+déployer et collecter (web et KoboCollect)</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>import an XLSForm into KoboToolbox, and replace the form of an
+existing project;</li>
+<li>read an error message, find the row it points to and correct the
+file;</li>
+<li>deploy a form, and redeploy a corrected version without losing
+data;</li>
+<li>collect with the <strong>web form</strong> (Enketo), online or
+offline, and with <strong>KoboCollect</strong> on Android;</li>
+<li>test a form properly, and share the project with your
+enumerators.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>importer un XLSForm dans KoboToolbox, et remplacer le formulaire
+d’un projet existant ;</li>
+<li>lire un message d’erreur, trouver la ligne qu’il désigne et corriger
+le fichier ;</li>
+<li>déployer un formulaire, et redéployer une version corrigée sans
+perdre de données ;</li>
+<li>collecter avec le <strong>formulaire web</strong> (Enketo), en ligne
+ou hors ligne, et avec <strong>KoboCollect</strong> sur Android ;</li>
+<li>tester correctement un formulaire, et partager le projet avec vos
+enquêteurs.</li>
+</ul>
+</div>
+</div>
+<div id="import" class="section level2">
+<h2><span class="en">Import an XLSForm</span><span class="fr">Importer
+un XLSForm</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> A volunteer of the cooperative
+wrote the landing form in Excel from memory. KoboToolbox refuses it. You
+have to find and correct <strong>all</strong> the errors before the
+start of the survey on Monday:
+<a class="btn-dl" href="data/forms/k04_erreurs.xlsx" download>⇩
+k04_erreurs.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Un bénévole de la coopérative a
+écrit la fiche de débarquement dans Excel de mémoire. KoboToolbox la
+refuse. Vous devez trouver et corriger <strong>toutes</strong> les
+erreurs avant le début de l’enquête lundi :
+<a class="btn-dl" href="data/forms/k04_erreurs.xlsx" download>⇩
+k04_erreurs.xlsx</a></p>
+</div>
+</div>
+<div class="en">
+<p><strong>New project from a file:</strong> <span class="ui">NOUVEAU
+<span class="ui-en">(NEW)</span></span> → <span class="ui">Téléverser un
+XLSForm <span class="ui-en">(Upload an XLSForm)</span></span> → drag the
+<code>.xlsx</code> file or click to choose it → fill in the project
+details → <em>Create project</em>. KoboToolbox converts the file; if it
+succeeds, the project opens in the <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> tab, as a <em>Draft</em>.</p>
+<p><strong>Replace the form of an existing project</strong> (e.g. a
+corrected version): open the project → <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> → <span class="ui">Plus d’actions
+<span class="ui-en">(More actions)</span></span> → <span
+class="ui">Remplacer le formulaire <span class="ui-en">(Replace
+form)</span></span> → choose the file. The project, its sharing settings
+and its data are kept.</p>
+</div>
+<div class="fr">
+<p><strong>Nouveau projet à partir d’un fichier :</strong> <span
+class="ui">NOUVEAU <span class="ui-en">(NEW)</span></span> → <span
+class="ui">Téléverser un XLSForm <span class="ui-en">(Upload an
+XLSForm)</span></span> → glissez le fichier <code>.xlsx</code> ou
+cliquez pour le choisir → remplissez les détails du projet → <em>Créer
+le projet</em>. KoboToolbox convertit le fichier ; si cela réussit, le
+projet s’ouvre dans l’onglet <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span>, en <em>Brouillon</em>.</p>
+<p><strong>Remplacer le formulaire d’un projet existant</strong> (ex.
+une version corrigée) : ouvrez le projet → <span class="ui">FORMULAIRE
+<span class="ui-en">(FORM)</span></span> → <span class="ui">Plus
+d’actions <span class="ui-en">(More actions)</span></span> → <span
+class="ui">Remplacer le formulaire <span class="ui-en">(Replace
+form)</span></span> → choisissez le fichier. Le projet, ses partages et
+ses données sont conservés.</p>
+</div>
+</div>
+<div id="errors" class="section level2">
+<h2><span class="en">Read an error message</span><span class="fr">Lire
+un message d’erreur</span></h2>
+<div class="en">
+<p>When the file has a problem, KoboToolbox shows a message and does not
+create (or replace) the form. Two things to know:</p>
+<ol style="list-style-type: decimal">
+<li>The message gives the <strong>sheet</strong> and the <strong>row
+number</strong> (<code>[row : 9]</code>) — it is the Excel row number,
+header = row 1.</li>
+<li>KoboToolbox stops at the <strong>first error</strong>. After you
+correct it, the next upload shows the next error. With six errors,
+expect up to seven uploads. That is why it pays to <strong>check the
+file yourself</strong> before uploading (checklist below).</li>
+</ol>
+<p>Here is the <code>survey</code> sheet of the volunteer’s file:</p>
+</div>
+<div class="fr">
+<p>Quand le fichier a un problème, KoboToolbox affiche un message et ne
+crée (ou ne remplace) pas le formulaire. Deux choses à savoir :</p>
+<ol style="list-style-type: decimal">
+<li>Le message donne la <strong>feuille</strong> et le <strong>numéro de
+ligne</strong> (<code>[row : 9]</code>) — c’est le numéro de ligne
+Excel, en-tête = ligne 1.</li>
+<li>KoboToolbox s’arrête à la <strong>première erreur</strong>. Une fois
+corrigée, l’import suivant montre l’erreur suivante. Avec six erreurs,
+comptez jusqu’à sept imports. C’est pourquoi il vaut la peine de
+<strong>vérifier le fichier vous-même</strong> avant l’import (liste de
+contrôle plus bas).</li>
+</ol>
+<p>Voici la feuille <code>survey</code> du fichier du bénévole :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td></tr><tr><td class='xr'>4</td><td>today</td><td>today</td><td></td><td></td></tr><tr><td class='xr'>5</td><td>deviceid</td><td>deviceid</td><td></td><td></td></tr><tr><td class='xr'>6</td><td>note</td><td>intro</td><td>**Fiche de débarquement** — une fiche par pirogue, au retour de pêche.</td><td></td></tr><tr><td class='xr'>7</td><td>date</td><td>date_debarq</td><td>Date du débarquement</td><td>yes</td></tr><tr><td class='xr'>8</td><td>select_one village</td><td>village</td><td>Village</td><td>yes</td></tr><tr><td class='xr'>9</td><td>text</td><td>nom pecheur</td><td>Nom du chef de pirogue</td><td>yes</td></tr><tr><td class='xr'>10</td><td>integr</td><td>age</td><td>Âge du chef de pirogue (années)</td><td></td></tr><tr><td class='xr'>11</td><td>integer</td><td>age</td><td>Nombre de pêcheurs à bord</td><td>yes</td></tr><tr><td class='xr'>12</td><td>select_one engins</td><td>engin</td><td>Engin principal</td><td>yes</td></tr><tr><td class='xr'>13</td><td>select_multiple espece</td><td>especes</td><td>Espèces débarquées</td><td>yes</td></tr><tr><td class='xr'>14</td><td>decimal</td><td>1_poids</td><td>Poids total débarqué (kg)</td><td>yes</td></tr><tr><td class='xr'>15</td><td>geopoint</td><td>gps</td><td>Position du site de débarquement</td><td></td></tr><tr><td class='xr'>16</td><td>image</td><td>photo</td><td>Photo de la capture</td><td></td></tr><tr><td class='xr'>17</td><td>text</td><td>remarque</td><td>Remarques</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<p>These are the messages you get (pyxform, the converter used by
+KoboToolbox; the exact wording may change a little between versions), if
+you correct <strong>only</strong> the error shown each time:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Upload</th>
+<th>Message (excerpt)</th>
+<th>Where</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 5] On the 'choices' sheet, the 'name' value is invalid. Choice names must be unique for each choice list.</code></td>
+<td><code>choices</code>, row 5</td>
+<td>the 2nd <code>ifaty</code> is in fact <code>madiorano</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 9] On the 'survey' sheet, the 'name' value is invalid. Names must begin with a letter or underscore…</code></td>
+<td><code>survey</code>, row 9</td>
+<td><code>nom pecheur</code> → <code>nom_pecheur</code> (space)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 11] … the 'name' value 'age' is invalid. Questions, groups, and repeats must be unique…</code></td>
+<td><code>survey</code>, row 11</td>
+<td>duplicate name: <code>age</code> → <code>nb_pecheurs</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>[row : 12] List name not in choices sheet: engins</code></td>
+<td><code>survey</code>, row 12</td>
+<td><code>select_one engins</code> → <code>select_one engin</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>[row : 14] … the 'name' value is invalid. Names must begin with a letter or underscore…</code></td>
+<td><code>survey</code>, row 14</td>
+<td><code>1_poids</code> → <code>poids_total</code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>Unknown question type 'integr'.</code></td>
+<td><code>survey</code> (no row!)</td>
+<td><code>integr</code> → <code>integer</code> (search the word in
+Excel: <kbd>Ctrl</kbd> + <kbd>F</kbd>)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>—</td>
+<td></td>
+<td>the form is created ✓</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Voici les messages obtenus (pyxform, le convertisseur utilisé par
+KoboToolbox ; la formulation exacte peut un peu changer d’une version à
+l’autre), si vous corrigez <strong>seulement</strong> l’erreur affichée
+à chaque fois :</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Import</th>
+<th>Message (extrait)</th>
+<th>Où</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 5] On the 'choices' sheet, the 'name' value is invalid. Choice names must be unique for each choice list.</code></td>
+<td><code>choices</code>, ligne 5</td>
+<td>le 2e <code>ifaty</code> est en fait <code>madiorano</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 9] On the 'survey' sheet, the 'name' value is invalid. Names must begin with a letter or underscore…</code></td>
+<td><code>survey</code>, ligne 9</td>
+<td><code>nom pecheur</code> → <code>nom_pecheur</code> (espace)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 11] … the 'name' value 'age' is invalid. Questions, groups, and repeats must be unique…</code></td>
+<td><code>survey</code>, ligne 11</td>
+<td>nom en double : <code>age</code> → <code>nb_pecheurs</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>[row : 12] List name not in choices sheet: engins</code></td>
+<td><code>survey</code>, ligne 12</td>
+<td><code>select_one engins</code> → <code>select_one engin</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>[row : 14] … the 'name' value is invalid. Names must begin with a letter or underscore…</code></td>
+<td><code>survey</code>, ligne 14</td>
+<td><code>1_poids</code> → <code>poids_total</code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>Unknown question type 'integr'.</code></td>
+<td><code>survey</code> (pas de ligne !)</td>
+<td><code>integr</code> → <code>integer</code> (cherchez le mot dans
+Excel : <kbd>Ctrl</kbd> + <kbd>F</kbd>)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>—</td>
+<td></td>
+<td>le formulaire est créé ✓</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Checklist before uploading</strong> (it catches most errors
+in two minutes):</p>
+<ol style="list-style-type: decimal">
+<li>Sheet names: <code>survey</code>, <code>choices</code>,
+<code>settings</code>, in lowercase.</li>
+<li><code>name</code> column of <code>survey</code>: sort a copy A→Z to
+see <strong>duplicates</strong>; look for spaces, accents, names
+starting with a digit.</li>
+<li>Every list after <code>select_one</code> /
+<code>select_multiple</code> exists in <code>choices</code> with
+<strong>exactly</strong> the same spelling.</li>
+<li>In <code>choices</code>: no duplicate <code>name</code> inside a
+list; no spaces in names.</li>
+<li>Types spelled correctly (<code>select_multiple</code>, not
+<code>select_many</code> or <code>select multiple</code>).</li>
+<li>No empty row in the middle; nothing written below the last row “by
+mistake”.</li>
+</ol>
+</div>
+<div class="fr">
+<p><strong>Liste de contrôle avant l’import</strong> (elle attrape la
+plupart des erreurs en deux minutes) :</p>
+<ol style="list-style-type: decimal">
+<li>Noms des feuilles : <code>survey</code>, <code>choices</code>,
+<code>settings</code>, en minuscules.</li>
+<li>Colonne <code>name</code> de <code>survey</code> : triez une copie
+A→Z pour voir les <strong>doublons</strong> ; cherchez les espaces, les
+accents, les noms qui commencent par un chiffre.</li>
+<li>Chaque liste après <code>select_one</code> /
+<code>select_multiple</code> existe dans <code>choices</code> avec
+<strong>exactement</strong> la même orthographe.</li>
+<li>Dans <code>choices</code> : pas de <code>name</code> en double dans
+une liste ; pas d’espace dans les noms.</li>
+<li>Types bien orthographiés (<code>select_multiple</code>, pas
+<code>select_many</code> ni <code>select multiple</code>).</li>
+<li>Pas de ligne vide au milieu ; rien d’écrit « par erreur » sous la
+dernière ligne.</li>
+</ol>
+</div>
+</div>
+<div class="en">
+<p><strong>Warnings</strong> (in yellow) do not block the import: e.g. a
+missing translation, or <em>“Use the max-pixels parameter to speed up
+submission sending”</em> for a photo question. Read them anyway: the
+photo warning is a good advice — add <code>max-pixels=1024</code> in the
+<code>parameters</code> column of the <code>image</code> question to
+keep photos light (Session 2).</p>
+</div>
+<div class="fr">
+<p>Les <strong>avertissements</strong> (en jaune) ne bloquent pas
+l’import : ex. une traduction manquante, ou <em>« Use the max-pixels
+parameter to speed up submission sending »</em> pour une question photo.
+Lisez-les quand même : l’avertissement photo est un bon conseil —
+ajoutez <code>max-pixels=1024</code> dans la colonne
+<code>parameters</code> de la question <code>image</code> pour garder
+des photos légères (séance 2).</p>
+</div>
+</div>
+<div id="deploy" class="section level2">
+<h2><span class="en">Deploy, then redeploy</span><span
+class="fr">Déployer, puis redéployer</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>In the <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> tab, check the form with <span
+class="ui">Aperçu <span class="ui-en">(Preview)</span></span>.</li>
+<li>Click <span class="ui">DÉPLOYER <span
+class="ui-en">(DEPLOY)</span></span>. The status becomes
+<em>Deployed</em>: the form can receive data.</li>
+<li>After a correction (<span class="ui">Remplacer le formulaire <span
+class="ui-en">(Replace form)</span></span> or the Formbuilder), the
+button becomes <span class="ui">REDÉPLOYER <span
+class="ui-en">(REDEPLOY)</span></span>. Click it: the new version
+replaces the old one for the <strong>next</strong> forms. The data
+already received are kept and each submission remembers its version
+(<code>__version__</code>).</li>
+</ol>
+<p><strong>What you can change safely after collection has
+started:</strong> labels, hints, translations, the order of questions,
+adding questions or choices. <strong>What causes trouble:</strong>
+renaming a <code>name</code> (the export then has an old and a new
+column), changing a choice <code>name</code> (old and new codes mixed),
+changing the type of a question (e.g. text → integer). KoboCollect users
+must download the new version of the form (see below).</p>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Dans l’onglet <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span>, vérifiez le formulaire avec <span
+class="ui">Aperçu <span class="ui-en">(Preview)</span></span>.</li>
+<li>Cliquez sur <span class="ui">DÉPLOYER <span
+class="ui-en">(DEPLOY)</span></span>. Le statut devient <em>Déployé</em>
+: le formulaire peut recevoir des données.</li>
+<li>Après une correction (<span class="ui">Remplacer le formulaire <span
+class="ui-en">(Replace form)</span></span> ou le Formbuilder), le bouton
+devient <span class="ui">REDÉPLOYER <span
+class="ui-en">(REDEPLOY)</span></span>. Cliquez dessus : la nouvelle
+version remplace l’ancienne pour les <strong>prochaines</strong> fiches.
+Les données déjà reçues sont conservées et chaque soumission garde sa
+version (<code>__version__</code>).</li>
+</ol>
+<p><strong>Ce que vous pouvez changer sans risque après le début de la
+collecte :</strong> libellés, indications, traductions, ordre des
+questions, ajout de questions ou de choix. <strong>Ce qui pose problème
+:</strong> renommer un <code>name</code> (l’export a alors une ancienne
+et une nouvelle colonne), changer le <code>name</code> d’un choix
+(anciens et nouveaux codes mélangés), changer le type d’une question
+(ex. texte → entier). Les utilisateurs de KoboCollect doivent
+télécharger la nouvelle version du formulaire (voir plus bas).</p>
+</div>
+</div>
+<div id="web" class="section level2">
+<h2><span class="en">Collect with the web form (Enketo)</span><span
+class="fr">Collecter avec le formulaire web (Enketo)</span></h2>
+<div class="en">
+<p>Once deployed, <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> → <span class="ui">Collecter les
+données <span class="ui-en">(Collect data)</span></span> offers several
+<strong>links</strong>. Choose one, then <span class="ui">COPIER <span
+class="ui-en">(COPY)</span></span> or <span class="ui">OUVRIR <span
+class="ui-en">(OPEN)</span></span>:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Link</th>
+<th>Use it when</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">En ligne-Hors ligne (soumissions multiples) <span
+class="ui-en">(Online-Offline (multiple submission))</span></span></td>
+<td>enumerators on a phone or tablet (Android <strong>or
+iPhone</strong>) with an unstable connection: the form is kept in the
+browser and the data are sent when the connection comes back</td>
+</tr>
+<tr class="even">
+<td><span class="ui">En ligne uniquement (soumissions multiples) <span
+class="ui-en">(Online-Only (multiple submissions))</span></span></td>
+<td>data entry on a computer with a good connection (e.g. typing paper
+forms at the office)</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">En ligne uniquement (soumission unique) <span
+class="ui-en">(Online-Only (single submission))</span></span></td>
+<td>a link sent to respondents who fill in <strong>once</strong> (online
+questionnaire)</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Application Android <span class="ui-en">(Android
+application)</span></span></td>
+<td>the instructions and the server address for KoboCollect</td>
+</tr>
+</tbody>
+</table>
+<p>By default the link asks for a KoboToolbox <strong>login</strong> of
+an account that has access to the project. For an online questionnaire
+open to anybody, the owner can allow submissions without login in the
+project settings — only for surveys where that is acceptable.</p>
+</div>
+<div class="fr">
+<p>Une fois déployé, <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> → <span class="ui">Collecter les
+données <span class="ui-en">(Collect data)</span></span> propose
+plusieurs <strong>liens</strong>. Choisissez-en un, puis <span
+class="ui">COPIER <span class="ui-en">(COPY)</span></span> ou <span
+class="ui">OUVRIR <span class="ui-en">(OPEN)</span></span> :</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Lien</th>
+<th>À utiliser quand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">En ligne-Hors ligne (soumissions multiples) <span
+class="ui-en">(Online-Offline (multiple submission))</span></span></td>
+<td>des enquêteurs sur téléphone ou tablette (Android <strong>ou
+iPhone</strong>) avec une connexion instable : le formulaire est gardé
+dans le navigateur et les données partent quand la connexion
+revient</td>
+</tr>
+<tr class="even">
+<td><span class="ui">En ligne uniquement (soumissions multiples) <span
+class="ui-en">(Online-Only (multiple submissions))</span></span></td>
+<td>la saisie sur ordinateur avec une bonne connexion (ex. saisie de
+fiches papier au bureau)</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">En ligne uniquement (soumission unique) <span
+class="ui-en">(Online-Only (single submission))</span></span></td>
+<td>un lien envoyé à des répondants qui remplissent <strong>une
+fois</strong> (questionnaire en ligne)</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Application Android <span class="ui-en">(Android
+application)</span></span></td>
+<td>les instructions et l’adresse du serveur pour KoboCollect</td>
+</tr>
+</tbody>
+</table>
+<p>Par défaut, le lien demande la <strong>connexion</strong> d’un compte
+KoboToolbox qui a accès au projet. Pour un questionnaire en ligne ouvert
+à tous, le propriétaire peut autoriser les soumissions sans connexion
+dans les paramètres du projet — seulement pour les enquêtes où c’est
+acceptable.</p>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Offline web form:</strong> open the <em>Online-Offline</em>
+link <strong>once with a connection</strong> on the device (the form is
+then stored in the browser), and do not clear the browser data while
+forms are waiting to be sent. Each queued form is sent automatically
+when the connection returns; check the counter of forms in the queue
+before leaving the field.</p>
+</div>
+<div class="fr">
+<p><strong>Formulaire web hors ligne :</strong> ouvrez le lien <em>En
+ligne-Hors ligne</em> <strong>une fois avec une connexion</strong> sur
+l’appareil (le formulaire est alors gardé dans le navigateur), et
+n’effacez pas les données du navigateur tant que des fiches attendent
+d’être envoyées. Chaque fiche en attente part automatiquement quand la
+connexion revient ; vérifiez le compteur des fiches en attente avant de
+quitter le terrain.</p>
+</div>
+</div>
+</div>
+<div id="kobocollect" class="section level2">
+<h2><span class="en">Collect with KoboCollect (Android)</span><span
+class="fr">Collecter avec KoboCollect (Android)</span></h2>
+<div class="en">
+<p><strong>Install and configure (once per device)</strong></p>
+<ol style="list-style-type: decimal">
+<li>Install <strong>KoboCollect</strong> from the Google Play Store
+(publisher: KoboToolbox).</li>
+<li>At the first opening: <span class="ui">Saisir manuellement les
+détails du projet <span class="ui-en">(Manually enter project
+details)</span></span>. Enter the <strong>KoboCollect URL</strong>
+<code>https://kc.kobotoolbox.org</code> (Global server;
+<code>https://kc-eu.kobotoolbox.org</code> for the EU server), then the
+<strong>username</strong> and <strong>password</strong> of the
+enumerator → <span class="ui">Ajouter <span
+class="ui-en">(Add)</span></span>.</li>
+<li>To configure many phones quickly: configure one, then in its project
+settings display the <strong>QR code</strong> of the configuration; on
+the other phones choose <span class="ui">Configurer avec un code QR
+<span class="ui-en">(Configure with QR Code)</span></span> and scan it.
+⚠ The QR code contains the password: do not post it in a WhatsApp
+group.</li>
+</ol>
+<p><strong>Every day</strong></p>
+<ol start="4" style="list-style-type: decimal">
+<li><span class="ui">Télécharger un formulaire <span
+class="ui-en">(Download form)</span></span> → tick the form → <em>Get
+selected</em>. Do it again after each <strong>redeploy</strong>.</li>
+<li><span class="ui">Commencer un nouveau formulaire <span
+class="ui-en">(Start new form)</span></span> → choose the form → swipe
+from right to left to go to the next question. A required question left
+empty blocks you with a message.</li>
+<li>At the end: <span class="ui">Finaliser <span
+class="ui-en">(Finalize)</span></span> (the form is complete and goes to
+<em>Ready to send</em>) — or save it as a <strong>draft</strong> to
+finish it later (<span class="ui">Brouillons <span
+class="ui-en">(Drafts)</span></span>).</li>
+<li><span class="ui">Prêt à envoyer <span class="ui-en">(Ready to
+send)</span></span> → select → <span class="ui">Envoyer <span
+class="ui-en">(Send)</span></span> when there is a connection. You can
+also turn on <strong>automatic sending</strong> in the settings.</li>
+</ol>
+<p>The forms stay on the phone after sending (you can see them in
+<em>Sent</em>). Ask enumerators <strong>never to uninstall the app or
+clear its data</strong> before checking that everything has been
+sent.</p>
+</div>
+<div class="fr">
+<p><strong>Installer et configurer (une fois par appareil)</strong></p>
+<ol style="list-style-type: decimal">
+<li>Installez <strong>KoboCollect</strong> depuis le Google Play Store
+(éditeur : KoboToolbox).</li>
+<li>À la première ouverture : <span class="ui">Saisir manuellement les
+détails du projet <span class="ui-en">(Manually enter project
+details)</span></span>. Saisissez l’<strong>URL KoboCollect</strong>
+<code>https://kc.kobotoolbox.org</code> (serveur Global ;
+<code>https://kc-eu.kobotoolbox.org</code> pour le serveur UE), puis le
+<strong>nom d’utilisateur</strong> et le <strong>mot de passe</strong>
+de l’enquêteur → <span class="ui">Ajouter <span
+class="ui-en">(Add)</span></span>.</li>
+<li>Pour configurer rapidement plusieurs téléphones : configurez-en un,
+puis affichez le <strong>QR code</strong> de sa configuration dans les
+paramètres du projet ; sur les autres téléphones, choisissez <span
+class="ui">Configurer avec un code QR <span class="ui-en">(Configure
+with QR Code)</span></span> et scannez-le. ⚠ Le QR code contient le mot
+de passe : ne le publiez pas dans un groupe WhatsApp.</li>
+</ol>
+<p><strong>Chaque jour</strong></p>
+<ol start="4" style="list-style-type: decimal">
+<li><span class="ui">Télécharger un formulaire <span
+class="ui-en">(Download form)</span></span> → cochez le formulaire →
+<em>Récupérer la sélection</em>. Recommencez après chaque
+<strong>redéploiement</strong>.</li>
+<li><span class="ui">Commencer un nouveau formulaire <span
+class="ui-en">(Start new form)</span></span> → choisissez le formulaire
+→ glissez de droite à gauche pour passer à la question suivante. Une
+question obligatoire laissée vide vous bloque avec un message.</li>
+<li>À la fin : <span class="ui">Finaliser <span
+class="ui-en">(Finalize)</span></span> (la fiche est complète et passe
+dans <em>Prêt à envoyer</em>) — ou enregistrez-la comme
+<strong>brouillon</strong> pour la finir plus tard (<span
+class="ui">Brouillons <span class="ui-en">(Drafts)</span></span>).</li>
+<li><span class="ui">Prêt à envoyer <span class="ui-en">(Ready to
+send)</span></span> → sélectionnez → <span class="ui">Envoyer <span
+class="ui-en">(Send)</span></span> quand il y a du réseau. Vous pouvez
+aussi activer l’<strong>envoi automatique</strong> dans les
+paramètres.</li>
+</ol>
+<p>Les fiches restent sur le téléphone après l’envoi (visibles dans
+<em>Envoyés</em>). Demandez aux enquêteurs de <strong>ne jamais
+désinstaller l’application ni effacer ses données</strong> avant d’avoir
+vérifié que tout est envoyé.</p>
+</div>
+</div>
+<div id="share" class="section level2">
+<h2><span class="en">Share the project with the team</span><span
+class="fr">Partager le projet avec l’équipe</span></h2>
+<div class="en">
+<p><span class="ui">PARAMÈTRES <span
+class="ui-en">(SETTINGS)</span></span> → <em>Sharing</em> → add the
+<strong>username</strong> of each enumerator and give the permissions
+they need. For an enumerator: <strong>View form</strong> and <strong>Add
+submissions</strong> are enough. For a supervisor: also <strong>View
+submissions</strong> and <strong>Validate submissions</strong>. Only you
+keep <strong>Edit form</strong> and <strong>Delete</strong>. An
+enumerator’s KoboCollect then shows only the forms shared with them.</p>
+</div>
+<div class="fr">
+<p><span class="ui">PARAMÈTRES <span
+class="ui-en">(SETTINGS)</span></span> → <em>Partage</em> → ajoutez le
+<strong>nom d’utilisateur</strong> de chaque enquêteur et donnez-lui les
+autorisations nécessaires. Pour un enquêteur : <strong>Voir le
+formulaire</strong> et <strong>Ajouter des soumissions</strong>
+suffisent. Pour un superviseur : aussi <strong>Voir les
+soumissions</strong> et <strong>Valider les soumissions</strong>. Gardez
+pour vous seul <strong>Modifier le formulaire</strong> et
+<strong>Supprimer</strong>. Le KoboCollect d’un enquêteur n’affiche
+alors que les formulaires partagés avec lui.</p>
+</div>
+</div>
+<div id="test" class="section level2">
+<h2><span class="en">Test before the field</span><span class="fr">Tester
+avant le terrain</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Fill in <strong>5 to 10 test forms</strong> with realistic and
+extreme answers (0 fisher, 300 kg, no species, every gear…), on the
+devices that will be used in the field.</li>
+<li>Check them in <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> → <span class="ui">Tableau <span
+class="ui-en">(Table)</span></span>, and download an export (Session 5):
+are the columns what you expected?</li>
+<li>Correct, redeploy, re-test.</li>
+<li><strong>Delete the test submissions</strong> (in the table, select
+them → delete) before the real collection starts — or test in a copy of
+the project.</li>
+<li>Train the enumerators with the final version, in the language they
+will use.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Remplissez <strong>5 à 10 fiches de test</strong> avec des réponses
+réalistes et extrêmes (0 pêcheur, 300 kg, aucune espèce, tous les
+engins…), sur les appareils qui serviront sur le terrain.</li>
+<li>Vérifiez-les dans <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> → <span class="ui">Tableau <span
+class="ui-en">(Table)</span></span>, et téléchargez un export (séance 5)
+: les colonnes sont-elles celles attendues ?</li>
+<li>Corrigez, redéployez, re-testez.</li>
+<li><strong>Supprimez les soumissions de test</strong> (dans le tableau,
+sélectionnez-les → supprimer) avant le début de la vraie collecte — ou
+testez dans une copie du projet.</li>
+<li>Formez les enquêteurs avec la version finale, dans la langue qu’ils
+utiliseront.</li>
+</ol>
+</div>
+<div class="application">
+<div id="application-work-4" class="section level3 en">
+<h3>Application work 4</h3>
+<ol style="list-style-type: decimal">
+<li>Upload <code>k04_erreurs.xlsx</code> as a new project. Correct the
+file <strong>one message at a time</strong> and re-upload until the form
+is created. Note each message.</li>
+<li>Deploy it. Open the <span class="ui">En ligne uniquement
+(soumissions multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span> link and send <strong>3 test forms</strong>
+(one with a photo, one without the optional questions).</li>
+<li>If you have an Android phone: install KoboCollect, configure it with
+your account, download the form, fill in <strong>2 forms</strong>, one
+finalized and sent, one saved as draft. Change the language if your form
+has several.</li>
+<li>Upload your file of Session 3 (<code>k03_a_traduire.xlsx</code>
+translated) as another project: check the language menu in the
+preview.</li>
+<li>In the landing project, <span class="ui">Remplacer le formulaire
+<span class="ui-en">(Replace form)</span></span> with your file
+<code>k02_debarquement_v2.xlsx</code> of Session 2 (two new questions),
+then <span class="ui">REDÉPLOYER <span
+class="ui-en">(REDEPLOY)</span></span>. Send one more test form: it
+contains the new questions; the old ones do not.</li>
+</ol>
+<p>Answer the quiz.</p>
+</div>
+<div id="travail-dapplication-4" class="section level3 fr">
+<h3>Travail d’application 4</h3>
+<ol style="list-style-type: decimal">
+<li>Importez <code>k04_erreurs.xlsx</code> comme nouveau projet.
+Corrigez le fichier <strong>un message à la fois</strong> et ré-importez
+jusqu’à ce que le formulaire soit créé. Notez chaque message.</li>
+<li>Déployez-le. Ouvrez le lien <span class="ui">En ligne uniquement
+(soumissions multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span> et envoyez <strong>3 fiches de test</strong>
+(une avec photo, une sans les questions facultatives).</li>
+<li>Si vous avez un téléphone Android : installez KoboCollect,
+configurez-le avec votre compte, téléchargez le formulaire, remplissez
+<strong>2 fiches</strong>, une finalisée et envoyée, une enregistrée en
+brouillon. Changez de langue si votre formulaire en a plusieurs.</li>
+<li>Importez votre fichier de la séance 3
+(<code>k03_a_traduire.xlsx</code> traduit) comme un autre projet :
+vérifiez le menu des langues dans l’aperçu.</li>
+<li>Dans le projet des débarquements, <span class="ui">Remplacer le
+formulaire <span class="ui-en">(Replace form)</span></span> avec votre
+fichier <code>k02_debarquement_v2.xlsx</code> de la séance 2 (deux
+nouvelles questions), puis <span class="ui">REDÉPLOYER <span
+class="ui-en">(REDEPLOY)</span></span>. Envoyez une fiche de test de
+plus : elle contient les nouvelles questions ; les anciennes non.</li>
+</ol>
+<p>Répondez au quiz.</p>
+</div>
+</div>
+<div id="quiz-k04" class="quiz" data-quiz-id="k04"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIEF0IHRoZSBmaXJzdCB1cGxvYWQgb2YgazA0X2VycmV1cnMueGxzeCwgd2hpY2ggc2hlZXQgZG9lcyB0aGUgZXJyb3IgbWVzc2FnZSBwb2ludCB0bz8iLCJmciI6IjEuIEF1IHByZW1pZXIgaW1wb3J0IGRlIGswNF9lcnJldXJzLnhsc3gsIHF1ZWxsZSBmZXVpbGxlIGxlIG1lc3NhZ2UgZCdlcnJldXIgZMOpc2lnbmUtdC1pbCA/IiwiYW5zd2VyIjpbImNob2ljZXMiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBBbmQgd2hpY2ggcm93IG51bWJlcj8iLCJmciI6IjIuIEV0IHF1ZWwgbnVtw6lybyBkZSBsaWduZSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBDb3JyZWN0aW5nIG9ubHkgdGhlIGVycm9yIHNob3duIGVhY2ggdGltZSwgaG93IG1hbnkgdXBsb2FkcyBpbiB0b3RhbCB1bnRpbCB0aGUgZm9ybSBpcyBjcmVhdGVkPyIsImZyIjoiMy4gRW4gY29ycmlnZWFudCBzZXVsZW1lbnQgbCdlcnJldXIgYWZmaWNow6llIMOgIGNoYXF1ZSBmb2lzLCBjb21iaWVuIGQnaW1wb3J0cyBhdSB0b3RhbCBqdXNxdSfDoCBsYSBjcsOpYXRpb24gZHUgZm9ybXVsYWlyZSA/IiwiYW5zd2VyIjo3LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gV2hpY2ggbmFtZSBhcHBlYXJzIHR3aWNlIGluIHRoZSBzdXJ2ZXkgc2hlZXQ/IiwiZnIiOiI0LiBRdWVsIG5hbWUgYXBwYXJhw650IGRldXggZm9pcyBkYW5zIGxhIGZldWlsbGUgc3VydmV5ID8iLCJhbnN3ZXIiOlsiYWdlIl19LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gV2hpY2ggZXJyb3IgbWVzc2FnZSBnaXZlcyBubyByb3cgbnVtYmVyPyIsImZyIjoiNS4gUXVlbCBtZXNzYWdlIGQnZXJyZXVyIG5lIGRvbm5lIHBhcyBkZSBudW3DqXJvIGRlIGxpZ25lID8iLCJvcHRpb25zX2VuIjpbIkxpc3QgbmFtZSBub3QgaW4gY2hvaWNlcyBzaGVldCIsIlVua25vd24gcXVlc3Rpb24gdHlwZSAnaW50ZWdyJyIsIkNob2ljZSBuYW1lcyBtdXN0IGJlIHVuaXF1ZSJdLCJvcHRpb25zX2ZyIjpbIkxpc3QgbmFtZSBub3QgaW4gY2hvaWNlcyBzaGVldCIsIlVua25vd24gcXVlc3Rpb24gdHlwZSAnaW50ZWdyJyIsIkNob2ljZSBuYW1lcyBtdXN0IGJlIHVuaXF1ZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gRW51bWVyYXRvcnMgd2l0aCBBbmRyb2lkIHBob25lcyBhbmQgYSBwb29yIGNvbm5lY3Rpb24uIEJlc3QgdG9vbHM/IiwiZnIiOiI2LiBFbnF1w6p0ZXVycyBhdmVjIHTDqWzDqXBob25lcyBBbmRyb2lkIGV0IG1hdXZhaXNlIGNvbm5leGlvbi4gTWVpbGxldXJzIG91dGlscyA/Iiwib3B0aW9uc19lbiI6WyJPbmxpbmUtT25seSAoc2luZ2xlIHN1Ym1pc3Npb24pIGxpbmsiLCJLb2JvQ29sbGVjdCwgb3IgdGhlIE9ubGluZS1PZmZsaW5lIHdlYiBsaW5rIiwiT25saW5lLU9ubHkgKG11bHRpcGxlIHN1Ym1pc3Npb25zKSBsaW5rIl0sIm9wdGlvbnNfZnIiOlsiTGllbiBFbiBsaWduZSB1bmlxdWVtZW50IChzb3VtaXNzaW9uIHVuaXF1ZSkiLCJLb2JvQ29sbGVjdCwgb3UgbGUgbGllbiB3ZWIgRW4gbGlnbmUtSG9ycyBsaWduZSIsIkxpZW4gRW4gbGlnbmUgdW5pcXVlbWVudCAoc291bWlzc2lvbnMgbXVsdGlwbGVzKSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6InRleHQiLCJlbiI6IjcuIEtvYm9Db2xsZWN0IFVSTCBmb3IgdGhlIEdsb2JhbCBzZXJ2ZXIgKHdpdGggaHR0cHM6Ly8pPyIsImZyIjoiNy4gVVJMIEtvYm9Db2xsZWN0IHBvdXIgbGUgc2VydmV1ciBHbG9iYWwgKGF2ZWMgaHR0cHM6Ly8pID8iLCJhbnN3ZXIiOlsiaHR0cHM6Ly9rYy5rb2JvdG9vbGJveC5vcmciLCJodHRwczovL2tjLmtvYm90b29sYm94Lm9yZy8iXX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBZb3UgcmVkZXBsb3kgYSBjb3JyZWN0ZWQgZm9ybS4gV2hhdCBtdXN0IEtvYm9Db2xsZWN0IHVzZXJzIGRvPyIsImZyIjoiOC4gVm91cyByZWTDqXBsb3lleiB1biBmb3JtdWxhaXJlIGNvcnJpZ8OpLiBRdWUgZG9pdmVudCBmYWlyZSBsZXMgdXRpbGlzYXRldXJzIGRlIEtvYm9Db2xsZWN0ID8iLCJvcHRpb25zX2VuIjpbIk5vdGhpbmciLCJEb3dubG9hZCB0aGUgZm9ybSBhZ2FpbiIsIlJlaW5zdGFsbCB0aGUgYXBwIl0sIm9wdGlvbnNfZnIiOlsiUmllbiIsIlTDqWzDqWNoYXJnZXIgw6Agbm91dmVhdSBsZSBmb3JtdWxhaXJlIiwiUsOpaW5zdGFsbGVyIGwnYXBwbGljYXRpb24iXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIFdoaWNoIGNoYW5nZSBhZnRlciB0aGUgc3RhcnQgb2YgY29sbGVjdGlvbiBjYXVzZXMgdHJvdWJsZSBpbiB0aGUgZGF0YT8iLCJmciI6IjkuIFF1ZWwgY2hhbmdlbWVudCBhcHLDqHMgbGUgZMOpYnV0IGRlIGxhIGNvbGxlY3RlIHBvc2UgcHJvYmzDqG1lIGRhbnMgbGVzIGRvbm7DqWVzID8iLCJvcHRpb25zX2VuIjpbIkNvcnJlY3RpbmcgYSBzcGVsbGluZyBtaXN0YWtlIGluIGEgbGFiZWwiLCJBZGRpbmcgYSBoaW50IiwiUmVuYW1pbmcgdGhlIG5hbWUgcG9pZHNfdG90YWwgdG8gcG9pZHMiLCJBZGRpbmcgYSBjaG9pY2UgdG8gYSBsaXN0Il0sIm9wdGlvbnNfZnIiOlsiQ29ycmlnZXIgdW5lIGZhdXRlIGRhbnMgdW4gbGliZWxsw6kiLCJBam91dGVyIHVuZSBpbmRpY2F0aW9uIiwiUmVub21tZXIgbGUgbmFtZSBwb2lkc190b3RhbCBlbiBwb2lkcyIsIkFqb3V0ZXIgdW4gY2hvaXggw6AgdW5lIGxpc3RlIl0sImFuc3dlciI6Mn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gUGVybWlzc2lvbnMgdG8gZ2l2ZSB0byBhbiBlbnVtZXJhdG9yOiIsImZyIjoiMTAuIEF1dG9yaXNhdGlvbnMgw6AgZG9ubmVyIMOgIHVuIGVucXXDqnRldXIgOiIsIm9wdGlvbnNfZW4iOlsiRWRpdCBmb3JtIGFuZCBEZWxldGUiLCJWaWV3IGZvcm0gYW5kIEFkZCBzdWJtaXNzaW9ucyIsIk5vbmU6IGdpdmUgdGhlbSB5b3VyIHBhc3N3b3JkIl0sIm9wdGlvbnNfZnIiOlsiTW9kaWZpZXIgbGUgZm9ybXVsYWlyZSBldCBTdXBwcmltZXIiLCJWb2lyIGxlIGZvcm11bGFpcmUgZXQgQWpvdXRlciBkZXMgc291bWlzc2lvbnMiLCJBdWN1bmUgOiBkb25uZXotbHVpIHZvdHJlIG1vdCBkZSBwYXNzZSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="k04">
+<div class="en">
+<p>1 <code>choices</code> · 2 row <strong>5</strong> (the second
+<code>ifaty</code>) · 3 <strong>7</strong> uploads (6 errors + the
+successful one) · 4 <code>age</code> (row 11 should be
+<code>nb_pecheurs</code>) · 5 the unknown type <code>integr</code> · 6
+KoboCollect or the Online-Offline link · 7
+<code>https://kc.kobotoolbox.org</code> · 8 download the form again · 9
+renaming a <code>name</code> · 10 View form + Add submissions.</p>
+<p>Corrected file = <code>k02_debarquement.xlsx</code> of Session 2
+(compare them).</p>
+</div>
+<div class="fr">
+<p>1 <code>choices</code> · 2 ligne <strong>5</strong> (le second
+<code>ifaty</code>) · 3 <strong>7</strong> imports (6 erreurs + celui
+qui réussit) · 4 <code>age</code> (la ligne 11 devrait être
+<code>nb_pecheurs</code>) · 5 le type inconnu <code>integr</code> · 6
+KoboCollect ou le lien En ligne-Hors ligne · 7
+<code>https://kc.kobotoolbox.org</code> · 8 télécharger à nouveau le
+formulaire · 9 renommer un <code>name</code> · 10 Voir le formulaire +
+Ajouter des soumissions.</p>
+<p>Fichier corrigé = <code>k02_debarquement.xlsx</code> de la séance 2
+(comparez-les).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

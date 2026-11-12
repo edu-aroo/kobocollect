@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 6</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">6 · Practice
+session</span><span class="fr">6 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="four-exercises-to-consolidate-the-beginner-level"
+class="section level4 en">
+<h4>Four exercises to consolidate the Beginner level</h4>
+<ol style="list-style-type: decimal">
+<li>turn a paper form into an XLSForm;</li>
+<li>correct an XLSForm that KoboToolbox refuses;</li>
+<li>answer questions from an export;</li>
+<li>make the right design choices.</li>
+</ol>
+<p>The four quizzes count <strong>together</strong>: you need 75 % of
+their total points to open Session 7.</p>
+</div>
+<div id="quatre-exercices-pour-consolider-le-niveau-débutant"
+class="section level4 fr">
+<h4>Quatre exercices pour consolider le niveau Débutant</h4>
+<ol style="list-style-type: decimal">
+<li>transformer une fiche papier en XLSForm ;</li>
+<li>corriger un XLSForm refusé par KoboToolbox ;</li>
+<li>répondre à des questions à partir d’un export ;</li>
+<li>faire les bons choix de conception.</li>
+</ol>
+<p>Les quatre quiz comptent <strong>ensemble</strong> : il faut 75 % de
+leur total de points pour ouvrir la séance 7.</p>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> A Master’s student monitors the
+<strong>seagrass meadows</strong> of four stations of the Bay of Ranobe.
+In each station, she places quadrats of 50 × 50 cm along the shore and
+notes the dominant species, the cover (%), the canopy height and the
+threats seen. She used paper forms in 2025; in February 2026 she moves
+to KoboToolbox, with a colleague (accounts <code>obs_lova</code> and
+<code>obs_haja</code>).</p>
+<p><strong>Type of data:</strong> ecological monitoring — one submission
+per quadrat; percentages, measurements, single and multiple choices.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Une étudiante de Master suit les
+<strong>herbiers marins</strong> de quatre stations de la baie de
+Ranobe. Dans chaque station, elle pose des quadrats de 50 × 50 cm le
+long du rivage et note l’espèce dominante, le recouvrement (%), la
+hauteur de la canopée et les menaces observées. Elle utilisait des
+fiches papier en 2025 ; en février 2026 elle passe à KoboToolbox, avec
+un collègue (comptes <code>obs_lova</code> et
+<code>obs_haja</code>).</p>
+<p><strong>Type de données :</strong> suivi écologique — une soumission
+par quadrat ; pourcentages, mesures, choix uniques et multiples.</p>
+</div>
+</div>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — From paper to XLSForm</span><span
+class="fr">Exercice 1 — Du papier au XLSForm</span></h2>
+<div class="en">
+<p>Here is her paper form. Write the XLSForm (sheets
+<code>survey</code>, <code>choices</code>, <code>settings</code>) in
+Excel, upload it to KoboToolbox and preview it.</p>
+<blockquote>
+<p><strong>SEAGRASS MONITORING — one form per quadrat</strong> Date: ___
+· Station: ☐ Ambolimailaka nord ☐ Ambolimailaka sud ☐ Ifaty lagon ☐
+Mangily récif Quadrat number (1 to 10): ___ · Dominant species: ☐
+<em>Thalassia hemprichii</em> ☐ <em>Syringodium isoetifolium</em> ☐
+<em>Cymodocea serrulata</em> ☐ <em>Halodule uninervis</em> Seagrass
+cover (%): ___ <em>(visual estimate in the 50 × 50 cm quadrat)</em> ·
+Canopy height (cm): <strong><em> Threats seen (tick all): ☐ None ☐
+Trampling ☐ Net marks ☐ Siltation ☐ Algal bloom Observer:
+</em></strong></p>
+</blockquote>
+<p>Rules: record <code>start</code> and <code>end</code>; date, station,
+quadrat, species, cover and observer are <strong>required</strong>;
+canopy height and threats are not; add the hint written in italics; list
+names <code>station</code>, <code>espece_h</code>, <code>menace</code>;
+form title <code>Suivi herbiers</code>, form_id
+<code>suivi_herbiers</code>.</p>
+</div>
+<div class="fr">
+<p>Voici sa fiche papier. Écrivez le XLSForm (feuilles
+<code>survey</code>, <code>choices</code>, <code>settings</code>) dans
+Excel, importez-le dans KoboToolbox et prévisualisez-le.</p>
+<blockquote>
+<p><strong>SUIVI HERBIERS — une fiche par quadrat</strong> Date : ___ ·
+Station : ☐ Ambolimailaka nord ☐ Ambolimailaka sud ☐ Ifaty lagon ☐
+Mangily récif Numéro du quadrat (1 à 10) : ___ · Espèce dominante : ☐
+<em>Thalassia hemprichii</em> ☐ <em>Syringodium isoetifolium</em> ☐
+<em>Cymodocea serrulata</em> ☐ <em>Halodule uninervis</em> Recouvrement
+de l’herbier (%) : ___ <em>(estimation visuelle dans le quadrat de 50 ×
+50 cm)</em> · Hauteur de la canopée (cm) : <strong><em> Menaces
+observées (cochez tout) : ☐ Aucune ☐ Piétinement ☐ Traces de filet ☐
+Envasement ☐ Prolifération d’algues Observateur : </em></strong></p>
+</blockquote>
+<p>Règles : enregistrez <code>start</code> et <code>end</code> ; date,
+station, quadrat, espèce, recouvrement et observateur sont
+<strong>obligatoires</strong> ; hauteur de canopée et menaces ne le sont
+pas ; ajoutez l’indication écrite en italique ; noms de listes
+<code>station</code>, <code>espece_h</code>, <code>menace</code> ; titre
+<code>Suivi herbiers</code>, form_id <code>suivi_herbiers</code>.</p>
+</div>
+<div id="quiz-kp1" class="quiz" data-quiz-id="kp1"
+data-title-en="Exercise 1" data-title-fr="Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBpbiB5b3VyIHN1cnZleSBzaGVldCAod2l0aG91dCBoZWFkZXIsIHN0YXJ0IGFuZCBlbmQgaW5jbHVkZWQpPyIsImZyIjoiMS4gTGlnbmVzIGRlIHZvdHJlIGZldWlsbGUgc3VydmV5IChzYW5zIGwnZW4tdMOqdGUsIHN0YXJ0IGV0IGVuZCBjb21wcmlzKSA/IiwiYW5zd2VyIjoxMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gUmVxdWlyZWQgcXVlc3Rpb25zPyIsImZyIjoiMi4gUXVlc3Rpb25zIG9ibGlnYXRvaXJlcyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBSb3dzIGluIHlvdXIgY2hvaWNlcyBzaGVldCAod2l0aG91dCBoZWFkZXIpPyIsImZyIjoiMy4gTGlnbmVzIGRlIHZvdHJlIGZldWlsbGUgY2hvaWNlcyAoc2FucyBsJ2VuLXTDqnRlKSA/IiwiYW5zd2VyIjoxMywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gVHlwZSBvZiB0aGUgY292ZXIgcXVlc3Rpb24/IiwiZnIiOiI0LiBUeXBlIGRlIGxhIHF1ZXN0aW9uIHN1ciBsZSByZWNvdXZyZW1lbnQgPyIsIm9wdGlvbnNfZW4iOlsiZGVjaW1hbCIsImludGVnZXIiLCJ0ZXh0Iiwic2VsZWN0X29uZSJdLCJvcHRpb25zX2ZyIjpbImRlY2ltYWwiLCJpbnRlZ2VyIiwidGV4dCIsInNlbGVjdF9vbmUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFR5cGUgb2YgdGhlIGNhbm9weSBoZWlnaHQ/IiwiZnIiOiI1LiBUeXBlIGRlIGxhIGhhdXRldXIgZGUgY2Fub3DDqWUgPyIsIm9wdGlvbnNfZW4iOlsiaW50ZWdlciIsImRlY2ltYWwiLCJ0ZXh0Il0sIm9wdGlvbnNfZnIiOlsiaW50ZWdlciIsImRlY2ltYWwiLCJ0ZXh0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNi4gRnVsbCB0eXBlIG9mIHRoZSB0aHJlYXRzIHF1ZXN0aW9uPyIsImZyIjoiNi4gVHlwZSBjb21wbGV0IGRlIGxhIHF1ZXN0aW9uIHN1ciBsZXMgbWVuYWNlcyA/IiwiYW5zd2VyIjpbInNlbGVjdF9tdWx0aXBsZSBtZW5hY2UiXX1d">
+
+</div>
+<div class="solution" data-quiz="kp1">
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>hint</td><td class='xh'>required</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>date</td><td>date_suivi</td><td>Date du suivi</td><td></td><td>yes</td></tr><tr><td class='xr'>5</td><td>select_one station</td><td>station</td><td>Station</td><td></td><td>yes</td></tr><tr><td class='xr'>6</td><td>integer</td><td>quadrat</td><td>Numéro du quadrat (1 à 10)</td><td></td><td>yes</td></tr><tr><td class='xr'>7</td><td>select_one espece_h</td><td>espece_dominante</td><td>Espèce d'herbier dominante</td><td></td><td>yes</td></tr><tr><td class='xr'>8</td><td>integer</td><td>recouvrement</td><td>Recouvrement de l'herbier (%)</td><td>Estimation visuelle dans le quadrat de 50 × 50 cm</td><td>yes</td></tr><tr><td class='xr'>9</td><td>decimal</td><td>hauteur_canopee</td><td>Hauteur de la canopée (cm)</td><td></td><td></td></tr><tr><td class='xr'>10</td><td>select_multiple menace</td><td>menaces</td><td>Menaces observées</td><td>Plusieurs réponses possibles</td><td></td></tr><tr><td class='xr'>11</td><td>text</td><td>observateur</td><td>Observateur</td><td></td><td>yes</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label</td></tr><tr><td class='xr'>2</td><td>station</td><td>st1</td><td>Ambolimailaka nord</td></tr><tr><td class='xr'>3</td><td>station</td><td>st2</td><td>Ambolimailaka sud</td></tr><tr><td class='xr'>4</td><td>station</td><td>st3</td><td>Ifaty lagon</td></tr><tr><td class='xr'>5</td><td>station</td><td>st4</td><td>Mangily récif</td></tr><tr><td class='xr'>6</td><td>espece_h</td><td>thalassia</td><td>Thalassia hemprichii</td></tr><tr><td class='xr'>7</td><td>espece_h</td><td>syringodium</td><td>Syringodium isoetifolium</td></tr><tr><td class='xr'>8</td><td>espece_h</td><td>cymodocea</td><td>Cymodocea serrulata</td></tr><tr><td class='xr'>9</td><td>espece_h</td><td>halodule</td><td>Halodule uninervis</td></tr><tr><td class='xr'>10</td><td>menace</td><td>aucune</td><td>Aucune</td></tr><tr><td class='xr'>11</td><td>menace</td><td>pietinement</td><td>Piétinement</td></tr><tr><td class='xr'>12</td><td>menace</td><td>filet</td><td>Traces de filet</td></tr><tr><td class='xr'>13</td><td>menace</td><td>sediment</td><td>Envasement</td></tr><tr><td class='xr'>14</td><td>menace</td><td>algues</td><td>Prolifération d'algues</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th></tr><tr><td class='xr'>1</td><td class='xh'>form_title</td><td class='xh'>form_id</td><td class='xh'>version</td></tr><tr><td class='xr'>2</td><td>Suivi herbiers</td><td>suivi_herbiers</td><td>1</td></tr></table><div class="xls-tab"><span>settings</span></div></div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Correct the file</span><span
+class="fr">Exercice 2 — Corriger le fichier</span></h2>
+<div class="en">
+<p>Her colleague wrote another version of the form, which KoboToolbox
+refuses:
+<a class="btn-dl" href="data/forms/k06_ex2_erreurs.xlsx" download>⇩
+k06_ex2_erreurs.xlsx</a>. Upload it, read each message, correct
+<strong>only</strong> what the message points to, and upload again until
+it works. Note the messages.</p>
+</div>
+<div class="fr">
+<p>Son collègue a écrit une autre version du formulaire, que KoboToolbox
+refuse :
+<a class="btn-dl" href="data/forms/k06_ex2_erreurs.xlsx" download>⇩
+k06_ex2_erreurs.xlsx</a>. Importez-la, lisez chaque message, corrigez
+<strong>seulement</strong> ce que le message désigne, et ré-importez
+jusqu’à ce que cela fonctionne. Notez les messages.</p>
+</div>
+<div class="hint">
+<div class="en">
+<p>Four errors. One of them is only reported after another one is fixed.
+One message gives no row number: search the word it quotes with
+<kbd>Ctrl</kbd> + <kbd>F</kbd>. The form_id
+<code>suivi-herbiers-v1</code> is <strong>not</strong> an error (hyphens
+are allowed), even if <code>_</code> is a better habit.</p>
+</div>
+<div class="fr">
+<p>Quatre erreurs. L’une d’elles n’est signalée qu’après la correction
+d’une autre. Un message ne donne pas de numéro de ligne : cherchez le
+mot qu’il cite avec <kbd>Ctrl</kbd> + <kbd>F</kbd>. Le form_id
+<code>suivi-herbiers-v1</code> n’est <strong>pas</strong> une erreur
+(les tirets sont acceptés), même si <code>_</code> est une meilleure
+habitude.</p>
+</div>
+</div>
+<div id="quiz-kp2" class="quiz" data-quiz-id="kp2"
+data-title-en="Exercise 2" data-title-fr="Exercice 2"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gRXhjZWwgcm93IG9mIHRoZSBmaXJzdCBlcnJvciByZXBvcnRlZD8iLCJmciI6IjEuIExpZ25lIEV4Y2VsIGRlIGxhIHByZW1pw6hyZSBlcnJldXIgc2lnbmFsw6llID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBXaGljaCBsaXN0IG5hbWUgaXMgbWlzc2luZyBmcm9tIHRoZSBjaG9pY2VzIHNoZWV0PyIsImZyIjoiMi4gUXVlbCBub20gZGUgbGlzdGUgZXN0IGFic2VudCBkZSBsYSBmZXVpbGxlIGNob2ljZXMgPyIsImFuc3dlciI6WyJzdGF0aW9ucyJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBDb3JyZWN0ZWQgbmFtZSBvZiB0aGUgcXVlc3Rpb24gb2Ygcm93IDk/IiwiZnIiOiIzLiBOYW1lIGNvcnJpZ8OpIGRlIGxhIHF1ZXN0aW9uIGRlIGxhIGxpZ25lIDkgPyIsImFuc3dlciI6WyJoYXV0ZXVyX2Nhbm9wZWUiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gV2hpY2ggbmFtZSBpcyB1c2VkIHR3aWNlPyIsImZyIjoiNC4gUXVlbCBuYW1lIGVzdCB1dGlsaXPDqSBkZXV4IGZvaXMgPyIsImFuc3dlciI6WyJxdWFkcmF0Il19LHsidHlwZSI6InRleHQiLCJlbiI6IjUuIENvcnJlY3Qgc3BlbGxpbmcgb2YgdGhlIG1pc3NwZWxsZWQgdHlwZSAod2l0aG91dCB0aGUgbGlzdCBuYW1lKT8iLCJmciI6IjUuIE9ydGhvZ3JhcGhlIGNvcnJlY3RlIGR1IHR5cGUgbWFsIMOpY3JpdCAoc2FucyBsZSBub20gZGUgbGlzdGUpID8iLCJhbnN3ZXIiOlsic2VsZWN0X211bHRpcGxlIl19LHsidHlwZSI6Im51bSIsImVuIjoiNi4gVG90YWwgbnVtYmVyIG9mIHVwbG9hZHMgKHRoZSBzdWNjZXNzZnVsIG9uZSBpbmNsdWRlZCk/IiwiZnIiOiI2LiBOb21icmUgdG90YWwgZCdpbXBvcnRzIChjZWx1aSBxdWkgcsOpdXNzaXQgY29tcHJpcykgPyIsImFuc3dlciI6NSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9XQ==">
+
+</div>
+<div class="solution" data-quiz="kp2">
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Upload</th>
+<th>Message</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 5] List name not in choices sheet: stations</code></td>
+<td><code>select_one stations</code> →
+<code>select_one station</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 9] … the 'name' value is invalid…</code></td>
+<td><code>hauteur canopee</code> → <code>hauteur_canopee</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 11] … the 'name' value 'quadrat' is invalid… must be unique</code></td>
+<td>row 11: <code>quadrat</code> → <code>observateur</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>Unknown question type 'select_multipe menace'.</code></td>
+<td><code>select_multipe</code> → <code>select_multiple</code> (row
+10)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>form created ✓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Import</th>
+<th>Message</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 5] List name not in choices sheet: stations</code></td>
+<td><code>select_one stations</code> →
+<code>select_one station</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 9] … the 'name' value is invalid…</code></td>
+<td><code>hauteur canopee</code> → <code>hauteur_canopee</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 11] … the 'name' value 'quadrat' is invalid… must be unique</code></td>
+<td>ligne 11 : <code>quadrat</code> → <code>observateur</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>Unknown question type 'select_multipe menace'.</code></td>
+<td><code>select_multipe</code> → <code>select_multiple</code> (ligne
+10)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>formulaire créé ✓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Read the export</span><span
+class="fr">Exercice 3 — Lire l’export</span></h2>
+<div class="en">
+<p>After three weeks, she downloads the data (XLS, XML values and
+headers):
+<a class="btn-dl" href="data/exports/k06_herbiers_xml.xlsx" download>⇩
+k06_herbiers_xml.xlsx</a>. Answer with Excel.</p>
+</div>
+<div class="fr">
+<p>Après trois semaines, elle télécharge les données (XLS, valeurs et
+en-têtes XML) :
+<a class="btn-dl" href="data/exports/k06_herbiers_xml.xlsx" download>⇩
+k06_herbiers_xml.xlsx</a>. Répondez avec Excel.</p>
+</div>
+<div id="quiz-kp3" class="quiz" data-quiz-id="kp3"
+data-title-en="Exercise 3" data-title-fr="Exercice 3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHF1YWRyYXRzIHJlY29yZGVkPyIsImZyIjoiMS4gTm9tYnJlIGRlIHF1YWRyYXRzIGVucmVnaXN0csOpcyA/IiwiYW5zd2VyIjo2NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjIuIENvZGUgKG5hbWUpIG9mIHRoZSBzdGF0aW9uIHdpdGggdGhlIGhpZ2hlc3QgbWVhbiBjb3Zlcj8iLCJmciI6IjIuIENvZGUgKG5hbWUpIGRlIGxhIHN0YXRpb24gYXUgcGx1cyBmb3J0IHJlY291dnJlbWVudCBtb3llbiA/IiwiYW5zd2VyIjpbInN0MyJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIEl0cyBtZWFuIGNvdmVyICglLCAxIGRlY2ltYWwpPyIsImZyIjoiMy4gU29uIHJlY291dnJlbWVudCBtb3llbiAoJSwgMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjc2LjMsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFF1YWRyYXRzIHdpdGggdHJhbXBsaW5nPyIsImZyIjoiNC4gUXVhZHJhdHMgYXZlYyBwacOpdGluZW1lbnQgPyIsImFuc3dlciI6MTQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIE1lYW4gY2Fub3B5IGhlaWdodCAoY20sIDIgZGVjaW1hbHMsIGVtcHR5IGNlbGxzIGV4Y2x1ZGVkKT8iLCJmciI6IjUuIEhhdXRldXIgbW95ZW5uZSBkZSBjYW5vcMOpZSAoY20sIDIgZMOpY2ltYWxlcywgY2VsbHVsZXMgdmlkZXMgZXhjbHVlcykgPyIsImFuc3dlciI6MTQuMDgsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI2LiBRdWFkcmF0cyB3aXRoIG5vIHRocmVhdCAoYXVjdW5lKT8iLCJmciI6IjYuIFF1YWRyYXRzIHNhbnMgbWVuYWNlIChhdWN1bmUpID8iLCJhbnN3ZXIiOjMwLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiAlIG9mIHF1YWRyYXRzIGRvbWluYXRlZCBieSBUaGFsYXNzaWEgKDEgZGVjaW1hbCk/IiwiZnIiOiI3LiAlIGRlIHF1YWRyYXRzIGRvbWluw6lzIHBhciBUaGFsYXNzaWEgKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo0Ni45LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBRdWFkcmF0cyBzZW50IGJ5IG9ic19oYWphPyIsImZyIjoiOC4gUXVhZHJhdHMgZW52b3nDqXMgcGFyIG9ic19oYWphID8iLCJhbnN3ZXIiOjM1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="kp3">
+<div class="en">
+<p>1 64 · 2 st3 · 3 76.3 % · 4 14 (sum of
+<code>menaces/pietinement</code>) · 5 14.08 cm (<code>AVERAGE</code>
+ignores empty cells) · 6 30 · 7 46.9 % · 8 35. Pivot table: rows
+<code>station</code>, values <em>Average of recouvrement</em>.</p>
+</div>
+<div class="fr">
+<p>1 64 · 2 st3 · 3 76.3 % · 4 14 (somme de
+<code>menaces/pietinement</code>) · 5 14.08 cm (<code>MOYENNE</code>
+ignore les cellules vides) · 6 30 · 7 46.9 % · 8 35. Tableau croisé :
+lignes <code>station</code>, valeurs <em>Moyenne de
+recouvrement</em>.</p>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>Did you notice? In the form, a quadrat can be marked <strong>“None”
+and “Trampling” at the same time</strong> — a contradiction the form
+does not prevent. At the Intermediate level you will forbid it with a
+<code>constraint</code>.</p>
+</div>
+<div class="fr">
+<p>L’avez-vous remarqué ? Dans le formulaire, un quadrat peut être
+marqué <strong>« Aucune » et « Piétinement » à la fois</strong> — une
+contradiction que le formulaire n’empêche pas. Au niveau Intermédiaire,
+vous l’interdirez avec une <code>constraint</code>.</p>
+</div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — Design choices</span><span
+class="fr">Exercice 4 — Choix de conception</span></h2>
+<div id="quiz-kp4" class="quiz" data-quiz-id="kp4"
+data-title-en="Exercise 4" data-title-fr="Exercice 4"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gTmFtZSBvZiB0aGUgZmlzaGVyJ3MgdmlsbGFnZSwgaW4gYSBzdXJ2ZXkgb2YgNSBrbm93biB2aWxsYWdlczoiLCJmciI6IjEuIFZpbGxhZ2UgZHUgcMOqY2hldXIsIGRhbnMgdW5lIGVucXXDqnRlIHN1ciA1IHZpbGxhZ2VzIGNvbm51cyA6Iiwib3B0aW9uc19lbiI6WyJ0ZXh0Iiwic2VsZWN0X29uZSB3aXRoIGEgbGlzdCBvZiB0aGUgNSB2aWxsYWdlcyIsInNlbGVjdF9tdWx0aXBsZSJdLCJvcHRpb25zX2ZyIjpbInRleHQiLCJzZWxlY3Rfb25lIGF2ZWMgdW5lIGxpc3RlIGRlcyA1IHZpbGxhZ2VzIiwic2VsZWN0X211bHRpcGxlIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIyLiBQcmljZSBwZXIga2cgaW4gQXJpYXJ5ICh3aG9sZSBudW1iZXJzKToiLCJmciI6IjIuIFByaXggYXUga2cgZW4gQXJpYXJ5IChub21icmVzIGVudGllcnMpIDoiLCJvcHRpb25zX2VuIjpbImludGVnZXIiLCJkZWNpbWFsIiwidGV4dCJdLCJvcHRpb25zX2ZyIjpbImludGVnZXIiLCJkZWNpbWFsIiwidGV4dCJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gSGVhZGVyIG9mIHRoZSBjb2x1bW4gZm9yIHRoZSBNYWxhZ2FzeSBoaW50czoiLCJmciI6IjMuIEVuLXTDqnRlIGRlIGxhIGNvbG9ubmUgZGVzIGluZGljYXRpb25zIGVuIG1hbGdhY2hlIDoiLCJvcHRpb25zX2VuIjpbImhpbnRfbWciLCJoaW50OjpNYWxhZ2FzeSAobWcpIiwiaGludDo6bWciLCJIaW50OjpNYWxhZ2FzeSJdLCJvcHRpb25zX2ZyIjpbImhpbnRfbWciLCJoaW50OjpNYWxhZ2FzeSAobWcpIiwiaGludDo6bWciLCJIaW50OjpNYWxhZ2FzeSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gRXhwb3J0IGZvciBhbiBhbmFseXNpcyBpbiBSOiIsImZyIjoiNC4gRXhwb3J0IHBvdXIgdW5lIGFuYWx5c2UgZGFucyBSIDoiLCJvcHRpb25zX2VuIjpbIkNTViB3aXRoIGxhYmVscyIsIlhMUyB3aXRoIFhNTCB2YWx1ZXMgYW5kIGhlYWRlcnMiLCJLTUwiXSwib3B0aW9uc19mciI6WyJDU1YgYXZlYyDDqXRpcXVldHRlcyIsIlhMUyBhdmVjIHZhbGV1cnMgZXQgZW4tdMOqdGVzIFhNTCIsIktNTCJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gVGhlIG1vc3QgcmVsaWFibGUgY29sdW1uIHRvIGlkZW50aWZ5IGEgc3VibWlzc2lvbiBhY3Jvc3MgZXhwb3J0czoiLCJmciI6IjUuIExhIGNvbG9ubmUgbGEgcGx1cyBmaWFibGUgcG91ciBpZGVudGlmaWVyIHVuZSBzb3VtaXNzaW9uIGQndW4gZXhwb3J0IMOgIGwnYXV0cmUgOiIsIm9wdGlvbnNfZW4iOlsiX2luZGV4IiwiX3V1aWQiLCJ0b2RheSJdLCJvcHRpb25zX2ZyIjpbIl9pbmRleCIsIl91dWlkIiwidG9kYXkiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFRvIGtub3cgaG93IGxvbmcgZWFjaCBpbnRlcnZpZXcgbGFzdGVkOiIsImZyIjoiNi4gUG91ciBjb25uYcOudHJlIGxhIGR1csOpZSBkZSBjaGFxdWUgZW50cmV0aWVuIDoiLCJvcHRpb25zX2VuIjpbInN0YXJ0IGFuZCBlbmQiLCJfc3VibWlzc2lvbl90aW1lIiwidG9kYXkiXSwib3B0aW9uc19mciI6WyJzdGFydCBhbmQgZW5kIiwiX3N1Ym1pc3Npb25fdGltZSIsInRvZGF5Il0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBBIHRlYW0gb2YgNCBlbnVtZXJhdG9ycyB3aXRoIEFuZHJvaWQgcGhvbmVzOiIsImZyIjoiNy4gVW5lIMOpcXVpcGUgZGUgNCBlbnF1w6p0ZXVycyBhdmVjIHTDqWzDqXBob25lcyBBbmRyb2lkIDoiLCJvcHRpb25zX2VuIjpbIk9uZSBzaGFyZWQgYWNjb3VudCIsIjQgYWNjb3VudHMsIHByb2plY3Qgc2hhcmVkIHdpdGggVmlldyBmb3JtICsgQWRkIHN1Ym1pc3Npb25zIiwiWW91ciBhY2NvdW50IG9uIHRoZSA0IHBob25lcyJdLCJvcHRpb25zX2ZyIjpbIlVuIGNvbXB0ZSBjb21tdW4iLCI0IGNvbXB0ZXMsIHByb2pldCBwYXJ0YWfDqSBhdmVjIFZvaXIgbGUgZm9ybXVsYWlyZSArIEFqb3V0ZXIgZGVzIHNvdW1pc3Npb25zIiwiVm90cmUgY29tcHRlIHN1ciBsZXMgNCB0w6lsw6lwaG9uZXMiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjguIEEgY2hvaWNlIHZhbHVlIHdyaXR0ZW4gYGZpbGV0IG1haWxsYW50YCAod2l0aCBhIHNwYWNlKSBpbiBhIHNlbGVjdF9tdWx0aXBsZSBsaXN0OiIsImZyIjoiOC4gVW5lIHZhbGV1ciBkZSBjaG9peCDDqWNyaXRlIGBmaWxldCBtYWlsbGFudGAgKGF2ZWMgdW5lIGVzcGFjZSkgZGFucyB1bmUgbGlzdGUgc2VsZWN0X211bHRpcGxlIDoiLCJvcHRpb25zX2VuIjpbImlzIGZpbmUiLCJpcyBhIHByb2JsZW06IHNlbGVjdGVkIHZhbHVlcyBhcmUgc2VwYXJhdGVkIGJ5IHNwYWNlcyIsIm9ubHkgY2hhbmdlcyB0aGUgY29sb3VyIl0sIm9wdGlvbnNfZnIiOlsibmUgcG9zZSBwYXMgZGUgcHJvYmzDqG1lIiwicG9zZSBwcm9ibMOobWUgOiBsZXMgdmFsZXVycyBjaG9pc2llcyBzb250IHPDqXBhcsOpZXMgcGFyIGRlcyBlc3BhY2VzIiwiY2hhbmdlIHNldWxlbWVudCBsYSBjb3VsZXVyIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="kp4">
+<div class="en">
+<p>1 <code>select_one</code> · 2 <code>integer</code> · 3
+<code>hint::Malagasy (mg)</code> · 4 XLS, XML values and headers · 5
+<code>_uuid</code> · 6 <code>start</code> and <code>end</code> · 7 one
+account each, shared project · 8 a problem (in fact KoboToolbox refuses
+spaces in choice names of <code>select_multiple</code> lists).</p>
+</div>
+<div class="fr">
+<p>1 <code>select_one</code> · 2 <code>integer</code> · 3
+<code>hint::Malagasy (mg)</code> · 4 XLS, valeurs et en-têtes XML · 5
+<code>_uuid</code> · 6 <code>start</code> et <code>end</code> · 7 un
+compte chacun, projet partagé · 8 un problème (KoboToolbox refuse
+d’ailleurs les espaces dans les noms de choix des listes
+<code>select_multiple</code>).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

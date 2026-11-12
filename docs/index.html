@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox course · Home</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Data collection with
+KoboToolbox</span><span class="fr">Collecte de données avec
+KoboToolbox</span></h1>
+<h3 class="subtitle"><span class="en">From the questionnaire to the
+analysis: XLSForm, KoboCollect and R</span><span class="fr">Du
+questionnaire à l’analyse : XLSForm, KoboCollect et R</span></h3>
+
+</div>
+
+
+<!--
+  index.Rmd = the HOME page (becomes index.html).
+  ::: en / ::: fr  -> a block shown only in English / French
+  <div id="dashboard"> is filled by course.js (PART 9) with the student's levels.
+-->
+<div id="dashboard">
+
+</div>
+<div id="welcomebienvenue" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Welcome</span><span
+class="fr">Bienvenue</span></h2>
+<div class="en">
+<p>This course teaches you to run a <strong>digital field survey with
+KoboToolbox</strong>, from the first question to the analysis of the
+data. It is written for students, researchers and NGO staff who collect
+data in the field (fisheries, households, ecological monitoring) and who
+want <strong>reliable data, fewer typing errors and less time spent
+cleaning</strong>.</p>
+<p>All the examples come from <strong>coastal Madagascar</strong>: fish
+landings in the Bay of Ranobe, household surveys in fishing villages,
+seagrass and coral reef monitoring. The data are
+<strong>simulated</strong>, but each one comes with a description of how
+it was “collected”.</p>
+</div>
+<div class="fr">
+<p>Ce cours vous apprend à mener une <strong>enquête de terrain
+numérique avec KoboToolbox</strong>, de la première question jusqu’à
+l’analyse des données. Il s’adresse aux étudiants, chercheurs et agents
+d’ONG qui collectent des données sur le terrain (pêche, ménages, suivi
+écologique) et qui veulent des <strong>données fiables, moins d’erreurs
+de saisie et moins de temps passé à nettoyer</strong>.</p>
+<p>Tous les exemples viennent du <strong>littoral malgache</strong> :
+débarquements de pêche dans la baie de Ranobe, enquêtes auprès des
+ménages de villages de pêcheurs, suivi des herbiers et des récifs
+coralliens. Les données sont <strong>simulées</strong>, mais chacune est
+accompagnée d’une description de la façon dont elle a été « collectée
+».</p>
+</div>
+<figure class="svg-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 210" role="img" aria-label="KoboToolbox survey cycle" font-family="Source Sans 3, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+<defs><marker id="kc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b3d5c"/></marker></defs>
+<g stroke-width="2"><rect x="8" y="40" width="150" height="100" rx="10" fill="#f6f1e7" stroke="#b08a4a"/><rect x="190" y="40" width="150" height="100" rx="10" fill="#e9f4f6" stroke="#1b7f8c"/><rect x="372" y="40" width="150" height="100" rx="10" fill="#eef5ea" stroke="#4a7d3a"/><rect x="554" y="40" width="150" height="100" rx="10" fill="#fdf0eb" stroke="#d9694a"/><rect x="736" y="40" width="156" height="100" rx="10" fill="#0b3d5c" stroke="#0b3d5c"/></g>
+<g stroke="#0b3d5c" stroke-width="2" marker-end="url(#kc)" fill="none"><path d="M158 90h29"/><path d="M340 90h29"/><path d="M522 90h29"/><path d="M704 90h29"/><path d="M814 140 C814 200 84 200 84 145" stroke-dasharray="5 4"/></g>
+<g font-size="15" font-weight="700" text-anchor="middle">
+<text x="83" y="68" fill="#8a6a32" class="en">1. Design</text><text x="83" y="68" fill="#8a6a32" class="fr">1. Concevoir</text>
+<text x="265" y="68" fill="#1b7f8c" class="en">2. Deploy</text><text x="265" y="68" fill="#1b7f8c" class="fr">2. Déployer</text>
+<text x="447" y="68" fill="#4a7d3a" class="en">3. Collect</text><text x="447" y="68" fill="#4a7d3a" class="fr">3. Collecter</text>
+<text x="629" y="68" fill="#d9694a" class="en">4. Download</text><text x="629" y="68" fill="#d9694a" class="fr">4. Télécharger</text>
+<text x="814" y="68" fill="#fff" class="en">5. Analyse</text><text x="814" y="68" fill="#fff" class="fr">5. Analyser</text></g>
+<g font-size="12.5" text-anchor="middle" fill="#3c4a52">
+<text x="83" y="92">Formbuilder</text><text x="83" y="110" class="en">or XLSForm (Excel)</text><text x="83" y="110" class="fr">ou XLSForm (Excel)</text>
+<text x="265" y="92" class="en">KoboToolbox server</text><text x="265" y="92" class="fr">serveur KoboToolbox</text><text x="265" y="110">kf.kobotoolbox.org</text>
+<text x="447" y="92">KoboCollect (Android)</text><text x="447" y="110" class="en">or web form (Enketo)</text><text x="447" y="110" class="fr">ou formulaire web (Enketo)</text>
+<text x="629" y="92">XLS · CSV</text><text x="629" y="110" class="en">DATA › Downloads</text><text x="629" y="110" class="fr">DONNÉES › Téléchargements</text>
+<text x="814" y="92" fill="#fff">Excel · R</text><text x="814" y="110" fill="#fff" class="en">tables, graphs, reports</text><text x="814" y="110" fill="#fff" class="fr">tableaux, graphes, rapports</text></g>
+<g font-size="12" fill="#5d6b75" text-anchor="middle" font-style="italic"><text x="449" y="196" class="en">test, correct, redeploy a new version</text><text x="449" y="196" class="fr">tester, corriger, redéployer une nouvelle version</text></g>
+<g font-size="12" fill="#5d6b75" text-anchor="middle"><text x="356" y="160" class="en">synchronised when there is a connection</text><text x="356" y="160" class="fr">synchronisé dès qu'il y a une connexion</text></g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo1ZDU3ZTMxMy02MjBmLTQzMTItOWU3ZS1iMWQ5YjQ5ODQ4MmYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaI3Qs7zL+Ygo2dr1vCB0HOoAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkNjkyNzBhYi04ZmIxLTRjZmMtYjhlYi03MjEzZTk5NTNhNzNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoHaylpBRMWeTAMy+rzsdKnAAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggIQF6qIs33ezJFsDDiYKwkT+fsBrVioAgm/b15VKBsa6kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaMzz7vEQ/oIUX1Va5TY9bI8AAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIJL6JA8BrMYy6J5SxT9QTB2CTDocS8rGY5r6OVR7ZcAQZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQxsZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjVkNTdlMzEzLTYyMGYtNDMxMi05ZTdlLWIxZDliNDk4NDgyZi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmQ5NWYxYjhhLTRlMzUtNDdhNy05ZGEzLTc4N2UyZWVjYjAzYXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAhAXqoizfd7MkWwMOJgrCRP5+wGtWKgCCb9vXlUoGxrqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggyQ4CviZsKCpzfoIJCxNMTYTO81GI5nDqIkQ4eXdYnfOiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggqMzCAyCmjQWVdEcvFFhKgshc8mf87WltvC4fUaaBezF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQLf4KLnmVVoFzP7MPes62Ya+AyK2x+QK9YFSPCQo6NDIu5P1C9MUPbX1amjdP/fPyc0hcrXQQdZJMURpW8mmwkY=</c2pa:manifest></metadata></svg><figcaption><span class="en">The five steps of a survey with KoboToolbox — this course follows them in order.</span><span class="fr">Les cinq étapes d'une enquête avec KoboToolbox — ce cours les suit dans l'ordre.</span></figcaption></figure>
+</div>
+<div id="the-three-levelsles-trois-niveaux"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">The three levels</span><span
+class="fr">Les trois niveaux</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>You will be able to…</th>
+<th>Main tools</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Beginner</strong> (8 sessions, ≈ 17 h)</td>
+<td>create an account; build a simple questionnaire on the platform
+<strong>or in Excel (XLSForm)</strong> with required questions, hints
+and several languages; deploy it; collect on a phone or in a browser;
+download the data</td>
+<td>Formbuilder, XLSForm (<code>survey</code>, <code>choices</code>,
+<code>settings</code>), KoboCollect, Enketo, XLS/CSV exports</td>
+</tr>
+<tr class="even">
+<td><strong>Intermediate</strong> (8 sessions, ≈ 20 h)</td>
+<td>let the form <strong>calculate</strong>, <strong>show questions only
+when needed</strong>, <strong>refuse impossible answers</strong>,
+organise questions in <strong>groups</strong>, ask people to
+<strong>rank</strong> items, and <strong>repeat</strong> questions
+(household members, fishing trips)</td>
+<td><code>calculate</code>, <code>relevant</code>,
+<code>constraint</code>, <code>begin_group</code>, <code>rank</code>,
+<code>begin_repeat</code>, <code>repeat_count</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Advanced</strong> (8 sessions, ≈ 23 h)</td>
+<td>design a complete form, use <strong>filtered choice lists</strong>
+and <strong>cascading questions</strong> (region › district › commune),
+download data for analysis, and <strong>rebuild the tables in R</strong>
+from a multi-sheet export (groups, repeats, nested repeats)</td>
+<td><code>choice_filter</code>, <code>selected()</code>, external lists,
+export settings, R: <code>readxl</code>, <code>dplyr</code>,
+<code>tidyr</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Niveau</th>
+<th>Vous saurez…</th>
+<th>Outils principaux</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Débutant</strong> (8 séances, ≈ 17 h)</td>
+<td>créer un compte ; construire un questionnaire simple sur la
+plateforme <strong>ou sous Excel (XLSForm)</strong> avec des réponses
+obligatoires, des indications et plusieurs langues ; le déployer ;
+collecter sur téléphone ou dans un navigateur ; télécharger les
+données</td>
+<td>Formbuilder, XLSForm (<code>survey</code>, <code>choices</code>,
+<code>settings</code>), KoboCollect, Enketo, exports XLS/CSV</td>
+</tr>
+<tr class="even">
+<td><strong>Intermédiaire</strong> (8 séances, ≈ 20 h)</td>
+<td>faire <strong>calculer</strong> le formulaire, <strong>n’afficher
+une question que si elle est utile</strong>, <strong>refuser les
+réponses impossibles</strong>, organiser les questions en
+<strong>groupes</strong>, faire <strong>classer</strong> des éléments,
+et <strong>répéter</strong> des questions (membres du ménage, sorties de
+pêche)</td>
+<td><code>calculate</code>, <code>relevant</code>,
+<code>constraint</code>, <code>begin_group</code>, <code>rank</code>,
+<code>begin_repeat</code>, <code>repeat_count</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Avancé</strong> (8 séances, ≈ 23 h)</td>
+<td>concevoir un formulaire complet, utiliser des <strong>listes de
+choix filtrées</strong> et des <strong>questions en cascade</strong>
+(région › district › commune), télécharger les données pour l’analyse,
+et <strong>reconstruire les tableaux dans R</strong> à partir d’un
+export à plusieurs feuilles (groupes, répétitions, répétitions
+imbriquées)</td>
+<td><code>choice_filter</code>, <code>selected()</code>, listes
+externes, paramètres d’export, R : <code>readxl</code>,
+<code>dplyr</code>, <code>tidyr</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>The Advanced level uses <strong>R</strong> in Sessions A4–A6 (reading
+Excel files, <code>dplyr</code>, joins). If you have never used R,
+follow at least the Beginner level of the course <em>R4Marine
+Research</em> first.</p>
+</div>
+<div class="fr">
+<p>Le niveau Avancé utilise <strong>R</strong> dans les séances A4 à A6
+(lecture de fichiers Excel, <code>dplyr</code>, jointures). Si vous
+n’avez jamais utilisé R, suivez d’abord au moins le niveau Débutant du
+cours <em>R4Marine Research</em>.</p>
+</div>
+</div>
+</div>
+<div id="how-the-course-workscomment-fonctionne-le-cours"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">How the course works</span><span
+class="fr">Comment fonctionne le cours</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li><strong>Follow the sessions in order.</strong> Click <strong>“Mark
+this section as done”</strong> at the end of each section: your progress
+is saved, and next time you log in you go back exactly where you
+stopped.</li>
+<li><strong>Do the application work</strong> in KoboToolbox or in Excel,
+with the <strong>course files</strong> (forms, exports) of each session,
+then answer the <strong>quiz</strong>. Each quiz allows <strong>2
+attempts</strong>; your <strong>best</strong> attempt counts.</li>
+<li>The <strong>solution</strong> opens when the quiz is finished (both
+attempts used, or full marks). <strong>Hints</strong> (💡) are free:
+they never cost points.</li>
+<li><strong>Moving to the next session:</strong> a session opens when
+you have reached at least <strong>75 %</strong> in the quiz of the
+previous one (for a practice session: 75 % of the points of all its
+exercises together). Locked sessions show a 🔒.</li>
+<li><strong>Level and certificate:</strong> finish all the quizzes of a
+level with at least <strong>75 %</strong> of its points to receive the
+<strong>certificate</strong> of the level. The next level is opened by
+your teacher.</li>
+<li>If 75 % can no longer be reached on a session after your two
+attempts, you are taken to a help page with my contacts: we will look at
+it together.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li><strong>Suivez les séances dans l’ordre.</strong> Cliquez sur
+<strong>« Marquer cette section comme terminée »</strong> à la fin de
+chaque section : votre progression est enregistrée, et à la prochaine
+connexion vous revenez exactement là où vous vous êtes arrêté.</li>
+<li><strong>Faites le travail d’application</strong> dans KoboToolbox ou
+dans Excel, avec les <strong>fichiers du cours</strong> (formulaires,
+exports) de chaque séance, puis répondez au <strong>quiz</strong>.
+Chaque quiz permet <strong>2 tentatives</strong> ; votre
+<strong>meilleure</strong> tentative compte.</li>
+<li>La <strong>solution</strong> s’ouvre quand le quiz est terminé (deux
+tentatives utilisées, ou score parfait). Les <strong>indices</strong>
+(💡) sont gratuits : ils ne coûtent jamais de points.</li>
+<li><strong>Passer à la séance suivante :</strong> une séance s’ouvre
+quand vous avez obtenu au moins <strong>75 %</strong> au quiz de la
+précédente (pour une séance d’exercices : 75 % des points de tous ses
+exercices réunis). Les séances verrouillées portent un 🔒.</li>
+<li><strong>Niveau et certificat :</strong> terminez tous les quiz d’un
+niveau avec au moins <strong>75 %</strong> de ses points pour recevoir
+le <strong>certificat</strong> du niveau. Le niveau suivant est ouvert
+par votre formateur.</li>
+<li>Si les 75 % ne peuvent plus être atteints à une séance après vos
+deux tentatives, vous êtes redirigé vers une page d’aide avec mes
+contacts : nous regarderons cela ensemble.</li>
+</ol>
+</div>
+</div>
+<div id="what-you-needce-quil-vous-faut"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">What you need</span><span
+class="fr">Ce qu’il vous faut</span></h2>
+<div class="en">
+<ul>
+<li>A <strong>computer</strong> with a recent web browser (Chrome,
+Firefox or Edge) and an internet connection to build and deploy
+forms.</li>
+<li><strong>Excel</strong> (or LibreOffice Calc, free) to write XLSForms
+and open the exports.</li>
+<li>An <strong>Android phone or tablet</strong> to test KoboCollect
+(Session 4). Without one, you can do everything with the web form in a
+browser.</li>
+<li>A free <strong>KoboToolbox account</strong> (Session 0).</li>
+<li>For the Advanced level: <strong>R</strong> and
+<strong>RStudio</strong>, with the packages <code>readxl</code>,
+<code>dplyr</code>, <code>tidyr</code> and <code>writexl</code>.</li>
+<li>The <strong>course files</strong> of each level: download them from
+<em>Resources → Course files</em> or from the session pages.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Un <strong>ordinateur</strong> avec un navigateur récent (Chrome,
+Firefox ou Edge) et une connexion internet pour construire et déployer
+les formulaires.</li>
+<li><strong>Excel</strong> (ou LibreOffice Calc, gratuit) pour écrire
+les XLSForms et ouvrir les exports.</li>
+<li>Un <strong>téléphone ou une tablette Android</strong> pour tester
+KoboCollect (séance 4). Sans cela, vous pouvez tout faire avec le
+formulaire web dans un navigateur.</li>
+<li>Un <strong>compte KoboToolbox</strong> gratuit (séance 0).</li>
+<li>Pour le niveau Avancé : <strong>R</strong> et
+<strong>RStudio</strong>, avec les packages <code>readxl</code>,
+<code>dplyr</code>, <code>tidyr</code> et <code>writexl</code>.</li>
+<li>Les <strong>fichiers du cours</strong> de chaque niveau :
+téléchargez-les depuis <em>Resources → Course files</em> ou depuis les
+pages des séances.</li>
+</ul>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>About the names of buttons.</strong> KoboToolbox changes its
+interface from time to time. In this course every button is written in
+French, with the English name in brackets, e.g. <span
+class="ui">DÉPLOYER <span class="ui-en">(DEPLOY)</span></span>. If a
+button has a slightly different name on your screen, look for the
+closest one, and tell me so that I can update the course.</p>
+</div>
+<div class="fr">
+<p><strong>À propos des noms de boutons.</strong> KoboToolbox modifie
+son interface de temps en temps. Dans ce cours, chaque bouton est écrit
+en français, avec le nom anglais entre parenthèses, ex. <span
+class="ui">DÉPLOYER <span class="ui-en">(DEPLOY)</span></span>. Si un
+bouton porte un nom un peu différent sur votre écran, cherchez le plus
+proche, et prévenez-moi pour que je mette le cours à jour.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

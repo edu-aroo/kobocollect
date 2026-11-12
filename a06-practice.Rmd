@@ -1,0 +1,203 @@
+---
+title: "[A6 · Practice session]{.en}[A6 · Séance d'exercices]{.fr}"
+pagetitle: "KoboToolbox · A6"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+suppressMessages({library(readxl); library(dplyr); library(tidyr); library(stringr)})
+source("templates/kobo_import.R")
+fpa <- form_practice_adv()
+k <- read_kobo("data/exports/a06_pecheurs_xml.xlsx")
+cc <- cascade_choices()
+```
+
+::: objectives
+::: en
+#### Four exercises to consolidate the Advanced level
+1. choice filters and cascades;
+2. predict an export from a form;
+3. analyse a nested-repeat export in R;
+4. read and correct R code for Kobo data.
+
+The four quizzes count **together** (75 % of their total to open Session A7).
+:::
+::: fr
+#### Quatre exercices pour consolider le niveau Avancé
+1. filtres de choix et cascades ;
+2. prévoir un export à partir d'un formulaire ;
+3. analyser dans R un export avec répétitions imbriquées ;
+4. lire et corriger du code R pour des données Kobo.
+
+Les quatre quiz comptent **ensemble** (75 % de leur total pour ouvrir la séance A7).
+:::
+:::
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** In June 2026, enumerators of the network asked 30 fishers of four communes to describe **each fishing trip** of the past three weeks and, for each trip, **each species caught** with its weight. The form `carnet_peche` has a cascade, a repeat `sorties` and, inside it, a repeat `captures`. Export: `r dl("exports/a06_pecheurs_xml.xlsx", "a06_pecheurs_xml.xlsx")`
+:::
+::: fr
+**Contexte simulé.** En juin 2026, les enquêteurs du réseau ont demandé à 30 pêcheurs de quatre communes de décrire **chaque sortie de pêche** des trois dernières semaines et, pour chaque sortie, **chaque espèce capturée** avec son poids. Le formulaire `carnet_peche` a une cascade, une répétition `sorties` et, à l'intérieur, une répétition `captures`. Export : `r dl("exports/a06_pecheurs_xml.xlsx", "a06_pecheurs_xml.xlsx")`
+:::
+:::
+
+`r xls(fpa$survey, cols = c("type", "name", "label", "required", "choice_filter"))`
+
+## [Exercise 1 — Filters and cascades]{.en}[Exercice 1 — Filtres et cascades]{.fr} {#ex1}
+
+```{r quiz1, echo=FALSE}
+quiz("kap1", title_en = "Exercise 1", title_fr = "Exercice 1", list(
+  q_num("1. With the cascade of the course, communes offered for the district Morondava?", "1. Avec la cascade du cours, communes proposées pour le district Morondava ?",
+        sum(cc$list_name == "commune" & cc$district == "morondava"), tol = 0),
+  q_num("2. Districts offered for Boeny?", "2. Districts proposés pour Boeny ?", sum(cc$list_name == "district" & cc$region == "boeny"), tol = 0),
+  q_mcq("3. The species list has a column region (value tous for species found everywhere). Filter on the region answered at the start?", "3. La liste des espèces a une colonne region (valeur tous pour les espèces présentes partout). Filtre selon la région répondue au début ?",
+        c("region = ${region} or region = 'tous'", "region = ${region} and region = 'tous'", "selected(${region}, name)"), correct = 1),
+  q_mcq("4. Gear list filtered by a 0/1 column per region (atsimo_andrefana, menabe, boeny):", "4. Liste des engins filtrée par une colonne 0/1 par région (atsimo_andrefana, menabe, boeny) :",
+        c("if(${region} = 'menabe', menabe = 1, if(${region} = 'boeny', boeny = 1, atsimo_andrefana = 1))", "region = ${region}", "${region} = 1"), correct = 1),
+  q_mcq("5. A district name exists twice in the choices of the list district. Upload?", "5. Un name de district existe deux fois dans les choix de la liste district. Import ?",
+        c("accepted", "refused unless allow_choice_duplicates = yes", "accepted, the second one is ignored"),
+        c("accepté", "refusé sauf avec allow_choice_duplicates = yes", "accepté, le second est ignoré"), correct = 2),
+  q_mcq("6. Where is the column region needed for the filter of communes by district?", "6. Où la colonne region est-elle nécessaire pour le filtre des communes par district ?",
+        c("nowhere: only district is used", "in the survey sheet", "in settings"), c("nulle part : seule district est utilisée", "dans la feuille survey", "dans settings"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="kap1"}
+::: en
+1–2 count in `choices` · 3 `region = ${region} or region = 'tous'` (it works inside the repeats too: `${region}` is outside them) · 4 nested `if()` · 5 refused · 6 nowhere (useful for analysis only).
+:::
+::: fr
+1–2 comptez dans `choices` · 3 `region = ${region} or region = 'tous'` (cela fonctionne aussi dans les répétitions : `${region}` est en dehors) · 4 des `if()` imbriqués · 5 refusé · 6 nulle part (utile seulement pour l'analyse).
+:::
+:::
+
+## [Exercise 2 — Predict the export]{.en}[Exercice 2 — Prévoir l'export]{.fr} {#ex2}
+
+::: en
+Answer **from the form above**, then check with the file.
+:::
+::: fr
+Répondez **à partir du formulaire ci-dessus**, puis vérifiez avec le fichier.
+:::
+
+```{r quiz2, echo=FALSE}
+x <- read_export("data/exports/a06_pecheurs_xml.xlsx")
+quiz("kap2", title_en = "Exercise 2", title_fr = "Exercice 2", list(
+  q_num("1. Number of sheets?", "1. Nombre de feuilles ?", length(x), tol = 0),
+  q_text("2. Name of the last sheet?", "2. Nom de la dernière feuille ?", names(x)[length(x)]),
+  q_text("3. _parent_table_name of the captures sheet?", "3. _parent_table_name de la feuille captures ?", x$captures$`_parent_table_name`[1]),
+  q_text("4. Header of the weight column in the captures sheet (groups included)?", "4. En-tête de la colonne poids de la feuille captures (groupes inclus) ?", names(x$captures)[2]),
+  q_text("5. Header of the region column in the main sheet (groups included)?", "5. En-tête de la colonne région de la feuille principale (groupes inclus) ?", names(x[[1]])[1]),
+  q_mcq("6. Which export would lose the trips and the catches?", "6. Quel export perdrait les sorties et les captures ?", c("CSV", "XLS"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="kap2"}
+::: en
+1 `r length(x)` (main, `sorties`, `captures`) · 2 `captures` · 3 `sorties` · 4 `sorties/captures/poids` · 5 `id/region` · 6 CSV.
+:::
+::: fr
+1 `r length(x)` (principale, `sorties`, `captures`) · 2 `captures` · 3 `sorties` · 4 `sorties/captures/poids` · 5 `id/region` · 6 CSV.
+:::
+:::
+
+## [Exercise 3 — Analyse in R]{.en}[Exercice 3 — Analyser dans R]{.fr} {#ex3}
+
+```{r ans3, include=FALSE}
+m <- k$main |> select(p_index = `_index`, commune, pecheur)
+so <- k$sorties |> rename(s_index = `_index`, p_index = `_parent_index`) |> left_join(m, by = "p_index")
+ca <- k$captures |> rename(s_index = `_parent_index`) |> left_join(so |> select(s_index, p_index, engin, commune), by = "s_index")
+u1 <- nrow(so); u2 <- nrow(ca); u3 <- round(sum(ca$poids), 1)
+u4 <- round(nrow(so) / nrow(m), 2)
+wc <- tapply(ca$poids, ca$commune, sum); u5 <- cc$label[cc$list_name == "commune" & cc$name == names(which.max(wc))]
+ps <- ca |> group_by(s_index, engin) |> summarise(w = sum(poids), .groups = "drop")
+ps <- so |> select(s_index, engin) |> left_join(ps |> select(s_index, w), by = "s_index")
+u6 <- names(which.max(tapply(ps$w, ps$engin, mean)))
+u7 <- round(100 * mean(so$s_index %in% ca$s_index[ca$espece == "poulpe"]), 1)
+u8 <- sum(!m$p_index %in% ca$p_index[ca$espece == "poulpe"])
+u9 <- names(which.max(tapply(ca$poids, ca$espece, sum)))
+u10 <- round(max(tapply(ca$poids, ca$p_index, sum)), 1)
+```
+
+```{r quiz3, echo=FALSE}
+quiz("kap3", title_en = "Exercise 3", title_fr = "Exercice 3", list(
+  q_num("1. Number of trips?", "1. Nombre de sorties ?", u1, tol = 0),
+  q_num("2. Number of catch rows?", "2. Nombre de lignes de captures ?", u2, tol = 0),
+  q_num("3. Total weight caught (kg, 1 decimal)?", "3. Poids total capturé (kg, 1 décimale) ?", u3, tol = 0.05),
+  q_num("4. Mean number of trips per fisher (2 decimals)?", "4. Nombre moyen de sorties par pêcheur (2 décimales) ?", u4, tol = 0.006),
+  q_text("5. Commune (label) with the largest total weight?", "5. Commune (libellé) au plus grand poids total ?", u5),
+  q_text("6. Gear (name) with the highest mean weight per trip?", "6. Engin (name) au plus fort poids moyen par sortie ?", u6),
+  q_num("7. % of trips with at least one octopus catch (1 decimal)?", "7. % de sorties avec au moins une capture de poulpe (1 décimale) ?", u7, tol = 0.05),
+  q_num("8. Fishers who never caught octopus?", "8. Pêcheurs qui n'ont jamais capturé de poulpe ?", u8, tol = 0),
+  q_text("9. Species (name) with the largest total weight?", "9. Espèce (name) au plus grand poids total ?", u9),
+  q_num("10. Largest total weight of one fisher (kg, 1 decimal)?", "10. Plus grand poids total d'un pêcheur (kg, 1 décimale) ?", u10, tol = 0.05)
+))
+```
+
+::: hint
+::: en
+Build three tables as in Session A5: fishers (`p_index`), trips (`s_index`, `p_index`), catches (`s_index` → `p_index`). Question 6: compute the weight **per trip** first (sum of its catches), then the mean per gear. Question 8: fishers whose `p_index` is not among the `p_index` of the octopus catches.
+:::
+::: fr
+Construisez trois tables comme à la séance A5 : pêcheurs (`p_index`), sorties (`s_index`, `p_index`), captures (`s_index` → `p_index`). Question 6 : calculez d'abord le poids **par sortie** (somme de ses captures), puis la moyenne par engin. Question 8 : pêcheurs dont le `p_index` n'est pas parmi les `p_index` des captures de poulpe.
+:::
+:::
+
+::: {.solution data-quiz="kap3"}
+::: en
+1 `r u1` · 2 `r u2` · 3 `r u3` · 4 `r u4` · 5 `r u5` · 6 `r u6` · 7 `r u7` % · 8 `r u8` · 9 `r u9` · 10 `r u10` kg.
+:::
+::: fr
+1 `r u1` · 2 `r u2` · 3 `r u3` · 4 `r u4` · 5 `r u5` · 6 `r u6` · 7 `r u7` % · 8 `r u8` · 9 `r u9` · 10 `r u10` kg.
+:::
+
+```{r, eval=FALSE}
+source("kobo_import.R")
+k  <- read_kobo("a06_pecheurs_xml.xlsx")
+m  <- k$main |> select(p_index = `_index`, commune, pecheur)
+so <- k$sorties  |> rename(s_index = `_index`, p_index = `_parent_index`) |> left_join(m, by = "p_index")
+ca <- k$captures |> rename(s_index = `_parent_index`) |>
+      left_join(so |> select(s_index, p_index, engin, commune), by = "s_index")
+nrow(so); nrow(ca); sum(ca$poids); nrow(so) / nrow(m)                         # 1-4
+ca |> group_by(commune) |> summarise(w = sum(poids)) |> arrange(desc(w))      # 5 (then kobo_label)
+so |> left_join(ca |> group_by(s_index) |> summarise(w = sum(poids)), by = "s_index") |>
+  group_by(engin) |> summarise(m = mean(w, na.rm = TRUE)) |> arrange(desc(m)) # 6
+mean(so$s_index %in% ca$s_index[ca$espece == "poulpe"]) * 100                 # 7
+sum(!m$p_index %in% ca$p_index[ca$espece == "poulpe"])                        # 8
+ca |> count(espece, wt = poids, sort = TRUE)                                  # 9
+ca |> group_by(p_index) |> summarise(w = sum(poids)) |> slice_max(w)          # 10
+```
+:::
+
+## [Exercise 4 — Read the code]{.en}[Exercice 4 — Lire le code]{.fr} {#ex4}
+
+```{r quiz4, echo=FALSE}
+quiz("kap4", title_en = "Exercise 4", title_fr = "Exercice 4", list(
+  q_mcq("1. `left_join(k$sorties, k$main, by = \"_index\")` is wrong because:", "1. `left_join(k$sorties, k$main, by = \"_index\")` est faux parce que :",
+        c("the key of a trip's parent is _parent_index, not _index", "left_join does not work with tibbles", "_index is text"),
+        c("la clé du parent d'une sortie est _parent_index, pas _index", "left_join ne fonctionne pas avec des tibbles", "_index est du texte"), correct = 1),
+  q_mcq("2. After a left_join of the catches with the trips, the number of rows increased. Most likely cause?", "2. Après un left_join des captures avec les sorties, le nombre de lignes a augmenté. Cause la plus probable ?",
+        c("the key is duplicated in the trips table (wrong key or two exports mixed)", "it is normal", "there are NA weights"),
+        c("la clé est en double dans la table des sorties (mauvaise clé ou deux exports mélangés)", "c'est normal", "il y a des poids NA"), correct = 1),
+  q_mcq("3. read_excel() reads the column remarques as logical and all its values become NA. Fix?", "3. read_excel() lit la colonne remarques comme logique et toutes ses valeurs deviennent NA. Correction ?",
+        c("increase guess_max", "use read.csv", "delete the column"), c("augmenter guess_max", "utiliser read.csv", "supprimer la colonne"), correct = 1),
+  q_mcq("4. Mean weight per trip by gear: which is right?", "4. Poids moyen par sortie selon l'engin : lequel est juste ?",
+        c("mean of the catch rows by gear", "sum of the catches per trip, then mean of the trips by gear"),
+        c("moyenne des lignes de captures par engin", "somme des captures par sortie, puis moyenne des sorties par engin"), correct = 2),
+  q_mcq("5. `str_detect(observateurs, \"lova\")` also counts the diver 'lovasoa'. Fix?", "5. `str_detect(observateurs, \"lova\")` compte aussi le plongeur « lovasoa ». Correction ?",
+        c("str_detect(observateurs, \"\\\\blova\\\\b\")", "observateurs == \"lova\"", "str_count(observateurs)"), correct = 1),
+  q_mcq("6. Two exports downloaded on 1 June and 15 June: how do you join the June-1 trips to the June-15 main sheet?", "6. Deux exports téléchargés le 1er et le 15 juin : comment relier les sorties du 1er juin à la feuille principale du 15 juin ?",
+        c("_parent_index = _index", "_submission__uuid = _uuid", "row numbers"), c("_parent_index = _index", "_submission__uuid = _uuid", "numéros de ligne"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="kap4"}
+::: en
+1 `_parent_index` · 2 duplicated key · 3 `guess_max` · 4 sum per trip, then mean · 5 word boundaries `\\b` · 6 `_submission__uuid` = `_uuid` (`_index` is valid only inside one file).
+:::
+::: fr
+1 `_parent_index` · 2 clé en double · 3 `guess_max` · 4 somme par sortie, puis moyenne · 5 limites de mots `\\b` · 6 `_submission__uuid` = `_uuid` (`_index` n'est valable que dans un même fichier).
+:::
+:::

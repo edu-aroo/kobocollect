@@ -1,0 +1,52 @@
+---
+title: "[Glossary FR / EN]{.en}[Glossaire FR / EN]{.fr}"
+pagetitle: "KoboToolbox · Glossary"
+subtitle: "[Words of the course and buttons of KoboToolbox / KoboCollect]{.en}[Mots du cours et boutons de KoboToolbox / KoboCollect]{.fr}"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+```
+
+## [Words of the course]{.en}[Mots du cours]{.fr} {.no-track}
+
+| Français | English | [Meaning]{.en}[Sens]{.fr} |
+|---|---|---|
+| projet | project | [a form + its data in KoboToolbox]{.en}[un formulaire + ses données dans KoboToolbox]{.fr} |
+| formulaire / questionnaire | form / questionnaire | [the list of questions]{.en}[la liste des questions]{.fr} |
+| soumission, fiche | submission, record | [one filled-in form sent to the server]{.en}[un formulaire rempli envoyé au serveur]{.fr} |
+| déployer / redéployer | deploy / redeploy | [publish the form / a new version]{.en}[publier le formulaire / une nouvelle version]{.fr} |
+| enquêteur | enumerator | [person who collects the data]{.en}[personne qui collecte les données]{.fr} |
+| libellé | label | [text shown]{.en}[texte affiché]{.fr} |
+| indication | hint | [help text under the label]{.en}[texte d'aide sous le libellé]{.fr} |
+| réponse obligatoire | required | [cannot be skipped]{.en}[ne peut pas être sautée]{.fr} |
+| liste de choix | choice list | `choices` |
+| affichage conditionnel / logique de saut | relevant / skip logic | `relevant` |
+| contrôle de saisie / critère de validation | constraint / validation criteria | `constraint` |
+| calcul | calculation | `calculate` |
+| groupe | group | `begin_group` |
+| répétition | repeat | `begin_repeat` |
+| répétition imbriquée | nested repeat | [a repeat inside a repeat]{.en}[une répétition dans une répétition]{.fr} |
+| classement | ranking | `rank` |
+| filtre de choix | choice filter | `choice_filter` |
+| questions en cascade | cascading selects | [region › district › commune]{.en}[région › district › commune]{.fr} |
+| métadonnées | metadata | `start`, `end`, `_uuid`… |
+| export, téléchargement | export, download | XLS, CSV… |
+| valeurs et en-têtes XML | XML values and headers | [names instead of labels]{.en}[names au lieu des libellés]{.fr} |
+| feuille principale / feuille de répétition | main sheet / repeat sheet | [sheets of an XLS export]{.en}[feuilles d'un export XLS]{.fr} |
+| jointure | join | [link two tables by a key (R)]{.en}[relier deux tables par une clé (R)]{.fr} |
+| dictionnaire des données | data dictionary | [one row per variable]{.en}[une ligne par variable]{.fr} |
+
+## [Buttons and menus]{.en}[Boutons et menus]{.fr} {.no-track}
+
+::: en
+All the names of buttons used in the course. **checked**: `doc` = taken from the official KoboToolbox documentation (English names); `no` = to be checked in the current version. The French names may differ slightly in your version: tell your teacher.
+:::
+::: fr
+Tous les noms de boutons utilisés dans le cours. **vérifié** : `doc` = pris dans la documentation officielle de KoboToolbox (noms anglais) ; `no` = à vérifier dans la version actuelle. Les noms français peuvent légèrement différer dans votre version : prévenez votre formateur.
+:::
+
+```{r, echo=FALSE}
+x <- ui_table()
+knitr::kable(x[c("fr", "en", "note", "checked")], col.names = c("Français", "English", "Où / Where", "✓"))
+```

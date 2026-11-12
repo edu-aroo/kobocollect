@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · Glossary</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Glossary FR /
+EN</span><span class="fr">Glossaire FR / EN</span></h1>
+<h3 class="subtitle"><span class="en">Words of the course and buttons of
+KoboToolbox / KoboCollect</span><span class="fr">Mots du cours et
+boutons de KoboToolbox / KoboCollect</span></h3>
+
+</div>
+
+
+<div id="words-of-the-coursemots-du-cours"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Words of the course</span><span
+class="fr">Mots du cours</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Français</th>
+<th>English</th>
+<th><span class="en">Meaning</span><span class="fr">Sens</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>projet</td>
+<td>project</td>
+<td><span class="en">a form + its data in KoboToolbox</span><span
+class="fr">un formulaire + ses données dans KoboToolbox</span></td>
+</tr>
+<tr class="even">
+<td>formulaire / questionnaire</td>
+<td>form / questionnaire</td>
+<td><span class="en">the list of questions</span><span class="fr">la
+liste des questions</span></td>
+</tr>
+<tr class="odd">
+<td>soumission, fiche</td>
+<td>submission, record</td>
+<td><span class="en">one filled-in form sent to the server</span><span
+class="fr">un formulaire rempli envoyé au serveur</span></td>
+</tr>
+<tr class="even">
+<td>déployer / redéployer</td>
+<td>deploy / redeploy</td>
+<td><span class="en">publish the form / a new version</span><span
+class="fr">publier le formulaire / une nouvelle version</span></td>
+</tr>
+<tr class="odd">
+<td>enquêteur</td>
+<td>enumerator</td>
+<td><span class="en">person who collects the data</span><span
+class="fr">personne qui collecte les données</span></td>
+</tr>
+<tr class="even">
+<td>libellé</td>
+<td>label</td>
+<td><span class="en">text shown</span><span class="fr">texte
+affiché</span></td>
+</tr>
+<tr class="odd">
+<td>indication</td>
+<td>hint</td>
+<td><span class="en">help text under the label</span><span
+class="fr">texte d’aide sous le libellé</span></td>
+</tr>
+<tr class="even">
+<td>réponse obligatoire</td>
+<td>required</td>
+<td><span class="en">cannot be skipped</span><span class="fr">ne peut
+pas être sautée</span></td>
+</tr>
+<tr class="odd">
+<td>liste de choix</td>
+<td>choice list</td>
+<td><code>choices</code></td>
+</tr>
+<tr class="even">
+<td>affichage conditionnel / logique de saut</td>
+<td>relevant / skip logic</td>
+<td><code>relevant</code></td>
+</tr>
+<tr class="odd">
+<td>contrôle de saisie / critère de validation</td>
+<td>constraint / validation criteria</td>
+<td><code>constraint</code></td>
+</tr>
+<tr class="even">
+<td>calcul</td>
+<td>calculation</td>
+<td><code>calculate</code></td>
+</tr>
+<tr class="odd">
+<td>groupe</td>
+<td>group</td>
+<td><code>begin_group</code></td>
+</tr>
+<tr class="even">
+<td>répétition</td>
+<td>repeat</td>
+<td><code>begin_repeat</code></td>
+</tr>
+<tr class="odd">
+<td>répétition imbriquée</td>
+<td>nested repeat</td>
+<td><span class="en">a repeat inside a repeat</span><span class="fr">une
+répétition dans une répétition</span></td>
+</tr>
+<tr class="even">
+<td>classement</td>
+<td>ranking</td>
+<td><code>rank</code></td>
+</tr>
+<tr class="odd">
+<td>filtre de choix</td>
+<td>choice filter</td>
+<td><code>choice_filter</code></td>
+</tr>
+<tr class="even">
+<td>questions en cascade</td>
+<td>cascading selects</td>
+<td><span class="en">region › district › commune</span><span
+class="fr">région › district › commune</span></td>
+</tr>
+<tr class="odd">
+<td>métadonnées</td>
+<td>metadata</td>
+<td><code>start</code>, <code>end</code>, <code>_uuid</code>…</td>
+</tr>
+<tr class="even">
+<td>export, téléchargement</td>
+<td>export, download</td>
+<td>XLS, CSV…</td>
+</tr>
+<tr class="odd">
+<td>valeurs et en-têtes XML</td>
+<td>XML values and headers</td>
+<td><span class="en">names instead of labels</span><span
+class="fr">names au lieu des libellés</span></td>
+</tr>
+<tr class="even">
+<td>feuille principale / feuille de répétition</td>
+<td>main sheet / repeat sheet</td>
+<td><span class="en">sheets of an XLS export</span><span
+class="fr">feuilles d’un export XLS</span></td>
+</tr>
+<tr class="odd">
+<td>jointure</td>
+<td>join</td>
+<td><span class="en">link two tables by a key (R)</span><span
+class="fr">relier deux tables par une clé (R)</span></td>
+</tr>
+<tr class="even">
+<td>dictionnaire des données</td>
+<td>data dictionary</td>
+<td><span class="en">one row per variable</span><span class="fr">une
+ligne par variable</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="buttons-and-menusboutons-et-menus"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">Buttons and menus</span><span
+class="fr">Boutons et menus</span></h2>
+<div class="en">
+<p>All the names of buttons used in the course.
+<strong>checked</strong>: <code>doc</code> = taken from the official
+KoboToolbox documentation (English names); <code>no</code> = to be
+checked in the current version. The French names may differ slightly in
+your version: tell your teacher.</p>
+</div>
+<div class="fr">
+<p>Tous les noms de boutons utilisés dans le cours.
+<strong>vérifié</strong> : <code>doc</code> = pris dans la documentation
+officielle de KoboToolbox (noms anglais) ; <code>no</code> = à vérifier
+dans la version actuelle. Les noms français peuvent légèrement différer
+dans votre version : prévenez votre formateur.</p>
+</div>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="32%" />
+<col width="28%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Français</th>
+<th align="left">English</th>
+<th align="left">Où / Where</th>
+<th align="left">✓</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Créer un compte</td>
+<td align="left">Create an account</td>
+<td align="left">login page</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Se connecter</td>
+<td align="left">Login</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">NOUVEAU</td>
+<td align="left">NEW</td>
+<td align="left">top-left button of the project list</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Construire à partir de zéro</td>
+<td align="left">Build from scratch</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Utiliser un modèle</td>
+<td align="left">Use a template</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Téléverser un XLSForm</td>
+<td align="left">Upload an XLSForm</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Importer un XLSForm via une URL</td>
+<td align="left">Import an XLSForm via URL</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">FORMULAIRE</td>
+<td align="left">FORM</td>
+<td align="left">project tab</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">RÉSUMÉ</td>
+<td align="left">SUMMARY</td>
+<td align="left">project tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">DONNÉES</td>
+<td align="left">DATA</td>
+<td align="left">project tab</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">PARAMÈTRES</td>
+<td align="left">SETTINGS</td>
+<td align="left">project tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">DÉPLOYER</td>
+<td align="left">DEPLOY</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">REDÉPLOYER</td>
+<td align="left">REDEPLOY</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Modifier le formulaire</td>
+<td align="left">Edit form</td>
+<td align="left">pencil icon in FORM tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Plus d’actions</td>
+<td align="left">More actions</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Télécharger XLS</td>
+<td align="left">Download XLS</td>
+<td align="left">More actions menu</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Remplacer le formulaire</td>
+<td align="left">Replace form</td>
+<td align="left">More actions menu</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Aperçu</td>
+<td align="left">Preview</td>
+<td align="left">eye icon</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Collecter les données</td>
+<td align="left">Collect data</td>
+<td align="left">FORM tab</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Application Android</td>
+<td align="left">Android application</td>
+<td align="left">Collect data menu</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">En ligne-Hors ligne (soumissions multiples)</td>
+<td align="left">Online-Offline (multiple submission)</td>
+<td align="left">Collect data menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">En ligne uniquement (soumissions multiples)</td>
+<td align="left">Online-Only (multiple submissions)</td>
+<td align="left">Collect data menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">En ligne uniquement (soumission unique)</td>
+<td align="left">Online-Only (single submission)</td>
+<td align="left">Collect data menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">COPIER</td>
+<td align="left">COPY</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">OUVRIR</td>
+<td align="left">OPEN</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Tableau</td>
+<td align="left">Table</td>
+<td align="left">DATA tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Rapports</td>
+<td align="left">Reports</td>
+<td align="left">DATA tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Galerie</td>
+<td align="left">Gallery</td>
+<td align="left">DATA tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Téléchargements</td>
+<td align="left">Downloads</td>
+<td align="left">DATA tab</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Sélectionner le type d’export</td>
+<td align="left">Select export type</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Format des valeurs et des en-têtes</td>
+<td align="left">Value and header format</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Étiquettes</td>
+<td align="left">Labels (default)</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Valeurs et en-têtes XML</td>
+<td align="left">XML values and headers</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Options avancées</td>
+<td align="left">Advanced options</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Exporter les questions à choix multiples en…</td>
+<td align="left">Export Select Many questions as…</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Colonnes uniques et séparées</td>
+<td align="left">Single and separate columns</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Inclure les données de toutes les versions</td>
+<td align="left">Include data from all versions</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Inclure les groupes dans les en-têtes</td>
+<td align="left">Include groups in headers</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Stocker les dates et les nombres en texte</td>
+<td align="left">Store date and number responses as text</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Inclure les URL des médias</td>
+<td align="left">Include media URLs</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Sélectionner les questions à exporter</td>
+<td align="left">Select questions to be exported</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Enregistrer la sélection sous…</td>
+<td align="left">Save selection as…</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">EXPORTER</td>
+<td align="left">EXPORT</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">TÉLÉCHARGER</td>
+<td align="left">DOWNLOAD</td>
+<td align="left"></td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Ajouter une question</td>
+<td align="left">Add question</td>
+<td align="left">Formbuilder (+ button)</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Texte</td>
+<td align="left">Text</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Nombre</td>
+<td align="left">Number</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Décimal</td>
+<td align="left">Decimal</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Sélectionner un</td>
+<td align="left">Select One</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Sélectionner plusieurs</td>
+<td align="left">Select Many</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Date</td>
+<td align="left">Date</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Point</td>
+<td align="left">Point</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Photo</td>
+<td align="left">Photo</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Note</td>
+<td align="left">Note</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Calcul</td>
+<td align="left">Calculate</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Classement</td>
+<td align="left">Ranking</td>
+<td align="left">Formbuilder question type</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Paramètres de la question</td>
+<td align="left">Question settings</td>
+<td align="left">cog icon of a question</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Réponse obligatoire</td>
+<td align="left">Mandatory response</td>
+<td align="left">question settings</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Indice</td>
+<td align="left">Hint</td>
+<td align="left">question settings</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Nom de colonne de données</td>
+<td align="left">Data Column Name</td>
+<td align="left">question settings</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Logique de saut</td>
+<td align="left">Skip logic</td>
+<td align="left">question settings</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Critères de validation</td>
+<td align="left">Validation criteria</td>
+<td align="left">question settings</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">ENREGISTRER</td>
+<td align="left">SAVE</td>
+<td align="left">Formbuilder</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Insérer une sélection en cascade</td>
+<td align="left">Insert cascading select</td>
+<td align="left">Formbuilder</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Gérer les traductions</td>
+<td align="left">Manage translations</td>
+<td align="left">FORM tab</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Bibliothèque</td>
+<td align="left">Library</td>
+<td align="left">left menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Projets</td>
+<td align="left">Projects</td>
+<td align="left">left menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Paramètres du compte</td>
+<td align="left">Account settings</td>
+<td align="left"></td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Approuvé</td>
+<td align="left">Approved</td>
+<td align="left">validation status</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Non approuvé</td>
+<td align="left">Not Approved</td>
+<td align="left">validation status</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">En attente</td>
+<td align="left">On Hold</td>
+<td align="left">validation status</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Saisir manuellement les détails du projet</td>
+<td align="left">Manually enter project details</td>
+<td align="left">KoboCollect first screen</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Configurer avec un code QR</td>
+<td align="left">Configure with QR Code</td>
+<td align="left">KoboCollect first screen</td>
+<td align="left">doc</td>
+</tr>
+<tr class="even">
+<td align="left">Ajouter</td>
+<td align="left">Add</td>
+<td align="left">KoboCollect</td>
+<td align="left">doc</td>
+</tr>
+<tr class="odd">
+<td align="left">Télécharger un formulaire</td>
+<td align="left">Download form</td>
+<td align="left">KoboCollect main menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Commencer un nouveau formulaire</td>
+<td align="left">Start new form</td>
+<td align="left">KoboCollect main menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Brouillons</td>
+<td align="left">Drafts</td>
+<td align="left">KoboCollect main menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Prêt à envoyer</td>
+<td align="left">Ready to send</td>
+<td align="left">KoboCollect main menu</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Envoyer</td>
+<td align="left">Send</td>
+<td align="left">KoboCollect</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">Finaliser</td>
+<td align="left">Finalize</td>
+<td align="left">KoboCollect end of form</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+---
+title: "[I0 · Calculations (calculate)]{.en}[I0 · Les calculs (calculate)]{.fr}"
+pagetitle: "KoboToolbox · I0"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fc <- form_calculate()
+ce <- calc_examples()
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- refer to the answer of another question with `${name}`;
+- write a `calculate` row: arithmetic (`+ - * div`), rounding, conditions with `if()`, text with `concat()`;
+- handle empty answers with `coalesce()`, and dates with `today()` and `format-date()`;
+- show a calculated value to the enumerator in a `note`, and find it in the export.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- faire référence à la réponse d'une autre question avec `${name}` ;
+- écrire une ligne `calculate` : arithmétique (`+ - * div`), arrondi, conditions avec `if()`, texte avec `concat()` ;
+- gérer les réponses vides avec `coalesce()`, et les dates avec `today()` et `format-date()` ;
+- montrer une valeur calculée à l'enquêteur dans une `note`, et la retrouver dans l'export.
+:::
+:::
+
+## [Why let the form calculate?]{.en}[Pourquoi faire calculer le formulaire ?]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** At each landing, the octopus collector of Ambolimailaka buys the catch of the canoe and pays the crew. The cooperative wants to record, for each sale, the **value of the sale**, the **share of each fisher**, a **size class** of the catch and a **code** for the form — without asking the enumerator to do any mental arithmetic. You add `calculate` rows to the form: `r dl("forms/i00_calculs.xlsx", "i00_calculs.xlsx")`
+
+**Type of data:** economic — weights (kg), prices (Ariary/kg), counts.
+:::
+::: fr
+**Contexte simulé.** À chaque débarquement, le collecteur de poulpe d'Ambolimailaka achète la capture de la pirogue et paie l'équipage. La coopérative veut enregistrer, pour chaque vente, la **valeur de la vente**, la **part de chaque pêcheur**, une **classe de taille** de la capture et un **code** pour la fiche — sans demander à l'enquêteur de calculer de tête. Vous ajoutez des lignes `calculate` au formulaire : `r dl("forms/i00_calculs.xlsx", "i00_calculs.xlsx")`
+
+**Type de données :** économiques — poids (kg), prix (Ariary/kg), comptages.
+:::
+:::
+
+::: en
+A calculation done **by the form** is done the same way for every submission, at the moment of the interview, and can be **shown** to the respondent to check it ("So the collector paid you 111 600 Ar, is that right?"). Calculated values are also **stored** in the data: no formula to rewrite in Excel afterwards.
+:::
+::: fr
+Un calcul fait **par le formulaire** est fait de la même façon pour chaque soumission, au moment de l'entretien, et peut être **montré** au répondant pour vérification (« Le collecteur vous a donc payé 111 600 Ar, c'est bien ça ? »). Les valeurs calculées sont aussi **enregistrées** dans les données : plus de formule à réécrire dans Excel ensuite.
+:::
+
+## [The calculate row]{.en}[La ligne calculate]{.fr} {#row}
+
+`r xls(fc$survey, cols = c("type", "name", "label", "calculation"), hl = c(5, 9, 10, 11, 12))`
+
+::: en
+- **`type` = `calculate`**, a `name`, **no label** (nothing is shown), and the formula in the **`calculation`** column.
+- **`${name}`** is replaced by the answer of the question `name`. `${poids_poulpe} * ${prix_kg}` = weight × price.
+- The calculation is **re-evaluated** each time an answer it depends on changes.
+- A calculation can use another calculation (`part_pecheur` uses `valeur`), as long as there is no loop.
+- The **note** of row 13 shows the results: `${valeur}` inside a label is replaced by the value.
+:::
+::: fr
+- **`type` = `calculate`**, un `name`, **pas de libellé** (rien n'est affiché), et la formule dans la colonne **`calculation`**.
+- **`${name}`** est remplacé par la réponse de la question `name`. `${poids_poulpe} * ${prix_kg}` = poids × prix.
+- Le calcul est **ré-évalué** à chaque fois qu'une réponse dont il dépend change.
+- Un calcul peut utiliser un autre calcul (`part_pecheur` utilise `valeur`), tant qu'il n'y a pas de boucle.
+- La **note** de la ligne 13 affiche les résultats : `${valeur}` dans un libellé est remplacé par la valeur.
+:::
+
+## [Operators and functions]{.en}[Opérateurs et fonctions]{.fr} {#functions}
+
+::: en
+The language of formulas is **XPath** (the ODK standard). It looks like Excel, with a few traps:
+
+| Operation | XLSForm | Watch out |
+|---|---|---|
+| addition, subtraction, multiplication | `+`  `-`  `*` | put spaces around `-`: `${a} - ${b}` (`${a}-${b}` can be misread) |
+| division | **`div`** | `/` is **not** division in XPath: `${valeur} div ${nb_pecheurs}` |
+| remainder | `mod` | `7 mod 3` = 1 |
+| comparison | `=`  `!=`  `<`  `<=`  `>`  `>=` | `=` (not `==`) |
+| logic | `and`  `or`  `not(…)` | lowercase |
+| text | `'grosse'` | text between single quotes |
+:::
+::: fr
+Le langage des formules est **XPath** (le standard ODK). Il ressemble à Excel, avec quelques pièges :
+
+| Opération | XLSForm | Attention |
+|---|---|---|
+| addition, soustraction, multiplication | `+`  `-`  `*` | mettez des espaces autour de `-` : `${a} - ${b}` (`${a}-${b}` peut être mal lu) |
+| division | **`div`** | `/` n'est **pas** la division en XPath : `${valeur} div ${nb_pecheurs}` |
+| reste | `mod` | `7 mod 3` = 1 |
+| comparaison | `=`  `!=`  `<`  `<=`  `>`  `>=` | `=` (pas `==`) |
+| logique | `and`  `or`  `not(…)` | en minuscules |
+| texte | `'grosse'` | texte entre apostrophes simples |
+:::
+
+```{r, echo=FALSE}
+xf(c("`round(x, n)`", "rounds x to n decimals", "arrondit x à n décimales", "`round(${valeur} div 3, 0)`", "idem"),
+   c("`int(x)`", "keeps the integer part (no rounding)", "garde la partie entière (sans arrondir)", "`int(7.9)` = 7", "idem"),
+   c("`if(condition, a, b)`", "a if the condition is true, otherwise b; can be nested", "a si la condition est vraie, sinon b ; peut être imbriqué", "`if(${poids} >= 10, 'grosse', 'petite')`", "idem"),
+   c("`concat(a, b, …)`", "joins texts", "colle des textes", "`concat(${village}, '-', ${num_pirogue})`", "idem"),
+   c("`coalesce(a, b)`", "a if not empty, otherwise b", "a s'il n'est pas vide, sinon b", "`coalesce(${revenu_autre}, 0)`", "idem"),
+   c("`today()` / `now()`", "date of the day / date and time", "date du jour / date et heure", "", ""),
+   c("`format-date(d, '%Y')`", "writes part of a date: `%Y` year, `%m` month, `%d` day", "écrit une partie d'une date : `%Y` année, `%m` mois, `%d` jour", "`format-date(today(), '%Y%m%d')`", "idem"),
+   c("`number(x)` / `string(x)`", "converts text ↔ number", "convertit texte ↔ nombre", "", ""),
+   c("`string-length(x)`", "number of characters", "nombre de caractères", "", ""),
+   c("`pow(x, y)`", "x to the power y", "x puissance y", "`pow(${diametre} div 2, 2) * 3.1416`", "idem"))
+```
+
+### [Empty answers]{.en}[Les réponses vides]{.fr}
+
+::: en
+If one question of a formula is **empty** (not answered, or not shown), the result is often empty or `NaN`. Example: `${revenu_peche} + ${revenu_autre}` is empty when `revenu_autre` was skipped. Use **`coalesce(${revenu_autre}, 0)`** to count an empty answer as 0 — but only when 0 is really the right meaning ("no other income"), not when the answer is unknown.
+:::
+::: fr
+Si une question d'une formule est **vide** (sans réponse, ou non affichée), le résultat est souvent vide ou `NaN`. Exemple : `${revenu_peche} + ${revenu_autre}` est vide quand `revenu_autre` a été sauté. Utilisez **`coalesce(${revenu_autre}, 0)`** pour compter une réponse vide comme 0 — mais seulement quand 0 a vraiment le bon sens (« pas d'autre revenu »), pas quand la réponse est inconnue.
+:::
+
+### [Dates]{.en}[Les dates]{.fr}
+
+::: en
+- Age from a year of birth: `int(format-date(today(), '%Y')) - ${annee_naissance}`.
+- Number of days between two dates: `int(decimal-date-time(${date_fin}) - decimal-date-time(${date_debut}))` (dates are counted in days).
+- A code with the date: `format-date(today(), '%Y%m%d')` → `20260412`.
+:::
+::: fr
+- Âge à partir d'une année de naissance : `int(format-date(today(), '%Y')) - ${annee_naissance}`.
+- Nombre de jours entre deux dates : `int(decimal-date-time(${date_fin}) - decimal-date-time(${date_debut}))` (les dates sont comptées en jours).
+- Un code avec la date : `format-date(today(), '%Y%m%d')` → `20260412`.
+:::
+
+## [Calculations in the export]{.en}[Les calculs dans l'export]{.fr} {#export}
+
+::: en
+Each `calculate` gives a **column** in the export, with its `name` as header, like a question. In the Formbuilder, the *Calculate* question type does the same (formula in the question box). A calculation is computed **on the device** at the time of the interview: if you correct the formula later and redeploy, the old submissions keep their old values — recompute them in Excel or R if needed.
+:::
+::: fr
+Chaque `calculate` donne une **colonne** dans l'export, avec son `name` comme en-tête, comme une question. Dans le Formbuilder, le type de question *Calcul* fait la même chose (formule dans la case de la question). Un calcul est fait **sur l'appareil** au moment de l'entretien : si vous corrigez la formule plus tard et redéployez, les anciennes soumissions gardent leurs anciennes valeurs — recalculez-les dans Excel ou R si nécessaire.
+:::
+
+::: {.callout .tip}
+::: en
+**Test a formula quickly:** upload the form, open `r ui("preview")`, enter values and read the note. Add a temporary note that shows every intermediate calculation (`${valeur} / ${part_pecheur} / ${classe_capture}`) while you build the form; delete it before deploying.
+:::
+::: fr
+**Tester une formule rapidement :** importez le formulaire, ouvrez `r ui("preview")`, saisissez des valeurs et lisez la note. Ajoutez une note temporaire qui affiche chaque calcul intermédiaire (`${valeur} / ${part_pecheur} / ${classe_capture}`) pendant la construction ; supprimez-la avant de déployer.
+:::
+:::
+
+::: {.application}
+::: en
+### Application work I0
+
+Upload `i00_calculs.xlsx` to KoboToolbox and open the preview. Enter the three sales below (any village and canoe number), read the note, and answer.
+
+| Sale | Weight of octopus (kg) | Price (Ar/kg) | Number of fishers |
+|---|---|---|---|
+| A | `r format(ce$poids[1], decimal.mark = ",")` | `r format(ce$prix[1], big.mark = " ")` | `r ce$nb[1]` |
+| B | `r format(ce$poids[2], decimal.mark = ",")` | `r format(ce$prix[2], big.mark = " ")` | `r ce$nb[2]` |
+| C | `r format(ce$poids[3], decimal.mark = ",")` | `r format(ce$prix[3], big.mark = " ")` | `r ce$nb[3]` |
+
+Then **modify the file**: add a `calculate` named `prix_moyen_pecheur` = the share of each fisher divided by the weight, rounded to 0 decimal, and show it in the note. Re-upload (`r ui("replace_form")`) and check.
+:::
+::: fr
+### Travail d'application I0
+
+Importez `i00_calculs.xlsx` dans KoboToolbox et ouvrez l'aperçu. Saisissez les trois ventes ci-dessous (village et numéro de pirogue au choix), lisez la note, et répondez.
+
+| Vente | Poids de poulpe (kg) | Prix (Ar/kg) | Nombre de pêcheurs |
+|---|---|---|---|
+| A | `r format(ce$poids[1], decimal.mark = ",")` | `r format(ce$prix[1], big.mark = " ")` | `r ce$nb[1]` |
+| B | `r format(ce$poids[2], decimal.mark = ",")` | `r format(ce$prix[2], big.mark = " ")` | `r ce$nb[2]` |
+| C | `r format(ce$poids[3], decimal.mark = ",")` | `r format(ce$prix[3], big.mark = " ")` | `r ce$nb[3]` |
+
+Ensuite **modifiez le fichier** : ajoutez un `calculate` nommé `prix_moyen_pecheur` = la part de chaque pêcheur divisée par le poids, arrondie à 0 décimale, et affichez-le dans la note. Ré-importez (`r ui("replace_form")`) et vérifiez.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ki0", list(
+  q_num("1. Sale A: value of the sale (Ar)?", "1. Vente A : valeur de la vente (Ar) ?", ce$valeur[1], tol = 0.5),
+  q_num("2. Sale A: share of each fisher (Ar)?", "2. Vente A : part de chaque pêcheur (Ar) ?", ce$part[1], tol = 0.5),
+  q_text("3. Sale A: size class?", "3. Vente A : classe de capture ?", ce$classe[1]),
+  q_text("4. Sale B: size class?", "4. Vente B : classe de capture ?", ce$classe[2]),
+  q_num("5. Sale C: share of each fisher (Ar)?", "5. Vente C : part de chaque pêcheur (Ar) ?", ce$part[3], tol = 0.5),
+  q_mcq("6. Formula for the share of each fisher:", "6. Formule de la part de chaque pêcheur :",
+        c("${valeur} / ${nb_pecheurs}", "${valeur} div ${nb_pecheurs}", "valeur div nb_pecheurs", "=valeur/nb_pecheurs"), correct = 2),
+  q_mcq("7. Total income when revenu_autre may be empty (meaning: no other income):", "7. Revenu total quand revenu_autre peut être vide (sens : pas d'autre revenu) :",
+        c("${revenu_peche} + ${revenu_autre}", "${revenu_peche} + coalesce(${revenu_autre}, 0)", "sum(${revenu_peche}, ${revenu_autre})"), correct = 2),
+  q_mcq("8. Which calculation gives 'adulte' from 18 years old, 'jeune' otherwise?", "8. Quel calcul donne 'adulte' à partir de 18 ans, 'jeune' sinon ?",
+        c("if(${age} >= 18, 'adulte', 'jeune')", "if(${age} > 18, adulte, jeune)", "if(age >= 18; 'adulte'; 'jeune')"), correct = 1),
+  q_mcq("9. A calculate row needs:", "9. Une ligne calculate a besoin :",
+        c("a label and a calculation", "a name and a calculation (no label)", "only a label"),
+        c("d'un libellé et d'un calcul", "d'un name et d'un calcul (pas de libellé)", "seulement d'un libellé"), correct = 2),
+  q_mcq("10. Your new calculation prix_moyen_pecheur:", "10. Votre nouveau calcul prix_moyen_pecheur :",
+        c("round(${part_pecheur} div ${poids_poulpe}, 0)", "round(${part_pecheur} / ${poids_poulpe})", "${part_pecheur} div ${poids_poulpe}, 0"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="ki0"}
+::: en
+| Sale | value = weight × price | share = round(value div fishers, 0) | class |
+|---|---|---|---|
+| A | `r format(ce$valeur[1], big.mark = " ")` | `r format(ce$part[1], big.mark = " ")` | `r ce$classe[1]` |
+| B | `r format(ce$valeur[2], big.mark = " ")` | `r format(ce$part[2], big.mark = " ")` | `r ce$classe[2]` |
+| C | `r format(ce$valeur[3], big.mark = " ")` | `r format(ce$part[3], big.mark = " ")` | `r ce$classe[3]` |
+
+6 `div` · 7 `coalesce()` · 8 `if(${age} >= 18, 'adulte', 'jeune')` (commas, quotes, `${}`) · 9 name + calculation · 10 `round(${part_pecheur} div ${poids_poulpe}, 0)`. Rows to add:
+:::
+::: fr
+| Vente | valeur = poids × prix | part = round(valeur div pêcheurs, 0) | classe |
+|---|---|---|---|
+| A | `r format(ce$valeur[1], big.mark = " ")` | `r format(ce$part[1], big.mark = " ")` | `r ce$classe[1]` |
+| B | `r format(ce$valeur[2], big.mark = " ")` | `r format(ce$part[2], big.mark = " ")` | `r ce$classe[2]` |
+| C | `r format(ce$valeur[3], big.mark = " ")` | `r format(ce$part[3], big.mark = " ")` | `r ce$classe[3]` |
+
+6 `div` · 7 `coalesce()` · 8 `if(${age} >= 18, 'adulte', 'jeune')` (virgules, apostrophes, `${}`) · 9 name + calcul · 10 `round(${part_pecheur} div ${poids_poulpe}, 0)`. Lignes à ajouter :
+:::
+
+`r xls(data.frame(type = c("calculate", "note"), name = c("prix_moyen_pecheur", "resume"), label = c("", "… — revenu par kg pour chaque pêcheur : ${prix_moyen_pecheur} Ar"), calculation = c("round(${part_pecheur} div ${poids_poulpe}, 0)", "")))`
+:::

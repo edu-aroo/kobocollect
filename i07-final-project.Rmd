@@ -1,0 +1,202 @@
+---
+title: "[I7 · Final project: fishers' trip logbook]{.en}[I7 · Projet final : le carnet des sorties de pêche]{.fr}"
+pagetitle: "KoboToolbox · I7"
+subtitle: "~3 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+P <- FICHES_I07$pecheurs; T <- FICHES_I07$sorties
+```
+
+::: objectives
+::: en
+#### Everything of the Intermediate level in one form
+Groups, calculations, conditions, checks, a "top 3" without repetition, and a repeat with `repeat_count` — then 5 test interviews to type, and an export with two sheets to analyse. As in Level 1, if your form and your typing are correct, your export gives the expected answers.
+:::
+::: fr
+#### Tout le niveau Intermédiaire dans un formulaire
+Groupes, calculs, conditions, contrôles, un « top 3 » sans répétition, et une répétition avec `repeat_count` — puis 5 entretiens de test à saisir, et un export à deux feuilles à analyser. Comme au niveau 1, si votre formulaire et votre saisie sont justes, votre export donne les réponses attendues.
+:::
+:::
+
+## [The request]{.en}[La demande]{.fr} {#request}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The cooperative wants to estimate the **catch per unit of effort** (kg per hour) and the **income** of its members, gear by gear. Once a week, an enumerator meets each fisher and records **all his trips of the week**: gear, duration, weight sold and price. The fisher also names the **three problems** that worry him most.
+
+**Type of data:** fisheries effort and catch — one submission per fisher per week, with one repetition per trip.
+:::
+::: fr
+**Contexte simulé.** La coopérative veut estimer la **capture par unité d'effort** (kg par heure) et le **revenu** de ses membres, engin par engin. Une fois par semaine, un enquêteur rencontre chaque pêcheur et note **toutes ses sorties de la semaine** : engin, durée, poids vendu et prix. Le pêcheur cite aussi les **trois problèmes** qui l'inquiètent le plus.
+
+**Type de données :** effort et captures de pêche — une soumission par pêcheur et par semaine, avec une répétition par sortie.
+:::
+:::
+
+## [Specifications]{.en}[Cahier des charges]{.fr} {#spec}
+
+::: en
+Use exactly these names. French labels are enough for this project (add Malagasy if you wish). Form title *Carnet des sorties*, form_id `carnet_sorties`.
+
+**Group `pecheur`** (*Le pêcheur*, appearance `field-list`)
+
+| name | label | type | rules |
+|---|---|---|---|
+| `village` | Village | select_one `village` | required; the 5 villages of the course |
+| `nom` | Nom du pêcheur | text | required |
+| `annee_naissance` | Année de naissance | integer | constraint: between 1940 and 2010, with a message |
+| `age` | — | calculate | `int(format-date(today(), '%Y')) - ${annee_naissance}` |
+| `pirogue` | Possède-t-il une pirogue ? | select_one `oui_non` | required |
+| `type_pirogue` | Type de pirogue | select_one `type_pirogue` | required, **shown only if he owns a canoe**; `monoxyle` Monoxyle · `balancier` Pirogue à balancier · `moteur` Pirogue à moteur |
+
+**Group `problemes`** (*Problèmes*): `probleme_1`, `probleme_2`, `probleme_3` — *Problème n° 1 (le plus important)*, *n° 2*, *n° 3* — `select_one probleme` (the 5 problems of Session I4), required; `probleme_2` cannot equal `probleme_1`, and `probleme_3` cannot equal either of them (constraints with messages).
+
+**`nb_sorties`** — *Nombre de sorties cette semaine* — integer, required, between 1 and 14.
+
+**Repeat `sorties`** (*Sortie*), `repeat_count` = `${nb_sorties}`:
+
+| name | label | type | rules |
+|---|---|---|---|
+| `num_sortie` | — | calculate | `position(..)` |
+| `engin` | Engin de la sortie ${num_sortie} | select_one `engin` | required; `ligne` Ligne à main · `filet_maillant` Filet maillant · `fusil` Fusil harpon · `glanage` Pêche à pied |
+| `heures` | Durée (heures) | decimal | required; between 0.5 and 24 |
+| `poids` | Poids vendu (kg) | decimal | required; between 0 and 300 |
+| `prix_kg` | Prix (Ar/kg) | integer | required; between 1000 and 40000 |
+| `valeur` | — | calculate | weight × price |
+| `cpue` | — | calculate | weight ÷ hours, rounded to 2 decimals |
+
+**After the repeat**: `poids_semaine` = sum of the weights, `valeur_semaine` = sum of the values, and a note that shows both to the enumerator.
+:::
+::: fr
+Utilisez exactement ces noms. Les libellés français suffisent pour ce projet (ajoutez le malgache si vous le souhaitez). Titre *Carnet des sorties*, form_id `carnet_sorties`.
+
+**Groupe `pecheur`** (*Le pêcheur*, apparence `field-list`)
+
+| name | libellé | type | règles |
+|---|---|---|---|
+| `village` | Village | select_one `village` | obligatoire ; les 5 villages du cours |
+| `nom` | Nom du pêcheur | text | obligatoire |
+| `annee_naissance` | Année de naissance | integer | contrainte : entre 1940 et 2010, avec un message |
+| `age` | — | calculate | `int(format-date(today(), '%Y')) - ${annee_naissance}` |
+| `pirogue` | Possède-t-il une pirogue ? | select_one `oui_non` | obligatoire |
+| `type_pirogue` | Type de pirogue | select_one `type_pirogue` | obligatoire, **affichée seulement s'il a une pirogue** ; `monoxyle` Monoxyle · `balancier` Pirogue à balancier · `moteur` Pirogue à moteur |
+
+**Groupe `problemes`** (*Problèmes*) : `probleme_1`, `probleme_2`, `probleme_3` — *Problème n° 1 (le plus important)*, *n° 2*, *n° 3* — `select_one probleme` (les 5 problèmes de la séance I4), obligatoires ; `probleme_2` ne peut pas être égal à `probleme_1`, et `probleme_3` ne peut être égal à aucun des deux (contraintes avec messages).
+
+**`nb_sorties`** — *Nombre de sorties cette semaine* — entier, obligatoire, entre 1 et 14.
+
+**Répétition `sorties`** (*Sortie*), `repeat_count` = `${nb_sorties}` :
+
+| name | libellé | type | règles |
+|---|---|---|---|
+| `num_sortie` | — | calculate | `position(..)` |
+| `engin` | Engin de la sortie ${num_sortie} | select_one `engin` | obligatoire ; `ligne` Ligne à main · `filet_maillant` Filet maillant · `fusil` Fusil harpon · `glanage` Pêche à pied |
+| `heures` | Durée (heures) | decimal | obligatoire ; entre 0,5 et 24 |
+| `poids` | Poids vendu (kg) | decimal | obligatoire ; entre 0 et 300 |
+| `prix_kg` | Prix (Ar/kg) | integer | obligatoire ; entre 1000 et 40000 |
+| `valeur` | — | calculate | poids × prix |
+| `cpue` | — | calculate | poids ÷ heures, arrondi à 2 décimales |
+
+**Après la répétition** : `poids_semaine` = somme des poids, `valeur_semaine` = somme des valeurs, et une note qui affiche les deux à l'enquêteur.
+:::
+
+## [Test interviews]{.en}[Entretiens de test]{.fr} {#fiches}
+
+::: en
+Deploy the form and type the 5 interviews **in this order** with the `r ui("online_multi")` link. Before submitting each one, check that the note shows the right totals.
+:::
+::: fr
+Déployez le formulaire et saisissez les 5 entretiens **dans cet ordre** avec le lien `r ui("online_multi")`. Avant d'envoyer chacun, vérifiez que la note affiche les bons totaux.
+:::
+
+```{r fiches, echo=FALSE, results="asis"}
+for (i in seq_len(nrow(P))) {
+  p <- P[i, ]; tt <- T[T$fiche == p$fiche, ]
+  rows <- paste(sprintf("| %d | %s | %s | %s | %s |", tt$sortie, tt$engin, format(tt$heures, decimal.mark = ","),
+                        format(tt$poids, decimal.mark = ","), format(tt$prix, big.mark = " ")), collapse = "\n")
+  cat(sprintf('\n::: fiche\n##### Fiche %d — %s, %s\n\nNé en %d · Pirogue : %s%s · Problèmes : %s\n\n| Sortie | Engin | Heures | Poids (kg) | Prix (Ar/kg) |\n|---|---|---|---|---|\n%s\n:::\n',
+              p$fiche, p$nom, p$village, p$annee_naissance, p$pirogue,
+              ifelse(p$pirogue == "Oui", paste0(" (", p$type_pirogue, ")"), ""), p$classement, rows))
+}
+```
+
+```{r answers, include=FALSE}
+T$valeur <- T$poids * T$prix
+T$cpue <- round(T$poids / T$heures, 2)
+first_pb <- sub(" >.*$", "", P$classement)
+d1 <- nrow(P); d2 <- nrow(T)
+d3 <- sum(T$poids)
+d4 <- sum(T$valeur)
+d5 <- sum(T$engin == "Pêche à pied")
+d6 <- T$fiche[which.max(T$valeur)]
+d7 <- sum(first_pb == "Prix bas")
+d8 <- round(mean(T$cpue), 2)
+gl <- tapply(T$cpue, T$engin, mean); d9 <- c("Ligne à main" = "ligne", "Filet maillant" = "filet_maillant", "Fusil harpon" = "fusil", "Pêche à pied" = "glanage")[names(which.max(gl))]
+d10 <- sum(P$pirogue == "Oui")
+d11 <- round(max(tapply(T$valeur, T$fiche, sum)), 0)
+```
+
+```{r quiz, echo=FALSE}
+quiz("ki7", list(
+  q_num("1. Rows in the main sheet of your export?", "1. Lignes de la feuille principale de votre export ?", d1, tol = 0),
+  q_num("2. Rows in the sorties sheet?", "2. Lignes de la feuille sorties ?", d2, tol = 0),
+  q_num("3. Total weight of all trips (kg, 1 decimal)?", "3. Poids total de toutes les sorties (kg, 1 décimale) ?", d3, tol = 0.05),
+  q_num("4. Total value of all trips (Ar)?", "4. Valeur totale de toutes les sorties (Ar) ?", d4, tol = 1),
+  q_num("5. Trips of gleaning (glanage)?", "5. Sorties de pêche à pied (glanage) ?", d5, tol = 0),
+  q_num("6. Number of the fiche of the trip with the highest value?", "6. Numéro de la fiche de la sortie à la plus forte valeur ?", d6, tol = 0),
+  q_num("7. Fishers whose problem n° 1 is 'prix_bas'?", "7. Pêcheurs dont le problème n° 1 est « prix_bas » ?", d7, tol = 0),
+  q_num("8. Mean of the column cpue over all trips (2 decimals)?", "8. Moyenne de la colonne cpue sur toutes les sorties (2 décimales) ?", d8, tol = 0.006),
+  q_text("9. Gear (choice name) with the highest mean cpue?", "9. Engin (name du choix) au cpue moyen le plus élevé ?", unname(d9)),
+  q_num("10. Number of non-empty cells in the type_pirogue column?", "10. Nombre de cellules non vides dans la colonne type_pirogue ?", d10, tol = 0),
+  q_num("11. Highest valeur_semaine (Ar)?", "11. valeur_semaine la plus élevée (Ar) ?", d11, tol = 1),
+  q_mcq("12. In the sorties sheet, the trips of fiche 3 have _parent_index =", "12. Dans la feuille sorties, les sorties de la fiche 3 ont _parent_index =",
+        c("3", "1", "their own number 1 to 4"), c("3", "1", "leur propre numéro 1 à 4"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="ki7"}
+::: en
+Answers: 1 `r d1` · 2 `r d2` · 3 `r d3` kg · 4 `r format(d4, big.mark = " ")` Ar · 5 `r d5` · 6 fiche `r d6` · 7 `r d7` · 8 `r d8` kg/h · 9 `r d9` · 10 `r d10` (empty when there is no canoe) · 11 `r format(d11, big.mark = " ")` Ar · 12 3 (if you typed the fiches in order).
+
+A possible XLSForm (`survey` sheet):
+:::
+::: fr
+Réponses : 1 `r d1` · 2 `r d2` · 3 `r d3` kg · 4 `r format(d4, big.mark = " ")` Ar · 5 `r d5` · 6 fiche `r d6` · 7 `r d7` · 8 `r d8` kg/h · 9 `r d9` · 10 `r d10` (vide quand il n'y a pas de pirogue) · 11 `r format(d11, big.mark = " ")` Ar · 12 3 (si vous avez saisi les fiches dans l'ordre).
+
+Un XLSForm possible (feuille `survey`) :
+:::
+
+```{r sol, echo=FALSE}
+sol <- rbind_fill(list(
+  S("start", "start"), S("end", "end"),
+  S("begin_group", "pecheur", "Le pêcheur", appearance = "field-list"),
+  S("select_one village", "village", "Village", required = "yes"),
+  S("text", "nom", "Nom du pêcheur", required = "yes"),
+  S("integer", "annee_naissance", "Année de naissance", constraint = ". >= 1940 and . <= 2010", constraint_message = "Entre 1940 et 2010"),
+  S("calculate", "age", "", calculation = "int(format-date(today(), '%Y')) - ${annee_naissance}"),
+  S("select_one oui_non", "pirogue", "Possède-t-il une pirogue ?", required = "yes"),
+  S("select_one type_pirogue", "type_pirogue", "Type de pirogue", required = "yes", relevant = "${pirogue} = 'oui'"),
+  S("end_group"),
+  S("begin_group", "problemes", "Problèmes"),
+  S("select_one probleme", "probleme_1", "Problème n° 1 (le plus important)", required = "yes"),
+  S("select_one probleme", "probleme_2", "Problème n° 2", required = "yes", constraint = ". != ${probleme_1}", constraint_message = "Déjà choisi en n° 1"),
+  S("select_one probleme", "probleme_3", "Problème n° 3", required = "yes", constraint = ". != ${probleme_1} and . != ${probleme_2}", constraint_message = "Déjà choisi"),
+  S("end_group"),
+  S("integer", "nb_sorties", "Nombre de sorties cette semaine", required = "yes", constraint = ". >= 1 and . <= 14", constraint_message = "Entre 1 et 14"),
+  S("begin_repeat", "sorties", "Sortie", repeat_count = "${nb_sorties}"),
+  S("calculate", "num_sortie", "", calculation = "position(..)"),
+  S("select_one engin", "engin", "Engin de la sortie ${num_sortie}", required = "yes"),
+  S("decimal", "heures", "Durée (heures)", required = "yes", constraint = ". >= 0.5 and . <= 24", constraint_message = "Entre 0,5 et 24 h"),
+  S("decimal", "poids", "Poids vendu (kg)", required = "yes", constraint = ". >= 0 and . <= 300", constraint_message = "Entre 0 et 300 kg"),
+  S("integer", "prix_kg", "Prix (Ar/kg)", required = "yes", constraint = ". >= 1000 and . <= 40000", constraint_message = "Entre 1 000 et 40 000 Ar"),
+  S("calculate", "valeur", "", calculation = "${poids} * ${prix_kg}"),
+  S("calculate", "cpue", "", calculation = "round(${poids} div ${heures}, 2)"),
+  S("end_repeat"),
+  S("calculate", "poids_semaine", "", calculation = "sum(${poids})"),
+  S("calculate", "valeur_semaine", "", calculation = "sum(${valeur})"),
+  S("note", "resume", "Semaine : ${poids_semaine} kg vendus, ${valeur_semaine} Ar")))
+xls(sol, cols = c("type", "name", "label", "required", "relevant", "constraint", "calculation", "appearance", "repeat_count"))
+```
+:::

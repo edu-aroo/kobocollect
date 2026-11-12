@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I2</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I2 · Input checks
+(constraint)</span><span class="fr">I2 · Les contrôles de saisie
+(constraint)</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>refuse impossible answers with the <code>constraint</code> column
+and explain the refusal with <code>constraint_message</code>;</li>
+<li>use <code>.</code> (the answer being checked), ranges, dates, other
+questions and <code>regex()</code>;</li>
+<li>write checks for <code>select_multiple</code> (e.g. “None” cannot be
+ticked with something else);</li>
+<li>choose between a hard check (constraint) and a soft warning (note),
+and find a wrong constraint before the field.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>refuser les réponses impossibles avec la colonne
+<code>constraint</code> et expliquer le refus avec
+<code>constraint_message</code> ;</li>
+<li>utiliser <code>.</code> (la réponse contrôlée), des intervalles, des
+dates, d’autres questions et <code>regex()</code> ;</li>
+<li>écrire des contrôles pour les <code>select_multiple</code> (ex. «
+Aucune » ne peut pas être cochée avec autre chose) ;</li>
+<li>choisir entre un contrôle bloquant (constraint) et un avertissement
+(note), et trouver une contrainte fausse avant le terrain.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Stop errors at the source</span><span
+class="fr">Arrêter les erreurs à la source</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In the first export of the
+household survey you found an age of 214 years, a fisher who goes to sea
+9 days a week, a phone number with 8 digits, and an interview dated next
+year. Cleaning them means calling the enumerators back weeks later. Your
+colleague has written checks, but some do not work:
+<a class="btn-dl" href="data/forms/i02_contraintes_a_corriger.xlsx" download>⇩
+i02_contraintes_a_corriger.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Dans le premier export de l’enquête
+ménages, vous avez trouvé un âge de 214 ans, un pêcheur qui sort en mer
+9 jours par semaine, un numéro de téléphone à 8 chiffres et un entretien
+daté de l’an prochain. Les corriger oblige à rappeler les enquêteurs des
+semaines plus tard. Votre collègue a écrit des contrôles, mais certains
+ne fonctionnent pas :
+<a class="btn-dl" href="data/forms/i02_contraintes_a_corriger.xlsx" download>⇩
+i02_contraintes_a_corriger.xlsx</a></p>
+</div>
+</div>
+</div>
+<div id="dot" class="section level2">
+<h2><span class="en">constraint and the dot</span><span
+class="fr">constraint et le point</span></h2>
+<div class="en">
+<p>In the <code>constraint</code> column, write the condition that a
+<strong>valid</strong> answer must meet. In this condition,
+<strong><code>.</code> (a dot) means “the answer to this
+question”</strong>. If the condition is false, the enumerator cannot go
+further, and sees the text of <code>constraint_message</code>.</p>
+</div>
+<div class="fr">
+<p>Dans la colonne <code>constraint</code>, écrivez la condition qu’une
+réponse <strong>valide</strong> doit remplir. Dans cette condition,
+<strong><code>.</code> (un point) signifie « la réponse à cette question
+»</strong>. Si la condition est fausse, l’enquêteur ne peut pas avancer,
+et voit le texte de <code>constraint_message</code>.</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>constraint</td><td class='xh'>constraint_message</td></tr><tr><td class='xr'>2</td><td>integer</td><td>age</td><td>Âge du répondant</td><td>. &gt;= 15 and . &lt;= 99</td><td>L'âge doit être compris entre 15 et 99 ans</td></tr><tr><td class='xr'>3</td><td>integer</td><td>jours_semaine</td><td>Jours de pêche par semaine</td><td>. &gt; 0 or . &lt; 7</td><td>Entre 0 et 7 jours</td></tr><tr><td class='xr'>4</td><td>decimal</td><td>poids</td><td>Poids débarqué (kg)</td><td>. &gt;= 0 and . &lt;= 500</td><td></td></tr><tr><td class='xr'>5</td><td>date</td><td>date_enquete</td><td>Date de l'enquête</td><td>. &lt;= today()</td><td>La date ne peut pas être dans le futur</td></tr><tr><td class='xr'>6</td><td>text</td><td>telephone</td><td>Téléphone</td><td>regex(., '^03[2-9][0-9]{7}&#36;')</td><td>10 chiffres, commence par 03 (ex. 0341234567)</td></tr><tr><td class='xr'>7</td><td>integer</td><td>nb_adultes</td><td>Nombre d'adultes</td><td></td><td></td></tr><tr><td class='xr'>8</td><td>integer</td><td>nb_enfants</td><td>Nombre d'enfants</td><td></td><td></td></tr><tr><td class='xr'>9</td><td>integer</td><td>taille_menage</td><td>Taille totale du ménage</td><td>&#36;{taille_menage} = &#36;{nb_adultes} + &#36;{nb_enfants}</td><td>Doit être égal à adultes + enfants</td></tr><tr><td class='xr'>10</td><td>integer</td><td>prix_kg</td><td>Prix du poulpe (Ar/kg)</td><td>. &gt;= 3000 and &lt;= 20000</td><td>Entre 3 000 et 20 000 Ar</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Check</th>
+<th><code>constraint</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>range</td>
+<td><code>. &gt;= 15 and . &lt;= 99</code></td>
+</tr>
+<tr class="even">
+<td>not in the future</td>
+<td><code>. &lt;= today()</code></td>
+</tr>
+<tr class="odd">
+<td>not before the start of the survey</td>
+<td><code>. &gt;= date('2026-04-01')</code></td>
+</tr>
+<tr class="even">
+<td>consistent with another question</td>
+<td><code>. &lt;= ${nb_membres}</code> (no more children than
+members)</td>
+</tr>
+<tr class="odd">
+<td>sum of two answers</td>
+<td><code>. = ${nb_adultes} + ${nb_enfants}</code></td>
+</tr>
+<tr class="even">
+<td>text format (10 digits starting with 03)</td>
+<td><code>regex(., '^03[2-9][0-9]{7}$')</code></td>
+</tr>
+<tr class="odd">
+<td>at least 2 choices</td>
+<td><code>count-selected(.) &gt;= 2</code></td>
+</tr>
+<tr class="even">
+<td>“None” alone</td>
+<td><code>not(selected(., 'aucune') and count-selected(.) &gt; 1)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Always write a <code>constraint_message</code></strong> that
+says what is expected (“Between 15 and 99 years”), not just “Error”.
+Without it, the enumerator sees a generic message and does not know what
+to correct.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Contrôle</th>
+<th><code>constraint</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>intervalle</td>
+<td><code>. &gt;= 15 and . &lt;= 99</code></td>
+</tr>
+<tr class="even">
+<td>pas dans le futur</td>
+<td><code>. &lt;= today()</code></td>
+</tr>
+<tr class="odd">
+<td>pas avant le début de l’enquête</td>
+<td><code>. &gt;= date('2026-04-01')</code></td>
+</tr>
+<tr class="even">
+<td>cohérent avec une autre question</td>
+<td><code>. &lt;= ${nb_membres}</code> (pas plus d’enfants que de
+membres)</td>
+</tr>
+<tr class="odd">
+<td>somme de deux réponses</td>
+<td><code>. = ${nb_adultes} + ${nb_enfants}</code></td>
+</tr>
+<tr class="even">
+<td>format d’un texte (10 chiffres commençant par 03)</td>
+<td><code>regex(., '^03[2-9][0-9]{7}$')</code></td>
+</tr>
+<tr class="odd">
+<td>au moins 2 choix</td>
+<td><code>count-selected(.) &gt;= 2</code></td>
+</tr>
+<tr class="even">
+<td>« Aucune » seule</td>
+<td><code>not(selected(., 'aucune') and count-selected(.) &gt; 1)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Écrivez toujours un <code>constraint_message</code></strong>
+qui dit ce qui est attendu (« Entre 15 et 99 ans »), pas seulement «
+Erreur ». Sans lui, l’enquêteur voit un message générique et ne sait pas
+quoi corriger.</p>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>constraint</code></td>
+<td>condition that a valid answer must meet; <code>.</code> = this
+answer</td>
+<td>true/false expression</td>
+</tr>
+<tr class="even">
+<td><code>constraint_message</code></td>
+<td>text shown when the answer is refused (can be translated:
+<code>constraint_message::Malagasy (mg)</code>)</td>
+<td>any text</td>
+</tr>
+<tr class="odd">
+<td><code>regex(., 'pattern')</code></td>
+<td>true if the text matches the pattern</td>
+<td><code>^</code> start, <code>$</code> end, <code>[0-9]</code> a
+digit, <code>{7}</code> 7 times</td>
+</tr>
+<tr class="even">
+<td><code>date('2026-04-01')</code></td>
+<td>a fixed date to compare with</td>
+<td><code>'YYYY-MM-DD'</code></td>
+</tr>
+<tr class="odd">
+<td><code>required_message</code></td>
+<td>message when a required question is empty</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>constraint</code></td>
+<td>condition qu’une réponse valide doit remplir ; <code>.</code> =
+cette réponse</td>
+<td>expression vraie/fausse</td>
+</tr>
+<tr class="even">
+<td><code>constraint_message</code></td>
+<td>texte affiché quand la réponse est refusée (peut être traduit :
+<code>constraint_message::Malagasy (mg)</code>)</td>
+<td>tout texte</td>
+</tr>
+<tr class="odd">
+<td><code>regex(., 'pattern')</code></td>
+<td>vrai si le texte correspond au motif</td>
+<td><code>^</code> début, <code>$</code> fin, <code>[0-9]</code> un
+chiffre, <code>{7}</code> 7 fois</td>
+</tr>
+<tr class="even">
+<td><code>date('2026-04-01')</code></td>
+<td>une date fixe pour comparer</td>
+<td><code>'AAAA-MM-JJ'</code></td>
+</tr>
+<tr class="odd">
+<td><code>required_message</code></td>
+<td>message quand une question obligatoire est vide</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>The empty answer passes.</strong> A constraint is checked
+only when there is an answer. An empty optional question is accepted
+even with <code>. &gt;= 15</code>. To force an answer, use
+<code>required</code>. And a constraint is checked <strong>only if the
+question is shown</strong> (<code>relevant</code>).</p>
+</div>
+<div class="fr">
+<p><strong>La réponse vide passe.</strong> Une contrainte n’est vérifiée
+que s’il y a une réponse. Une question facultative vide est acceptée
+même avec <code>. &gt;= 15</code>. Pour obliger à répondre, utilisez
+<code>required</code>. Et une contrainte n’est vérifiée <strong>que si
+la question est affichée</strong> (<code>relevant</code>).</p>
+</div>
+</div>
+</div>
+<div id="soft" class="section level2">
+<h2><span class="en">Hard check or soft warning?</span><span
+class="fr">Contrôle bloquant ou avertissement ?</span></h2>
+<div class="en">
+<p>A constraint <strong>blocks</strong>. Use it for answers that are
+<strong>impossible</strong> (an age of 214, 9 days a week, a negative
+weight). For answers that are <strong>unusual but possible</strong> (a
+canoe that lands 250 kg, a household of 18 people), a block forces the
+enumerator to type a false value. Use a <strong>warning</strong>
+instead: a <code>note</code> with a <code>relevant</code>:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>type</th>
+<th>name</th>
+<th>label</th>
+<th>relevant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>note</td>
+<td><code>alerte_poids</code></td>
+<td>⚠ Poids très élevé (plus de 150 kg). Vérifiez avec le pêcheur avant
+de continuer.</td>
+<td><code>${poids} &gt; 150</code></td>
+</tr>
+</tbody>
+</table>
+<p>Set the limits from <strong>your knowledge of the field</strong>
+(previous surveys, literature): too tight and you block real data, too
+loose and you let errors pass.</p>
+</div>
+<div class="fr">
+<p>Une contrainte <strong>bloque</strong>. Utilisez-la pour les réponses
+<strong>impossibles</strong> (un âge de 214 ans, 9 jours par semaine, un
+poids négatif). Pour les réponses <strong>inhabituelles mais
+possibles</strong> (une pirogue qui débarque 250 kg, un ménage de 18
+personnes), un blocage oblige l’enquêteur à taper une valeur fausse.
+Utilisez plutôt un <strong>avertissement</strong> : une
+<code>note</code> avec un <code>relevant</code> :</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>type</th>
+<th>name</th>
+<th>label</th>
+<th>relevant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>note</td>
+<td><code>alerte_poids</code></td>
+<td>⚠ Poids très élevé (plus de 150 kg). Vérifiez avec le pêcheur avant
+de continuer.</td>
+<td><code>${poids} &gt; 150</code></td>
+</tr>
+</tbody>
+</table>
+<p>Fixez les limites d’après <strong>votre connaissance du
+terrain</strong> (enquêtes précédentes, littérature) : trop serrées,
+vous bloquez des données réelles ; trop larges, vous laissez passer les
+erreurs.</p>
+</div>
+</div>
+<div id="test" class="section level2">
+<h2><span class="en">Test your constraints</span><span class="fr">Tester
+vos contraintes</span></h2>
+<div class="en">
+<p>A wrong constraint is worse than none: it blocks good answers or lets
+bad ones pass, and nobody notices until the analysis. For each
+constraint, test in the preview: <strong>one value just inside</strong>
+the limit (must pass), <strong>one just outside</strong> (must be
+refused), and <strong>one typical value</strong>. Some mistakes:</p>
+<ul>
+<li><strong><code>or</code> instead of <code>and</code></strong>:
+<code>. &gt; 0 or . &lt; 7</code> is true for <em>every</em> number (9
+is &gt; 0). A range always needs <code>and</code>.</li>
+<li><strong>forgotten dot</strong>:
+<code>. &gt;= 3000 and &lt;= 20000</code> — the second part has no left
+side; the form fails to load (KoboToolbox may accept the file at upload,
+but the preview or the phone shows an error). Write
+<code>. &gt;= 3000 and . &lt;= 20000</code>.</li>
+<li><strong>strict vs non-strict</strong>: <code>. &gt; 0</code> refuses
+0; is 0 a possible answer?</li>
+<li><strong><code>${name}</code> of the question itself</strong> instead
+of <code>.</code>: it works, but <code>.</code> is shorter and survives
+a renaming.</li>
+</ul>
+</div>
+<div class="fr">
+<p>Une contrainte fausse est pire que pas de contrainte : elle bloque de
+bonnes réponses ou en laisse passer de mauvaises, et personne ne s’en
+aperçoit avant l’analyse. Pour chaque contrainte, testez dans l’aperçu :
+<strong>une valeur juste à l’intérieur</strong> de la limite (doit
+passer), <strong>une juste à l’extérieur</strong> (doit être refusée),
+et <strong>une valeur typique</strong>. Quelques erreurs :</p>
+<ul>
+<li><strong><code>or</code> au lieu de <code>and</code></strong> :
+<code>. &gt; 0 or . &lt; 7</code> est vrai pour <em>tout</em> nombre (9
+est &gt; 0). Un intervalle demande toujours <code>and</code>.</li>
+<li><strong>point oublié</strong> :
+<code>. &gt;= 3000 and &lt;= 20000</code> — la deuxième partie n’a pas
+de côté gauche ; le formulaire ne se charge pas (KoboToolbox peut
+accepter le fichier à l’import, mais l’aperçu ou le téléphone affiche
+une erreur). Écrivez <code>. &gt;= 3000 and . &lt;= 20000</code>.</li>
+<li><strong>strict ou non strict</strong> : <code>. &gt; 0</code> refuse
+0 ; 0 est-il une réponse possible ?</li>
+<li><strong><code>${name}</code> de la question elle-même</strong> au
+lieu de <code>.</code> : cela fonctionne, mais <code>.</code> est plus
+court et résiste à un renommage.</li>
+</ul>
+</div>
+<div class="application">
+<div id="application-work-i2" class="section level3 en">
+<h3>Application work I2</h3>
+<ol style="list-style-type: decimal">
+<li>Upload <code>i02_contraintes_a_corriger.xlsx</code> and test each
+question in the preview with values inside and outside the limits. Find
+the problems and correct the file (expected: each constraint does what
+its message says, every constraint has a message).</li>
+<li>Add to the file a <code>select_multiple menace</code> question
+<code>menaces</code> (choices <code>aucune</code> <em>Aucune</em>,
+<code>pietinement</code> <em>Piétinement</em>, <code>filet</code>
+<em>Traces de filet</em>) in which <em>Aucune</em> cannot be ticked with
+another choice.</li>
+<li>Answer the quiz.</li>
+</ol>
+</div>
+<div id="travail-dapplication-i2" class="section level3 fr">
+<h3>Travail d’application I2</h3>
+<ol style="list-style-type: decimal">
+<li>Importez <code>i02_contraintes_a_corriger.xlsx</code> et testez
+chaque question dans l’aperçu avec des valeurs dans et hors des limites.
+Trouvez les problèmes et corrigez le fichier (attendu : chaque
+contrainte fait ce que dit son message, chaque contrainte a un
+message).</li>
+<li>Ajoutez au fichier une question <code>select_multiple menace</code>
+nommée <code>menaces</code> (choix <code>aucune</code> <em>Aucune</em>,
+<code>pietinement</code> <em>Piétinement</em>, <code>filet</code>
+<em>Traces de filet</em>) dans laquelle <em>Aucune</em> ne peut pas être
+cochée avec un autre choix.</li>
+<li>Répondez au quiz.</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>There are three problems: a logic error (a range that accepts
+everything), a syntax error (the form will not load), and a missing
+message. The constraint written with <code>${taille_menage}</code>
+works, but rewrite it with <code>.</code>.</p>
+</div>
+<div class="fr">
+<p>Il y a trois problèmes : une erreur de logique (un intervalle qui
+accepte tout), une erreur de syntaxe (le formulaire ne se chargera pas),
+et un message manquant. La contrainte écrite avec
+<code>${taille_menage}</code> fonctionne, mais réécrivez-la avec
+<code>.</code>.</p>
+</div>
+</div>
+<div id="quiz-ki2" class="quiz" data-quiz-id="ki2"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gT3JpZ2luYWwgY29uc3RyYWludCBvZiBqb3Vyc19zZW1haW5lLiBJcyA5IGFjY2VwdGVkPyIsImZyIjoiMS4gQ29udHJhaW50ZSBkJ29yaWdpbmUgZGUgam91cnNfc2VtYWluZS4gOSBlc3QtaWwgYWNjZXB0w6kgPyIsIm9wdGlvbnNfZW4iOlsiWWVzIiwiTm8iXSwib3B0aW9uc19mciI6WyJPdWkiLCJOb24iXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjIuIENvcnJlY3RlZCBjb25zdHJhaW50IG9mIGpvdXJzX3NlbWFpbmU6IiwiZnIiOiIyLiBDb250cmFpbnRlIGNvcnJpZ8OpZSBkZSBqb3Vyc19zZW1haW5lIDoiLCJvcHRpb25zX2VuIjpbIi4gPiAwIGFuZCAuIDwgNyIsIi4gPj0gMCBhbmQgLiA8PSA3IiwiLiA+PSAwIG9yIC4gPD0gNyJdLCJvcHRpb25zX2ZyIjpbIi4gPiAwIGFuZCAuIDwgNyIsIi4gPj0gMCBhbmQgLiA8PSA3IiwiLiA+PSAwIG9yIC4gPD0gNyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6InRleHQiLCJlbiI6IjMuIE5hbWUgb2YgdGhlIHF1ZXN0aW9uIHdob3NlIGNvbnN0cmFpbnQgaGFzIGEgc3ludGF4IGVycm9yPyIsImZyIjoiMy4gTmFtZSBkZSBsYSBxdWVzdGlvbiBkb250IGxhIGNvbnRyYWludGUgYSB1bmUgZXJyZXVyIGRlIHN5bnRheGUgPyIsImFuc3dlciI6WyJwcml4X2tnIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjQuIE5hbWUgb2YgdGhlIHF1ZXN0aW9uIHRoYXQgaGFzIGEgY29uc3RyYWludCBidXQgbm8gY29uc3RyYWludF9tZXNzYWdlPyIsImZyIjoiNC4gTmFtZSBkZSBsYSBxdWVzdGlvbiBxdWkgYSB1bmUgY29udHJhaW50ZSBtYWlzIHBhcyBkZSBjb25zdHJhaW50X21lc3NhZ2UgPyIsImFuc3dlciI6WyJwb2lkcyJdfSx7InR5cGUiOiJtY3EiLCJlbiI6IjUuIFdpdGggcmVnZXgoLiwgJ14wM1syLTldWzAtOV17N30kJyksIHdoaWNoIG51bWJlciBpcyBhY2NlcHRlZD8iLCJmciI6IjUuIEF2ZWMgcmVnZXgoLiwgJ14wM1syLTldWzAtOV17N30kJyksIHF1ZWwgbnVtw6lybyBlc3QgYWNjZXB0w6kgPyIsIm9wdGlvbnNfZW4iOlsiMDM0MTIzNDU2NyIsIjM0MTIzNDU2NyIsIjAzMTEyMzQ1NjciLCIwMzQxMjM0NTY3OCJdLCJvcHRpb25zX2ZyIjpbIjAzNDEyMzQ1NjciLCIzNDEyMzQ1NjciLCIwMzExMjM0NTY3IiwiMDM0MTIzNDU2NzgiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEFnZSBjb25zdHJhaW50IC4gPj0gMTUgYW5kIC4gPD0gOTkuIFRoZSBxdWVzdGlvbiBpcyBvcHRpb25hbCBhbmQgbGVmdCBlbXB0eToiLCJmciI6IjYuIENvbnRyYWludGUgZCfDomdlIC4gPj0gMTUgYW5kIC4gPD0gOTkuIExhIHF1ZXN0aW9uIGVzdCBmYWN1bHRhdGl2ZSBldCBsYWlzc8OpZSB2aWRlIDoiLCJvcHRpb25zX2VuIjpbInJlZnVzZWQiLCJhY2NlcHRlZCJdLCJvcHRpb25zX2ZyIjpbInJlZnVzw6llIiwiYWNjZXB0w6llIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiAnTm9uZScgY2Fubm90IGJlIHRpY2tlZCB3aXRoIGFub3RoZXIgY2hvaWNlOiIsImZyIjoiNy4gwqsgQXVjdW5lIMK7IG5lIHBldXQgcGFzIMOqdHJlIGNvY2jDqWUgYXZlYyB1biBhdXRyZSBjaG9peCA6Iiwib3B0aW9uc19lbiI6WyJub3Qoc2VsZWN0ZWQoLiwgJ2F1Y3VuZScpIGFuZCBjb3VudC1zZWxlY3RlZCguKSA+IDEpIiwiLiAhPSAnYXVjdW5lJyIsImNvdW50LXNlbGVjdGVkKC4pID0gMSJdLCJvcHRpb25zX2ZyIjpbIm5vdChzZWxlY3RlZCguLCAnYXVjdW5lJykgYW5kIGNvdW50LXNlbGVjdGVkKC4pID4gMSkiLCIuICE9ICdhdWN1bmUnIiwiY291bnQtc2VsZWN0ZWQoLikgPSAxIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBBIGNhbm9lIGxhbmRpbmcgMjUwIGtnIGlzIHJhcmUgYnV0IHBvc3NpYmxlLiBCZXN0IGNob2ljZToiLCJmciI6IjguIFVuZSBwaXJvZ3VlIHF1aSBkw6liYXJxdWUgMjUwIGtnIGVzdCByYXJlIG1haXMgcG9zc2libGUuIE1laWxsZXVyIGNob2l4IDoiLCJvcHRpb25zX2VuIjpbImNvbnN0cmFpbnQgLiA8PSAxNTAiLCJhIG5vdGUgc2hvd24gd2hlbiAke3BvaWRzfSA+IDE1MCIsIm5vIGNoZWNrIGF0IGFsbCJdLCJvcHRpb25zX2ZyIjpbImNvbnN0cmFpbnQgLiA8PSAxNTAiLCJ1bmUgbm90ZSBhZmZpY2jDqWUgcXVhbmQgJHtwb2lkc30gPiAxNTAiLCJhdWN1biBjb250csO0bGUiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjkuIE51bWJlciBvZiBjaGlsZHJlbiBjYW5ub3QgYmUgbGFyZ2VyIHRoYW4gdGhlIGhvdXNlaG9sZCBzaXplIChuYl9tZW1icmVzKToiLCJmciI6IjkuIExlIG5vbWJyZSBkJ2VuZmFudHMgbmUgcGV1dCBwYXMgZMOpcGFzc2VyIGxhIHRhaWxsZSBkdSBtw6luYWdlIChuYl9tZW1icmVzKSA6Iiwib3B0aW9uc19lbiI6WyIuIDw9ICR7bmJfbWVtYnJlc30iLCIke25iX21lbWJyZXN9IDw9IC4iLCIuIDwgbmJfbWVtYnJlcyJdLCJvcHRpb25zX2ZyIjpbIi4gPD0gJHtuYl9tZW1icmVzfSIsIiR7bmJfbWVtYnJlc30gPD0gLiIsIi4gPCBuYl9tZW1icmVzIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gSW50ZXJ2aWV3IGRhdGUgbm90IGJlZm9yZSAxIEFwcmlsIDIwMjYgYW5kIG5vdCBpbiB0aGUgZnV0dXJlOiIsImZyIjoiMTAuIERhdGUgZCdlbnRyZXRpZW4gcGFzIGF2YW50IGxlIDFlciBhdnJpbCAyMDI2IGV0IHBhcyBkYW5zIGxlIGZ1dHVyIDoiLCJvcHRpb25zX2VuIjpbIi4gPj0gZGF0ZSgnMjAyNi0wNC0wMScpIGFuZCAuIDw9IHRvZGF5KCkiLCIuID49ICcwMS8wNC8yMDI2JyBhbmQgLiA8PSB0b2RheSgpIiwiLiA+IGRhdGUoJzIwMjYtMDQtMDEnKSBvciAuIDwgdG9kYXkoKSJdLCJvcHRpb25zX2ZyIjpbIi4gPj0gZGF0ZSgnMjAyNi0wNC0wMScpIGFuZCAuIDw9IHRvZGF5KCkiLCIuID49ICcwMS8wNC8yMDI2JyBhbmQgLiA8PSB0b2RheSgpIiwiLiA+IGRhdGUoJzIwMjYtMDQtMDEnKSBvciAuIDwgdG9kYXkoKSJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="ki2">
+<div class="en">
+<p>1 Yes (<code>9 &gt; 0</code> is true, so <code>or</code> is true) · 2
+<code>. &gt;= 0 and . &lt;= 7</code> · 3 <code>prix_kg</code> →
+<code>. &gt;= 3000 and . &lt;= 20000</code> · 4 <code>poids</code> → add
+e.g. <em>Entre 0 et 500 kg</em> · 5 <code>0341234567</code> (10 digits,
+3rd digit between 2 and 9) · 6 accepted (empty answers are not checked)
+· 7 <code>not(selected(., 'aucune') and count-selected(.) &gt; 1)</code>
+· 8 a warning note · 9 <code>. &lt;= ${nb_membres}</code> · 10
+<code>date('…')</code> and <code>and</code>.</p>
+<p>Corrected sheet:</p>
+</div>
+<div class="fr">
+<p>1 Oui (<code>9 &gt; 0</code> est vrai, donc <code>or</code> est vrai)
+· 2 <code>. &gt;= 0 and . &lt;= 7</code> · 3 <code>prix_kg</code> →
+<code>. &gt;= 3000 and . &lt;= 20000</code> · 4 <code>poids</code> →
+ajoutez par ex. <em>Entre 0 et 500 kg</em> · 5 <code>0341234567</code>
+(10 chiffres, 3e chiffre entre 2 et 9) · 6 acceptée (les réponses vides
+ne sont pas contrôlées) · 7
+<code>not(selected(., 'aucune') and count-selected(.) &gt; 1)</code> · 8
+une note d’avertissement · 9 <code>. &lt;= ${nb_membres}</code> · 10
+<code>date('…')</code> et <code>and</code>.</p>
+<p>Feuille corrigée :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>constraint</td><td class='xh'>constraint_message</td></tr><tr><td class='xr'>2</td><td>integer</td><td>age</td><td>Âge du répondant</td><td>. &gt;= 15 and . &lt;= 99</td><td>L'âge doit être compris entre 15 et 99 ans</td></tr><tr class='xhl'><td class='xr'>3</td><td>integer</td><td>jours_semaine</td><td>Jours de pêche par semaine</td><td>. &gt;= 0 and . &lt;= 7</td><td>Entre 0 et 7 jours</td></tr><tr class='xhl'><td class='xr'>4</td><td>decimal</td><td>poids</td><td>Poids débarqué (kg)</td><td>. &gt;= 0 and . &lt;= 500</td><td>Entre 0 et 500 kg</td></tr><tr><td class='xr'>5</td><td>date</td><td>date_enquete</td><td>Date de l'enquête</td><td>. &lt;= today()</td><td>La date ne peut pas être dans le futur</td></tr><tr><td class='xr'>6</td><td>text</td><td>telephone</td><td>Téléphone</td><td>regex(., '^03[2-9][0-9]{7}&#36;')</td><td>10 chiffres, commence par 03 (ex. 0341234567)</td></tr><tr><td class='xr'>7</td><td>integer</td><td>nb_adultes</td><td>Nombre d'adultes</td><td></td><td></td></tr><tr><td class='xr'>8</td><td>integer</td><td>nb_enfants</td><td>Nombre d'enfants</td><td></td><td></td></tr><tr class='xhl'><td class='xr'>9</td><td>integer</td><td>taille_menage</td><td>Taille totale du ménage</td><td>. = &#36;{nb_adultes} + &#36;{nb_enfants}</td><td>Doit être égal à adultes + enfants</td></tr><tr class='xhl'><td class='xr'>10</td><td>integer</td><td>prix_kg</td><td>Prix du poulpe (Ar/kg)</td><td>. &gt;= 3000 and . &lt;= 20000</td><td>Entre 3 000 et 20 000 Ar</td></tr><tr class='xhl'><td class='xr'>11</td><td>select_multiple menace</td><td>menaces</td><td>Menaces observées</td><td>not(selected(., 'aucune') and count-selected(.) &gt; 1)</td><td>« Aucune » ne peut pas être cochée avec une autre menace</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

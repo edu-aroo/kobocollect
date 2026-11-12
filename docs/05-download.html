@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 5</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">5 · Look at and download
+the data</span><span class="fr">5 · Consulter et télécharger les
+données</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>look at the data in the <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> tab: table, filters, reports, map,
+photo gallery;</li>
+<li>correct a submission and give it a <strong>validation
+status</strong>;</li>
+<li>choose the right <strong>export</strong> (XLS or CSV, labels or XML
+values, options) and download it;</li>
+<li>recognise every column of an export, including the metadata
+(<code>_id</code>, <code>_uuid</code>, <code>_submission_time</code>,
+<code>_index</code>…);</li>
+<li>answer simple questions on the export with Excel
+(<code>COUNTIF</code>, <code>AVERAGEIF</code>, pivot table).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>consulter les données dans l’onglet <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> : tableau, filtres, rapports, carte,
+galerie de photos ;</li>
+<li>corriger une soumission et lui donner un <strong>statut de
+validation</strong> ;</li>
+<li>choisir le bon <strong>export</strong> (XLS ou CSV, étiquettes ou
+valeurs XML, options) et le télécharger ;</li>
+<li>reconnaître chaque colonne d’un export, y compris les métadonnées
+(<code>_id</code>, <code>_uuid</code>, <code>_submission_time</code>,
+<code>_index</code>…) ;</li>
+<li>répondre à des questions simples sur l’export avec Excel
+(<code>NB.SI</code>, <code>MOYENNE.SI</code>, tableau croisé
+dynamique).</li>
+</ul>
+</div>
+</div>
+<div id="context" class="section level2">
+<h2><span class="en">The data of the first quarter</span><span
+class="fr">Les données du premier trimestre</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The landing survey ran from 5
+January to 27 March 2026 in the five villages, with three enumerators
+(accounts <code>enq_fara</code>, <code>enq_tojo</code>,
+<code>enq_mamy</code>) using KoboCollect. On 15 February the form was
+<strong>redeployed</strong>: the choice <em>Crabe</em> was added to the
+species list (version <code>2026-02-v2</code>). The supervisor approved
+part of the forms. You download the data to prepare the quarterly
+summary for the cooperative.</p>
+<p>Download the two exports of the same data:
+<a class="btn-dl" href="data/exports/k05_debarquements_xml.xlsx" download>⇩
+k05_debarquements_xml.xlsx</a> (XML values and headers) and
+<a class="btn-dl" href="data/exports/k05_debarquements_labels.xlsx" download>⇩
+k05_debarquements_labels.xlsx</a> (labels).</p>
+<p><strong>Type of data:</strong> one row per landing (120 submissions);
+counts, weights, choices, GPS points, photos, and metadata.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> L’enquête débarquements a eu lieu
+du 5 janvier au 27 mars 2026 dans les cinq villages, avec trois
+enquêteurs (comptes <code>enq_fara</code>, <code>enq_tojo</code>,
+<code>enq_mamy</code>) utilisant KoboCollect. Le 15 février, le
+formulaire a été <strong>redéployé</strong> : le choix <em>Crabe</em> a
+été ajouté à la liste des espèces (version <code>2026-02-v2</code>). Le
+superviseur a validé une partie des fiches. Vous téléchargez les données
+pour préparer le bilan trimestriel de la coopérative.</p>
+<p>Téléchargez les deux exports des mêmes données :
+<a class="btn-dl" href="data/exports/k05_debarquements_xml.xlsx" download>⇩
+k05_debarquements_xml.xlsx</a> (valeurs et en-têtes XML) et
+<a class="btn-dl" href="data/exports/k05_debarquements_labels.xlsx" download>⇩
+k05_debarquements_labels.xlsx</a> (étiquettes).</p>
+<p><strong>Type de données :</strong> une ligne par débarquement (120
+soumissions) ; comptages, poids, choix, points GPS, photos et
+métadonnées.</p>
+</div>
+</div>
+</div>
+<div id="data-tab" class="section level2">
+<h2><span class="en">The DATA tab</span><span class="fr">L’onglet
+DONNÉES</span></h2>
+<div class="en">
+<p>Open a project → <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span>. On the left:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Page</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Tableau <span
+class="ui-en">(Table)</span></span></td>
+<td>one row per submission. Sort and <strong>filter</strong> each column
+(e.g. village = Ifaty), hide columns, open a submission (👁) to see it as
+a form, <strong>edit</strong> it (✎), change its <strong>validation
+status</strong>, select and <strong>delete</strong></td>
+</tr>
+<tr class="even">
+<td><span class="ui">Rapports <span
+class="ui-en">(Reports)</span></span></td>
+<td>a frequency table and a chart for each question; useful to check the
+first days of collection</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Galerie <span
+class="ui-en">(Gallery)</span></span></td>
+<td>the photos, by question or by submission</td>
+</tr>
+<tr class="even">
+<td>Map</td>
+<td>the GPS points (<code>geopoint</code> questions)</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Téléchargements <span
+class="ui-en">(Downloads)</span></span></td>
+<td>the exports (below)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Check the data every day during collection</strong>, not at
+the end: a problem found on day 2 (an enumerator who always chooses the
+first option, a GPS that does not work) is solved on day 3.</p>
+</div>
+<div class="fr">
+<p>Ouvrez un projet → <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span>. À gauche :</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Page</th>
+<th>Ce qu’elle montre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Tableau <span
+class="ui-en">(Table)</span></span></td>
+<td>une ligne par soumission. Triez et <strong>filtrez</strong> chaque
+colonne (ex. village = Ifaty), masquez des colonnes, ouvrez une
+soumission (👁) pour la voir comme un formulaire,
+<strong>modifiez-la</strong> (✎), changez son <strong>statut de
+validation</strong>, sélectionnez et <strong>supprimez</strong></td>
+</tr>
+<tr class="even">
+<td><span class="ui">Rapports <span
+class="ui-en">(Reports)</span></span></td>
+<td>un tableau de fréquences et un graphique pour chaque question ;
+utile pour vérifier les premiers jours de collecte</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Galerie <span
+class="ui-en">(Gallery)</span></span></td>
+<td>les photos, par question ou par soumission</td>
+</tr>
+<tr class="even">
+<td>Carte</td>
+<td>les points GPS (questions <code>geopoint</code>)</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Téléchargements <span
+class="ui-en">(Downloads)</span></span></td>
+<td>les exports (ci-dessous)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérifiez les données chaque jour pendant la
+collecte</strong>, pas à la fin : un problème trouvé le 2e jour (un
+enquêteur qui choisit toujours la première option, un GPS qui ne marche
+pas) se règle le 3e jour.</p>
+</div>
+<div id="edit-and-validatemodifier-et-valider" class="section level3">
+<h3><span class="en">Edit and validate</span><span class="fr">Modifier
+et valider</span></h3>
+<div class="en">
+<ul>
+<li><strong>Edit</strong>: opens the submission in the web form; correct
+the answer and submit. The original is replaced (keep a note of the
+change, e.g. in a “corrections” sheet).</li>
+<li><strong>Validation status</strong>: <span class="ui">Approuvé <span
+class="ui-en">(Approved)</span></span>, <span class="ui">Non approuvé
+<span class="ui-en">(Not Approved)</span></span>, <span class="ui">En
+attente <span class="ui-en">(On Hold)</span></span>. It does not change
+the data; it adds the column <code>_validation_status</code> to the
+export, so that you can keep only approved forms in the analysis. A
+simple rule: the supervisor approves after checking the form with the
+enumerator.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><strong>Modifier</strong> : ouvre la soumission dans le formulaire
+web ; corrigez la réponse et envoyez. L’original est remplacé (notez la
+modification, ex. dans une feuille « corrections »).</li>
+<li><strong>Statut de validation</strong> : <span class="ui">Approuvé
+<span class="ui-en">(Approved)</span></span>, <span class="ui">Non
+approuvé <span class="ui-en">(Not Approved)</span></span>, <span
+class="ui">En attente <span class="ui-en">(On Hold)</span></span>. Il ne
+change pas les données ; il ajoute la colonne
+<code>_validation_status</code> à l’export, pour ne garder que les
+fiches validées dans l’analyse. Règle simple : le superviseur valide
+après avoir vérifié la fiche avec l’enquêteur.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="export" class="section level2">
+<h2><span class="en">Create an export</span><span class="fr">Créer un
+export</span></h2>
+<div class="en">
+<p><span class="ui">DONNÉES <span class="ui-en">(DATA)</span></span> →
+<span class="ui">Téléchargements <span
+class="ui-en">(Downloads)</span></span>:</p>
+<ol style="list-style-type: decimal">
+<li><span class="ui">Sélectionner le type d’export <span
+class="ui-en">(Select export type)</span></span>: <strong>XLS</strong>
+(Excel, one sheet per table — the best choice), <strong>CSV</strong>
+(one table, main data only), GeoJSON, SPSS labels, KML (GPS), media
+attachments (ZIP of photos).</li>
+<li><span class="ui">Format des valeurs et des en-têtes <span
+class="ui-en">(Value and header format)</span></span>:
+<ul>
+<li><span class="ui">Étiquettes <span class="ui-en">(Labels
+(default))</span></span> — headers = question labels, values = choice
+labels (<code>Pêche à pied (glanage)</code>): easy to read, for a quick
+look or for partners;</li>
+<li><span class="ui">Valeurs et en-têtes XML <span class="ui-en">(XML
+values and headers)</span></span> — headers = <code>name</code>, values
+= choice <code>name</code> (<code>glanage</code>): short, stable,
+<strong>the right choice for analysis</strong> (Excel formulas, R);</li>
+<li>labels in one of the languages of the form.</li>
+</ul></li>
+<li><span class="ui">Options avancées <span class="ui-en">(Advanced
+options)</span></span> — the main ones (Level 3 explains them in
+detail):
+<ul>
+<li><span class="ui">Exporter les questions à choix multiples en… <span
+class="ui-en">(Export Select Many questions as…)</span></span> — for
+<code>select_multiple</code>: one column with all the choices + one 0/1
+column per choice (default), only the separate columns, or only the
+single column;</li>
+<li><span class="ui">Inclure les données de toutes les versions <span
+class="ui-en">(Include data from all versions)</span></span> — keep the
+columns of every version deployed (keep it ticked);</li>
+<li><span class="ui">Inclure les groupes dans les en-têtes <span
+class="ui-en">(Include groups in headers)</span></span> —
+<code>group/question</code> headers (Intermediate level);</li>
+<li><span class="ui">Stocker les dates et les nombres en texte <span
+class="ui-en">(Store date and number responses as text)</span></span>,
+<span class="ui">Inclure les URL des médias <span class="ui-en">(Include
+media URLs)</span></span>, <span class="ui">Sélectionner les questions à
+exporter <span class="ui-en">(Select questions to be
+exported)</span></span>, date range…</li>
+</ul></li>
+<li><span class="ui">EXPORTER <span
+class="ui-en">(EXPORT)</span></span>. The export is prepared (a few
+seconds to minutes) and appears in the list below; click <span
+class="ui">TÉLÉCHARGER <span
+class="ui-en">(DOWNLOAD)</span></span>.</li>
+<li><span class="ui">Enregistrer la sélection sous… <span
+class="ui-en">(Save selection as…)</span></span> saves these settings
+under a name: next time, apply them in one click.</li>
+</ol>
+</div>
+<div class="fr">
+<p><span class="ui">DONNÉES <span class="ui-en">(DATA)</span></span> →
+<span class="ui">Téléchargements <span
+class="ui-en">(Downloads)</span></span> :</p>
+<ol style="list-style-type: decimal">
+<li><span class="ui">Sélectionner le type d’export <span
+class="ui-en">(Select export type)</span></span> : <strong>XLS</strong>
+(Excel, une feuille par table — le meilleur choix), <strong>CSV</strong>
+(une seule table, données principales seulement), GeoJSON, SPSS labels,
+KML (GPS), pièces jointes (ZIP des photos).</li>
+<li><span class="ui">Format des valeurs et des en-têtes <span
+class="ui-en">(Value and header format)</span></span> :
+<ul>
+<li><span class="ui">Étiquettes <span class="ui-en">(Labels
+(default))</span></span> — en-têtes = libellés des questions, valeurs =
+libellés des choix (<code>Pêche à pied (glanage)</code>) : faciles à
+lire, pour un coup d’œil ou des partenaires ;</li>
+<li><span class="ui">Valeurs et en-têtes XML <span class="ui-en">(XML
+values and headers)</span></span> — en-têtes = <code>name</code>,
+valeurs = <code>name</code> des choix (<code>glanage</code>) : courts,
+stables, <strong>le bon choix pour l’analyse</strong> (formules Excel,
+R) ;</li>
+<li>les libellés dans l’une des langues du formulaire.</li>
+</ul></li>
+<li><span class="ui">Options avancées <span class="ui-en">(Advanced
+options)</span></span> — les principales (le niveau 3 les détaille) :
+<ul>
+<li><span class="ui">Exporter les questions à choix multiples en… <span
+class="ui-en">(Export Select Many questions as…)</span></span> — pour
+les <code>select_multiple</code> : une colonne avec tous les choix + une
+colonne 0/1 par choix (défaut), seulement les colonnes séparées, ou
+seulement la colonne unique ;</li>
+<li><span class="ui">Inclure les données de toutes les versions <span
+class="ui-en">(Include data from all versions)</span></span> — garder
+les colonnes de toutes les versions déployées (laissez coché) ;</li>
+<li><span class="ui">Inclure les groupes dans les en-têtes <span
+class="ui-en">(Include groups in headers)</span></span> — en-têtes
+<code>groupe/question</code> (niveau Intermédiaire) ;</li>
+<li><span class="ui">Stocker les dates et les nombres en texte <span
+class="ui-en">(Store date and number responses as text)</span></span>,
+<span class="ui">Inclure les URL des médias <span class="ui-en">(Include
+media URLs)</span></span>, <span class="ui">Sélectionner les questions à
+exporter <span class="ui-en">(Select questions to be
+exported)</span></span>, plage de dates…</li>
+</ul></li>
+<li><span class="ui">EXPORTER <span
+class="ui-en">(EXPORT)</span></span>. L’export se prépare (quelques
+secondes à quelques minutes) et apparaît dans la liste en dessous ;
+cliquez sur <span class="ui">TÉLÉCHARGER <span
+class="ui-en">(DOWNLOAD)</span></span>.</li>
+<li><span class="ui">Enregistrer la sélection sous… <span
+class="ui-en">(Save selection as…)</span></span> enregistre ces réglages
+sous un nom : la prochaine fois, appliquez-les en un clic.</li>
+</ol>
+</div>
+</div>
+<div id="columns" class="section level2">
+<h2><span class="en">Read an export, column by column</span><span
+class="fr">Lire un export, colonne par colonne</span></h2>
+<div class="en">
+<p>The first rows of the XML export (some columns only):</p>
+</div>
+<div class="fr">
+<p>Les premières lignes de l’export XML (quelques colonnes seulement)
+:</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th><th class='xc'>J</th><th class='xc'>K</th></tr><tr><td class='xr'>1</td><td class='xh'>date_debarq</td><td class='xh'>village</td><td class='xh'>engin</td><td class='xh'>especes</td><td class='xh'>especes/poulpe</td><td class='xh'>especes/calmar</td><td class='xh'>poids_total</td><td class='xh'>_gps_latitude</td><td class='xh'>_submitted_by</td><td class='xh'>__version__</td><td class='xh'>_index</td></tr><tr><td class='xr'>2</td><td>2026-01-05</td><td>mangily</td><td>glanage</td><td>poulpe</td><td>1</td><td>0</td><td>4</td><td></td><td>enq_mamy</td><td>2026-01-v1</td><td>1</td></tr><tr><td class='xr'>3</td><td>2026-01-06</td><td>mangily</td><td>fusil</td><td>poulpe poisson_recif langouste</td><td>1</td><td>0</td><td>8.4</td><td>-23.193218</td><td>enq_mamy</td><td>2026-01-v1</td><td>2</td></tr><tr><td class='xr'>4</td><td>2026-01-07</td><td>ifaty</td><td>ligne</td><td>poisson_recif</td><td>0</td><td>0</td><td>17.7</td><td>-23.237648</td><td>enq_tojo</td><td>2026-01-v1</td><td>3</td></tr><tr><td class='xr'>5</td><td>2026-01-07</td><td>ifaty</td><td>glanage</td><td>poulpe holothurie</td><td>1</td><td>0</td><td>6.4</td><td>-23.080459</td><td>enq_mamy</td><td>2026-01-v1</td><td>4</td></tr><tr><td class='xr'>6</td><td>2026-01-07</td><td>ambolimailaka</td><td>ligne</td><td>calmar</td><td>0</td><td>1</td><td>18.7</td><td>-23.197501</td><td>enq_fara</td><td>2026-01-v1</td><td>5</td></tr><tr><td class='xr'>7</td><td>2026-01-08</td><td>andrevo</td><td>senne</td><td>poisson_recif calmar</td><td>0</td><td>1</td><td>19.4</td><td>-23.126239</td><td>enq_mamy</td><td>2026-01-v1</td><td>6</td></tr></table><div class="xls-tab"><span>Fiche de débarquement</span></div></div>
+<div class="en">
+<ul>
+<li><strong>Your questions</strong>, in the order of the form.
+<code>select_multiple</code> gives <strong>one column with all the
+choices</strong> (<code>poulpe calmar</code>) and <strong>one column per
+choice</strong> (<code>especes/poulpe</code> = 1 if chosen, 0 if not).
+The 0/1 columns are the easiest to count: the sum of
+<code>especes/poulpe</code> = number of landings with octopus.</li>
+<li><strong><code>geopoint</code></strong> gives the full text
+(<code>-23.15 43.61 4.2 5.0</code>) and four columns
+<code>_gps_latitude</code>, <code>_gps_longitude</code>,
+<code>_gps_altitude</code>, <code>_gps_precision</code> (accuracy in
+metres).</li>
+<li><strong><code>image</code></strong> gives the file name of the photo
+and, with <em>Include media URLs</em>, a column <code>…_URL</code> with
+its address.</li>
+<li><strong>Metadata at the end</strong> — these columns are added by
+KoboToolbox:</li>
+</ul>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code>, <code>end</code>, <code>today</code>,
+<code>deviceid</code></td>
+<td>the metadata you put in the form (Session 2)</td>
+</tr>
+<tr class="even">
+<td><code>_id</code></td>
+<td>number of the submission on the server (unique in the project)</td>
+</tr>
+<tr class="odd">
+<td><code>_uuid</code></td>
+<td>universal unique identifier of the submission — the safest key</td>
+</tr>
+<tr class="even">
+<td><code>_submission_time</code></td>
+<td>date and time the server <strong>received</strong> the form (UTC);
+can be days after the interview</td>
+</tr>
+<tr class="odd">
+<td><code>_validation_status</code></td>
+<td><code>Approved</code>, <code>Not Approved</code>,
+<code>On Hold</code> or empty</td>
+</tr>
+<tr class="even">
+<td><code>_submitted_by</code></td>
+<td>account that sent the form</td>
+</tr>
+<tr class="odd">
+<td><code>__version__</code></td>
+<td>version of the form used for this submission</td>
+</tr>
+<tr class="even">
+<td><code>_status</code>, <code>_notes</code>, <code>_tags</code></td>
+<td>rarely used</td>
+</tr>
+<tr class="odd">
+<td><code>_index</code></td>
+<td>row number <strong>in this export</strong> (1, 2, 3…). Used to link
+the sheets of repeats (Level 2–3). Changes from one export to the next:
+never use it as a permanent identifier</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<ul>
+<li><strong>Vos questions</strong>, dans l’ordre du formulaire. Un
+<code>select_multiple</code> donne <strong>une colonne avec tous les
+choix</strong> (<code>poulpe calmar</code>) et <strong>une colonne par
+choix</strong> (<code>especes/poulpe</code> = 1 si choisi, 0 sinon). Les
+colonnes 0/1 sont les plus faciles à compter : la somme de
+<code>especes/poulpe</code> = nombre de débarquements avec du
+poulpe.</li>
+<li><strong><code>geopoint</code></strong> donne le texte complet
+(<code>-23.15 43.61 4.2 5.0</code>) et quatre colonnes
+<code>_gps_latitude</code>, <code>_gps_longitude</code>,
+<code>_gps_altitude</code>, <code>_gps_precision</code> (précision en
+mètres).</li>
+<li><strong><code>image</code></strong> donne le nom du fichier photo
+et, avec <em>Inclure les URL des médias</em>, une colonne
+<code>…_URL</code> avec son adresse.</li>
+<li><strong>Les métadonnées à la fin</strong> — ces colonnes sont
+ajoutées par KoboToolbox :</li>
+</ul>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code>, <code>end</code>, <code>today</code>,
+<code>deviceid</code></td>
+<td>les métadonnées mises dans le formulaire (séance 2)</td>
+</tr>
+<tr class="even">
+<td><code>_id</code></td>
+<td>numéro de la soumission sur le serveur (unique dans le projet)</td>
+</tr>
+<tr class="odd">
+<td><code>_uuid</code></td>
+<td>identifiant unique universel de la soumission — la clé la plus
+sûre</td>
+</tr>
+<tr class="even">
+<td><code>_submission_time</code></td>
+<td>date et heure de <strong>réception</strong> par le serveur (UTC) ;
+peut être plusieurs jours après l’entretien</td>
+</tr>
+<tr class="odd">
+<td><code>_validation_status</code></td>
+<td><code>Approved</code>, <code>Not Approved</code>,
+<code>On Hold</code> ou vide</td>
+</tr>
+<tr class="even">
+<td><code>_submitted_by</code></td>
+<td>compte qui a envoyé la fiche</td>
+</tr>
+<tr class="odd">
+<td><code>__version__</code></td>
+<td>version du formulaire utilisée pour cette soumission</td>
+</tr>
+<tr class="even">
+<td><code>_status</code>, <code>_notes</code>, <code>_tags</code></td>
+<td>rarement utilisés</td>
+</tr>
+<tr class="odd">
+<td><code>_index</code></td>
+<td>numéro de ligne <strong>dans cet export</strong> (1, 2, 3…). Sert à
+relier les feuilles des répétitions (niveaux 2–3). Change d’un export à
+l’autre : ne l’utilisez jamais comme identifiant permanent</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Versions.</strong> Submissions of version
+<code>2026-01-v1</code> were filled in when <em>Crabe</em> did not
+exist: their <code>especes/crabe</code> is 0 because the choice
+<strong>was not offered</strong>, not because there was no crab. Always
+check <code>__version__</code> before comparing periods.</p>
+<p><strong>Dates.</strong> Use <code>date_debarq</code> (or
+<code>today</code>) for the date of the landing, not
+<code>_submission_time</code> (date of sending, in UTC).</p>
+</div>
+<div class="fr">
+<p><strong>Versions.</strong> Les soumissions de la version
+<code>2026-01-v1</code> ont été remplies quand <em>Crabe</em> n’existait
+pas : leur <code>especes/crabe</code> vaut 0 parce que le choix
+<strong>n’était pas proposé</strong>, pas parce qu’il n’y avait pas de
+crabe. Vérifiez toujours <code>__version__</code> avant de comparer des
+périodes.</p>
+<p><strong>Dates.</strong> Utilisez <code>date_debarq</code> (ou
+<code>today</code>) pour la date du débarquement, pas
+<code>_submission_time</code> (date d’envoi, en UTC).</p>
+</div>
+</div>
+</div>
+<div id="excel" class="section level2">
+<h2><span class="en">Quick answers with Excel</span><span
+class="fr">Réponses rapides avec Excel</span></h2>
+<div class="en">
+<p>Open the XML export and convert the data into a table
+(<kbd>Ctrl</kbd> + <kbd>T</kbd>). Then:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Formula (English Excel)</th>
+<th>Formula (French Excel)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>number of landings</td>
+<td><code>=COUNTA(A2:A121)</code> or the table’s row count</td>
+<td><code>=NBVAL(A2:A121)</code></td>
+</tr>
+<tr class="even">
+<td>landings in Ifaty</td>
+<td><code>=COUNTIF(F:F,"ifaty")</code></td>
+<td><code>=NB.SI(F:F;"ifaty")</code></td>
+</tr>
+<tr class="odd">
+<td>landings with octopus</td>
+<td><code>=SUM(L:L)</code> (column <code>especes/poulpe</code>)</td>
+<td><code>=SOMME(L:L)</code></td>
+</tr>
+<tr class="even">
+<td>mean weight with gillnet</td>
+<td><code>=AVERAGEIF(J:J,"filet_maillant",R:R)</code></td>
+<td><code>=MOYENNE.SI(J:J;"filet_maillant";R:R)</code></td>
+</tr>
+<tr class="odd">
+<td>missing GPS</td>
+<td><code>=COUNTBLANK(T2:T121)</code></td>
+<td><code>=NB.VIDE(T2:T121)</code></td>
+</tr>
+</tbody>
+</table>
+<p>For several questions at once, a <strong>pivot table</strong>
+(<em>Insert → PivotTable</em>): rows = <code>village</code>, values =
+count of <code>_id</code> and mean of <code>poids_total</code>.</p>
+</div>
+<div class="fr">
+<p>Ouvrez l’export XML et transformez les données en tableau
+(<kbd>Ctrl</kbd> + <kbd>L</kbd> dans Excel en français, <kbd>Ctrl</kbd>
++ <kbd>T</kbd> en anglais). Ensuite :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Formule (Excel anglais)</th>
+<th>Formule (Excel français)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>nombre de débarquements</td>
+<td><code>=COUNTA(A2:A121)</code> ou le nombre de lignes du tableau</td>
+<td><code>=NBVAL(A2:A121)</code></td>
+</tr>
+<tr class="even">
+<td>débarquements à Ifaty</td>
+<td><code>=COUNTIF(F:F,"ifaty")</code></td>
+<td><code>=NB.SI(F:F;"ifaty")</code></td>
+</tr>
+<tr class="odd">
+<td>débarquements avec poulpe</td>
+<td><code>=SUM(L:L)</code> (colonne <code>especes/poulpe</code>)</td>
+<td><code>=SOMME(L:L)</code></td>
+</tr>
+<tr class="even">
+<td>poids moyen au filet maillant</td>
+<td><code>=AVERAGEIF(J:J,"filet_maillant",R:R)</code></td>
+<td><code>=MOYENNE.SI(J:J;"filet_maillant";R:R)</code></td>
+</tr>
+<tr class="odd">
+<td>GPS manquants</td>
+<td><code>=COUNTBLANK(T2:T121)</code></td>
+<td><code>=NB.VIDE(T2:T121)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pour plusieurs questions à la fois, un <strong>tableau croisé
+dynamique</strong> (<em>Insertion → Tableau croisé dynamique</em>) :
+lignes = <code>village</code>, valeurs = nombre de <code>_id</code> et
+moyenne de <code>poids_total</code>.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>CSV or XLS?</strong> A CSV opened by double-click in a French
+Excel often shows accents badly or puts everything in one column. Open
+it with <em>Data → From Text/CSV</em>, choose the <strong>UTF-8</strong>
+encoding and the right separator. The XLS export avoids these problems
+and keeps the repeat sheets: prefer it.</p>
+</div>
+<div class="fr">
+<p><strong>CSV ou XLS ?</strong> Un CSV ouvert par double-clic dans un
+Excel français affiche souvent mal les accents ou met tout dans une
+seule colonne. Ouvrez-le avec <em>Données → À partir d’un fichier
+texte/CSV</em>, choisissez l’encodage <strong>UTF-8</strong> et le bon
+séparateur. L’export XLS évite ces problèmes et garde les feuilles des
+répétitions : préférez-le.</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-5" class="section level3 en">
+<h3>Application work 5</h3>
+<p><strong>A. In your own project</strong> (Session 4): look at your
+test submissions in the table, edit one, approve one, then create an
+<strong>XLS</strong> export with <strong>XML values and headers</strong>
+and download it. Find your questions and the metadata columns.</p>
+<p><strong>B. With the course exports</strong>
+(<code>k05_debarquements_xml.xlsx</code>, and
+<code>k05_debarquements_labels.xlsx</code> for question 5):</p>
+<ol style="list-style-type: decimal">
+<li>Number of submissions?</li>
+<li>How many columns start with <code>especes/</code>?</li>
+<li>Number of landings with octopus?</li>
+<li>Mean total weight per landing (kg, 2 decimals)?</li>
+<li>Village with the most landings (as written in the labels
+export)?</li>
+<li>Number of forms sent by <code>enq_tojo</code>?</li>
+<li>Number of submissions of version <code>2026-02-v2</code>?</li>
+<li>Number of approved submissions?</li>
+<li>Number of submissions without GPS position?</li>
+<li>Mean weight of the landings with gillnet
+(<code>filet_maillant</code>, kg, 1 decimal)?</li>
+<li>Among version <code>2026-02-v2</code> submissions, how many landings
+with crab?</li>
+</ol>
+</div>
+<div id="travail-dapplication-5" class="section level3 fr">
+<h3>Travail d’application 5</h3>
+<p><strong>A. Dans votre propre projet</strong> (séance 4) : regardez
+vos soumissions de test dans le tableau, modifiez-en une, validez-en
+une, puis créez un export <strong>XLS</strong> avec les <strong>valeurs
+et en-têtes XML</strong> et téléchargez-le. Retrouvez vos questions et
+les colonnes de métadonnées.</p>
+<p><strong>B. Avec les exports du cours</strong>
+(<code>k05_debarquements_xml.xlsx</code>, et
+<code>k05_debarquements_labels.xlsx</code> pour la question 5) :</p>
+<ol style="list-style-type: decimal">
+<li>Nombre de soumissions ?</li>
+<li>Combien de colonnes commencent par <code>especes/</code> ?</li>
+<li>Nombre de débarquements avec du poulpe ?</li>
+<li>Poids total moyen par débarquement (kg, 2 décimales) ?</li>
+<li>Village avec le plus de débarquements (tel qu’écrit dans l’export
+étiquettes) ?</li>
+<li>Nombre de fiches envoyées par <code>enq_tojo</code> ?</li>
+<li>Nombre de soumissions de la version <code>2026-02-v2</code> ?</li>
+<li>Nombre de soumissions validées (Approved) ?</li>
+<li>Nombre de soumissions sans position GPS ?</li>
+<li>Poids moyen des débarquements au filet maillant
+(<code>filet_maillant</code>, kg, 1 décimale) ?</li>
+<li>Parmi les soumissions de la version <code>2026-02-v2</code>, combien
+de débarquements avec du crabe ?</li>
+</ol>
+</div>
+</div>
+<div class="hint">
+<div class="en">
+<p>Question 9: count the empty cells of <code>_gps_latitude</code>.
+Question 11: filter <code>__version__</code> on <code>2026-02-v2</code>,
+then sum <code>especes/crabe</code> (with a filter on, Excel’s
+<code>SUBTOTAL(9, …)</code> sums the visible rows only).</p>
+</div>
+<div class="fr">
+<p>Question 9 : comptez les cellules vides de
+<code>_gps_latitude</code>. Question 11 : filtrez
+<code>__version__</code> sur <code>2026-02-v2</code>, puis faites la
+somme de <code>especes/crabe</code> (avec un filtre actif,
+<code>SOUS.TOTAL(9; …)</code> ne somme que les lignes visibles).</p>
+</div>
+</div>
+<div id="quiz-k05" class="quiz" data-quiz-id="k05"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHN1Ym1pc3Npb25zPyIsImZyIjoiMS4gTm9tYnJlIGRlIHNvdW1pc3Npb25zID8iLCJhbnN3ZXIiOjEyMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gQ29sdW1ucyBzdGFydGluZyB3aXRoIGVzcGVjZXMvPyIsImZyIjoiMi4gQ29sb25uZXMgY29tbWVuw6dhbnQgcGFyIGVzcGVjZXMvID8iLCJhbnN3ZXIiOjYsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIExhbmRpbmdzIHdpdGggb2N0b3B1cz8iLCJmciI6IjMuIETDqWJhcnF1ZW1lbnRzIGF2ZWMgZHUgcG91bHBlID8iLCJhbnN3ZXIiOjM4LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIHRvdGFsIHdlaWdodCAoa2csIDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gUG9pZHMgdG90YWwgbW95ZW4gKGtnLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjE4LjY4LCJ0b2wiOjAuMDA2LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjUuIFZpbGxhZ2Ugd2l0aCB0aGUgbW9zdCBsYW5kaW5ncz8iLCJmciI6IjUuIFZpbGxhZ2UgYXZlYyBsZSBwbHVzIGRlIGTDqWJhcnF1ZW1lbnRzID8iLCJhbnN3ZXIiOlsiQW1ib2xpbWFpbGFrYSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjYuIEZvcm1zIHNlbnQgYnkgZW5xX3Rvam8/IiwiZnIiOiI2LiBGaWNoZXMgZW52b3nDqWVzIHBhciBlbnFfdG9qbyA/IiwiYW5zd2VyIjozOSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gU3VibWlzc2lvbnMgb2YgdmVyc2lvbiAyMDI2LTAyLXYyPyIsImZyIjoiNy4gU291bWlzc2lvbnMgZGUgbGEgdmVyc2lvbiAyMDI2LTAyLXYyID8iLCJhbnN3ZXIiOjc0LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiBBcHByb3ZlZCBzdWJtaXNzaW9ucz8iLCJmciI6IjguIFNvdW1pc3Npb25zIHZhbGlkw6llcyA/IiwiYW5zd2VyIjo0MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOS4gU3VibWlzc2lvbnMgd2l0aG91dCBHUFM/IiwiZnIiOiI5LiBTb3VtaXNzaW9ucyBzYW5zIEdQUyA/IiwiYW5zd2VyIjo5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMC4gTWVhbiB3ZWlnaHQgd2l0aCBnaWxsbmV0ICgxIGRlY2ltYWwpPyIsImZyIjoiMTAuIFBvaWRzIG1veWVuIGF1IGZpbGV0IG1haWxsYW50ICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MTMuOCwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMTEuIFZlcnNpb24gMiBsYW5kaW5ncyB3aXRoIGNyYWI/IiwiZnIiOiIxMS4gRMOpYmFycXVlbWVudHMgZGUgbGEgdmVyc2lvbiAyIGF2ZWMgZHUgY3JhYmUgPyIsImFuc3dlciI6MTMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifV0=">
+
+</div>
+<div class="solution" data-quiz="k05">
+<div class="en">
+<p>1 120 · 2 6 (one per option of the list <code>espece</code>) · 3 38 ·
+4 18.68 kg · 5 Ambolimailaka · 6 39 · 7 74 · 8 43 · 9 9 · 10 13.8 kg ·
+11 13.</p>
+<p>With a pivot table: rows <code>village</code>, values *Count of
+_id<em>; rows <code>engin</code>, values </em>Average of
+poids_total<em>. With formulas: see the table </em>Quick answers with
+Excel*.</p>
+</div>
+<div class="fr">
+<p>1 120 · 2 6 (une par option de la liste <code>espece</code>) · 3 38 ·
+4 18.68 kg · 5 Ambolimailaka · 6 39 · 7 74 · 8 43 · 9 9 · 10 13.8 kg ·
+11 13.</p>
+<p>Avec un tableau croisé dynamique : lignes <code>village</code>,
+valeurs *Nombre de _id* ; lignes <code>engin</code>, valeurs <em>Moyenne
+de poids_total</em>. Avec des formules : voir le tableau <em>Réponses
+rapides avec Excel</em>.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

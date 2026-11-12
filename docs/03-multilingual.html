@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">3 · Multilingual
+questionnaires</span><span class="fr">3 · Questionnaire
+multilingue</span></h1>
+<h3 class="subtitle">~1 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>write a form in several languages with the columns
+<code>label::Language (code)</code> and
+<code>hint::Language (code)</code>;</li>
+<li>translate the choices too, and choose the language shown first with
+<code>default_language</code>;</li>
+<li>avoid the “default” language created by a column without
+language;</li>
+<li>switch language in the web form and in KoboCollect, and choose the
+language of the labels in an export.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>écrire un formulaire en plusieurs langues avec les colonnes
+<code>label::Langue (code)</code> et <code>hint::Langue (code)</code>
+;</li>
+<li>traduire aussi les choix, et choisir la langue affichée en premier
+avec <code>default_language</code> ;</li>
+<li>éviter la langue « default » créée par une colonne sans langue
+;</li>
+<li>changer de langue dans le formulaire web et dans KoboCollect, et
+choisir la langue des libellés dans un export.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Why several languages?</span><span
+class="fr">Pourquoi plusieurs langues ?</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In the villages of the bay, most
+fishers speak <strong>Malagasy</strong> (Vezo dialect); the enumerators
+read French easily but translate the questions orally, each in their own
+way. The coordinator, who writes the reports, also wants an
+<strong>English</strong> version for the funder. You add Malagasy and
+English to the landing form: everybody reads <strong>the same
+question</strong>, in their language, and the data stay the same
+whatever language was used.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Dans les villages de la baie, la
+plupart des pêcheurs parlent <strong>malgache</strong> (dialecte vezo) ;
+les enquêteurs lisent facilement le français mais traduisent les
+questions oralement, chacun à sa façon. Le coordinateur, qui rédige les
+rapports, veut aussi une version <strong>anglaise</strong> pour le
+bailleur. Vous ajoutez le malgache et l’anglais à la fiche de
+débarquement : tout le monde lit <strong>la même question</strong>, dans
+sa langue, et les données restent les mêmes quelle que soit la langue
+utilisée.</p>
+</div>
+</div>
+<div class="en">
+<p>A translated question is a <strong>better question</strong>: when the
+enumerator translates on the spot, two enumerators ask two slightly
+different questions, and the answers are no longer comparable. Translate
+in advance, test the translation with people from the area, and fix the
+wording before collection.</p>
+</div>
+<div class="fr">
+<p>Une question traduite est une <strong>meilleure question</strong> :
+quand l’enquêteur traduit sur le moment, deux enquêteurs posent deux
+questions un peu différentes, et les réponses ne sont plus comparables.
+Traduisez à l’avance, testez la traduction avec des personnes de la
+zone, et fixez la formulation avant la collecte.</p>
+</div>
+</div>
+<div id="columns" class="section level2">
+<h2><span class="en">One column per language</span><span class="fr">Une
+colonne par langue</span></h2>
+<div class="en">
+<p>Replace the column <code>label</code> by one column per language,
+written <strong><code>label::Language name (code)</code></strong>: the
+name you want to see in the language menu, then the two-letter
+<strong>ISO 639-1 code</strong> in brackets. Do the same for
+<code>hint</code> (and for <code>required_message</code>,
+<code>constraint_message</code> if you use them).</p>
+</div>
+<div class="fr">
+<p>Remplacez la colonne <code>label</code> par une colonne par langue,
+écrite <strong><code>label::Nom de la langue (code)</code></strong> : le
+nom que vous voulez voir dans le menu des langues, puis le <strong>code
+ISO 639-1</strong> à deux lettres entre parenthèses. Faites de même pour
+<code>hint</code> (et pour <code>required_message</code>,
+<code>constraint_message</code> si vous les utilisez).</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label::Français (fr)</td><td class='xh'>label::English (en)</td><td class='xh'>label::Malagasy (mg)</td><td class='xh'>hint::Malagasy (mg)</td></tr><tr><td class='xr'>6</td><td>note</td><td>intro</td><td>**Fiche de débarquement** — une fiche par pirogue, au retour de pêche.</td><td>**Landing form** — one form per canoe, when it comes back from fishing.</td><td>**Taratasy fanaraha-maso ny trondro tonga** — taratasy iray isaky ny lakana.</td><td></td></tr><tr><td class='xr'>7</td><td>date</td><td>date_debarq</td><td>Date du débarquement</td><td>Landing date</td><td>Daty nahatongavana</td><td>Andro niverenana avy nanjono</td></tr><tr><td class='xr'>8</td><td>select_one village</td><td>village</td><td>Village</td><td>Village</td><td>Tanàna</td><td></td></tr><tr><td class='xr'>9</td><td>text</td><td>nom_pecheur</td><td>Nom du chef de pirogue</td><td>Name of the canoe captain</td><td>Anaran'ny tompon-dakana</td><td></td></tr><tr><td class='xr'>10</td><td>integer</td><td>age</td><td>Âge du chef de pirogue (années)</td><td>Age of the canoe captain (years)</td><td>Taonan'ny tompon-dakana</td><td>Raha tsy fantany dia vinavinao</td></tr><tr><td class='xr'>11</td><td>integer</td><td>nb_pecheurs</td><td>Nombre de pêcheurs à bord</td><td>Number of fishers on board</td><td>Isan'ny mpanjono tao anaty lakana</td><td></td></tr><tr><td class='xr'>12</td><td>select_one engin</td><td>engin</td><td>Engin principal</td><td>Main fishing gear</td><td>Fitaovana fanjonoana lehibe</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<table>
+<thead>
+<tr class="header">
+<th>Language</th>
+<th>Column header</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>French</td>
+<td><code>label::Français (fr)</code></td>
+<td><code>fr</code></td>
+</tr>
+<tr class="even">
+<td>English</td>
+<td><code>label::English (en)</code></td>
+<td><code>en</code></td>
+</tr>
+<tr class="odd">
+<td>Malagasy</td>
+<td><code>label::Malagasy (mg)</code></td>
+<td><code>mg</code></td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>choices</strong> are translated the same way, in the
+<code>choices</code> sheet:</p>
+</div>
+<div class="fr">
+<table>
+<thead>
+<tr class="header">
+<th>Langue</th>
+<th>En-tête de colonne</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Français</td>
+<td><code>label::Français (fr)</code></td>
+<td><code>fr</code></td>
+</tr>
+<tr class="even">
+<td>Anglais</td>
+<td><code>label::English (en)</code></td>
+<td><code>en</code></td>
+</tr>
+<tr class="odd">
+<td>Malgache</td>
+<td><code>label::Malagasy (mg)</code></td>
+<td><code>mg</code></td>
+</tr>
+</tbody>
+</table>
+<p>Les <strong>choix</strong> se traduisent de la même façon, dans la
+feuille <code>choices</code> :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>list_name</td><td class='xh'>name</td><td class='xh'>label::Français (fr)</td><td class='xh'>label::English (en)</td><td class='xh'>label::Malagasy (mg)</td></tr><tr><td class='xr'>7</td><td>engin</td><td>ligne</td><td>Ligne à main</td><td>Hand line</td><td>Taritarika</td></tr><tr><td class='xr'>8</td><td>engin</td><td>filet_maillant</td><td>Filet maillant</td><td>Gillnet</td><td>Harato</td></tr><tr><td class='xr'>9</td><td>engin</td><td>fusil</td><td>Fusil harpon</td><td>Speargun</td><td>Basim-panjonoana</td></tr><tr><td class='xr'>10</td><td>engin</td><td>senne</td><td>Senne de plage</td><td>Beach seine</td><td>Kaokobe</td></tr><tr><td class='xr'>11</td><td>engin</td><td>glanage</td><td>Pêche à pied (glanage)</td><td>Gleaning (on foot)</td><td>Fihaza an-tongotra</td></tr><tr><td class='xr'>12</td><td>espece</td><td>poulpe</td><td>Poulpe</td><td>Octopus</td><td>Horita</td></tr><tr><td class='xr'>13</td><td>espece</td><td>poisson_recif</td><td>Poissons de récif</td><td>Reef fish</td><td>Trondro haran-dranomasina</td></tr><tr><td class='xr'>14</td><td>espece</td><td>calmar</td><td>Calmar</td><td>Squid</td><td>Angisy</td></tr><tr><td class='xr'>15</td><td>espece</td><td>langouste</td><td>Langouste</td><td>Spiny lobster</td><td>Oramena</td></tr><tr><td class='xr'>16</td><td>espece</td><td>crabe</td><td>Crabe</td><td>Crab</td><td>Drakaka</td></tr><tr><td class='xr'>17</td><td>espece</td><td>holothurie</td><td>Holothurie</td><td>Sea cucumber</td><td>Zanga</td></tr></table><div class="xls-tab"><span>choices</span></div></div>
+<div class="callout warning">
+<div class="en">
+<p><strong>Only the labels are translated, never the <code>name</code>
+values.</strong> <code>filet_maillant</code> stays
+<code>filet_maillant</code> whatever the language: the data are
+identical, only the text shown changes. That is what makes the answers
+comparable between languages.</p>
+<p>The Malagasy labels of this course are a <strong>draft</strong> to
+show the method: have them checked by a speaker of the local dialect
+before any real survey.</p>
+</div>
+<div class="fr">
+<p><strong>Seuls les libellés se traduisent, jamais les valeurs
+<code>name</code>.</strong> <code>filet_maillant</code> reste
+<code>filet_maillant</code> quelle que soit la langue : les données sont
+identiques, seul le texte affiché change. C’est ce qui rend les réponses
+comparables d’une langue à l’autre.</p>
+<p>Les libellés malgaches de ce cours sont une <strong>ébauche</strong>
+pour montrer la méthode : faites-les vérifier par une personne qui parle
+le dialecte local avant toute enquête réelle.</p>
+</div>
+</div>
+</div>
+<div id="default" class="section level2">
+<h2><span class="en">The default language</span><span class="fr">La
+langue par défaut</span></h2>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>form_title</td><td class='xh'>form_id</td><td class='xh'>version</td><td class='xh'>default_language</td></tr><tr><td class='xr'>2</td><td>Fiche de débarquement</td><td>debarquement_ranobe</td><td>2026-01-v1</td><td>Français (fr)</td></tr></table><div class="xls-tab"><span>settings</span></div></div>
+<div class="en">
+<p>In the <code>settings</code> sheet,
+<strong><code>default_language</code></strong> gives the language shown
+when the form opens. Its value must be <strong>exactly</strong> the text
+after <code>::</code> in the headers (<code>Français (fr)</code>), same
+spelling, same accents, same brackets.</p>
+<p><strong>The “default” language trap.</strong> If one column has no
+language (a plain <code>label</code> or <code>hint</code> next to
+<code>label::Français (fr)</code>), KoboToolbox creates an extra
+language called <strong>“default”</strong>. The enumerator then sees a
+language menu with a strange “default” entry, and some questions appear
+empty in the other languages. KoboToolbox warns you at upload with a
+message such as:</p>
+<p><code>Language 'default' is missing the survey hint column.</code></p>
+<p><strong>Fix:</strong> give a language to <em>every</em>
+<code>label</code>, <code>hint</code> and message column, in the
+<code>survey</code> and <code>choices</code> sheets.</p>
+</div>
+<div class="fr">
+<p>Dans la feuille <code>settings</code>,
+<strong><code>default_language</code></strong> indique la langue
+affichée à l’ouverture du formulaire. Sa valeur doit être
+<strong>exactement</strong> le texte qui suit <code>::</code> dans les
+en-têtes (<code>Français (fr)</code>), même orthographe, mêmes accents,
+mêmes parenthèses.</p>
+<p><strong>Le piège de la langue « default ».</strong> Si une colonne
+n’a pas de langue (un <code>label</code> ou un <code>hint</code> simple
+à côté de <code>label::Français (fr)</code>), KoboToolbox crée une
+langue supplémentaire appelée <strong>« default »</strong>. L’enquêteur
+voit alors un menu de langues avec une entrée « default » étrange, et
+certaines questions apparaissent vides dans les autres langues.
+KoboToolbox vous prévient à l’import avec un message comme :</p>
+<p><code>Language 'default' is missing the survey hint column.</code></p>
+<p><strong>Correction :</strong> donnez une langue à <em>chaque</em>
+colonne <code>label</code>, <code>hint</code> et message, dans les
+feuilles <code>survey</code> et <code>choices</code>.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>A <strong>missing translation</strong> (an empty cell in
+<code>label::Malagasy (mg)</code>) is not an error, but KoboToolbox
+gives a warning, and the question shows no text in Malagasy. Before
+deploying, sort or filter each language column in Excel to find the
+empty cells.</p>
+</div>
+<div class="fr">
+<p>Une <strong>traduction manquante</strong> (une cellule vide dans
+<code>label::Malagasy (mg)</code>) n’est pas une erreur, mais
+KoboToolbox donne un avertissement, et la question n’affiche aucun texte
+en malgache. Avant de déployer, triez ou filtrez chaque colonne de
+langue dans Excel pour trouver les cellules vides.</p>
+</div>
+</div>
+</div>
+<div id="formbuilder" class="section level2">
+<h2><span class="en">Languages in the Formbuilder</span><span
+class="fr">Les langues dans le Formbuilder</span></h2>
+<div class="en">
+<p>Without Excel: in the <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span> tab, <span class="ui">Gérer les
+traductions <span class="ui-en">(Manage translations)</span></span> lets
+you name the default language, add a language, and type each translation
+in a table. It is practical for a short form; for a long one, <span
+class="ui">Télécharger XLS <span class="ui-en">(Download
+XLS)</span></span>, translate in Excel (it is much faster), then <span
+class="ui">Remplacer le formulaire <span class="ui-en">(Replace
+form)</span></span>.</p>
+</div>
+<div class="fr">
+<p>Sans Excel : dans l’onglet <span class="ui">FORMULAIRE <span
+class="ui-en">(FORM)</span></span>, <span class="ui">Gérer les
+traductions <span class="ui-en">(Manage translations)</span></span>
+permet de nommer la langue par défaut, d’ajouter une langue, et de
+saisir chaque traduction dans un tableau. C’est pratique pour un
+formulaire court ; pour un long, <span class="ui">Télécharger XLS <span
+class="ui-en">(Download XLS)</span></span>, traduisez dans Excel (c’est
+beaucoup plus rapide), puis <span class="ui">Remplacer le formulaire
+<span class="ui-en">(Replace form)</span></span>.</p>
+</div>
+</div>
+<div id="use" class="section level2">
+<h2><span class="en">Using the languages</span><span class="fr">Utiliser
+les langues</span></h2>
+<div class="en">
+<ul>
+<li><strong>Web form (Enketo)</strong>: a language drop-down menu
+appears at the top right of the form.</li>
+<li><strong>KoboCollect</strong>: in the form, menu ⋮ → <em>Change
+language</em>. The language chosen is kept for the next forms.</li>
+<li><strong>Exports</strong>: in <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> → <span class="ui">Téléchargements
+<span class="ui-en">(Downloads)</span></span>, the option <span
+class="ui">Format des valeurs et des en-têtes <span class="ui-en">(Value
+and header format)</span></span> lets you choose <span
+class="ui">Valeurs et en-têtes XML <span class="ui-en">(XML values and
+headers)</span></span> (names, the same in every language) or the labels
+<strong>in one of the languages</strong> of the form — e.g. an export
+with English labels for the funder.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><strong>Formulaire web (Enketo)</strong> : un menu déroulant des
+langues apparaît en haut à droite du formulaire.</li>
+<li><strong>KoboCollect</strong> : dans le formulaire, menu ⋮ →
+<em>Changer de langue</em>. La langue choisie est gardée pour les fiches
+suivantes.</li>
+<li><strong>Exports</strong> : dans <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> → <span class="ui">Téléchargements
+<span class="ui-en">(Downloads)</span></span>, l’option <span
+class="ui">Format des valeurs et des en-têtes <span class="ui-en">(Value
+and header format)</span></span> permet de choisir <span
+class="ui">Valeurs et en-têtes XML <span class="ui-en">(XML values and
+headers)</span></span> (les noms, identiques dans toutes les langues) ou
+les libellés <strong>dans l’une des langues</strong> du formulaire — ex.
+un export avec les libellés anglais pour le bailleur.</li>
+</ul>
+</div>
+<div class="application">
+<div id="application-work-3" class="section level3 en">
+<h3>Application work 3</h3>
+<p>Download the finished file
+<a class="btn-dl" href="data/forms/k03_debarquement_multilingue.xlsx" download>⇩
+k03_debarquement_multilingue.xlsx</a> and the file to translate
+<a class="btn-dl" href="data/forms/k03_a_traduire.xlsx" download>⇩
+k03_a_traduire.xlsx</a>.</p>
+<p><strong>A.</strong> In
+<code>k03_debarquement_multilingue.xlsx</code>:</p>
+<ol style="list-style-type: decimal">
+<li>How many languages does the form have?</li>
+<li>Exact column header of the Malagasy labels in the
+<code>survey</code> sheet?</li>
+<li>Value of <code>default_language</code>?</li>
+<li>Malagasy label of the choice <code>poulpe</code>?</li>
+<li>How many columns of the <code>survey</code> sheet contain
+<code>::</code> (translated columns)?</li>
+<li>English label of the choice <code>senne</code>?</li>
+</ol>
+<p><strong>B.</strong> In <code>k03_a_traduire.xlsx</code>, fill in the
+column <code>label::Malagasy (mg)</code> of the <code>survey</code> and
+<code>choices</code> sheets (with your own translations, or copy them
+from the finished file), add <code>default_language</code> =
+<code>Français (fr)</code> in <code>settings</code>, and keep the file:
+you will upload it in Session 4 and switch languages in the preview.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Your colleague added a column <code>hint</code> (without language)
+to a form that has <code>label::Français (fr)</code> and
+<code>label::Malagasy (mg)</code>. What happens?</li>
+<li>You want the English labels in an export for the funder. Which
+option?</li>
+</ol>
+</div>
+<div id="travail-dapplication-3" class="section level3 fr">
+<h3>Travail d’application 3</h3>
+<p>Téléchargez le fichier terminé
+<a class="btn-dl" href="data/forms/k03_debarquement_multilingue.xlsx" download>⇩
+k03_debarquement_multilingue.xlsx</a> et le fichier à traduire
+<a class="btn-dl" href="data/forms/k03_a_traduire.xlsx" download>⇩
+k03_a_traduire.xlsx</a>.</p>
+<p><strong>A.</strong> Dans
+<code>k03_debarquement_multilingue.xlsx</code> :</p>
+<ol style="list-style-type: decimal">
+<li>Combien de langues le formulaire a-t-il ?</li>
+<li>En-tête exact de la colonne des libellés malgaches dans la feuille
+<code>survey</code> ?</li>
+<li>Valeur de <code>default_language</code> ?</li>
+<li>Libellé malgache du choix <code>poulpe</code> ?</li>
+<li>Combien de colonnes de la feuille <code>survey</code> contiennent
+<code>::</code> (colonnes traduites) ?</li>
+<li>Libellé anglais du choix <code>senne</code> ?</li>
+</ol>
+<p><strong>B.</strong> Dans <code>k03_a_traduire.xlsx</code>, remplissez
+la colonne <code>label::Malagasy (mg)</code> des feuilles
+<code>survey</code> et <code>choices</code> (avec vos propres
+traductions, ou recopiez celles du fichier terminé), ajoutez
+<code>default_language</code> = <code>Français (fr)</code> dans
+<code>settings</code>, et gardez le fichier : vous l’importerez à la
+séance 4 et changerez de langue dans l’aperçu.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Votre collègue a ajouté une colonne <code>hint</code> (sans langue)
+dans un formulaire qui a <code>label::Français (fr)</code> et
+<code>label::Malagasy (mg)</code>. Que se passe-t-il ?</li>
+<li>Vous voulez les libellés anglais dans un export pour le bailleur.
+Quelle option ?</li>
+</ol>
+</div>
+</div>
+<div id="quiz-k03" class="quiz" data-quiz-id="k03"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIGxhbmd1YWdlcz8iLCJmciI6IjEuIE5vbWJyZSBkZSBsYW5ndWVzID8iLCJhbnN3ZXIiOjMsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIyLiBIZWFkZXIgb2YgdGhlIE1hbGFnYXN5IGxhYmVscz8iLCJmciI6IjIuIEVuLXTDqnRlIGRlcyBsaWJlbGzDqXMgbWFsZ2FjaGVzID8iLCJhbnN3ZXIiOlsibGFiZWw6Ok1hbGFnYXN5IChtZykiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gVmFsdWUgb2YgZGVmYXVsdF9sYW5ndWFnZT8iLCJmciI6IjMuIFZhbGV1ciBkZSBkZWZhdWx0X2xhbmd1YWdlID8iLCJhbnN3ZXIiOlsiRnJhbsOnYWlzIChmcikiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gTWFsYWdhc3kgbGFiZWwgb2YgcG91bHBlPyIsImZyIjoiNC4gTGliZWxsw6kgbWFsZ2FjaGUgZGUgcG91bHBlID8iLCJhbnN3ZXIiOlsiSG9yaXRhIl19LHsidHlwZSI6Im51bSIsImVuIjoiNS4gQ29sdW1ucyBvZiBzdXJ2ZXkgY29udGFpbmluZyA6Oj8iLCJmciI6IjUuIENvbG9ubmVzIGRlIHN1cnZleSBjb250ZW5hbnQgOjogPyIsImFuc3dlciI6NiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjYuIEVuZ2xpc2ggbGFiZWwgb2Ygc2VubmU/IiwiZnIiOiI2LiBMaWJlbGzDqSBhbmdsYWlzIGRlIHNlbm5lID8iLCJhbnN3ZXIiOlsiQmVhY2ggc2VpbmUiXX0seyJ0eXBlIjoibWNxIiwiZW4iOiI3LiBBIHBsYWluIGhpbnQgY29sdW1uIG5leHQgdG8gdHJhbnNsYXRlZCBsYWJlbHM6IiwiZnIiOiI3LiBVbmUgY29sb25uZSBoaW50IHNpbXBsZSDDoCBjw7R0w6kgZGUgbGliZWxsw6lzIHRyYWR1aXRzIDoiLCJvcHRpb25zX2VuIjpbImlzIGlnbm9yZWQiLCJjcmVhdGVzIGFuIGV4dHJhIGxhbmd1YWdlIGNhbGxlZCBcImRlZmF1bHRcIiIsInJlcGxhY2VzIGFsbCB0aGUgbGFiZWxzIiwiYmxvY2tzIHRoZSB1cGxvYWQiXSwib3B0aW9uc19mciI6WyJlc3QgaWdub3LDqWUiLCJjcsOpZSB1bmUgbGFuZ3VlIHN1cHBsw6ltZW50YWlyZSBhcHBlbMOpZSDCqyBkZWZhdWx0IMK7IiwicmVtcGxhY2UgdG91cyBsZXMgbGliZWxsw6lzIiwiYmxvcXVlIGwnaW1wb3J0Il0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBFbmdsaXNoIGxhYmVscyBpbiBhbiBleHBvcnQ6IiwiZnIiOiI4LiBMaWJlbGzDqXMgYW5nbGFpcyBkYW5zIHVuIGV4cG9ydCA6Iiwib3B0aW9uc19lbiI6WyJYTUwgdmFsdWVzIGFuZCBoZWFkZXJzIiwiTGFiZWxzLCBjaG9vc2luZyB0aGUgRW5nbGlzaCBsYW5ndWFnZSIsIlRyYW5zbGF0ZSB0aGUgRXhjZWwgZmlsZSBieSBoYW5kIl0sIm9wdGlvbnNfZnIiOlsiVmFsZXVycyBldCBlbi10w6p0ZXMgWE1MIiwiw4l0aXF1ZXR0ZXMsIGVuIGNob2lzaXNzYW50IGxhIGxhbmd1ZSBhbmdsYWlzZSIsIlRyYWR1aXJlIGxlIGZpY2hpZXIgRXhjZWwgw6AgbGEgbWFpbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gSW4gYSBtdWx0aWxpbmd1YWwgZm9ybSwgd2hhdCBjaGFuZ2VzIGJldHdlZW4gbGFuZ3VhZ2VzIGluIHRoZSBkYXRhPyIsImZyIjoiOS4gRGFucyB1biBmb3JtdWxhaXJlIG11bHRpbGluZ3VlLCBxdSdlc3QtY2UgcXVpIGNoYW5nZSBkJ3VuZSBsYW5ndWUgw6AgbCdhdXRyZSBkYW5zIGxlcyBkb25uw6llcyA/Iiwib3B0aW9uc19lbiI6WyJUaGUgY29sdW1uIG5hbWVzIiwiVGhlIHN0b3JlZCB2YWx1ZXMgb2YgdGhlIGNob2ljZXMiLCJOb3RoaW5nOiBuYW1lcyBhbmQgdmFsdWVzIGFyZSB0aGUgc2FtZSJdLCJvcHRpb25zX2ZyIjpbIkxlcyBub21zIGRlcyBjb2xvbm5lcyIsIkxlcyB2YWxldXJzIGVucmVnaXN0csOpZXMgZGVzIGNob2l4IiwiUmllbiA6IG5vbXMgZXQgdmFsZXVycyBzb250IGlkZW50aXF1ZXMiXSwiYW5zd2VyIjoyfSx7InR5cGUiOiJtY3EiLCJlbiI6IjEwLiBXaGljaCBoZWFkZXIgaXMgY29ycmVjdD8iLCJmciI6IjEwLiBRdWVsIGVuLXTDqnRlIGVzdCBjb3JyZWN0ID8iLCJvcHRpb25zX2VuIjpbImxhYmVsOk1hbGFnYXN5KG1nKSIsImxhYmVsOjpNYWxhZ2FzeSAobWcpIiwiTGFiZWw6Ok1hbGFnYXN5IChNRykiLCJsYWJlbF9tZyJdLCJvcHRpb25zX2ZyIjpbImxhYmVsOk1hbGFnYXN5KG1nKSIsImxhYmVsOjpNYWxhZ2FzeSAobWcpIiwiTGFiZWw6Ok1hbGFnYXN5IChNRykiLCJsYWJlbF9tZyJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="k03">
+<div class="en">
+<p>1 3 · 2 <code>label::Malagasy (mg)</code> · 3 Français (fr) · 4
+Horita · 5 6 (3 <code>label::</code> + 3 <code>hint::</code> columns) ·
+6 Beach seine · 7 a “default” language appears (warning at upload) · 8
+Labels, in English · 9 nothing · 10 <code>label::Malagasy (mg)</code>
+(two colons, lowercase <code>label</code>, space before the
+bracket).</p>
+</div>
+<div class="fr">
+<p>1 3 · 2 <code>label::Malagasy (mg)</code> · 3 Français (fr) · 4
+Horita · 5 6 (3 colonnes <code>label::</code> + 3 <code>hint::</code>) ·
+6 Beach seine · 7 une langue « default » apparaît (avertissement à
+l’import) · 8 Étiquettes, en anglais · 9 rien · 10
+<code>label::Malagasy (mg)</code> (deux deux-points, <code>label</code>
+en minuscules, espace avant la parenthèse).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

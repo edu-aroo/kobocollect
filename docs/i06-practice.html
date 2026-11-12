@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I6</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I6 · Practice
+session</span><span class="fr">I6 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="four-exercises-to-consolidate-the-intermediate-level"
+class="section level4 en">
+<h4>Four exercises to consolidate the Intermediate level</h4>
+<ol style="list-style-type: decimal">
+<li>evaluate calculations and conditions by hand (as the form
+does);</li>
+<li>correct a form with groups and a repeat that KoboToolbox
+refuses;</li>
+<li>analyse a repeat sheet linked to its main sheet;</li>
+<li>choose the right structure for a new questionnaire.</li>
+</ol>
+<p>The four quizzes count <strong>together</strong> (75 % of their total
+to open Session I7).</p>
+</div>
+<div id="quatre-exercices-pour-consolider-le-niveau-intermédiaire"
+class="section level4 fr">
+<h4>Quatre exercices pour consolider le niveau Intermédiaire</h4>
+<ol style="list-style-type: decimal">
+<li>évaluer des calculs et des conditions à la main (comme le fait le
+formulaire) ;</li>
+<li>corriger un formulaire avec groupes et répétition que KoboToolbox
+refuse ;</li>
+<li>analyser une feuille de répétition reliée à sa feuille principale
+;</li>
+<li>choisir la bonne structure pour un nouveau questionnaire.</li>
+</ol>
+<p>Les quatre quiz comptent <strong>ensemble</strong> (75 % de leur
+total pour ouvrir la séance I7).</p>
+</div>
+</div>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — Be the form</span><span
+class="fr">Exercice 1 — Jouer le formulaire</span></h2>
+<div class="en">
+<p>An enumerator entered: <code>poids</code> = 6.5, <code>prix_kg</code>
+= 9000, <code>nb_pecheurs</code> = 2, <code>peche</code> =
+<code>oui</code>, <code>engins</code> = <code>ligne fusil</code>,
+<code>revenu_autre</code> empty, <code>age</code> = 16. What does the
+form compute or show?</p>
+</div>
+<div class="fr">
+<p>Un enquêteur a saisi : <code>poids</code> = 6,5, <code>prix_kg</code>
+= 9000, <code>nb_pecheurs</code> = 2, <code>peche</code> =
+<code>oui</code>, <code>engins</code> = <code>ligne fusil</code>,
+<code>revenu_autre</code> vide, <code>age</code> = 16. Que calcule ou
+affiche le formulaire ?</p>
+</div>
+<div id="quiz-kip1" class="quiz" data-quiz-id="kip1"
+data-title-en="Exercise 1" data-title-fr="Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gcm91bmQoJHtwb2lkc30gKiAke3ByaXhfa2d9IGRpdiAke25iX3BlY2hldXJzfSwgMCk/IiwiZnIiOiIxLiByb3VuZCgke3BvaWRzfSAqICR7cHJpeF9rZ30gZGl2ICR7bmJfcGVjaGV1cnN9LCAwKSA/IiwiYW5zd2VyIjoyOTI1MCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjIuIGlmKCR7cG9pZHN9ID49IDEwLCAnZ3Jvc3NlJywgaWYoJHtwb2lkc30gPj0gMywgJ21veWVubmUnLCAncGV0aXRlJykpPyIsImZyIjoiMi4gaWYoJHtwb2lkc30gPj0gMTAsICdncm9zc2UnLCBpZigke3BvaWRzfSA+PSAzLCAnbW95ZW5uZScsICdwZXRpdGUnKSkgPyIsImFuc3dlciI6WyJtb3llbm5lIl19LHsidHlwZSI6Im51bSIsImVuIjoiMy4gY291bnQtc2VsZWN0ZWQoJHtlbmdpbnN9KT8iLCJmciI6IjMuIGNvdW50LXNlbGVjdGVkKCR7ZW5naW5zfSkgPyIsImFuc3dlciI6MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gcmVsZXZhbnQgc2VsZWN0ZWQoJHtlbmdpbnN9LCAnZmlsZXRfbWFpbGxhbnQnKTogaXMgdGhlIHF1ZXN0aW9uIHNob3duPyIsImZyIjoiNC4gcmVsZXZhbnQgc2VsZWN0ZWQoJHtlbmdpbnN9LCAnZmlsZXRfbWFpbGxhbnQnKSA6IGxhIHF1ZXN0aW9uIGVzdC1lbGxlIGFmZmljaMOpZSA/Iiwib3B0aW9uc19lbiI6WyJ5ZXMiLCJubyJdLCJvcHRpb25zX2ZyIjpbIm91aSIsIm5vbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gcmVsZXZhbnQgJHtwZWNoZX0gPSAnb3VpJyBhbmQgJHthZ2V9ID49IDE4OiBzaG93bj8iLCJmciI6IjUuIHJlbGV2YW50ICR7cGVjaGV9ID0gJ291aScgYW5kICR7YWdlfSA+PSAxOCA6IGFmZmljaMOpZSA/Iiwib3B0aW9uc19lbiI6WyJ5ZXMiLCJubyJdLCJvcHRpb25zX2ZyIjpbIm91aSIsIm5vbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gcmVsZXZhbnQgJHtwZWNoZX0gPSAnb3VpJyBvciAke2FnZX0gPj0gMTg6IHNob3duPyIsImZyIjoiNi4gcmVsZXZhbnQgJHtwZWNoZX0gPSAnb3VpJyBvciAke2FnZX0gPj0gMTggOiBhZmZpY2jDqWUgPyIsIm9wdGlvbnNfZW4iOlsieWVzIiwibm8iXSwib3B0aW9uc19mciI6WyJvdWkiLCJub24iXSwiYW5zd2VyIjowfSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIGNvYWxlc2NlKCR7cmV2ZW51X2F1dHJlfSwgMCkgKyA1MDAwMD8iLCJmciI6IjcuIGNvYWxlc2NlKCR7cmV2ZW51X2F1dHJlfSwgMCkgKyA1MDAwMCA/IiwiYW5zd2VyIjo1MDAwMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOC4gY29uc3RyYWludCAuID49IDE4IG9uIGFnZSAoMTYgZW50ZXJlZCk6IiwiZnIiOiI4LiBjb25zdHJhaW50IC4gPj0gMTggc3VyIGwnw6JnZSAoMTYgc2Fpc2kpIDoiLCJvcHRpb25zX2VuIjpbImFjY2VwdGVkIiwicmVmdXNlZCJdLCJvcHRpb25zX2ZyIjpbImFjY2VwdMOpZSIsInJlZnVzw6llIl0sImFuc3dlciI6MX1d">
+
+</div>
+<div class="solution" data-quiz="kip1">
+<div class="en">
+<p>1 6.5 × 9000 = 58 500, ÷ 2 = <strong>29 250</strong> · 2
+<code>moyenne</code> (6.5 ≥ 3 but &lt; 10) · 3 <strong>2</strong> · 4 no
+(<code>filet_maillant</code> not ticked) · 5 no (16 &lt; 18, and both
+must be true) · 6 yes (the first part is true) · 7 <strong>50
+000</strong> · 8 refused.</p>
+</div>
+<div class="fr">
+<p>1 6,5 × 9000 = 58 500, ÷ 2 = <strong>29 250</strong> · 2
+<code>moyenne</code> (6,5 ≥ 3 mais &lt; 10) · 3 <strong>2</strong> · 4
+non (<code>filet_maillant</code> pas coché) · 5 non (16 &lt; 18, et les
+deux doivent être vraies) · 6 oui (la première partie est vraie) · 7
+<strong>50 000</strong> · 8 refusée.</p>
+</div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Correct the household form</span><span
+class="fr">Exercice 2 — Corriger le formulaire ménages</span></h2>
+<div class="en">
+<p>A colleague edited the household form, and KoboToolbox now refuses
+it:
+<a class="btn-dl" href="data/forms/i06_menage_erreurs.xlsx" download>⇩
+i06_menage_erreurs.xlsx</a>. Upload, read, correct <strong>only</strong>
+what each message points to, upload again.</p>
+</div>
+<div class="fr">
+<p>Un collègue a modifié le formulaire ménages, et KoboToolbox le refuse
+maintenant :
+<a class="btn-dl" href="data/forms/i06_menage_erreurs.xlsx" download>⇩
+i06_menage_erreurs.xlsx</a>. Importez, lisez, corrigez
+<strong>seulement</strong> ce que chaque message désigne,
+ré-importez.</p>
+</div>
+<div class="hint">
+<div class="en">
+<p>Four errors. Messages about <code>${…}</code> say <em>“Could not find
+the name …”</em>: compare with the <code>name</code> column
+(<kbd>Ctrl</kbd> + <kbd>F</kbd>). For a group that is never closed, the
+row given is the <code>begin_group</code>: the missing row is further
+down.</p>
+</div>
+<div class="fr">
+<p>Quatre erreurs. Les messages sur <code>${…}</code> disent <em>« Could
+not find the name … »</em> : comparez avec la colonne <code>name</code>
+(<kbd>Ctrl</kbd> + <kbd>F</kbd>). Pour un groupe jamais fermé, la ligne
+donnée est celle du <code>begin_group</code> : la ligne manquante est
+plus bas.</p>
+</div>
+</div>
+<div id="quiz-kip2" class="quiz" data-quiz-id="kip2"
+data-title-en="Exercise 2" data-title-fr="Exercice 2"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93IG9mIHRoZSBmaXJzdCBlcnJvciByZXBvcnRlZD8iLCJmciI6IjEuIExpZ25lIGRlIGxhIHByZW1pw6hyZSBlcnJldXIgc2lnbmFsw6llID8iLCJhbnN3ZXIiOjM2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gQ29ycmVjdCBsaXN0IG5hbWUgZm9yIGF2aXNfYW1wPyIsImZyIjoiMi4gTm9tIGRlIGxpc3RlIGNvcnJlY3QgcG91ciBhdmlzX2FtcCA/IiwiYW5zd2VyIjpbImFjY29yZCJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIzLiBOYW1lIG9mIHRoZSBncm91cCB0aGF0IGlzIG5ldmVyIGNsb3NlZD8iLCJmciI6IjMuIE5hbWUgZHUgZ3JvdXBlIGphbWFpcyBmZXJtw6kgPyIsImFuc3dlciI6WyJhdmlzIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjQuIEluIHRoZSBjYWxjdWxhdGlvbiBvZiBuYl9lbmZhbnRzLCB0aGUgdW5rbm93biBuYW1lIGlz4oCmPyIsImZyIjoiNC4gRGFucyBsZSBjYWxjdWwgZGUgbmJfZW5mYW50cywgbGUgbm9tIGluY29ubnUgZXN04oCmID8iLCJhbnN3ZXIiOlsiZXN0X2VuZmFudHMiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNS4gQ29sdW1uIChYTFNGb3JtIGhlYWRlcikgb2YgdGhlIDR0aCBlcnJvcj8iLCJmciI6IjUuIENvbG9ubmUgKGVuLXTDqnRlIFhMU0Zvcm0pIGRlIGxhIDRlIGVycmV1ciA/IiwiYW5zd2VyIjpbInJlbGV2YW50Il19LHsidHlwZSI6Im51bSIsImVuIjoiNi4gVG90YWwgbnVtYmVyIG9mIHVwbG9hZHMgKHN1Y2Nlc3NmdWwgb25lIGluY2x1ZGVkKT8iLCJmciI6IjYuIE5vbWJyZSB0b3RhbCBkJ2ltcG9ydHMgKGNlbHVpIHF1aSByw6l1c3NpdCBjb21wcmlzKSA/IiwiYW5zd2VyIjo1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="kip2">
+<div class="en">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Upload</th>
+<th>Message</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 36] List name not in choices sheet: acord</code></td>
+<td><code>select_one acord</code> → <code>select_one accord</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 34] Unmatched 'begin_group'. No matching 'end_group' was found for the name 'avis'.</code></td>
+<td>add an <code>end_group</code> row at the end (row 37)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 23] … the 'calculation' value is invalid… Could not find the name 'est_enfants'.</code></td>
+<td><code>sum(${est_enfants})</code> →
+<code>sum(${est_enfant})</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>[row : 28] … the 'relevant' value is invalid… Could not find the name 'peche_pratique'.</code></td>
+<td><code>${peche_pratique}</code> → <code>${pratique_peche}</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>form created ✓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Import</th>
+<th>Message</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>[row : 36] List name not in choices sheet: acord</code></td>
+<td><code>select_one acord</code> → <code>select_one accord</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>[row : 34] Unmatched 'begin_group'. No matching 'end_group' was found for the name 'avis'.</code></td>
+<td>ajouter une ligne <code>end_group</code> à la fin (ligne 37)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>[row : 23] … the 'calculation' value is invalid… Could not find the name 'est_enfants'.</code></td>
+<td><code>sum(${est_enfants})</code> →
+<code>sum(${est_enfant})</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>[row : 28] … the 'relevant' value is invalid… Could not find the name 'peche_pratique'.</code></td>
+<td><code>${peche_pratique}</code> → <code>${pratique_peche}</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>formulaire créé ✓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Members and households</span><span
+class="fr">Exercice 3 — Membres et ménages</span></h2>
+<div class="en">
+<p>With
+<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a> (sheets <em>Enquête ménages pêche</em> and
+<code>membres</code>). Link the members to their household with
+<code>_parent_index</code> ↔︎ <code>_index</code>.</p>
+</div>
+<div class="fr">
+<p>Avec
+<a class="btn-dl" href="data/exports/i05_menages_xml.xlsx" download>⇩
+i05_menages_xml.xlsx</a> (feuilles <em>Enquête ménages pêche</em> et
+<code>membres</code>). Reliez les membres à leur ménage avec
+<code>_parent_index</code> ↔︎ <code>_index</code>.</p>
+</div>
+<div id="quiz-kip3" class="quiz" data-quiz-id="kip3"
+data-title-en="Exercise 3" data-title-fr="Exercice 3"
+data-q="W3sidHlwZSI6InRleHQiLCJlbiI6IjEuIE1vc3QgZnJlcXVlbnQgbWFpbiBhY3Rpdml0eSBvZiBtZW1iZXJzIChjaG9pY2UgbmFtZSwgZW1wdHkgY2VsbHMgZXhjbHVkZWQpPyIsImZyIjoiMS4gQWN0aXZpdMOpIHByaW5jaXBhbGUgbGEgcGx1cyBmcsOpcXVlbnRlIGRlcyBtZW1icmVzIChuYW1lIGR1IGNob2l4LCBjZWxsdWxlcyB2aWRlcyBleGNsdWVzKSA/IiwiYW5zd2VyIjpbInBlY2hlIl19LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTWVtYmVycyB3b3JraW5nIGluIHNlYXdlZWQgZmFybWluZyAoYWxnb2N1bHR1cmUpPyIsImZyIjoiMi4gTWVtYnJlcyB0cmF2YWlsbGFudCBkYW5zIGwnYWxnb2N1bHR1cmUgPyIsImFuc3dlciI6NDAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIE1lYW4gYWdlIG9mIHRoZSBtZW1iZXJzICgxIGRlY2ltYWwpPyIsImZyIjoiMy4gw4JnZSBtb3llbiBkZXMgbWVtYnJlcyAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjI4LjYsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIFdvbWVuIHdob3NlIG1haW4gYWN0aXZpdHkgaXMgZmlzaGluZz8iLCJmciI6IjQuIEZlbW1lcyBkb250IGwnYWN0aXZpdMOpIHByaW5jaXBhbGUgZXN0IGxhIHDDqmNoZSA/IiwiYW5zd2VyIjo2MiwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gTWVhbiBzaXplIG9mIGhvdXNlaG9sZHMgaGVhZGVkIGJ5IGEgd29tYW4gKDIgZGVjaW1hbHMpPyIsImZyIjoiNS4gVGFpbGxlIG1veWVubmUgZGVzIG3DqW5hZ2VzIGRpcmlnw6lzIHBhciB1bmUgZmVtbWUgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6NC43MiwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2LiBWaWxsYWdlIHdpdGggdGhlIG1vc3QgY2hpbGRyZW4gdW5kZXIgMTU/IiwiZnIiOiI2LiBWaWxsYWdlIGF2ZWMgbGUgcGx1cyBkJ2VuZmFudHMgZGUgbW9pbnMgZGUgMTUgYW5zID8iLCJhbnN3ZXIiOlsiYW1ib2xpbWFpbGFrYSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjcuIENoaWxkcmVuIGFnZWQgNuKAkzE3IHdobyBkbyBOT1QgZ28gdG8gc2Nob29sPyIsImZyIjoiNy4gRW5mYW50cyBkZSA2IMOgIDE3IGFucyBxdWkgbmUgdm9udCBQQVMgw6AgbCfDqWNvbGUgPyIsImFuc3dlciI6MzAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIEhvdXNlaG9sZHMgd2l0aCBhdCBsZWFzdCAyIG1lbWJlcnMgd2hvc2UgbWFpbiBhY3Rpdml0eSBpcyBmaXNoaW5nPyIsImZyIjoiOC4gTcOpbmFnZXMgYXZlYyBhdSBtb2lucyAyIG1lbWJyZXMgZG9udCBsJ2FjdGl2aXTDqSBwcmluY2lwYWxlIGVzdCBsYSBww6pjaGUgPyIsImFuc3dlciI6NDAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifV0=">
+
+</div>
+<div class="solution" data-quiz="kip3">
+<div class="en">
+<p>1 peche · 2 40 · 3 28.6 · 4 62 · 5 4.72 · 6 ambolimailaka · 7 30 · 8
+40. Method: in the <code>membres</code> sheet, add the columns
+<code>village</code> and <code>chef_sexe</code> with
+<code>XLOOKUP</code> on <code>_parent_index</code>; then pivot tables
+(rows <code>_parent_index</code>, filter <code>activite</code> =
+<code>peche</code>, count ≥ 2 for question 8).</p>
+</div>
+<div class="fr">
+<p>1 peche · 2 40 · 3 28.6 · 4 62 · 5 4.72 · 6 ambolimailaka · 7 30 · 8
+40. Méthode : dans la feuille <code>membres</code>, ajoutez les colonnes
+<code>village</code> et <code>chef_sexe</code> avec
+<code>RECHERCHEX</code> sur <code>_parent_index</code> ; puis des
+tableaux croisés (lignes <code>_parent_index</code>, filtre
+<code>activite</code> = <code>peche</code>, nombre ≥ 2 pour la question
+8).</p>
+</div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — Choose the structure</span><span
+class="fr">Exercice 4 — Choisir la structure</span></h2>
+<div id="quiz-kip4" class="quiz" data-quiz-id="kip4"
+data-title-en="Exercise 4" data-title-fr="Exercice 4"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gRWFjaCBjYW5vZSBtYWtlcyAxIHRvIDUgdHJpcHMgcGVyIHdlZWs7IGZvciBlYWNoIHRyaXA6IGRhdGUsIGdlYXIsIHdlaWdodC4gU3RydWN0dXJlPyIsImZyIjoiMS4gQ2hhcXVlIHBpcm9ndWUgZmFpdCAxIMOgIDUgc29ydGllcyBwYXIgc2VtYWluZSA7IHBvdXIgY2hhcXVlIHNvcnRpZSA6IGRhdGUsIGVuZ2luLCBwb2lkcy4gU3RydWN0dXJlID8iLCJvcHRpb25zX2VuIjpbIjUgZ3JvdXBzIG9mIDMgcXVlc3Rpb25zIiwiYSByZXBlYXQgJ3NvcnRpZXMnIHdpdGggMyBxdWVzdGlvbnMiLCIzIHNlbGVjdF9tdWx0aXBsZSBxdWVzdGlvbnMiXSwib3B0aW9uc19mciI6WyI1IGdyb3VwZXMgZGUgMyBxdWVzdGlvbnMiLCJ1bmUgcsOpcMOpdGl0aW9uIMKrIHNvcnRpZXMgwrsgYXZlYyAzIHF1ZXN0aW9ucyIsIjMgcXVlc3Rpb25zIHNlbGVjdF9tdWx0aXBsZSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMi4gVGhlIGVudW1lcmF0b3Iga25vd3MgdGhlIG51bWJlciBvZiB0cmlwcyBiZWZvcmUgZW50ZXJpbmcgdGhlbS4gQmVzdCBvcHRpb24/IiwiZnIiOiIyLiBMJ2VucXXDqnRldXIgY29ubmHDrnQgbGUgbm9tYnJlIGRlIHNvcnRpZXMgYXZhbnQgZGUgbGVzIHNhaXNpci4gTWVpbGxldXJlIG9wdGlvbiA/Iiwib3B0aW9uc19lbiI6WyJyZXBlYXRfY291bnQgPSAke25iX3NvcnRpZXN9Iiwibm8gcmVwZWF0X2NvdW50IiwiYSBjb25zdHJhaW50IG9uIHRoZSByZXBlYXQiXSwib3B0aW9uc19mciI6WyJyZXBlYXRfY291bnQgPSAke25iX3NvcnRpZXN9IiwicGFzIGRlIHJlcGVhdF9jb3VudCIsInVuZSBjb250cmFpbnRlIHN1ciBsYSByw6lww6l0aXRpb24iXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjMuIFRvdGFsIHdlaWdodCBvZiB0aGUgd2VlaywgY29tcHV0ZWQgYnkgdGhlIGZvcm06IiwiZnIiOiIzLiBQb2lkcyB0b3RhbCBkZSBsYSBzZW1haW5lLCBjYWxjdWzDqSBwYXIgbGUgZm9ybXVsYWlyZSA6Iiwib3B0aW9uc19lbiI6WyJzdW0oJHtwb2lkc30pIGFmdGVyIGVuZF9yZXBlYXQiLCIke3BvaWRzfSAqICR7bmJfc29ydGllc30iLCJjb3VudCgke3BvaWRzfSkiXSwib3B0aW9uc19mciI6WyJzdW0oJHtwb2lkc30pIGFwcsOocyBlbmRfcmVwZWF0IiwiJHtwb2lkc30gKiAke25iX3NvcnRpZXN9IiwiY291bnQoJHtwb2lkc30pIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI0LiBUZW4gcXVlc3Rpb25zIGFib3V0IHRoZSBmaXNoZXIncyBjYW5vZSwgYXNrZWQgb25seSB0byBvd25lcnM6IiwiZnIiOiI0LiBEaXggcXVlc3Rpb25zIHN1ciBsYSBwaXJvZ3VlIGR1IHDDqmNoZXVyLCBwb3PDqWVzIHNldWxlbWVudCBhdXggcHJvcHJpw6l0YWlyZXMgOiIsIm9wdGlvbnNfZW4iOlsiYSByZWxldmFudCBvbiBlYWNoIG9mIHRoZSAxMCBxdWVzdGlvbnMiLCJhIGdyb3VwICdwaXJvZ3VlJyB3aXRoIG9uZSByZWxldmFudCBvbiBiZWdpbl9ncm91cCIsImEgcmVwZWF0Il0sIm9wdGlvbnNfZnIiOlsidW4gcmVsZXZhbnQgc3VyIGNoYWN1bmUgZGVzIDEwIHF1ZXN0aW9ucyIsInVuIGdyb3VwZSDCqyBwaXJvZ3VlIMK7IGF2ZWMgdW4gcmVsZXZhbnQgc3VyIGJlZ2luX2dyb3VwIiwidW5lIHLDqXDDqXRpdGlvbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gUHJpb3JpdHkgYmV0d2VlbiA1IG1hbmFnZW1lbnQgbWVhc3VyZXM6IiwiZnIiOiI1LiBQcmlvcml0w6kgZW50cmUgNSBtZXN1cmVzIGRlIGdlc3Rpb24gOiIsIm9wdGlvbnNfZW4iOlsic2VsZWN0X211bHRpcGxlIiwicmFuayIsIjUgaW50ZWdlciBxdWVzdGlvbnMiXSwib3B0aW9uc19mciI6WyJzZWxlY3RfbXVsdGlwbGUiLCJyYW5rIiwiNSBpbnRlZ2VyIHF1ZXN0aW9ucyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gQSBwcmljZSBwZXIga2cgb2YgNTAwIEFyIGlzIHZlcnkgdW51c3VhbCBidXQgaGFzIGhhcHBlbmVkLiBDaGVjaz8iLCJmciI6IjYuIFVuIHByaXggZGUgNTAwIEFyL2tnIGVzdCB0csOocyBpbmhhYml0dWVsIG1haXMgZMOpasOgIGFycml2w6kuIENvbnRyw7RsZSA/Iiwib3B0aW9uc19lbiI6WyJjb25zdHJhaW50IC4gPj0gMTAwMCIsIndhcm5pbmcgbm90ZSB3aGVuICR7cHJpeF9rZ30gPCAxMDAwIiwicmVxdWlyZWQiXSwib3B0aW9uc19mciI6WyJjb25zdHJhaW50IC4gPj0gMTAwMCIsIm5vdGUgZCdhdmVydGlzc2VtZW50IHF1YW5kICR7cHJpeF9rZ30gPCAxMDAwIiwicmVxdWlyZWQiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjcuIFdoaWNoIGV4cG9ydCBmb3IgYSBmb3JtIHdpdGggYSByZXBlYXQ/IiwiZnIiOiI3LiBRdWVsIGV4cG9ydCBwb3VyIHVuIGZvcm11bGFpcmUgYXZlYyByw6lww6l0aXRpb24gPyIsIm9wdGlvbnNfZW4iOlsiQ1NWIiwiWExTIl0sIm9wdGlvbnNfZnIiOlsiQ1NWIiwiWExTIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBMaW5rIGEgdHJpcCB0byBpdHMgY2Fub2UgaW4gdGhlIGV4cG9ydDoiLCJmciI6IjguIFJlbGllciB1bmUgc29ydGllIMOgIHNhIHBpcm9ndWUgZGFucyBsJ2V4cG9ydCA6Iiwib3B0aW9uc19lbiI6WyJfcGFyZW50X2luZGV4ICh0cmlwKSA9IF9pbmRleCAoY2Fub2UpLCBzYW1lIGV4cG9ydCBmaWxlIiwiX2luZGV4ICh0cmlwKSA9IF9pbmRleCAoY2Fub2UpIiwicm93IG51bWJlciBpbiBFeGNlbCJdLCJvcHRpb25zX2ZyIjpbIl9wYXJlbnRfaW5kZXggKHNvcnRpZSkgPSBfaW5kZXggKHBpcm9ndWUpLCBtw6ptZSBmaWNoaWVyIGQnZXhwb3J0IiwiX2luZGV4IChzb3J0aWUpID0gX2luZGV4IChwaXJvZ3VlKSIsIm51bcOpcm8gZGUgbGlnbmUgRXhjZWwiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="kip4">
+<div class="en">
+<p>1 a repeat · 2 <code>repeat_count</code> · 3 <code>sum()</code> after
+<code>end_repeat</code> · 4 one group with one <code>relevant</code> · 5
+<code>rank</code> · 6 a warning note (possible value) · 7 XLS · 8
+<code>_parent_index</code> = <code>_index</code>, in the same file.</p>
+</div>
+<div class="fr">
+<p>1 une répétition · 2 <code>repeat_count</code> · 3 <code>sum()</code>
+après <code>end_repeat</code> · 4 un groupe avec un seul
+<code>relevant</code> · 5 <code>rank</code> · 6 une note d’avertissement
+(valeur possible) · 7 XLS · 8 <code>_parent_index</code> =
+<code>_index</code>, dans le même fichier.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

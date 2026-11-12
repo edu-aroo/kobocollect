@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A6</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A6 · Practice
+session</span><span class="fr">A6 · Séance d’exercices</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="four-exercises-to-consolidate-the-advanced-level"
+class="section level4 en">
+<h4>Four exercises to consolidate the Advanced level</h4>
+<ol style="list-style-type: decimal">
+<li>choice filters and cascades;</li>
+<li>predict an export from a form;</li>
+<li>analyse a nested-repeat export in R;</li>
+<li>read and correct R code for Kobo data.</li>
+</ol>
+<p>The four quizzes count <strong>together</strong> (75 % of their total
+to open Session A7).</p>
+</div>
+<div id="quatre-exercices-pour-consolider-le-niveau-avancé"
+class="section level4 fr">
+<h4>Quatre exercices pour consolider le niveau Avancé</h4>
+<ol style="list-style-type: decimal">
+<li>filtres de choix et cascades ;</li>
+<li>prévoir un export à partir d’un formulaire ;</li>
+<li>analyser dans R un export avec répétitions imbriquées ;</li>
+<li>lire et corriger du code R pour des données Kobo.</li>
+</ol>
+<p>Les quatre quiz comptent <strong>ensemble</strong> (75 % de leur
+total pour ouvrir la séance A7).</p>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> In June 2026, enumerators of the
+network asked 30 fishers of four communes to describe <strong>each
+fishing trip</strong> of the past three weeks and, for each trip,
+<strong>each species caught</strong> with its weight. The form
+<code>carnet_peche</code> has a cascade, a repeat <code>sorties</code>
+and, inside it, a repeat <code>captures</code>. Export:
+<a class="btn-dl" href="data/exports/a06_pecheurs_xml.xlsx" download>⇩
+a06_pecheurs_xml.xlsx</a></p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> En juin 2026, les enquêteurs du
+réseau ont demandé à 30 pêcheurs de quatre communes de décrire
+<strong>chaque sortie de pêche</strong> des trois dernières semaines et,
+pour chaque sortie, <strong>chaque espèce capturée</strong> avec son
+poids. Le formulaire <code>carnet_peche</code> a une cascade, une
+répétition <code>sorties</code> et, à l’intérieur, une répétition
+<code>captures</code>. Export :
+<a class="btn-dl" href="data/exports/a06_pecheurs_xml.xlsx" download>⇩
+a06_pecheurs_xml.xlsx</a></p>
+</div>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>choice_filter</td></tr><tr><td class='xr'>2</td><td>begin_group</td><td>id</td><td>Identification</td><td></td><td></td></tr><tr><td class='xr'>3</td><td>select_one region</td><td>region</td><td>Région</td><td>yes</td><td></td></tr><tr><td class='xr'>4</td><td>select_one district</td><td>district</td><td>District</td><td>yes</td><td>region = &#36;{region}</td></tr><tr><td class='xr'>5</td><td>select_one commune</td><td>commune</td><td>Commune</td><td>yes</td><td>district = &#36;{district}</td></tr><tr><td class='xr'>6</td><td>text</td><td>pecheur</td><td>Nom du pêcheur</td><td>yes</td><td></td></tr><tr><td class='xr'>7</td><td>end_group</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>8</td><td>begin_repeat</td><td>sorties</td><td>Sortie de pêche</td><td></td><td></td></tr><tr><td class='xr'>9</td><td>date</td><td>date_sortie</td><td>Date de la sortie</td><td>yes</td><td></td></tr><tr><td class='xr'>10</td><td>select_one engin</td><td>engin</td><td>Engin</td><td>yes</td><td></td></tr><tr><td class='xr'>11</td><td>begin_repeat</td><td>captures</td><td>Capture</td><td></td><td></td></tr><tr><td class='xr'>12</td><td>select_one espece</td><td>espece</td><td>Espèce</td><td>yes</td><td></td></tr><tr><td class='xr'>13</td><td>decimal</td><td>poids</td><td>Poids (kg)</td><td>yes</td><td></td></tr><tr><td class='xr'>14</td><td>end_repeat</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>15</td><td>end_repeat</td><td></td><td></td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div id="ex1" class="section level2">
+<h2><span class="en">Exercise 1 — Filters and cascades</span><span
+class="fr">Exercice 1 — Filtres et cascades</span></h2>
+<div id="quiz-kap1" class="quiz" data-quiz-id="kap1"
+data-title-en="Exercise 1" data-title-fr="Exercice 1"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gV2l0aCB0aGUgY2FzY2FkZSBvZiB0aGUgY291cnNlLCBjb21tdW5lcyBvZmZlcmVkIGZvciB0aGUgZGlzdHJpY3QgTW9yb25kYXZhPyIsImZyIjoiMS4gQXZlYyBsYSBjYXNjYWRlIGR1IGNvdXJzLCBjb21tdW5lcyBwcm9wb3PDqWVzIHBvdXIgbGUgZGlzdHJpY3QgTW9yb25kYXZhID8iLCJhbnN3ZXIiOjQsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIERpc3RyaWN0cyBvZmZlcmVkIGZvciBCb2VueT8iLCJmciI6IjIuIERpc3RyaWN0cyBwcm9wb3PDqXMgcG91ciBCb2VueSA/IiwiYW5zd2VyIjoyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIzLiBUaGUgc3BlY2llcyBsaXN0IGhhcyBhIGNvbHVtbiByZWdpb24gKHZhbHVlIHRvdXMgZm9yIHNwZWNpZXMgZm91bmQgZXZlcnl3aGVyZSkuIEZpbHRlciBvbiB0aGUgcmVnaW9uIGFuc3dlcmVkIGF0IHRoZSBzdGFydD8iLCJmciI6IjMuIExhIGxpc3RlIGRlcyBlc3DDqGNlcyBhIHVuZSBjb2xvbm5lIHJlZ2lvbiAodmFsZXVyIHRvdXMgcG91ciBsZXMgZXNww6hjZXMgcHLDqXNlbnRlcyBwYXJ0b3V0KS4gRmlsdHJlIHNlbG9uIGxhIHLDqWdpb24gcsOpcG9uZHVlIGF1IGTDqWJ1dCA/Iiwib3B0aW9uc19lbiI6WyJyZWdpb24gPSAke3JlZ2lvbn0gb3IgcmVnaW9uID0gJ3RvdXMnIiwicmVnaW9uID0gJHtyZWdpb259IGFuZCByZWdpb24gPSAndG91cyciLCJzZWxlY3RlZCgke3JlZ2lvbn0sIG5hbWUpIl0sIm9wdGlvbnNfZnIiOlsicmVnaW9uID0gJHtyZWdpb259IG9yIHJlZ2lvbiA9ICd0b3VzJyIsInJlZ2lvbiA9ICR7cmVnaW9ufSBhbmQgcmVnaW9uID0gJ3RvdXMnIiwic2VsZWN0ZWQoJHtyZWdpb259LCBuYW1lKSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiNC4gR2VhciBsaXN0IGZpbHRlcmVkIGJ5IGEgMC8xIGNvbHVtbiBwZXIgcmVnaW9uIChhdHNpbW9fYW5kcmVmYW5hLCBtZW5hYmUsIGJvZW55KToiLCJmciI6IjQuIExpc3RlIGRlcyBlbmdpbnMgZmlsdHLDqWUgcGFyIHVuZSBjb2xvbm5lIDAvMSBwYXIgcsOpZ2lvbiAoYXRzaW1vX2FuZHJlZmFuYSwgbWVuYWJlLCBib2VueSkgOiIsIm9wdGlvbnNfZW4iOlsiaWYoJHtyZWdpb259ID0gJ21lbmFiZScsIG1lbmFiZSA9IDEsIGlmKCR7cmVnaW9ufSA9ICdib2VueScsIGJvZW55ID0gMSwgYXRzaW1vX2FuZHJlZmFuYSA9IDEpKSIsInJlZ2lvbiA9ICR7cmVnaW9ufSIsIiR7cmVnaW9ufSA9IDEiXSwib3B0aW9uc19mciI6WyJpZigke3JlZ2lvbn0gPSAnbWVuYWJlJywgbWVuYWJlID0gMSwgaWYoJHtyZWdpb259ID0gJ2JvZW55JywgYm9lbnkgPSAxLCBhdHNpbW9fYW5kcmVmYW5hID0gMSkpIiwicmVnaW9uID0gJHtyZWdpb259IiwiJHtyZWdpb259ID0gMSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gQSBkaXN0cmljdCBuYW1lIGV4aXN0cyB0d2ljZSBpbiB0aGUgY2hvaWNlcyBvZiB0aGUgbGlzdCBkaXN0cmljdC4gVXBsb2FkPyIsImZyIjoiNS4gVW4gbmFtZSBkZSBkaXN0cmljdCBleGlzdGUgZGV1eCBmb2lzIGRhbnMgbGVzIGNob2l4IGRlIGxhIGxpc3RlIGRpc3RyaWN0LiBJbXBvcnQgPyIsIm9wdGlvbnNfZW4iOlsiYWNjZXB0ZWQiLCJyZWZ1c2VkIHVubGVzcyBhbGxvd19jaG9pY2VfZHVwbGljYXRlcyA9IHllcyIsImFjY2VwdGVkLCB0aGUgc2Vjb25kIG9uZSBpcyBpZ25vcmVkIl0sIm9wdGlvbnNfZnIiOlsiYWNjZXB0w6kiLCJyZWZ1c8OpIHNhdWYgYXZlYyBhbGxvd19jaG9pY2VfZHVwbGljYXRlcyA9IHllcyIsImFjY2VwdMOpLCBsZSBzZWNvbmQgZXN0IGlnbm9yw6kiXSwiYW5zd2VyIjoxfSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIFdoZXJlIGlzIHRoZSBjb2x1bW4gcmVnaW9uIG5lZWRlZCBmb3IgdGhlIGZpbHRlciBvZiBjb21tdW5lcyBieSBkaXN0cmljdD8iLCJmciI6IjYuIE/DuSBsYSBjb2xvbm5lIHJlZ2lvbiBlc3QtZWxsZSBuw6ljZXNzYWlyZSBwb3VyIGxlIGZpbHRyZSBkZXMgY29tbXVuZXMgcGFyIGRpc3RyaWN0ID8iLCJvcHRpb25zX2VuIjpbIm5vd2hlcmU6IG9ubHkgZGlzdHJpY3QgaXMgdXNlZCIsImluIHRoZSBzdXJ2ZXkgc2hlZXQiLCJpbiBzZXR0aW5ncyJdLCJvcHRpb25zX2ZyIjpbIm51bGxlIHBhcnQgOiBzZXVsZSBkaXN0cmljdCBlc3QgdXRpbGlzw6llIiwiZGFucyBsYSBmZXVpbGxlIHN1cnZleSIsImRhbnMgc2V0dGluZ3MiXSwiYW5zd2VyIjowfV0=">
+
+</div>
+<div class="solution" data-quiz="kap1">
+<div class="en">
+<p>1–2 count in <code>choices</code> · 3
+<code>region = ${region} or region = 'tous'</code> (it works inside the
+repeats too: <code>${region}</code> is outside them) · 4 nested
+<code>if()</code> · 5 refused · 6 nowhere (useful for analysis
+only).</p>
+</div>
+<div class="fr">
+<p>1–2 comptez dans <code>choices</code> · 3
+<code>region = ${region} or region = 'tous'</code> (cela fonctionne
+aussi dans les répétitions : <code>${region}</code> est en dehors) · 4
+des <code>if()</code> imbriqués · 5 refusé · 6 nulle part (utile
+seulement pour l’analyse).</p>
+</div>
+</div>
+</div>
+<div id="ex2" class="section level2">
+<h2><span class="en">Exercise 2 — Predict the export</span><span
+class="fr">Exercice 2 — Prévoir l’export</span></h2>
+<div class="en">
+<p>Answer <strong>from the form above</strong>, then check with the
+file.</p>
+</div>
+<div class="fr">
+<p>Répondez <strong>à partir du formulaire ci-dessus</strong>, puis
+vérifiez avec le fichier.</p>
+</div>
+<div id="quiz-kap2" class="quiz" data-quiz-id="kap2"
+data-title-en="Exercise 2" data-title-fr="Exercice 2"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHNoZWV0cz8iLCJmciI6IjEuIE5vbWJyZSBkZSBmZXVpbGxlcyA/IiwiYW5zd2VyIjozLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMi4gTmFtZSBvZiB0aGUgbGFzdCBzaGVldD8iLCJmciI6IjIuIE5vbSBkZSBsYSBkZXJuacOocmUgZmV1aWxsZSA/IiwiYW5zd2VyIjpbImNhcHR1cmVzIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjMuIF9wYXJlbnRfdGFibGVfbmFtZSBvZiB0aGUgY2FwdHVyZXMgc2hlZXQ/IiwiZnIiOiIzLiBfcGFyZW50X3RhYmxlX25hbWUgZGUgbGEgZmV1aWxsZSBjYXB0dXJlcyA/IiwiYW5zd2VyIjpbInNvcnRpZXMiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNC4gSGVhZGVyIG9mIHRoZSB3ZWlnaHQgY29sdW1uIGluIHRoZSBjYXB0dXJlcyBzaGVldCAoZ3JvdXBzIGluY2x1ZGVkKT8iLCJmciI6IjQuIEVuLXTDqnRlIGRlIGxhIGNvbG9ubmUgcG9pZHMgZGUgbGEgZmV1aWxsZSBjYXB0dXJlcyAoZ3JvdXBlcyBpbmNsdXMpID8iLCJhbnN3ZXIiOlsic29ydGllcy9jYXB0dXJlcy9wb2lkcyJdfSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1LiBIZWFkZXIgb2YgdGhlIHJlZ2lvbiBjb2x1bW4gaW4gdGhlIG1haW4gc2hlZXQgKGdyb3VwcyBpbmNsdWRlZCk/IiwiZnIiOiI1LiBFbi10w6p0ZSBkZSBsYSBjb2xvbm5lIHLDqWdpb24gZGUgbGEgZmV1aWxsZSBwcmluY2lwYWxlIChncm91cGVzIGluY2x1cykgPyIsImFuc3dlciI6WyJpZC9yZWdpb24iXX0seyJ0eXBlIjoibWNxIiwiZW4iOiI2LiBXaGljaCBleHBvcnQgd291bGQgbG9zZSB0aGUgdHJpcHMgYW5kIHRoZSBjYXRjaGVzPyIsImZyIjoiNi4gUXVlbCBleHBvcnQgcGVyZHJhaXQgbGVzIHNvcnRpZXMgZXQgbGVzIGNhcHR1cmVzID8iLCJvcHRpb25zX2VuIjpbIkNTViIsIlhMUyJdLCJvcHRpb25zX2ZyIjpbIkNTViIsIlhMUyJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="kap2">
+<div class="en">
+<p>1 3 (main, <code>sorties</code>, <code>captures</code>) · 2
+<code>captures</code> · 3 <code>sorties</code> · 4
+<code>sorties/captures/poids</code> · 5 <code>id/region</code> · 6
+CSV.</p>
+</div>
+<div class="fr">
+<p>1 3 (principale, <code>sorties</code>, <code>captures</code>) · 2
+<code>captures</code> · 3 <code>sorties</code> · 4
+<code>sorties/captures/poids</code> · 5 <code>id/region</code> · 6
+CSV.</p>
+</div>
+</div>
+</div>
+<div id="ex3" class="section level2">
+<h2><span class="en">Exercise 3 — Analyse in R</span><span
+class="fr">Exercice 3 — Analyser dans R</span></h2>
+<div id="quiz-kap3" class="quiz" data-quiz-id="kap3"
+data-title-en="Exercise 3" data-title-fr="Exercice 3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHRyaXBzPyIsImZyIjoiMS4gTm9tYnJlIGRlIHNvcnRpZXMgPyIsImFuc3dlciI6NzUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIE51bWJlciBvZiBjYXRjaCByb3dzPyIsImZyIjoiMi4gTm9tYnJlIGRlIGxpZ25lcyBkZSBjYXB0dXJlcyA/IiwiYW5zd2VyIjoxNDEsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIFRvdGFsIHdlaWdodCBjYXVnaHQgKGtnLCAxIGRlY2ltYWwpPyIsImZyIjoiMy4gUG9pZHMgdG90YWwgY2FwdHVyw6kgKGtnLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6NTkyLjEsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjQuIE1lYW4gbnVtYmVyIG9mIHRyaXBzIHBlciBmaXNoZXIgKDIgZGVjaW1hbHMpPyIsImZyIjoiNC4gTm9tYnJlIG1veWVuIGRlIHNvcnRpZXMgcGFyIHDDqmNoZXVyICgyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjIuNSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI1LiBDb21tdW5lIChsYWJlbCkgd2l0aCB0aGUgbGFyZ2VzdCB0b3RhbCB3ZWlnaHQ/IiwiZnIiOiI1LiBDb21tdW5lIChsaWJlbGzDqSkgYXUgcGx1cyBncmFuZCBwb2lkcyB0b3RhbCA/IiwiYW5zd2VyIjpbIk1pbGVuYWthIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjYuIEdlYXIgKG5hbWUpIHdpdGggdGhlIGhpZ2hlc3QgbWVhbiB3ZWlnaHQgcGVyIHRyaXA/IiwiZnIiOiI2LiBFbmdpbiAobmFtZSkgYXUgcGx1cyBmb3J0IHBvaWRzIG1veWVuIHBhciBzb3J0aWUgPyIsImFuc3dlciI6WyJmdXNpbCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjcuICUgb2YgdHJpcHMgd2l0aCBhdCBsZWFzdCBvbmUgb2N0b3B1cyBjYXRjaCAoMSBkZWNpbWFsKT8iLCJmciI6IjcuICUgZGUgc29ydGllcyBhdmVjIGF1IG1vaW5zIHVuZSBjYXB0dXJlIGRlIHBvdWxwZSAoMSBkw6ljaW1hbGUpID8iLCJhbnN3ZXIiOjUzLjMsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIEZpc2hlcnMgd2hvIG5ldmVyIGNhdWdodCBvY3RvcHVzPyIsImZyIjoiOC4gUMOqY2hldXJzIHF1aSBuJ29udCBqYW1haXMgY2FwdHVyw6kgZGUgcG91bHBlID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI5LiBTcGVjaWVzIChuYW1lKSB3aXRoIHRoZSBsYXJnZXN0IHRvdGFsIHdlaWdodD8iLCJmciI6IjkuIEVzcMOoY2UgKG5hbWUpIGF1IHBsdXMgZ3JhbmQgcG9pZHMgdG90YWwgPyIsImFuc3dlciI6WyJwb2lzc29uX3JlY2lmIl19LHsidHlwZSI6Im51bSIsImVuIjoiMTAuIExhcmdlc3QgdG90YWwgd2VpZ2h0IG9mIG9uZSBmaXNoZXIgKGtnLCAxIGRlY2ltYWwpPyIsImZyIjoiMTAuIFBsdXMgZ3JhbmQgcG9pZHMgdG90YWwgZCd1biBww6pjaGV1ciAoa2csIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo1MS44LCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="hint">
+<div class="en">
+<p>Build three tables as in Session A5: fishers (<code>p_index</code>),
+trips (<code>s_index</code>, <code>p_index</code>), catches
+(<code>s_index</code> → <code>p_index</code>). Question 6: compute the
+weight <strong>per trip</strong> first (sum of its catches), then the
+mean per gear. Question 8: fishers whose <code>p_index</code> is not
+among the <code>p_index</code> of the octopus catches.</p>
+</div>
+<div class="fr">
+<p>Construisez trois tables comme à la séance A5 : pêcheurs
+(<code>p_index</code>), sorties (<code>s_index</code>,
+<code>p_index</code>), captures (<code>s_index</code> →
+<code>p_index</code>). Question 6 : calculez d’abord le poids
+<strong>par sortie</strong> (somme de ses captures), puis la moyenne par
+engin. Question 8 : pêcheurs dont le <code>p_index</code> n’est pas
+parmi les <code>p_index</code> des captures de poulpe.</p>
+</div>
+</div>
+<div class="solution" data-quiz="kap3">
+<div class="en">
+<p>1 75 · 2 141 · 3 592.1 · 4 2.5 · 5 Milenaka · 6 fusil · 7 53.3 % · 8
+8 · 9 poisson_recif · 10 51.8 kg.</p>
+</div>
+<div class="fr">
+<p>1 75 · 2 141 · 3 592.1 · 4 2.5 · 5 Milenaka · 6 fusil · 7 53.3 % · 8
+8 · 9 poisson_recif · 10 51.8 kg.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;kobo_import.R&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>k  <span class="ot">&lt;-</span> <span class="fu">read_kobo</span>(<span class="st">&quot;a06_pecheurs_xml.xlsx&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>m  <span class="ot">&lt;-</span> k<span class="sc">$</span>main <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">p_index =</span> <span class="st">`</span><span class="at">_index</span><span class="st">`</span>, commune, pecheur)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>so <span class="ot">&lt;-</span> k<span class="sc">$</span>sorties  <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">s_index =</span> <span class="st">`</span><span class="at">_index</span><span class="st">`</span>, <span class="at">p_index =</span> <span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">left_join</span>(m, <span class="at">by =</span> <span class="st">&quot;p_index&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>ca <span class="ot">&lt;-</span> k<span class="sc">$</span>captures <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">s_index =</span> <span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      <span class="fu">left_join</span>(so <span class="sc">|&gt;</span> <span class="fu">select</span>(s_index, p_index, engin, commune), <span class="at">by =</span> <span class="st">&quot;s_index&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">nrow</span>(so); <span class="fu">nrow</span>(ca); <span class="fu">sum</span>(ca<span class="sc">$</span>poids); <span class="fu">nrow</span>(so) <span class="sc">/</span> <span class="fu">nrow</span>(m)                         <span class="co"># 1-4</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>ca <span class="sc">|&gt;</span> <span class="fu">group_by</span>(commune) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">w =</span> <span class="fu">sum</span>(poids)) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(w))      <span class="co"># 5 (then kobo_label)</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>so <span class="sc">|&gt;</span> <span class="fu">left_join</span>(ca <span class="sc">|&gt;</span> <span class="fu">group_by</span>(s_index) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">w =</span> <span class="fu">sum</span>(poids)), <span class="at">by =</span> <span class="st">&quot;s_index&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">group_by</span>(engin) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(w, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(m)) <span class="co"># 6</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">mean</span>(so<span class="sc">$</span>s_index <span class="sc">%in%</span> ca<span class="sc">$</span>s_index[ca<span class="sc">$</span>espece <span class="sc">==</span> <span class="st">&quot;poulpe&quot;</span>]) <span class="sc">*</span> <span class="dv">100</span>                 <span class="co"># 7</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span>m<span class="sc">$</span>p_index <span class="sc">%in%</span> ca<span class="sc">$</span>p_index[ca<span class="sc">$</span>espece <span class="sc">==</span> <span class="st">&quot;poulpe&quot;</span>])                        <span class="co"># 8</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>ca <span class="sc">|&gt;</span> <span class="fu">count</span>(espece, <span class="at">wt =</span> poids, <span class="at">sort =</span> <span class="cn">TRUE</span>)                                  <span class="co"># 9</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>ca <span class="sc">|&gt;</span> <span class="fu">group_by</span>(p_index) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">w =</span> <span class="fu">sum</span>(poids)) <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(w)          <span class="co"># 10</span></span></code></pre></div>
+</div>
+</div>
+<div id="ex4" class="section level2">
+<h2><span class="en">Exercise 4 — Read the code</span><span
+class="fr">Exercice 4 — Lire le code</span></h2>
+<div id="quiz-kap4" class="quiz" data-quiz-id="kap4"
+data-title-en="Exercise 4" data-title-fr="Exercice 4"
+data-q="W3sidHlwZSI6Im1jcSIsImVuIjoiMS4gYGxlZnRfam9pbihrJHNvcnRpZXMsIGskbWFpbiwgYnkgPSBcIl9pbmRleFwiKWAgaXMgd3JvbmcgYmVjYXVzZToiLCJmciI6IjEuIGBsZWZ0X2pvaW4oayRzb3J0aWVzLCBrJG1haW4sIGJ5ID0gXCJfaW5kZXhcIilgIGVzdCBmYXV4IHBhcmNlIHF1ZSA6Iiwib3B0aW9uc19lbiI6WyJ0aGUga2V5IG9mIGEgdHJpcCdzIHBhcmVudCBpcyBfcGFyZW50X2luZGV4LCBub3QgX2luZGV4IiwibGVmdF9qb2luIGRvZXMgbm90IHdvcmsgd2l0aCB0aWJibGVzIiwiX2luZGV4IGlzIHRleHQiXSwib3B0aW9uc19mciI6WyJsYSBjbMOpIGR1IHBhcmVudCBkJ3VuZSBzb3J0aWUgZXN0IF9wYXJlbnRfaW5kZXgsIHBhcyBfaW5kZXgiLCJsZWZ0X2pvaW4gbmUgZm9uY3Rpb25uZSBwYXMgYXZlYyBkZXMgdGliYmxlcyIsIl9pbmRleCBlc3QgZHUgdGV4dGUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjIuIEFmdGVyIGEgbGVmdF9qb2luIG9mIHRoZSBjYXRjaGVzIHdpdGggdGhlIHRyaXBzLCB0aGUgbnVtYmVyIG9mIHJvd3MgaW5jcmVhc2VkLiBNb3N0IGxpa2VseSBjYXVzZT8iLCJmciI6IjIuIEFwcsOocyB1biBsZWZ0X2pvaW4gZGVzIGNhcHR1cmVzIGF2ZWMgbGVzIHNvcnRpZXMsIGxlIG5vbWJyZSBkZSBsaWduZXMgYSBhdWdtZW50w6kuIENhdXNlIGxhIHBsdXMgcHJvYmFibGUgPyIsIm9wdGlvbnNfZW4iOlsidGhlIGtleSBpcyBkdXBsaWNhdGVkIGluIHRoZSB0cmlwcyB0YWJsZSAod3Jvbmcga2V5IG9yIHR3byBleHBvcnRzIG1peGVkKSIsIml0IGlzIG5vcm1hbCIsInRoZXJlIGFyZSBOQSB3ZWlnaHRzIl0sIm9wdGlvbnNfZnIiOlsibGEgY2zDqSBlc3QgZW4gZG91YmxlIGRhbnMgbGEgdGFibGUgZGVzIHNvcnRpZXMgKG1hdXZhaXNlIGNsw6kgb3UgZGV1eCBleHBvcnRzIG3DqWxhbmfDqXMpIiwiYydlc3Qgbm9ybWFsIiwiaWwgeSBhIGRlcyBwb2lkcyBOQSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiMy4gcmVhZF9leGNlbCgpIHJlYWRzIHRoZSBjb2x1bW4gcmVtYXJxdWVzIGFzIGxvZ2ljYWwgYW5kIGFsbCBpdHMgdmFsdWVzIGJlY29tZSBOQS4gRml4PyIsImZyIjoiMy4gcmVhZF9leGNlbCgpIGxpdCBsYSBjb2xvbm5lIHJlbWFycXVlcyBjb21tZSBsb2dpcXVlIGV0IHRvdXRlcyBzZXMgdmFsZXVycyBkZXZpZW5uZW50IE5BLiBDb3JyZWN0aW9uID8iLCJvcHRpb25zX2VuIjpbImluY3JlYXNlIGd1ZXNzX21heCIsInVzZSByZWFkLmNzdiIsImRlbGV0ZSB0aGUgY29sdW1uIl0sIm9wdGlvbnNfZnIiOlsiYXVnbWVudGVyIGd1ZXNzX21heCIsInV0aWxpc2VyIHJlYWQuY3N2Iiwic3VwcHJpbWVyIGxhIGNvbG9ubmUiXSwiYW5zd2VyIjowfSx7InR5cGUiOiJtY3EiLCJlbiI6IjQuIE1lYW4gd2VpZ2h0IHBlciB0cmlwIGJ5IGdlYXI6IHdoaWNoIGlzIHJpZ2h0PyIsImZyIjoiNC4gUG9pZHMgbW95ZW4gcGFyIHNvcnRpZSBzZWxvbiBsJ2VuZ2luIDogbGVxdWVsIGVzdCBqdXN0ZSA/Iiwib3B0aW9uc19lbiI6WyJtZWFuIG9mIHRoZSBjYXRjaCByb3dzIGJ5IGdlYXIiLCJzdW0gb2YgdGhlIGNhdGNoZXMgcGVyIHRyaXAsIHRoZW4gbWVhbiBvZiB0aGUgdHJpcHMgYnkgZ2VhciJdLCJvcHRpb25zX2ZyIjpbIm1veWVubmUgZGVzIGxpZ25lcyBkZSBjYXB0dXJlcyBwYXIgZW5naW4iLCJzb21tZSBkZXMgY2FwdHVyZXMgcGFyIHNvcnRpZSwgcHVpcyBtb3llbm5lIGRlcyBzb3J0aWVzIHBhciBlbmdpbiJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNS4gYHN0cl9kZXRlY3Qob2JzZXJ2YXRldXJzLCBcImxvdmFcIilgIGFsc28gY291bnRzIHRoZSBkaXZlciAnbG92YXNvYScuIEZpeD8iLCJmciI6IjUuIGBzdHJfZGV0ZWN0KG9ic2VydmF0ZXVycywgXCJsb3ZhXCIpYCBjb21wdGUgYXVzc2kgbGUgcGxvbmdldXIgwqsgbG92YXNvYSDCuy4gQ29ycmVjdGlvbiA/Iiwib3B0aW9uc19lbiI6WyJzdHJfZGV0ZWN0KG9ic2VydmF0ZXVycywgXCJcXFxcYmxvdmFcXFxcYlwiKSIsIm9ic2VydmF0ZXVycyA9PSBcImxvdmFcIiIsInN0cl9jb3VudChvYnNlcnZhdGV1cnMpIl0sIm9wdGlvbnNfZnIiOlsic3RyX2RldGVjdChvYnNlcnZhdGV1cnMsIFwiXFxcXGJsb3ZhXFxcXGJcIikiLCJvYnNlcnZhdGV1cnMgPT0gXCJsb3ZhXCIiLCJzdHJfY291bnQob2JzZXJ2YXRldXJzKSJdLCJhbnN3ZXIiOjB9LHsidHlwZSI6Im1jcSIsImVuIjoiNi4gVHdvIGV4cG9ydHMgZG93bmxvYWRlZCBvbiAxIEp1bmUgYW5kIDE1IEp1bmU6IGhvdyBkbyB5b3Ugam9pbiB0aGUgSnVuZS0xIHRyaXBzIHRvIHRoZSBKdW5lLTE1IG1haW4gc2hlZXQ/IiwiZnIiOiI2LiBEZXV4IGV4cG9ydHMgdMOpbMOpY2hhcmfDqXMgbGUgMWVyIGV0IGxlIDE1IGp1aW4gOiBjb21tZW50IHJlbGllciBsZXMgc29ydGllcyBkdSAxZXIganVpbiDDoCBsYSBmZXVpbGxlIHByaW5jaXBhbGUgZHUgMTUganVpbiA/Iiwib3B0aW9uc19lbiI6WyJfcGFyZW50X2luZGV4ID0gX2luZGV4IiwiX3N1Ym1pc3Npb25fX3V1aWQgPSBfdXVpZCIsInJvdyBudW1iZXJzIl0sIm9wdGlvbnNfZnIiOlsiX3BhcmVudF9pbmRleCA9IF9pbmRleCIsIl9zdWJtaXNzaW9uX191dWlkID0gX3V1aWQiLCJudW3DqXJvcyBkZSBsaWduZSJdLCJhbnN3ZXIiOjF9XQ==">
+
+</div>
+<div class="solution" data-quiz="kap4">
+<div class="en">
+<p>1 <code>_parent_index</code> · 2 duplicated key · 3
+<code>guess_max</code> · 4 sum per trip, then mean · 5 word boundaries
+<code>\\b</code> · 6 <code>_submission__uuid</code> = <code>_uuid</code>
+(<code>_index</code> is valid only inside one file).</p>
+</div>
+<div class="fr">
+<p>1 <code>_parent_index</code> · 2 clé en double · 3
+<code>guess_max</code> · 4 somme par sortie, puis moyenne · 5 limites de
+mots <code>\\b</code> · 6 <code>_submission__uuid</code> =
+<code>_uuid</code> (<code>_index</code> n’est valable que dans un même
+fichier).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

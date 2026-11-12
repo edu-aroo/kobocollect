@@ -1,0 +1,320 @@
+---
+title: "[2 · Write a questionnaire in Excel (XLSForm)]{.en}[2 · Écrire un questionnaire sous Excel (XLSForm)]{.fr}"
+pagetitle: "KoboToolbox · 2"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+f <- form_landing()
+s <- f$survey; ch <- f$choices
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- describe the three sheets of an XLSForm (`survey`, `choices`, `settings`) and their columns;
+- write questions of every basic type, with `required`, `required_message` and `hint`;
+- write choice lists and link them to questions through the **list name**;
+- respect the rules for `name` values, and add automatic metadata (`start`, `end`, `today`, `deviceid`);
+- read an XLSForm written by someone else and find what each row does.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- décrire les trois feuilles d'un XLSForm (`survey`, `choices`, `settings`) et leurs colonnes ;
+- écrire des questions de chaque type de base, avec `required`, `required_message` et `hint` ;
+- écrire des listes de choix et les relier aux questions grâce au **nom de liste** ;
+- respecter les règles des valeurs `name`, et ajouter les métadonnées automatiques (`start`, `end`, `today`, `deviceid`) ;
+- lire un XLSForm écrit par quelqu'un d'autre et comprendre ce que fait chaque ligne.
+:::
+:::
+
+## [Why write the form in Excel?]{.en}[Pourquoi écrire le formulaire dans Excel ?]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** The one-week test in Ambolimailaka went well. The cooperative now wants the **full landing form** for its five villages: 11 questions, three choice lists, GPS and photo. The coordinator will maintain it for years and will copy parts of it into other surveys. You write it as an **XLSForm**. Download the official version of the cooperative to follow this session: `r dl("forms/k02_debarquement.xlsx", "k02_debarquement.xlsx")`
+:::
+::: fr
+**Contexte simulé.** La semaine de test à Ambolimailaka s'est bien passée. La coopérative veut maintenant la **fiche de débarquement complète** pour ses cinq villages : 11 questions, trois listes de choix, GPS et photo. Le coordinateur la maintiendra pendant des années et copiera certaines parties dans d'autres enquêtes. Vous l'écrivez en **XLSForm**. Téléchargez la version officielle de la coopérative pour suivre cette séance : `r dl("forms/k02_debarquement.xlsx", "k02_debarquement.xlsx")`
+:::
+:::
+
+::: en
+An XLSForm is an ordinary Excel file (`.xlsx`) with a **fixed structure**. KoboToolbox reads it and turns it into the form (in the ODK "XForm" format) used by KoboCollect and Enketo. Advantages: you see the whole questionnaire at once, you can copy, paste, sort and search, share the file by e-mail, keep the versions, and reuse blocks between surveys.
+:::
+::: fr
+Un XLSForm est un fichier Excel ordinaire (`.xlsx`) avec une **structure fixe**. KoboToolbox le lit et le transforme en formulaire (au format ODK « XForm ») utilisé par KoboCollect et Enketo. Avantages : on voit tout le questionnaire d'un coup, on peut copier, coller, trier, chercher, partager le fichier par e-mail, garder les versions, et réutiliser des blocs d'une enquête à l'autre.
+:::
+
+`r fig_svg("xlsform-anatomy", "The three sheets of an XLSForm. The list name written after select_one links the question to its options.", "Les trois feuilles d'un XLSForm. Le nom de liste écrit après select_one relie la question à ses options.")`
+
+::: {.callout .warning}
+::: en
+**The names of the sheets and of the column headers are fixed and in English**: `survey`, `choices`, `settings`, `type`, `name`, `label`… Write them in lowercase, as here (KoboToolbox tolerates some variations, but other tools do not). A file whose questions are in a sheet called `questions` is refused: *"You must have a sheet named 'survey'"*. The **order of the columns** does not matter; their **names** do.
+:::
+::: fr
+**Les noms des feuilles et des en-têtes de colonnes sont fixes et en anglais** : `survey`, `choices`, `settings`, `type`, `name`, `label`… Écrivez-les en minuscules, comme ici (KoboToolbox tolère quelques variantes, mais d'autres outils non). Un fichier dont les questions sont dans une feuille nommée `questions` est refusé : *« You must have a sheet named 'survey' »*. L'**ordre des colonnes** n'a pas d'importance ; leurs **noms**, si.
+:::
+:::
+
+## [The survey sheet]{.en}[La feuille survey]{.fr} {#survey}
+
+::: en
+One row = one question (or one note, one piece of metadata). Three columns are essential:
+
+- **`type`** — the question type (`integer`, `decimal`, `text`, `date`, `select_one listname`…);
+- **`name`** — the column name in the data. Unique, short, no spaces;
+- **`label`** — the text shown to the enumerator.
+
+Here is the `survey` sheet of the official form (columns `type`, `name`, `label`, `hint`, `required`; the Excel row numbers are on the left):
+:::
+::: fr
+Une ligne = une question (ou une note, une métadonnée). Trois colonnes sont indispensables :
+
+- **`type`** — le type de question (`integer`, `decimal`, `text`, `date`, `select_one nomdeliste`…) ;
+- **`name`** — le nom de la colonne dans les données. Unique, court, sans espace ;
+- **`label`** — le texte affiché à l'enquêteur.
+
+Voici la feuille `survey` du formulaire officiel (colonnes `type`, `name`, `label`, `hint`, `required` ; les numéros de ligne Excel sont à gauche) :
+:::
+
+`r xls(s, cols = c("type", "name", "label", "hint", "required"))`
+
+::: en
+Read it from top to bottom:
+
+- **rows 2–5**: automatic **metadata**. Their `type` and `name` are the same and they have no label: nothing is asked, the device records the start and end time of the interview, the date and the device identifier;
+- **row 6**: a **note** (text in bold with `**…**`, as in Markdown);
+- **rows 7–17**: the questions. `select_one village` means "one answer from the list called `village`";
+- the **`required`** column contains `yes` for the questions that cannot be skipped (`true` also works). Empty = not required.
+:::
+::: fr
+Lisez-la de haut en bas :
+
+- **lignes 2 à 5** : les **métadonnées** automatiques. Leur `type` et leur `name` sont identiques et elles n'ont pas de libellé : rien n'est demandé, l'appareil enregistre l'heure de début et de fin de l'entretien, la date et l'identifiant de l'appareil ;
+- **ligne 6** : une **note** (texte en gras avec `**…**`, comme en Markdown) ;
+- **lignes 7 à 17** : les questions. `select_one village` signifie « une réponse dans la liste nommée `village` » ;
+- la colonne **`required`** contient `yes` pour les questions qu'on ne peut pas sauter (`true` fonctionne aussi). Vide = non obligatoire.
+:::
+
+```{r, echo=FALSE}
+xf(c("`type`", "question type; for a list: `select_one list` or `select_multiple list`", "type de question ; pour une liste : `select_one liste` ou `select_multiple liste`", "`text`, `integer`, `decimal`, `date`, `time`, `dateTime`, `select_one …`, `select_multiple …`, `geopoint`, `image`, `audio`, `note`…", "idem"),
+   c("`name`", "column name in the data; unique in the form", "nom de la colonne dans les données ; unique dans le formulaire", "starts with a letter; letters, digits, `_` (avoid spaces, accents, `-`)", "commence par une lettre ; lettres, chiffres, `_` (évitez espaces, accents, `-`)"),
+   c("`label`", "text shown to the enumerator; can be bold `**…**` or italic `*…*`", "texte affiché à l'enquêteur ; peut être en gras `**…**` ou italique `*…*`", "any text", "tout texte"),
+   c("`hint`", "help text in grey under the label", "texte d'aide en gris sous le libellé", "any text", "tout texte"),
+   c("`required`", "the question must be answered", "la question doit avoir une réponse", "`yes` / empty", "`yes` / vide"),
+   c("`required_message`", "message shown when a required question is left empty", "message affiché quand une question obligatoire est laissée vide", "any text", "tout texte"),
+   c("`default`", "value filled in in advance", "valeur pré-remplie", "a value of the right type, e.g. `today()` for a date", "une valeur du bon type, ex. `today()` pour une date"),
+   c("`parameters`", "extra settings of some types, e.g. photo size", "réglages supplémentaires de certains types, ex. taille des photos", "`max-pixels=1024`", "`max-pixels=1024`"))
+```
+
+### [Metadata types]{.en}[Les types de métadonnées]{.fr}
+
+::: en
+| Type | What it records |
+|---|---|
+| `start` | date and time when the form was **opened** |
+| `end` | date and time when the form was **finished** |
+| `today` | date of the day of the interview |
+| `deviceid` | identifier of the device (with KoboCollect) |
+| `username` | the username configured in KoboCollect |
+| `audit` | a log of the time spent on each question (advanced quality control) |
+
+Always put `start`, `end` and `today` at the top: they cost nothing and they let you check the duration of each interview.
+:::
+::: fr
+| Type | Ce qu'il enregistre |
+|---|---|
+| `start` | date et heure d'**ouverture** du formulaire |
+| `end` | date et heure de **fin** du formulaire |
+| `today` | date du jour de l'entretien |
+| `deviceid` | identifiant de l'appareil (avec KoboCollect) |
+| `username` | le nom d'utilisateur configuré dans KoboCollect |
+| `audit` | un journal du temps passé sur chaque question (contrôle qualité avancé) |
+
+Mettez toujours `start`, `end` et `today` en haut : ils ne coûtent rien et permettent de vérifier la durée de chaque entretien.
+:::
+
+### [Rules for names]{.en}[Règles pour les noms]{.fr}
+
+::: en
+KoboToolbox refuses a `name` that starts with a digit or contains a space or a sign such as `(`, `'`, `/`. It accepts letters, digits, `_`, `-` and `.`. For data that you will analyse in Excel or R, follow stricter rules:
+
+- **lowercase**, words separated by `_`: `nb_pecheurs`, `poids_total`;
+- **no accents** and no `-` (in R, `poids-total` is read as "poids minus total");
+- **short but clear**: `age` rather than `a`, `nb_pecheurs` rather than `nombre_de_pecheurs_a_bord_de_la_pirogue`;
+- **unique**: two questions cannot have the same name;
+- **never rename** a question once collection has started: the export would then contain two columns.
+:::
+::: fr
+KoboToolbox refuse un `name` qui commence par un chiffre ou qui contient une espace ou un signe comme `(`, `'`, `/`. Il accepte les lettres, chiffres, `_`, `-` et `.`. Pour des données que vous analyserez dans Excel ou R, suivez des règles plus strictes :
+
+- **minuscules**, mots séparés par `_` : `nb_pecheurs`, `poids_total` ;
+- **sans accents** et sans `-` (dans R, `poids-total` se lit « poids moins total ») ;
+- **court mais clair** : `age` plutôt que `a`, `nb_pecheurs` plutôt que `nombre_de_pecheurs_a_bord_de_la_pirogue` ;
+- **unique** : deux questions ne peuvent pas avoir le même nom ;
+- **ne jamais renommer** une question une fois la collecte commencée : l'export contiendrait alors deux colonnes.
+:::
+
+## [The choices sheet]{.en}[La feuille choices]{.fr} {#choices}
+
+::: en
+One row = one option. Three columns: **`list_name`** (the name of the list, the same as after `select_one` / `select_multiple`), **`name`** (the value stored) and **`label`** (the text shown). The options appear in the form in the order of the rows.
+:::
+::: fr
+Une ligne = une option. Trois colonnes : **`list_name`** (le nom de la liste, le même qu'après `select_one` / `select_multiple`), **`name`** (la valeur enregistrée) et **`label`** (le texte affiché). Les options apparaissent dans le formulaire dans l'ordre des lignes.
+:::
+
+`r xls(ch, sheet = "choices")`
+
+::: en
+- The list `village` is used by the question `select_one village`; the list `espece` by `select_multiple espece`.
+- A list can be used by **several questions** (e.g. the same `oui_non` list for twenty yes/no questions).
+- The `name` of an option must be **unique within its list** (two options `ifaty` in the list `village` = error).
+- With `select_multiple`, the data contain the selected values **separated by spaces**: `poulpe calmar`. That is why option names must **never contain spaces**.
+:::
+::: fr
+- La liste `village` est utilisée par la question `select_one village` ; la liste `espece` par `select_multiple espece`.
+- Une liste peut servir à **plusieurs questions** (ex. la même liste `oui_non` pour vingt questions oui/non).
+- Le `name` d'une option doit être **unique dans sa liste** (deux options `ifaty` dans la liste `village` = erreur).
+- Avec `select_multiple`, les données contiennent les valeurs choisies **séparées par des espaces** : `poulpe calmar`. C'est pourquoi les noms d'options ne doivent **jamais contenir d'espace**.
+:::
+
+::: {.callout .tip}
+::: en
+**"Other, specify".** Add an option `autre` (*Autre*) to the list, then a `text` question *"Précisez"* shown only when `autre` is chosen (`relevant`, Intermediate level). XLSForm also has the shortcut `select_one engin or_other`, but it gives a column that is harder to analyse; the explicit `autre` + text question is clearer.
+:::
+::: fr
+**« Autre, précisez ».** Ajoutez une option `autre` (*Autre*) à la liste, puis une question `text` *« Précisez »* affichée seulement quand `autre` est choisi (`relevant`, niveau Intermédiaire). XLSForm a aussi le raccourci `select_one engin or_other`, mais il donne une colonne plus difficile à analyser ; l'option `autre` + une question texte explicite est plus claire.
+:::
+:::
+
+## [The settings sheet]{.en}[La feuille settings]{.fr} {#settings}
+
+`r xls(f$settings, sheet = "settings")`
+
+::: en
+One header row and **one row of values**. All columns are optional, but fill in at least:
+
+- **`form_title`** — the title shown at the top of the form and in KoboCollect;
+- **`form_id`** — an identifier without spaces (`debarquement_ranobe`);
+- **`version`** — a text that changes at each new version (`2026-01-v1`, then `2026-02-v2`). KoboToolbox also records its own version code for each deployment (column `__version__` of the export).
+
+Other useful settings: `default_language` (Session 3), `style` (`pages` = one question per screen in the web form), `allow_choice_duplicates`.
+:::
+::: fr
+Une ligne d'en-têtes et **une ligne de valeurs**. Toutes les colonnes sont facultatives, mais remplissez au moins :
+
+- **`form_title`** — le titre affiché en haut du formulaire et dans KoboCollect ;
+- **`form_id`** — un identifiant sans espace (`debarquement_ranobe`) ;
+- **`version`** — un texte qui change à chaque nouvelle version (`2026-01-v1`, puis `2026-02-v2`). KoboToolbox enregistre aussi son propre code de version à chaque déploiement (colonne `__version__` de l'export).
+
+Autres réglages utiles : `default_language` (séance 3), `style` (`pages` = une question par écran dans le formulaire web), `allow_choice_duplicates`.
+:::
+
+## [Good habits]{.en}[Bonnes habitudes]{.fr} {#habits}
+
+::: en
+- Start from a **template** (the file of this session) rather than an empty file: the headers are already right.
+- Freeze the first row (*View → Freeze top row*) and widen the columns.
+- Keep **one file per version** (`debarquement_v1.xlsx`, `debarquement_v2.xlsx`) or use the `version` setting and a change log in an extra sheet (extra sheets are ignored by KoboToolbox).
+- Do not merge cells, do not colour cells to carry information (colours are ignored), do not leave blank rows in the middle of a sheet.
+- Write `name` values **before** the labels are final: labels can change, names should not.
+:::
+::: fr
+- Partez d'un **modèle** (le fichier de cette séance) plutôt que d'un fichier vide : les en-têtes sont déjà justes.
+- Figez la première ligne (*Affichage → Figer la ligne supérieure*) et élargissez les colonnes.
+- Gardez **un fichier par version** (`debarquement_v1.xlsx`, `debarquement_v2.xlsx`) ou utilisez le réglage `version` et un journal des modifications dans une feuille supplémentaire (les autres feuilles sont ignorées par KoboToolbox).
+- Ne fusionnez pas de cellules, ne colorez pas de cellules pour porter une information (les couleurs sont ignorées), ne laissez pas de lignes vides au milieu d'une feuille.
+- Fixez les valeurs `name` **avant** que les libellés soient définitifs : les libellés peuvent changer, les noms ne devraient pas.
+:::
+
+```{r answers, include=FALSE}
+types <- sub(" .*$", "", s$type)
+meta  <- c("start", "end", "today", "deviceid")
+a1 <- nrow(s)                                        # rows of survey (without header)
+a2 <- sum(!types %in% c(meta, "note"))               # questions really asked
+a3 <- sum(s$required == "yes")
+a4 <- sum(ch$list_name == "espece")
+a5 <- which(s$name == "gps") + 1                     # Excel row
+a6 <- s$type[s$name == "poids_total"]
+a7 <- sum(ch$list_name == "engin")
+a8 <- s$type[s$name == "especes"]
+```
+
+::: {.application}
+::: en
+### Application work 2
+
+Open `k02_debarquement.xlsx` in Excel.
+
+1. How many rows (without the header) does the `survey` sheet have?
+2. How many of them are questions really **asked** to the respondent (not metadata, not notes)?
+3. How many questions are required?
+4. How many options does the list `espece` have?
+5. In which Excel row is the GPS question?
+6. Type of the question `poids_total`?
+7. How many fishing gears can be chosen?
+8. Full `type` of the question on species (as written in the cell)?
+9. **Write** in the file two new questions after `nb_pecheurs`: `heure_depart` (*Heure de départ en mer*, type `time`) and `duree_peche` (*Durée de la pêche (heures)*, type `decimal`, hint *Du départ au retour*). Save as `k02_debarquement_v2.xlsx` and change `version` to `2026-02-v2`. Keep this file: you will import it in Session 4.
+10. Which `name` would be **refused** by KoboToolbox?
+:::
+::: fr
+### Travail d'application 2
+
+Ouvrez `k02_debarquement.xlsx` dans Excel.
+
+1. Combien de lignes (sans l'en-tête) la feuille `survey` contient-elle ?
+2. Combien sont des questions réellement **posées** au répondant (ni métadonnées, ni notes) ?
+3. Combien de questions sont obligatoires ?
+4. Combien d'options la liste `espece` contient-elle ?
+5. À quelle ligne Excel se trouve la question GPS ?
+6. Type de la question `poids_total` ?
+7. Combien d'engins de pêche peut-on choisir ?
+8. `type` complet de la question sur les espèces (tel qu'écrit dans la cellule) ?
+9. **Écrivez** dans le fichier deux nouvelles questions après `nb_pecheurs` : `heure_depart` (*Heure de départ en mer*, type `time`) et `duree_peche` (*Durée de la pêche (heures)*, type `decimal`, indication *Du départ au retour*). Enregistrez sous `k02_debarquement_v2.xlsx` et changez `version` en `2026-02-v2`. Gardez ce fichier : vous l'importerez à la séance 4.
+10. Quel `name` serait **refusé** par KoboToolbox ?
+:::
+:::
+
+::: hint
+::: en
+Question 2: count the rows whose type is not `start`, `end`, `today`, `deviceid` or `note`. Question 5: the header is row 1, so the first question under it is row 2.
+:::
+::: fr
+Question 2 : comptez les lignes dont le type n'est ni `start`, `end`, `today`, `deviceid`, ni `note`. Question 5 : l'en-tête est la ligne 1, la première question en dessous est donc la ligne 2.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("k02", list(
+  q_num("1. Rows of the survey sheet (without header)?", "1. Lignes de la feuille survey (sans l'en-tête) ?", a1, tol = 0),
+  q_num("2. Questions really asked?", "2. Questions réellement posées ?", a2, tol = 0),
+  q_num("3. Required questions?", "3. Questions obligatoires ?", a3, tol = 0),
+  q_num("4. Options of the list espece?", "4. Options de la liste espece ?", a4, tol = 0),
+  q_num("5. Excel row of the GPS question?", "5. Ligne Excel de la question GPS ?", a5, tol = 0),
+  q_text("6. Type of poids_total?", "6. Type de poids_total ?", a6),
+  q_num("7. Number of gears in the list?", "7. Nombre d'engins dans la liste ?", a7, tol = 0),
+  q_text("8. Full type of the species question?", "8. Type complet de la question sur les espèces ?", a8),
+  q_mcq("9. Your two new questions: which type for the start time?", "9. Vos deux nouvelles questions : quel type pour l'heure de départ ?",
+        c("date", "time", "dateTime", "text"), correct = 2),
+  q_mcq("10. Which name would be refused?", "10. Quel name serait refusé ?",
+        c("nb_pecheurs", "poids_total2", "2_poids", "_note_interne"), correct = 3)
+))
+```
+
+::: {.solution data-quiz="k02"}
+::: en
+1 `r a1` · 2 `r a2` (the 4 metadata and the note are not asked) · 3 `r a3` · 4 `r a4` · 5 row `r a5` · 6 `r a6` · 7 `r a7` · 8 ``r a8`` · 9 `time` (a `dateTime` would also record the date, already in `date_debarq`) · 10 `2_poids` (a name must start with a letter or `_`).
+
+Rows to add (question 9), right after `nb_pecheurs`:
+:::
+::: fr
+1 `r a1` · 2 `r a2` (les 4 métadonnées et la note ne sont pas posées) · 3 `r a3` · 4 `r a4` · 5 ligne `r a5` · 6 `r a6` · 7 `r a7` · 8 ``r a8`` · 9 `time` (un `dateTime` enregistrerait aussi la date, déjà dans `date_debarq`) · 10 `2_poids` (un nom doit commencer par une lettre ou `_`).
+
+Lignes à ajouter (question 9), juste après `nb_pecheurs` :
+:::
+
+`r xls(data.frame(type = c("time", "decimal"), name = c("heure_depart", "duree_peche"), label = c("Heure de départ en mer", "Durée de la pêche (heures)"), hint = c("", "Du départ au retour"), required = c("", "")))`
+:::

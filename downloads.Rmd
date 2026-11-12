@@ -1,0 +1,46 @@
+---
+title: "[Course files]{.en}[Fichiers du cours]{.fr}"
+pagetitle: "KoboToolbox · Files"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+lst <- function(pat) {
+  f <- list.files("data", recursive = TRUE); f <- f[grepl(pat, f) & !grepl("\\.zip$|reference", f)]
+  paste(vapply(f, function(x) as.character(dl(x, basename(x))), ""), collapse = " ")
+}
+```
+
+::: en
+Each level has a **zip** with all its files (XLSForms to read, correct or complete, and simulated KoboToolbox exports). Unzip it in a folder of your course; keep the file names.
+:::
+::: fr
+Chaque niveau a un **zip** avec tous ses fichiers (XLSForms à lire, corriger ou compléter, et exports KoboToolbox simulés). Décompressez-le dans un dossier de votre cours ; gardez les noms de fichiers.
+:::
+
+## [Beginner]{.en}[Débutant]{.fr} {.no-track}
+
+`r dl("kobo_niveau1.zip", "kobo_niveau1.zip")`
+
+`r lst("^(forms|exports)/k0")`
+
+## [Intermediate]{.en}[Intermédiaire]{.fr} {.no-track}
+
+`r dl("kobo_niveau2.zip", "kobo_niveau2.zip")`
+
+`r lst("^(forms|exports)/i0")`
+
+## [Advanced]{.en}[Avancé]{.fr} {.no-track}
+
+`r dl("kobo_niveau3.zip", "kobo_niveau3.zip")` `r dl("kobo_import.R", "kobo_import.R", dir = "templates")`
+
+`r lst("^(forms|exports)/a0")`
+
+::: {.callout .tip}
+::: en
+All the data are **simulated** for the course. The administrative list (Session A2) is a partial example: use the official list for a real survey.
+:::
+::: fr
+Toutes les données sont **simulées** pour le cours. La liste administrative (séance A2) est un exemple partiel : utilisez la liste officielle pour une vraie enquête.
+:::
+:::

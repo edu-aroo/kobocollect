@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · 7</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">7 · Final project: octopus
+gleaning survey</span><span class="fr">7 · Projet final : suivi de la
+pêche à pied du poulpe</span></h1>
+<h3 class="subtitle">~3 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="the-whole-cycle-on-your-own" class="section level4 en">
+<h4>The whole cycle, on your own</h4>
+<p>Design → write the XLSForm (two languages) → import and correct →
+deploy → collect 8 test interviews → download → answer questions from
+<strong>your own</strong> export. If your form and your data entry are
+correct, your export gives exactly the expected answers.</p>
+</div>
+<div id="tout-le-cycle-en-autonomie" class="section level4 fr">
+<h4>Tout le cycle, en autonomie</h4>
+<p>Concevoir → écrire le XLSForm (deux langues) → importer et corriger →
+déployer → collecter 8 entretiens de test → télécharger → répondre aux
+questions à partir de <strong>votre propre</strong> export. Si votre
+formulaire et votre saisie sont justes, votre export donne exactement
+les réponses attendues.</p>
+</div>
+</div>
+<div id="request" class="section level2">
+<h2><span class="en">The request</span><span class="fr">La
+demande</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> Women of the bay glean octopus on
+the reef flat at low tide, with a hooked stick. The local association
+managing the temporary octopus closures wants to follow this activity:
+who gleans, how long, how much, and where the catch goes. Enumerators
+will interview the gleaners when they come back to the beach, in
+<strong>French or Malagasy</strong>. You build the form, then test it
+with 8 interviews written on paper during a pilot day.</p>
+<p><strong>Type of data:</strong> small-scale fisheries — one submission
+per gleaner per tide.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Les femmes de la baie pratiquent la
+pêche à pied du poulpe sur le platier à marée basse, avec un bâton
+crochet. L’association locale qui gère les fermetures temporaires de la
+pêche au poulpe veut suivre cette activité : qui pêche, combien de
+temps, combien, et où va la capture. Les enquêteurs interrogeront les
+pêcheuses à leur retour sur la plage, en <strong>français ou en
+malgache</strong>. Vous construisez le formulaire, puis vous le testez
+avec 8 entretiens notés sur papier lors d’une journée pilote.</p>
+<p><strong>Type de données :</strong> pêche artisanale — une soumission
+par pêcheur·se et par marée.</p>
+</div>
+</div>
+</div>
+<div id="spec" class="section level2">
+<h2><span class="en">Specifications of the form</span><span
+class="fr">Cahier des charges du formulaire</span></h2>
+<div class="en">
+<p>Use <strong>exactly</strong> these names (the quiz depends on
+them).</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>Question (French label)</th>
+<th>Type</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code>, <code>end</code>, <code>today</code></td>
+<td>—</td>
+<td>metadata</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>date_enquete</code></td>
+<td>Date de l’enquête</td>
+<td>date</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>village</code></td>
+<td>Village</td>
+<td>select_one <code>village</code></td>
+<td>yes</td>
+<td>the 5 villages of the course, same names as in Session 2</td>
+</tr>
+<tr class="even">
+<td><code>nom</code></td>
+<td>Prénom de la personne interrogée</td>
+<td>text</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>sexe</code></td>
+<td>Sexe</td>
+<td>select_one <code>sexe</code></td>
+<td>yes</td>
+<td><code>femme</code> Femme · <code>homme</code> Homme</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>Âge (années)</td>
+<td>integer</td>
+<td>no</td>
+<td>hint: <em>Laisser vide si la personne ne sait pas</em></td>
+</tr>
+<tr class="odd">
+<td><code>heures</code></td>
+<td>Durée de la pêche (heures)</td>
+<td>decimal</td>
+<td>yes</td>
+<td>hint: <em>Du départ sur le platier au retour</em></td>
+</tr>
+<tr class="even">
+<td><code>nb_poulpes</code></td>
+<td>Nombre de poulpes capturés</td>
+<td>integer</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>poids</code></td>
+<td>Poids total des poulpes (kg)</td>
+<td>decimal</td>
+<td>yes</td>
+<td>hint: <em>Pesé sur la balance de l’association</em></td>
+</tr>
+<tr class="even">
+<td><code>outils</code></td>
+<td>Outils utilisés</td>
+<td>select_multiple <code>outil</code></td>
+<td>yes</td>
+<td><code>crochet</code> Bâton crochet · <code>seau</code> Seau ·
+<code>masque</code> Masque · <code>fusil</code> Fusil harpon</td>
+</tr>
+<tr class="odd">
+<td><code>vente</code></td>
+<td>Destination de la capture</td>
+<td>select_one <code>vente</code></td>
+<td>yes</td>
+<td><code>collecteur</code> Collecteur · <code>marche</code> Marché ·
+<code>consommation</code> Consommation familiale · <code>aucune</code>
+Pas de capture</td>
+</tr>
+<tr class="even">
+<td><code>photo</code></td>
+<td>Photo de la capture</td>
+<td>image</td>
+<td>no</td>
+<td><code>max-pixels=1024</code></td>
+</tr>
+</tbody>
+</table>
+<p>Requirements: labels (and hints) in <strong>French and
+Malagasy</strong> (<code>label::Français (fr)</code>,
+<code>label::Malagasy (mg)</code>), choices in both languages, French as
+default language; form title <em>Pêche à pied du poulpe</em>, form_id
+<code>peche_pied_poulpe</code>.</p>
+</div>
+<div class="fr">
+<p>Utilisez <strong>exactement</strong> ces noms (le quiz en
+dépend).</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>Question (libellé français)</th>
+<th>Type</th>
+<th>Obligatoire</th>
+<th>Remarques</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>start</code>, <code>end</code>, <code>today</code></td>
+<td>—</td>
+<td>métadonnées</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>date_enquete</code></td>
+<td>Date de l’enquête</td>
+<td>date</td>
+<td>oui</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>village</code></td>
+<td>Village</td>
+<td>select_one <code>village</code></td>
+<td>oui</td>
+<td>les 5 villages du cours, mêmes noms qu’à la séance 2</td>
+</tr>
+<tr class="even">
+<td><code>nom</code></td>
+<td>Prénom de la personne interrogée</td>
+<td>text</td>
+<td>oui</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>sexe</code></td>
+<td>Sexe</td>
+<td>select_one <code>sexe</code></td>
+<td>oui</td>
+<td><code>femme</code> Femme · <code>homme</code> Homme</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>Âge (années)</td>
+<td>integer</td>
+<td>non</td>
+<td>indication : <em>Laisser vide si la personne ne sait pas</em></td>
+</tr>
+<tr class="odd">
+<td><code>heures</code></td>
+<td>Durée de la pêche (heures)</td>
+<td>decimal</td>
+<td>oui</td>
+<td>indication : <em>Du départ sur le platier au retour</em></td>
+</tr>
+<tr class="even">
+<td><code>nb_poulpes</code></td>
+<td>Nombre de poulpes capturés</td>
+<td>integer</td>
+<td>oui</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>poids</code></td>
+<td>Poids total des poulpes (kg)</td>
+<td>decimal</td>
+<td>oui</td>
+<td>indication : <em>Pesé sur la balance de l’association</em></td>
+</tr>
+<tr class="even">
+<td><code>outils</code></td>
+<td>Outils utilisés</td>
+<td>select_multiple <code>outil</code></td>
+<td>oui</td>
+<td><code>crochet</code> Bâton crochet · <code>seau</code> Seau ·
+<code>masque</code> Masque · <code>fusil</code> Fusil harpon</td>
+</tr>
+<tr class="odd">
+<td><code>vente</code></td>
+<td>Destination de la capture</td>
+<td>select_one <code>vente</code></td>
+<td>oui</td>
+<td><code>collecteur</code> Collecteur · <code>marche</code> Marché ·
+<code>consommation</code> Consommation familiale · <code>aucune</code>
+Pas de capture</td>
+</tr>
+<tr class="even">
+<td><code>photo</code></td>
+<td>Photo de la capture</td>
+<td>image</td>
+<td>non</td>
+<td><code>max-pixels=1024</code></td>
+</tr>
+</tbody>
+</table>
+<p>Exigences : libellés (et indications) en <strong>français et en
+malgache</strong> (<code>label::Français (fr)</code>,
+<code>label::Malagasy (mg)</code>), choix dans les deux langues,
+français comme langue par défaut ; titre du formulaire <em>Pêche à pied
+du poulpe</em>, form_id <code>peche_pied_poulpe</code>.</p>
+</div>
+</div>
+<div id="steps" class="section level2">
+<h2><span class="en">Steps</span><span class="fr">Étapes</span></h2>
+<div class="en">
+<ol style="list-style-type: decimal">
+<li>Write the XLSForm in Excel (start from
+<code>k03_debarquement_multilingue.xlsx</code> to have the right
+headers).</li>
+<li>Upload it as a <strong>new project</strong>, correct until it is
+accepted, check both languages in the preview,
+<strong>deploy</strong>.</li>
+<li>Open the <span class="ui">En ligne uniquement (soumissions
+multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span> link and type the <strong>8 paper
+interviews</strong> below, exactly as written (no photo). Use the
+Malagasy version for at least one of them.</li>
+<li>In <span class="ui">DONNÉES <span class="ui-en">(DATA)</span></span>
+→ <span class="ui">Tableau <span class="ui-en">(Table)</span></span>,
+check that you have 8 submissions; correct typing mistakes with ✎.</li>
+<li>Download an <strong>XLS</strong> export with <strong>XML values and
+headers</strong> and answer the quiz from it.</li>
+</ol>
+</div>
+<div class="fr">
+<ol style="list-style-type: decimal">
+<li>Écrivez le XLSForm dans Excel (partez de
+<code>k03_debarquement_multilingue.xlsx</code> pour avoir les bons
+en-têtes).</li>
+<li>Importez-le comme <strong>nouveau projet</strong>, corrigez jusqu’à
+ce qu’il soit accepté, vérifiez les deux langues dans l’aperçu,
+<strong>déployez</strong>.</li>
+<li>Ouvrez le lien <span class="ui">En ligne uniquement (soumissions
+multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span> et saisissez les <strong>8 fiches
+papier</strong> ci-dessous, exactement comme écrites (sans photo).
+Utilisez la version malgache pour au moins l’une d’elles.</li>
+<li>Dans <span class="ui">DONNÉES <span
+class="ui-en">(DATA)</span></span> → <span class="ui">Tableau <span
+class="ui-en">(Table)</span></span>, vérifiez que vous avez 8
+soumissions ; corrigez les fautes de saisie avec ✎.</li>
+<li>Téléchargez un export <strong>XLS</strong> avec les <strong>valeurs
+et en-têtes XML</strong> et répondez au quiz à partir de cet
+export.</li>
+</ol>
+</div>
+</div>
+<div id="fiches" class="section level2">
+<h2><span class="en">The 8 paper interviews</span><span class="fr">Les 8
+fiches papier</span></h2>
+<div id="fiche-1" class="section level5 fiche">
+<h5>Fiche 1</h5>
+<p><strong>Date</strong> 02/03/2026 · <strong>Village</strong>
+Ambolimailaka · <strong>Prénom</strong> Soa · <strong>Sexe</strong>
+Femme · <strong>Âge</strong> 34</p>
+<p><strong>Durée</strong> 3 h · <strong>Poulpes</strong> 4 ·
+<strong>Poids</strong> 3,2 kg · <strong>Outils</strong> Bâton crochet ;
+Seau · <strong>Destination</strong> Collecteur</p>
+</div>
+<div id="fiche-2" class="section level5 fiche">
+<h5>Fiche 2</h5>
+<p><strong>Date</strong> 02/03/2026 · <strong>Village</strong>
+Ambolimailaka · <strong>Prénom</strong> Velontiana ·
+<strong>Sexe</strong> Femme · <strong>Âge</strong> 51</p>
+<p><strong>Durée</strong> 4 h · <strong>Poulpes</strong> 6 ·
+<strong>Poids</strong> 5,1 kg · <strong>Outils</strong> Bâton crochet ·
+<strong>Destination</strong> Collecteur</p>
+</div>
+<div id="fiche-3" class="section level5 fiche">
+<h5>Fiche 3</h5>
+<p><strong>Date</strong> 03/03/2026 · <strong>Village</strong> Ifaty ·
+<strong>Prénom</strong> Zaramanana · <strong>Sexe</strong> Femme ·
+<strong>Âge</strong> 27</p>
+<p><strong>Durée</strong> 2,5 h · <strong>Poulpes</strong> 2 ·
+<strong>Poids</strong> 1,4 kg · <strong>Outils</strong> Bâton crochet ;
+Masque · <strong>Destination</strong> Consommation familiale</p>
+</div>
+<div id="fiche-4" class="section level5 fiche">
+<h5>Fiche 4</h5>
+<p><strong>Date</strong> 03/03/2026 · <strong>Village</strong> Ifaty ·
+<strong>Prénom</strong> Fela · <strong>Sexe</strong> Homme ·
+<strong>Âge</strong> 19</p>
+<p><strong>Durée</strong> 3 h · <strong>Poulpes</strong> 0 ·
+<strong>Poids</strong> 0 kg · <strong>Outils</strong> Masque ·
+<strong>Destination</strong> Pas de capture</p>
+</div>
+<div id="fiche-5" class="section level5 fiche">
+<h5>Fiche 5</h5>
+<p><strong>Date</strong> 04/03/2026 · <strong>Village</strong> Mangily ·
+<strong>Prénom</strong> Tsiry · <strong>Sexe</strong> Homme ·
+<strong>Âge</strong> 45</p>
+<p><strong>Durée</strong> 5 h · <strong>Poulpes</strong> 9 ·
+<strong>Poids</strong> 8,6 kg · <strong>Outils</strong> Fusil harpon ;
+Masque · <strong>Destination</strong> Collecteur</p>
+</div>
+<div id="fiche-6" class="section level5 fiche">
+<h5>Fiche 6</h5>
+<p><strong>Date</strong> 04/03/2026 · <strong>Village</strong> Madiorano
+· <strong>Prénom</strong> Masy · <strong>Sexe</strong> Femme ·
+<strong>Âge</strong> 38</p>
+<p><strong>Durée</strong> 3,5 h · <strong>Poulpes</strong> 3 ·
+<strong>Poids</strong> 2,2 kg · <strong>Outils</strong> Bâton crochet ;
+Seau · <strong>Destination</strong> Marché</p>
+</div>
+<div id="fiche-7" class="section level5 fiche">
+<h5>Fiche 7</h5>
+<p><strong>Date</strong> 05/03/2026 · <strong>Village</strong> Madiorano
+· <strong>Prénom</strong> Noro · <strong>Sexe</strong> Femme ·
+<strong>Âge</strong> <i>ne sait pas</i></p>
+<p><strong>Durée</strong> 2 h · <strong>Poulpes</strong> 1 ·
+<strong>Poids</strong> 0,7 kg · <strong>Outils</strong> Seau ·
+<strong>Destination</strong> Consommation familiale</p>
+</div>
+<div id="fiche-8" class="section level5 fiche">
+<h5>Fiche 8</h5>
+<p><strong>Date</strong> 05/03/2026 · <strong>Village</strong>
+Ambolimailaka · <strong>Prénom</strong> Lalao · <strong>Sexe</strong>
+Femme · <strong>Âge</strong> 62</p>
+<p><strong>Durée</strong> 4 h · <strong>Poulpes</strong> 5 ·
+<strong>Poids</strong> 4 kg · <strong>Outils</strong> Bâton crochet ;
+Seau · <strong>Destination</strong> Marché</p>
+</div>
+<div class="hint">
+<div class="en">
+<p>Fiche 7: the age is unknown — leave the question empty (that is why
+it is not required). Fiche 4: no octopus, weight 0, destination <em>Pas
+de capture</em>. Decimal numbers: in the web form, type the decimal
+separator your device proposes (point or comma) — check one submission
+in the table.</p>
+</div>
+<div class="fr">
+<p>Fiche 7 : l’âge est inconnu — laissez la question vide (c’est pour
+cela qu’elle n’est pas obligatoire). Fiche 4 : aucun poulpe, poids 0,
+destination <em>Pas de capture</em>. Nombres décimaux : dans le
+formulaire web, tapez le séparateur décimal proposé par votre appareil
+(point ou virgule) — vérifiez une soumission dans le tableau.</p>
+</div>
+</div>
+<div id="quiz-k07" class="quiz" data-quiz-id="k07"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHN1Ym1pc3Npb25zIGluIHlvdXIgZXhwb3J0PyIsImZyIjoiMS4gTm9tYnJlIGRlIHNvdW1pc3Npb25zIGRhbnMgdm90cmUgZXhwb3J0ID8iLCJhbnN3ZXIiOjgsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFRvdGFsIG51bWJlciBvZiBvY3RvcHVzPyIsImZyIjoiMi4gTm9tYnJlIHRvdGFsIGRlIHBvdWxwZXMgPyIsImFuc3dlciI6MzAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjMuIFRvdGFsIHdlaWdodCAoa2csIDEgZGVjaW1hbCk/IiwiZnIiOiIzLiBQb2lkcyB0b3RhbCAoa2csIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoyNS4yLCJ0b2wiOjAuMDUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBOdW1iZXIgb2Ygd29tZW4gaW50ZXJ2aWV3ZWQ/IiwiZnIiOiI0LiBOb21icmUgZGUgZmVtbWVzIGludGVycm9nw6llcyA/IiwiYW5zd2VyIjo2LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBNZWFuIGFnZSAoZW1wdHkgY2VsbHMgZXhjbHVkZWQsIDEgZGVjaW1hbCk/IiwiZnIiOiI1LiDDgmdlIG1veWVuIChjZWxsdWxlcyB2aWRlcyBleGNsdWVzLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MzkuNCwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTnVtYmVyIG9mIGdsZWFuZXJzIHVzaW5nIGEgaG9va2VkIHN0aWNrPyIsImZyIjoiNi4gTm9tYnJlIGRlIHDDqmNoZXVywrdzZXMgdXRpbGlzYW50IHVuIGLDonRvbiBjcm9jaGV0ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI3LiBFeGFjdCBoZWFkZXIgb2YgdGhlIDAvMSBjb2x1bW4gZm9yIHRoZSBob29rZWQgc3RpY2sgaW4geW91ciBYTUwgZXhwb3J0PyIsImZyIjoiNy4gRW4tdMOqdGUgZXhhY3QgZGUgbGEgY29sb25uZSAwLzEgZHUgYsOidG9uIGNyb2NoZXQgZGFucyB2b3RyZSBleHBvcnQgWE1MID8iLCJhbnN3ZXIiOlsib3V0aWxzL2Nyb2NoZXQiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI4LiAlIG9mIGludGVydmlld3Mgd2hvc2UgY2F0Y2ggZ29lcyB0byBhIGNvbGxlY3RvciAoMSBkZWNpbWFsKT8iLCJmciI6IjguICUgZCdlbnRyZXRpZW5zIGRvbnQgbGEgY2FwdHVyZSB2YSDDoCB1biBjb2xsZWN0ZXVyICgxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6MzcuNSwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOS4gTWVhbiBjYXRjaCBwZXIgaG91ciAoa2cvaCwgbWVhbiBvZiBwb2lkcy9oZXVyZXMgb3ZlciB0aGUgOCBpbnRlcnZpZXdzLCAyIGRlY2ltYWxzKT8iLCJmciI6IjkuIENhcHR1cmUgbW95ZW5uZSBwYXIgaGV1cmUgKGtnL2gsIG1veWVubmUgZGUgcG9pZHMvaGV1cmVzIHN1ciBsZXMgOCBlbnRyZXRpZW5zLCAyIGTDqWNpbWFsZXMpID8iLCJhbnN3ZXIiOjAuODMsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMC4gU3VibWlzc2lvbnMgZnJvbSBBbWJvbGltYWlsYWthPyIsImZyIjoiMTAuIFNvdW1pc3Npb25zIGQnQW1ib2xpbWFpbGFrYSA/IiwiYW5zd2VyIjozLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMS4gTWVhbiB3ZWlnaHQgb2Ygb25lIG9jdG9wdXMgKGtnLCB0b3RhbCB3ZWlnaHQgLyB0b3RhbCBudW1iZXIsIDMgZGVjaW1hbHMpPyIsImZyIjoiMTEuIFBvaWRzIG1veWVuIGQndW4gcG91bHBlIChrZywgcG9pZHMgdG90YWwgLyBub21icmUgdG90YWwsIDMgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MC44NCwidG9sIjowLjAwMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMi4gSW4geW91ciBleHBvcnQsIHRoZSB2YWx1ZSBvZiBgdmVudGVgIGZvciBmaWNoZSAzIGlzOiIsImZyIjoiMTIuIERhbnMgdm90cmUgZXhwb3J0LCBsYSB2YWxldXIgZGUgYHZlbnRlYCBwb3VyIGxhIGZpY2hlIDMgZXN0IDoiLCJvcHRpb25zX2VuIjpbIkNvbnNvbW1hdGlvbiBmYW1pbGlhbGUiLCJjb25zb21tYXRpb24iLCIzIl0sIm9wdGlvbnNfZnIiOlsiQ29uc29tbWF0aW9uIGZhbWlsaWFsZSIsImNvbnNvbW1hdGlvbiIsIjMiXSwiYW5zd2VyIjoxfV0=">
+
+</div>
+<div class="solution" data-quiz="k07">
+<div class="en">
+<p>Answers: 1 8 · 2 30 · 3 25.2 kg · 4 6 · 5 39.4 years · 6 5 · 7
+<code>outils/crochet</code> · 8 37.5 % · 9 0.83 kg/h (add a column
+<code>=poids/heures</code>, then its mean) · 10 3 · 11 0.84 kg · 12
+<code>consommation</code> (XML value, not the label).</p>
+<p>The expected XLSForm (labels in French only shown here; your Malagasy
+columns sit next to them):</p>
+</div>
+<div class="fr">
+<p>Réponses : 1 8 · 2 30 · 3 25.2 kg · 4 6 · 5 39.4 ans · 6 5 · 7
+<code>outils/crochet</code> · 8 37.5 % · 9 0.83 kg/h (ajoutez une
+colonne <code>=poids/heures</code>, puis sa moyenne) · 10 3 · 11 0.84 kg
+· 12 <code>consommation</code> (valeur XML, pas le libellé).</p>
+<p>Le XLSForm attendu (seuls les libellés français sont montrés ici ;
+vos colonnes malgaches sont à côté) :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label::Français (fr)</td><td class='xh'>hint::Français (fr)</td><td class='xh'>required</td><td class='xh'>parameters</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>today</td><td>today</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>5</td><td>date</td><td>date_enquete</td><td>Date de l'enquête</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>6</td><td>select_one village</td><td>village</td><td>Village</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>7</td><td>text</td><td>nom</td><td>Prénom de la personne interrogée</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>8</td><td>select_one sexe</td><td>sexe</td><td>Sexe</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>9</td><td>integer</td><td>age</td><td>Âge (années)</td><td>Laisser vide si la personne ne sait pas</td><td></td><td></td></tr><tr><td class='xr'>10</td><td>decimal</td><td>heures</td><td>Durée de la pêche (heures)</td><td>Du départ sur le platier au retour</td><td>yes</td><td></td></tr><tr><td class='xr'>11</td><td>integer</td><td>nb_poulpes</td><td>Nombre de poulpes capturés</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>12</td><td>decimal</td><td>poids</td><td>Poids total des poulpes (kg)</td><td>Pesé sur la balance de l'association</td><td>yes</td><td></td></tr><tr><td class='xr'>13</td><td>select_multiple outil</td><td>outils</td><td>Outils utilisés</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>14</td><td>select_one vente</td><td>vente</td><td>Destination de la capture</td><td></td><td>yes</td><td></td></tr><tr><td class='xr'>15</td><td>image</td><td>photo</td><td>Photo de la capture</td><td></td><td></td><td>max-pixels=1024</td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

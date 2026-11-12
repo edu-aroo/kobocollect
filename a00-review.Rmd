@@ -1,0 +1,209 @@
+---
+title: "[A0 · A complete form, from paper to KoboToolbox]{.en}[A0 · Un formulaire complet, du papier à KoboToolbox]{.fr}"
+pagetitle: "KoboToolbox · A0"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fr <- form_reef()
+s <- fr$survey
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- go through the whole design of a survey: objectives, indicators, unit of observation, data dictionary, form;
+- read a complete XLSForm that combines everything seen in Levels 1 and 2 (metadata, required, hints, choices, groups, calculations, conditions, checks, repeats) — and a **repeat inside a repeat**;
+- apply naming and versioning rules for a project that will last;
+- plan the tests, the pilot, the training and the management of the data (backups, personal data).
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- parcourir toute la conception d'une enquête : objectifs, indicateurs, unité d'observation, dictionnaire des données, formulaire ;
+- lire un XLSForm complet qui combine tout ce qui a été vu aux niveaux 1 et 2 (métadonnées, obligations, indications, choix, groupes, calculs, conditions, contrôles, répétitions) — et une **répétition dans une répétition** ;
+- appliquer des règles de nommage et de versions pour un projet qui va durer ;
+- planifier les tests, le pilote, la formation et la gestion des données (sauvegardes, données personnelles).
+:::
+:::
+
+## [From the question to the form]{.en}[De la question au formulaire]{.fr} {#design}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** A network of marine protected areas (MPAs) and locally managed marine areas (LMMAs) of the south-west and west of Madagascar wants to compare the **state of its coral reefs** between protected and unprotected sites. Divers will visit 8 sites three times in May–June 2026. At each dive they record the location (region › district › commune), the protection status, the divers, the visibility, then **2 to 4 transects**; on each transect, the cover of the substrate and **the fish observed** (family, size class, number). You review the form prepared for them: `r dl("forms/a03_suivi_recifs.xlsx", "a03_suivi_recifs.xlsx")`
+
+**Type of data:** ecological monitoring at three levels — dive (visit), transect, fish observation.
+:::
+::: fr
+**Contexte simulé.** Un réseau d'aires marines protégées (AMP) et d'aires marines gérées localement (LMMA) du sud-ouest et de l'ouest de Madagascar veut comparer l'**état de ses récifs coralliens** entre sites protégés et non protégés. Des plongeurs visiteront 8 sites trois fois en mai–juin 2026. À chaque plongée, ils notent la localisation (région › district › commune), le statut de protection, les plongeurs, la visibilité, puis **2 à 4 transects** ; sur chaque transect, le recouvrement du substrat et **les poissons observés** (famille, classe de taille, nombre). Vous relisez le formulaire préparé pour eux : `r dl("forms/a03_suivi_recifs.xlsx", "a03_suivi_recifs.xlsx")`
+
+**Type de données :** suivi écologique à trois niveaux — plongée (visite), transect, observation de poissons.
+:::
+:::
+
+::: en
+A good form is the **last** step of the design, not the first. Before opening Excel:
+
+1. **Objective** — one sentence: *compare live coral cover and fish abundance between protection statuses*.
+2. **Indicators** — mean live coral cover per site; number of fish per transect, per family and size class; share of large fish (> 20 cm).
+3. **Units of observation and their levels** — visit ⊃ transect ⊃ fish observation. Each level that can occur several times inside the level above is a **repeat**.
+4. **Data dictionary** — a table (one row per variable): name, label, type, unit, possible values, required, condition, check, level. It becomes the `survey` sheet almost directly.
+5. **Lists** — status, divers, fish families, size classes, administrative units: with short, stable names.
+6. **Rules** — what is impossible (constraint), unusual (warning), conditional (relevant), computed (calculate).
+:::
+::: fr
+Un bon formulaire est la **dernière** étape de la conception, pas la première. Avant d'ouvrir Excel :
+
+1. **Objectif** — une phrase : *comparer le recouvrement en corail vivant et l'abondance des poissons entre statuts de protection*.
+2. **Indicateurs** — recouvrement moyen en corail vivant par site ; nombre de poissons par transect, par famille et classe de taille ; part des grands poissons (> 20 cm).
+3. **Unités d'observation et leurs niveaux** — visite ⊃ transect ⊃ observation de poissons. Chaque niveau qui peut se produire plusieurs fois dans le niveau supérieur est une **répétition**.
+4. **Dictionnaire des données** — un tableau (une ligne par variable) : nom, libellé, type, unité, valeurs possibles, obligatoire, condition, contrôle, niveau. Il devient presque directement la feuille `survey`.
+5. **Listes** — statut, plongeurs, familles de poissons, classes de taille, unités administratives : avec des noms courts et stables.
+6. **Règles** — ce qui est impossible (contrainte), inhabituel (avertissement), conditionnel (relevant), calculé (calculate).
+:::
+
+## [Reading the complete form]{.en}[Lire le formulaire complet]{.fr} {#read}
+
+`r xls(s, cols = c("type", "name", "label", "required", "constraint", "calculation", "choice_filter", "repeat_count"))`
+
+::: en
+Everything you know, in one form:
+
+| Rows | What | Seen in |
+|---|---|---|
+| 2–3 | metadata `start`, `end` | Session 2 |
+| 4–11 | group `localisation`: cascade region › district › commune (`choice_filter`), GPS | I3, **A1–A2** |
+| 12–17 | group `plongee`: date not in the future, at least two divers (`count-selected(.) >= 2`), visibility 0–40 m, number of transects 1–6 | I2, I3 |
+| 18–31 | repeat `transects` with `repeat_count = ${nb_transects}`, numbered with `position(..)`; four covers whose **sum must be 100** (constraint on the last one) | I0, I2, I5 |
+| 25–29 | repeat `poissons` **inside** `transects` (no `repeat_count`: the diver adds as many observations as needed) | **A5** |
+| 30 | `sum(${nombre})` inside the transect = fish of **this** transect | I5 |
+| 32 | after the repeats: mean live coral cover of the dive | I0, I5 |
+:::
+::: fr
+Tout ce que vous savez, dans un formulaire :
+
+| Lignes | Quoi | Vu à la séance |
+|---|---|---|
+| 2–3 | métadonnées `start`, `end` | 2 |
+| 4–11 | groupe `localisation` : cascade région › district › commune (`choice_filter`), GPS | I3, **A1–A2** |
+| 12–17 | groupe `plongee` : date pas dans le futur, au moins deux plongeurs (`count-selected(.) >= 2`), visibilité 0–40 m, nombre de transects 1–6 | I2, I3 |
+| 18–31 | répétition `transects` avec `repeat_count = ${nb_transects}`, numérotée avec `position(..)` ; quatre recouvrements dont la **somme doit faire 100** (contrainte sur le dernier) | I0, I2, I5 |
+| 25–29 | répétition `poissons` **dans** `transects` (pas de `repeat_count` : le plongeur ajoute autant d'observations que nécessaire) | **A5** |
+| 30 | `sum(${nombre})` dans le transect = poissons de **ce** transect | I5 |
+| 32 | après les répétitions : recouvrement moyen en corail vivant de la plongée | I0, I5 |
+:::
+
+::: {.callout .tip}
+::: en
+**Nested repeats and calculations.** Inside the repeat `transects`, `sum(${nombre})` adds the fish of the **current transect only** (the nearest repeat). Outside all repeats, `sum(${nombre})` would add the fish of the whole dive. The place of a calculation decides what it sums.
+:::
+::: fr
+**Répétitions imbriquées et calculs.** Dans la répétition `transects`, `sum(${nombre})` additionne les poissons du **transect en cours seulement** (la répétition la plus proche). Hors de toute répétition, `sum(${nombre})` additionnerait les poissons de toute la plongée. La place d'un calcul décide de ce qu'il additionne.
+:::
+:::
+
+## [Rules for a project that lasts]{.en}[Règles pour un projet qui dure]{.fr} {#rules}
+
+::: en
+**Names.** Lowercase, `_`, no accents; prefixes per section if the form is long (`pl_visibilite`, `tr_profondeur`); same names from one year to the next so that the data can be stacked; never reuse a name for a different question.
+
+**Versions.** Change `version` in `settings` at each deployment (`2026-05-v1`, `2026-06-v2`) and keep a *changelog* sheet in the XLSForm (date, change, reason). Keep every deployed file (`suivi_recifs_2026-05-v1.xlsx`…). In the data, `__version__` tells you which version each submission used.
+
+**Choices.** Never change the `name` of a choice that has been used; to retire a choice, keep it in the list for old data and hide it for new forms with a filter (Session A1).
+
+**Library.** Save the blocks you reuse (identification, consent, GPS, household roster) in the KoboToolbox `r ui("library")`, or keep a "master" XLSForm from which you copy rows.
+:::
+::: fr
+**Noms.** Minuscules, `_`, sans accents ; préfixes par section si le formulaire est long (`pl_visibilite`, `tr_profondeur`) ; mêmes noms d'une année à l'autre pour pouvoir empiler les données ; ne jamais réutiliser un nom pour une autre question.
+
+**Versions.** Changez `version` dans `settings` à chaque déploiement (`2026-05-v1`, `2026-06-v2`) et gardez une feuille *journal des modifications* dans le XLSForm (date, modification, raison). Conservez chaque fichier déployé (`suivi_recifs_2026-05-v1.xlsx`…). Dans les données, `__version__` indique la version utilisée par chaque soumission.
+
+**Choix.** Ne changez jamais le `name` d'un choix déjà utilisé ; pour retirer un choix, gardez-le dans la liste pour les anciennes données et masquez-le pour les nouvelles fiches avec un filtre (séance A1).
+
+**Bibliothèque.** Enregistrez les blocs que vous réutilisez (identification, consentement, GPS, liste des membres du ménage) dans la `r ui("library")` de KoboToolbox, ou gardez un XLSForm « maître » dont vous copiez les lignes.
+:::
+
+## [Before, during and after the field]{.en}[Avant, pendant et après le terrain]{.fr} {#field}
+
+::: en
+| When | What |
+|---|---|
+| **Before** | desk test of every branch (each `relevant`, each `constraint` inside/outside); pilot with 5–10 real interviews/dives; correct; train the team **on the final version**; configure all devices; share the project with the right permissions; delete the test data |
+| **During** | look at the data **every day** (table, reports, map); check durations (`start`/`end`), missing GPS, odd values; give feedback to the enumerators; validate submissions; redeploy only if necessary, and tell the team to download the new version |
+| **After** | download the final export (XLS, XML values, groups in headers) **and** the XLSForm; keep both with a short note (dates, versions, problems); archive the project (`r ui("settings_tab")`) when collection is over |
+:::
+::: fr
+| Quand | Quoi |
+|---|---|
+| **Avant** | test au bureau de chaque branche (chaque `relevant`, chaque `constraint` dedans/dehors) ; pilote avec 5 à 10 vrais entretiens/plongées ; corrections ; formation de l'équipe **sur la version finale** ; configuration de tous les appareils ; partage du projet avec les bonnes autorisations ; suppression des données de test |
+| **Pendant** | regarder les données **chaque jour** (tableau, rapports, carte) ; vérifier les durées (`start`/`end`), les GPS manquants, les valeurs étranges ; faire un retour aux enquêteurs ; valider les soumissions ; ne redéployer que si nécessaire, et prévenir l'équipe de télécharger la nouvelle version |
+| **Après** | télécharger l'export final (XLS, valeurs XML, groupes dans les en-têtes) **et** le XLSForm ; garder les deux avec une courte note (dates, versions, problèmes) ; archiver le projet (`r ui("settings_tab")`) à la fin de la collecte |
+:::
+
+::: {.callout .warning}
+::: en
+**Personal data.** Names, phone numbers, GPS of houses and photos of people are personal data. Collect only what you need; ask for **informed consent** at the start of the form (an `acknowledge` question or a `select_one` with a `relevant` on the rest of the form); limit who can see the data (permissions); remove names and phone numbers from the files you share; follow the rules of your institution and the national authorisations for research.
+:::
+::: fr
+**Données personnelles.** Noms, numéros de téléphone, GPS des maisons et photos de personnes sont des données personnelles. Ne collectez que le nécessaire ; demandez le **consentement éclairé** au début du formulaire (une question `acknowledge` ou un `select_one` avec un `relevant` sur la suite du formulaire) ; limitez qui peut voir les données (autorisations) ; retirez noms et téléphones des fichiers que vous partagez ; respectez les règles de votre institution et les autorisations nationales de recherche.
+:::
+:::
+
+```{r answers, include=FALSE}
+ty <- sub(" .*$", "", s$type)
+r1 <- sum(ty == "begin_group"); r2 <- sum(ty == "begin_repeat")
+r3 <- sum(ty == "calculate")
+r4 <- s$name[grepl("= 100", s$constraint)]
+r5 <- sum(s$required == "yes")
+r6 <- sum(s$choice_filter != "")
+r7 <- sum(fr$choices$list_name == "famille")
+r8 <- s$repeat_count[s$name == "transects"]
+```
+
+::: {.application}
+::: en
+### Application work A0
+
+1. Read `a03_suivi_recifs.xlsx` row by row and answer the quiz.
+2. Upload it to KoboToolbox, open the preview and enter one dive with **2 transects**, the first with 3 fish observations, the second with 1. Try a cover total of 95 %: what happens?
+3. Write the **data dictionary** of this form in a new sheet `dictionnaire` (columns: name, level, type, unit, values, required, rule). Keep it: you will use it in Sessions A4–A5.
+4. Add a **consent** question at the very beginning (`select_one oui_non` named `consentement`, *Les plongeurs acceptent que leurs noms soient enregistrés*) and make the group `plongee` relevant only if the answer is `oui`.
+:::
+::: fr
+### Travail d'application A0
+
+1. Lisez `a03_suivi_recifs.xlsx` ligne par ligne et répondez au quiz.
+2. Importez-le dans KoboToolbox, ouvrez l'aperçu et saisissez une plongée avec **2 transects**, le premier avec 3 observations de poissons, le second avec 1. Essayez un total de recouvrement de 95 % : que se passe-t-il ?
+3. Écrivez le **dictionnaire des données** de ce formulaire dans une nouvelle feuille `dictionnaire` (colonnes : name, niveau, type, unité, valeurs, obligatoire, règle). Gardez-le : il servira aux séances A4–A5.
+4. Ajoutez une question de **consentement** tout au début (`select_one oui_non` nommée `consentement`, *Les plongeurs acceptent que leurs noms soient enregistrés*) et rendez le groupe `plongee` conditionnel à la réponse `oui`.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ka0", list(
+  q_num("1. Number of groups (begin_group)?", "1. Nombre de groupes (begin_group) ?", r1, tol = 0),
+  q_num("2. Number of repeats (begin_repeat)?", "2. Nombre de répétitions (begin_repeat) ?", r2, tol = 0),
+  q_num("3. Number of calculate rows?", "3. Nombre de lignes calculate ?", r3, tol = 0),
+  q_text("4. Name of the question whose constraint checks that the covers add up to 100?", "4. Name de la question dont la contrainte vérifie que les recouvrements font 100 ?", r4),
+  q_num("5. Number of required questions?", "5. Nombre de questions obligatoires ?", r5, tol = 0),
+  q_num("6. Number of rows with a choice_filter?", "6. Nombre de lignes avec un choice_filter ?", r6, tol = 0),
+  q_num("7. Number of fish families in the list?", "7. Nombre de familles de poissons dans la liste ?", r7, tol = 0),
+  q_text("8. repeat_count of the transects?", "8. repeat_count des transects ?", r8),
+  q_mcq("9. Inside the repeat transects, sum(${nombre}) adds:", "9. Dans la répétition transects, sum(${nombre}) additionne :",
+        c("all the fish of the dive", "the fish of the current transect", "the fish of all dives"),
+        c("tous les poissons de la plongée", "les poissons du transect en cours", "les poissons de toutes les plongées"), correct = 2),
+  q_mcq("10. You must retire the choice 'rindra' (a diver who left). Best way?", "10. Vous devez retirer le choix « rindra » (un plongeur parti). Meilleure façon ?",
+        c("delete the row in choices", "rename it 'ancien'", "keep it, and hide it for new forms with a filter"),
+        c("supprimer la ligne dans choices", "le renommer « ancien »", "le garder, et le masquer pour les nouvelles fiches avec un filtre"), correct = 3)
+))
+```
+
+::: {.solution data-quiz="ka0"}
+::: en
+1 `r r1` · 2 `r r2` · 3 `r r3` (`num_transect`, `nb_poissons_transect`, `couv_moy`) · 4 `r r4` · 5 `r r5` · 6 `r r6` · 7 `r r7` · 8 ``r r8`` · 9 the current transect · 10 keep it and filter. Application 2: the last cover is refused with the message *Le total des 4 catégories doit faire 100 %*.
+:::
+::: fr
+1 `r r1` · 2 `r r2` · 3 `r r3` (`num_transect`, `nb_poissons_transect`, `couv_moy`) · 4 `r r4` · 5 `r r5` · 6 `r r6` · 7 `r r7` · 8 ``r r8`` · 9 le transect en cours · 10 le garder et le filtrer. Application 2 : le dernier recouvrement est refusé avec le message *Le total des 4 catégories doit faire 100 %*.
+:::
+:::

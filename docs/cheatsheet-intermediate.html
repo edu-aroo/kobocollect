@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · Cheatsheet Intermediate</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">Cheatsheet ·
+Intermediate</span><span class="fr">Aide-mémoire ·
+Intermédiaire</span></h1>
+<h3 class="subtitle"><span class="en">calculate, relevant, constraint,
+group, rank, repeat</span><span class="fr">calculate, relevant,
+constraint, group, rank, repeat</span></h3>
+
+</div>
+
+
+<div class="cheat">
+<div id="references-and-operatorsréférences-et-opérateurs"
+class="section level2 no-track">
+<h2 class="no-track"><span class="en">References and
+operators</span><span class="fr">Références et opérateurs</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Write</span><span class="fr">Écrire</span></th>
+<th><span class="en">Meaning</span><span class="fr">Sens</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>${name}</code></td>
+<td><span class="en">answer to the question
+<code>name</code></span><span class="fr">réponse à la question
+<code>name</code></span></td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td><span class="en">the answer of this question (in
+<code>constraint</code>)</span><span class="fr">la réponse de cette
+question (dans <code>constraint</code>)</span></td>
+</tr>
+<tr class="odd">
+<td><code>+ - * div mod</code></td>
+<td><span class="en">arithmetic — <strong><code>div</code></strong>, not
+<code>/</code></span><span class="fr">arithmétique —
+<strong><code>div</code></strong>, pas <code>/</code></span></td>
+</tr>
+<tr class="even">
+<td><code>= != &lt; &lt;= &gt; &gt;=</code></td>
+<td><span class="en">comparison — <code>=</code>, not
+<code>==</code></span><span class="fr">comparaison — <code>=</code>, pas
+<code>==</code></span></td>
+</tr>
+<tr class="odd">
+<td><code>and or not()</code></td>
+<td><span class="en">logic</span><span class="fr">logique</span></td>
+</tr>
+<tr class="even">
+<td><code>'oui'</code></td>
+<td><span class="en">a text / a choice name, between single
+quotes</span><span class="fr">un texte / un name de choix, entre
+apostrophes</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="functionsfonctions" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Functions</span><span
+class="fr">Fonctions</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Function</span><span
+class="fr">Fonction</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>if(c, a, b)</code></td>
+<td><code>if(${poids} &gt;= 10, 'grosse', 'petite')</code></td>
+</tr>
+<tr class="even">
+<td><code>round(x, n)</code>, <code>int(x)</code></td>
+<td><code>round(${valeur} div ${nb}, 0)</code></td>
+</tr>
+<tr class="odd">
+<td><code>coalesce(a, b)</code></td>
+<td><code>coalesce(${revenu_autre}, 0)</code></td>
+</tr>
+<tr class="even">
+<td><code>concat()</code></td>
+<td><code>concat(${village}, '-', ${num})</code></td>
+</tr>
+<tr class="odd">
+<td><code>today()</code>, <code>now()</code>,
+<code>format-date()</code>, <code>date()</code></td>
+<td><code>int(format-date(today(), '%Y')) - ${annee}</code> ·
+<code>. &gt;= date('2026-04-01')</code></td>
+</tr>
+<tr class="even">
+<td><code>selected(${q}, 'x')</code>,
+<code>count-selected(${q})</code></td>
+<td><code>selected(${engins}, 'autre')</code></td>
+</tr>
+<tr class="odd">
+<td><code>regex(., 'motif')</code></td>
+<td><code>regex(., '^03[2-9][0-9]{7}$')</code></td>
+</tr>
+<tr class="even">
+<td><code>position(..)</code></td>
+<td><span class="en">number of the current repetition</span><span
+class="fr">numéro de la répétition en cours</span></td>
+</tr>
+<tr class="odd">
+<td><code>sum()</code>, <code>count()</code>, <code>max()</code>,
+<code>min()</code></td>
+<td><code>sum(${est_enfant})</code> ·
+<code>count(${membres})</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="columnscolonnes" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Columns</span><span
+class="fr">Colonnes</span></h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Column</span><span class="fr">Colonne</span></th>
+<th><span class="en">Use</span><span class="fr">Usage</span></th>
+<th><span class="en">Example</span><span class="fr">Exemple</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>calculation</code> (type <code>calculate</code>)</td>
+<td><span class="en">hidden value computed and stored</span><span
+class="fr">valeur cachée calculée et enregistrée</span></td>
+<td><code>${poids} * ${prix_kg}</code></td>
+</tr>
+<tr class="even">
+<td><code>relevant</code></td>
+<td><span class="en">show only if true</span><span class="fr">afficher
+seulement si vrai</span></td>
+<td><code>${peche} = 'oui'</code></td>
+</tr>
+<tr class="odd">
+<td><code>constraint</code> + <code>constraint_message</code></td>
+<td><span class="en">refuse invalid answers</span><span
+class="fr">refuser les réponses invalides</span></td>
+<td><code>. &gt;= 0 and . &lt;= 7</code></td>
+</tr>
+<tr class="even">
+<td><code>appearance</code></td>
+<td><code>field-list</code> (<span class="en">group on one
+screen</span><span class="fr">groupe sur un écran</span>),
+<code>likert</code>, <code>minimal</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>repeat_count</code></td>
+<td><span class="en">number of repetitions</span><span class="fr">nombre
+de répétitions</span></td>
+<td><code>${nb_membres}</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="structurestructure" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Structure</span><span
+class="fr">Structure</span></h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="en">Rows</span><span class="fr">Lignes</span></th>
+<th><span class="en">Export</span><span class="fr">Export</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>begin_group</code> … <code>end_group</code></td>
+<td><span class="en">prefix <code>group/</code> in headers
+(option)</span><span class="fr">préfixe <code>groupe/</code> dans les
+en-têtes (option)</span></td>
+</tr>
+<tr class="even">
+<td><code>begin_repeat</code> … <code>end_repeat</code></td>
+<td><span class="en"><strong>own sheet</strong> (XLS only);
+<code>_parent_index</code> → <code>_index</code> of the
+parent</span><span class="fr"><strong>feuille propre</strong> (XLS
+seulement) ; <code>_parent_index</code> → <code>_index</code> du
+parent</span></td>
+</tr>
+<tr class="odd">
+<td><code>rank list</code></td>
+<td><span class="en">one cell: names in order, separated by
+spaces</span><span class="fr">une cellule : names dans l’ordre, séparés
+par des espaces</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="remindersrappels" class="section level2 no-track">
+<h2 class="no-track"><span class="en">Reminders</span><span
+class="fr">Rappels</span></h2>
+<div class="en">
+<ul>
+<li>a hidden question is not required and is <strong>empty</strong> in
+the data (≠ 0);</li>
+<li>an empty answer is not checked by <code>constraint</code> (use
+<code>required</code>);</li>
+<li>impossible value → <code>constraint</code>; unusual but possible →
+warning <code>note</code> with <code>relevant</code>;</li>
+<li>test each constraint with a value just inside and just outside.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>une question masquée n’est pas obligatoire et est
+<strong>vide</strong> dans les données (≠ 0) ;</li>
+<li>une réponse vide n’est pas contrôlée par <code>constraint</code>
+(utilisez <code>required</code>) ;</li>
+<li>valeur impossible → <code>constraint</code> ; inhabituelle mais
+possible → <code>note</code> d’avertissement avec <code>relevant</code>
+;</li>
+<li>testez chaque contrainte avec une valeur juste dedans et juste
+dehors.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

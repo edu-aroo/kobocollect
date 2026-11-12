@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A7</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A7 · Final project: the
+complete household survey</span><span class="fr">A7 · Projet final :
+l’enquête ménages complète</span></h1>
+<h3 class="subtitle">~5 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="the-whole-chain-on-your-own" class="section level4 en">
+<h4>The whole chain, on your own</h4>
+<p><strong>Part 1</strong> — build the complete XLSForm of a household
+survey from its specifications: cascade, groups, calculations,
+conditions, checks, ranking, two repeats, a choice filter inside a
+repeat. Upload, test, deploy. <strong>Part 2</strong> — analyse the
+export of the real survey (three sheets) in R and answer the questions
+of the cooperative.</p>
+</div>
+<div id="toute-la-chaîne-en-autonomie" class="section level4 fr">
+<h4>Toute la chaîne, en autonomie</h4>
+<p><strong>Partie 1</strong> — construire le XLSForm complet d’une
+enquête ménages à partir de son cahier des charges : cascade, groupes,
+calculs, conditions, contrôles, classement, deux répétitions, un filtre
+de choix dans une répétition. Importer, tester, déployer. <strong>Partie
+2</strong> — analyser dans R l’export de l’enquête réelle (trois
+feuilles) et répondre aux questions de la coopérative.</p>
+</div>
+</div>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The network extends the household
+survey of Level 2 to <strong>six communes in three regions</strong>. The
+new version adds the administrative cascade and, for fishing households,
+the <strong>catches of the last 7 days</strong> (one repetition per
+catch: gear, species, weight, price), where the gear can only be one of
+the gears the household said it uses. 80 households were interviewed in
+April 2026. The cooperative asks: who are the households, what do they
+catch, how much does it bring, and what worries them?</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Le réseau étend l’enquête ménages
+du niveau 2 à <strong>six communes de trois régions</strong>. La
+nouvelle version ajoute la cascade administrative et, pour les ménages
+qui pêchent, les <strong>captures des 7 derniers jours</strong> (une
+répétition par capture : engin, espèce, poids, prix), où l’engin ne peut
+être que l’un des engins que le ménage dit utiliser. 80 ménages ont été
+interrogés en avril 2026. La coopérative demande : qui sont les ménages,
+que capturent-ils, combien cela rapporte-t-il, et qu’est-ce qui les
+inquiète ?</p>
+</div>
+</div>
+<div id="part1" class="section level2">
+<h2><span class="en">Part 1 — Build the form</span><span
+class="fr">Partie 1 — Construire le formulaire</span></h2>
+<div class="en">
+<p>Start from <strong>your</strong> form of Session I5
+(<code>i05_menage_peche.xlsx</code> with your changes) and make these
+changes. Form title <em>Enquête ménages pêche complète</em>, form_id
+<code>menages_peche_complet</code>, a new <code>version</code>.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Identification</strong>: replace the question
+<code>village</code> (list) by the cascade <code>region</code> ›
+<code>district</code> › <code>commune</code> (lists of Session A2),
+followed by a <code>text</code> question <code>village</code>
+(<em>Village ou fokontany</em>). All required.</li>
+<li><strong>Members</strong> (repeat <code>membres</code>): unchanged —
+<code>repeat_count</code>, <code>position(..)</code>,
+<code>scolarise</code> and <code>activite</code> conditional on age,
+<code>nb_enfants</code> = <code>sum(${est_enfant})</code> with its
+note.</li>
+<li><strong>Fishing</strong> (group <code>peche</code>): after
+<code>revenu_peche</code>, a repeat
+<strong><code>captures</code></strong> (<em>Capture des 7 derniers
+jours</em>) shown only to fishing households, <strong>without</strong>
+<code>repeat_count</code>, with:
+<ul>
+<li><code>engin_capture</code> — <code>select_one engin</code>,
+required, <strong>only the gears ticked in
+<code>engins</code></strong>;</li>
+<li><code>espece</code> — <code>select_one espece</code> (the 6 species
+of Level 1), required;</li>
+<li><code>poids</code> — decimal, required, &gt; 0 and ≤ 300 kg;</li>
+<li><code>prix_kg</code> — integer, ≥ 0 (can be left empty if the catch
+was eaten);</li>
+<li><code>valeur</code> — calculate: weight × price, counting an empty
+price as 0. After the repeat: <code>valeur_semaine</code> = sum of the
+values. Keep <code>revenu_autre</code> and
+<code>revenu_total</code>.</li>
+</ul></li>
+<li><strong>Opinions</strong> (group <code>avis</code>): unchanged
+(<code>rank probleme</code>, Likert <code>avis_amp</code>).</li>
+<li>Upload, correct, test <strong>every branch</strong> in the preview
+(a household that does not fish; a household with 3 catches with two
+gears), deploy.</li>
+</ol>
+</div>
+<div class="fr">
+<p>Partez de <strong>votre</strong> formulaire de la séance I5
+(<code>i05_menage_peche.xlsx</code> avec vos modifications) et faites
+ces changements. Titre <em>Enquête ménages pêche complète</em>, form_id
+<code>menages_peche_complet</code>, une nouvelle
+<code>version</code>.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Identification</strong> : remplacez la question
+<code>village</code> (liste) par la cascade <code>region</code> ›
+<code>district</code> › <code>commune</code> (listes de la séance A2),
+suivie d’une question <code>text</code> <code>village</code>
+(<em>Village ou fokontany</em>). Toutes obligatoires.</li>
+<li><strong>Membres</strong> (répétition <code>membres</code>) :
+inchangée — <code>repeat_count</code>, <code>position(..)</code>,
+<code>scolarise</code> et <code>activite</code> selon l’âge,
+<code>nb_enfants</code> = <code>sum(${est_enfant})</code> avec sa
+note.</li>
+<li><strong>Pêche</strong> (groupe <code>peche</code>) : après
+<code>revenu_peche</code>, une répétition
+<strong><code>captures</code></strong> (<em>Capture des 7 derniers
+jours</em>) affichée seulement aux ménages qui pêchent,
+<strong>sans</strong> <code>repeat_count</code>, avec :
+<ul>
+<li><code>engin_capture</code> — <code>select_one engin</code>,
+obligatoire, <strong>seulement les engins cochés dans
+<code>engins</code></strong> ;</li>
+<li><code>espece</code> — <code>select_one espece</code> (les 6 espèces
+du niveau 1), obligatoire ;</li>
+<li><code>poids</code> — décimal, obligatoire, &gt; 0 et ≤ 300 kg ;</li>
+<li><code>prix_kg</code> — entier, ≥ 0 (peut rester vide si la capture a
+été consommée) ;</li>
+<li><code>valeur</code> — calcul : poids × prix, en comptant un prix
+vide comme 0. Après la répétition : <code>valeur_semaine</code> = somme
+des valeurs. Gardez <code>revenu_autre</code> et
+<code>revenu_total</code>.</li>
+</ul></li>
+<li><strong>Avis</strong> (groupe <code>avis</code>) : inchangé
+(<code>rank probleme</code>, Likert <code>avis_amp</code>).</li>
+<li>Importez, corrigez, testez <strong>chaque branche</strong> dans
+l’aperçu (un ménage qui ne pêche pas ; un ménage avec 3 captures et deux
+engins), déployez.</li>
+</ol>
+</div>
+</div>
+<div id="part2" class="section level2">
+<h2><span class="en">Part 2 — Analyse the survey in R</span><span
+class="fr">Partie 2 — Analyser l’enquête dans R</span></h2>
+<div class="en">
+<p>Export of the 80 households (XLS, XML values, groups in headers):
+<a class="btn-dl" href="data/exports/a07_enquete_menages_xml.xlsx" download>⇩
+a07_enquete_menages_xml.xlsx</a>. For the labels, use
+<strong>your</strong> XLSForm of Part 1 (same names). Write a script
+<code>R/03_final.R</code> that:</p>
+<ol style="list-style-type: decimal">
+<li>reads the three sheets with <code>read_kobo()</code>;</li>
+<li>links <code>membres</code> and <code>captures</code> to the
+households (<code>_parent_index</code> = <code>_index</code>) and adds
+region, district and commune labels;</li>
+<li>runs the checks of Session A5 (orphans; members per household =
+<code>nb_membres</code>; <code>valeur_semaine</code> = sum of the catch
+values; no catch for a non-fishing household);</li>
+<li>produces the tables needed to answer the quiz, and saves them in
+<code>data/clean/enquete_complete_tables.xlsx</code>.</li>
+</ol>
+</div>
+<div class="fr">
+<p>Export des 80 ménages (XLS, valeurs XML, groupes dans les en-têtes) :
+<a class="btn-dl" href="data/exports/a07_enquete_menages_xml.xlsx" download>⇩
+a07_enquete_menages_xml.xlsx</a>. Pour les libellés, utilisez
+<strong>votre</strong> XLSForm de la partie 1 (mêmes names). Écrivez un
+script <code>R/03_final.R</code> qui :</p>
+<ol style="list-style-type: decimal">
+<li>lit les trois feuilles avec <code>read_kobo()</code> ;</li>
+<li>relie <code>membres</code> et <code>captures</code> aux ménages
+(<code>_parent_index</code> = <code>_index</code>) et ajoute les
+libellés de région, district et commune ;</li>
+<li>lance les contrôles de la séance A5 (orphelins ; membres par ménage
+= <code>nb_membres</code> ; <code>valeur_semaine</code> = somme des
+valeurs des captures ; aucune capture pour un ménage qui ne pêche pas)
+;</li>
+<li>produit les tables nécessaires pour répondre au quiz, et les
+enregistre dans
+<code>data/clean/enquete_complete_tables.xlsx</code>.</li>
+</ol>
+</div>
+<div id="quiz-ka7" class="quiz" data-quiz-id="ka7"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBvZiB0aGUgbWVtYnJlcyBzaGVldD8iLCJmciI6IjEuIExpZ25lcyBkZSBsYSBmZXVpbGxlIG1lbWJyZXMgPyIsImFuc3dlciI6Mzk5LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBSb3dzIG9mIHRoZSBjYXB0dXJlcyBzaGVldD8iLCJmciI6IjIuIExpZ25lcyBkZSBsYSBmZXVpbGxlIGNhcHR1cmVzID8iLCJhbnN3ZXIiOjE0NCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6InRleHQiLCJlbiI6IjMuIENvbW11bmUgKGxhYmVsKSB3aXRoIHRoZSBtb3N0IGhvdXNlaG9sZHM/IiwiZnIiOiIzLiBDb21tdW5lIChsaWJlbGzDqSkgYXZlYyBsZSBwbHVzIGRlIG3DqW5hZ2VzID8iLCJhbnN3ZXIiOlsiTWlsZW5ha2EiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI0LiBNZWFuIGhvdXNlaG9sZCBzaXplIGluIHRoZSByZWdpb24gTWVuYWJlICgyIGRlY2ltYWxzKT8iLCJmciI6IjQuIFRhaWxsZSBtb3llbm5lIGRlcyBtw6luYWdlcyBkZSBsYSByw6lnaW9uIE1lbmFiZSAoMiBkw6ljaW1hbGVzKSA/IiwiYW5zd2VyIjo0LjQsInRvbCI6MC4wMDYsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiI1LiBUb3RhbCB3ZWlnaHQgb2YgdGhlIGNhdGNoZXMgb2YgdGhlIHdlZWsgKGtnLCAxIGRlY2ltYWwpPyIsImZyIjoiNS4gUG9pZHMgdG90YWwgZGVzIGNhcHR1cmVzIGRlIGxhIHNlbWFpbmUgKGtnLCAxIGTDqWNpbWFsZSkgPyIsImFuc3dlciI6OTU5LjIsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI2LiBTcGVjaWVzIChuYW1lKSB3aXRoIHRoZSBsYXJnZXN0IHRvdGFsIHZhbHVlPyIsImZyIjoiNi4gRXNww6hjZSAobmFtZSkgw6AgbGEgcGx1cyBncmFuZGUgdmFsZXVyIHRvdGFsZSA/IiwiYW5zd2VyIjpbInBvaXNzb25fcmVjaWYiXX0seyJ0eXBlIjoibnVtIiwiZW4iOiI3LiBNZWFuIHZhbGV1cl9zZW1haW5lIG9mIHRoZSBmaXNoaW5nIGhvdXNlaG9sZHMgKEFyLCByb3VuZGVkIHRvIHRoZSB1bml0KT8iLCJmciI6IjcuIHZhbGV1cl9zZW1haW5lIG1veWVubmUgZGVzIG3DqW5hZ2VzIHF1aSBww6pjaGVudCAoQXIsIGFycm9uZGllIMOgIGwndW5pdMOpKSA/IiwiYW5zd2VyIjo2MzEwOSwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiOC4gJSBvZiBjYXRjaCByb3dzIHdpdGhvdXQgcHJpY2UgKDEgZGVjaW1hbCk/IiwiZnIiOiI4LiAlIGRlIGxpZ25lcyBkZSBjYXB0dXJlcyBzYW5zIHByaXggKDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjo3LjYsInRvbCI6MC4wNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjkuIEZpc2hpbmcgaG91c2Vob2xkcyB3aXRoIG5vIGNhdGNoIHJlY29yZGVkPyIsImZyIjoiOS4gTcOpbmFnZXMgcXVpIHDDqmNoZW50IHNhbnMgYXVjdW5lIGNhcHR1cmUgZW5yZWdpc3Ryw6llID8iLCJhbnN3ZXIiOjcsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiIxMC4gQ29tbXVuZSAobGFiZWwpIHdpdGggdGhlIGhpZ2hlc3QgbWVhbiB2YWxldXJfc2VtYWluZSAoZmlzaGluZyBob3VzZWhvbGRzKT8iLCJmciI6IjEwLiBDb21tdW5lIChsaWJlbGzDqSkgw6AgbGEgcGx1cyBmb3J0ZSB2YWxldXJfc2VtYWluZSBtb3llbm5lIChtw6luYWdlcyBxdWkgcMOqY2hlbnQpID8iLCJhbnN3ZXIiOlsiQmVsbyBzdXIgTWVyIl19LHsidHlwZSI6Im51bSIsImVuIjoiMTEuIENoaWxkcmVuIGFnZWQgNuKAkzE3IG5vdCBhdCBzY2hvb2wgaW4gQXRzaW1vLUFuZHJlZmFuYT8iLCJmciI6IjExLiBFbmZhbnRzIGRlIDYgw6AgMTcgYW5zIG5vbiBzY29sYXJpc8OpcyBlbiBBdHNpbW8tQW5kcmVmYW5hID8iLCJhbnN3ZXIiOjI1LCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMTIuIFByb2JsZW0gKG5hbWUpIG1vc3Qgb2Z0ZW4gcmFua2VkIGZpcnN0IGluIE1lbmFiZT8iLCJmciI6IjEyLiBQcm9ibMOobWUgKG5hbWUpIGxlIHBsdXMgc291dmVudCBjbGFzc8OpIHByZW1pZXIgZW4gTWVuYWJlID8iLCJhbnN3ZXIiOlsiYmFpc3NlX2NhcHR1cmVzIl19LHsidHlwZSI6Im51bSIsImVuIjoiMTMuIEhvdXNlaG9sZHMgd2hvc2UgdmFsZXVyX3NlbWFpbmUgZGlmZmVycyBmcm9tIHRoZSBzdW0gb2YgdGhlaXIgY2F0Y2ggdmFsdWVzIChjaGVjayk/IiwiZnIiOiIxMy4gTcOpbmFnZXMgZG9udCB2YWxldXJfc2VtYWluZSBkaWZmw6hyZSBkZSBsYSBzb21tZSBkZXMgdmFsZXVycyBkZSBsZXVycyBjYXB0dXJlcyAoY29udHLDtGxlKSA/IiwiYW5zd2VyIjowLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn1d">
+
+</div>
+<div class="solution" data-quiz="ka7">
+<div class="en">
+<p><strong>Answers.</strong> 1 399 · 2 144 · 3 Milenaka · 4 4.4 · 5
+959.2 kg · 6 poisson_recif · 7 63 109 Ar · 8 7.6 % · 9 7 (they fish, but
+caught nothing that week: <code>valeur_semaine</code> = 0) · 10 Belo sur
+Mer · 11 25 · 12 baisse_captures · 13 0.</p>
+<p><strong>Reference form</strong> (compare with yours):
+<a class="btn-dl" href="data/forms/a07_enquete_complete_reference.xlsx" download>⇩
+a07_enquete_complete_reference.xlsx</a>. The new rows:</p>
+</div>
+<div class="fr">
+<p><strong>Réponses.</strong> 1 399 · 2 144 · 3 Milenaka · 4 4.4 · 5
+959.2 kg · 6 poisson_recif · 7 63 109 Ar · 8 7.6 % · 9 7 (ils pêchent,
+mais n’ont rien pris cette semaine-là : <code>valeur_semaine</code> = 0)
+· 10 Belo sur Mer · 11 25 · 12 baisse_captures · 13 0.</p>
+<p><strong>Formulaire de référence</strong> (comparez avec le vôtre) :
+<a class="btn-dl" href="data/forms/a07_enquete_complete_reference.xlsx" download>⇩
+a07_enquete_complete_reference.xlsx</a>. Les nouvelles lignes :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>relevant</td><td class='xh'>constraint</td><td class='xh'>calculation</td><td class='xh'>choice_filter</td></tr><tr><td class='xr'>6</td><td>select_one enqueteur</td><td>enqueteur</td><td>Enquêteur</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>7</td><td>select_one region</td><td>region</td><td>Région</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>8</td><td>select_one district</td><td>district</td><td>District</td><td>yes</td><td></td><td></td><td></td><td>region = &#36;{region}</td></tr><tr><td class='xr'>9</td><td>select_one commune</td><td>commune</td><td>Commune</td><td>yes</td><td></td><td></td><td></td><td>district = &#36;{district}</td></tr><tr><td class='xr'>10</td><td>text</td><td>village</td><td>Village ou fokontany</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>11</td><td>date</td><td>date_enquete</td><td>Date de l'enquête</td><td>yes</td><td></td><td>. &lt;= today()</td><td></td><td></td></tr><tr><td class='xr'>33</td><td>integer</td><td>revenu_peche</td><td>Revenu mensuel de la pêche (Ariary)</td><td></td><td>&#36;{pratique_peche} = 'oui'</td><td>. &gt;= 0</td><td></td><td></td></tr><tr><td class='xr'>34</td><td>begin_repeat</td><td>captures</td><td>Capture des 7 derniers jours</td><td></td><td>&#36;{pratique_peche} = 'oui'</td><td></td><td></td><td></td></tr><tr><td class='xr'>35</td><td>select_one engin</td><td>engin_capture</td><td>Engin utilisé</td><td>yes</td><td></td><td></td><td></td><td>selected(&#36;{engins}, name)</td></tr><tr><td class='xr'>36</td><td>select_one espece</td><td>espece</td><td>Espèce</td><td>yes</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>37</td><td>decimal</td><td>poids</td><td>Poids (kg)</td><td>yes</td><td></td><td>. &gt; 0 and . &lt;= 300</td><td></td><td></td></tr><tr><td class='xr'>38</td><td>integer</td><td>prix_kg</td><td>Prix de vente (Ar/kg)</td><td></td><td></td><td>. &gt;= 0</td><td></td><td></td></tr><tr><td class='xr'>39</td><td>calculate</td><td>valeur</td><td></td><td></td><td></td><td></td><td>&#36;{poids} * coalesce(&#36;{prix_kg}, 0)</td><td></td></tr><tr><td class='xr'>40</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>41</td><td>calculate</td><td>valeur_semaine</td><td></td><td></td><td></td><td></td><td>sum(&#36;{valeur})</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/kobo_import.R&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>f_form <span class="ot">&lt;-</span> <span class="st">&quot;data/raw/mon_formulaire_complet.xlsx&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>k  <span class="ot">&lt;-</span> <span class="fu">read_kobo</span>(<span class="st">&quot;data/raw/a07_enquete_menages_xml.xlsx&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>hh <span class="ot">&lt;-</span> k<span class="sc">$</span>main <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">commune_lab =</span> <span class="fu">kobo_label</span>(commune, f_form, <span class="st">&quot;commune&quot;</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                       <span class="at">region_lab  =</span> <span class="fu">kobo_label</span>(region,  f_form, <span class="st">&quot;region&quot;</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>mb <span class="ot">&lt;-</span> k<span class="sc">$</span>membres  <span class="sc">|&gt;</span> <span class="fu">left_join</span>(hh <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>, commune_lab, region_lab), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;_parent_index&quot;</span> <span class="ot">=</span> <span class="st">&quot;_index&quot;</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>ca <span class="ot">&lt;-</span> k<span class="sc">$</span>captures <span class="sc">|&gt;</span> <span class="fu">left_join</span>(hh <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>, commune_lab), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;_parent_index&quot;</span> <span class="ot">=</span> <span class="st">&quot;_index&quot;</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># checks</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">anti_join</span>(k<span class="sc">$</span>captures, k<span class="sc">$</span>main, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;_parent_index&quot;</span> <span class="ot">=</span> <span class="st">&quot;_index&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()           <span class="co"># orphans: 0</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>k<span class="sc">$</span>membres <span class="sc">|&gt;</span> <span class="fu">count</span>(<span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">left_join</span>(k<span class="sc">$</span>main <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>, nb_membres),</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;_parent_index&quot;</span> <span class="ot">=</span> <span class="st">&quot;_index&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">!=</span> nb_membres) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()            <span class="co"># 0</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">filter</span>(pratique_peche <span class="sc">==</span> <span class="st">&quot;non&quot;</span>, <span class="st">`</span><span class="at">_index</span><span class="st">`</span> <span class="sc">%in%</span> ca<span class="sc">$</span><span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()     <span class="co"># 0</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">nrow</span>(k<span class="sc">$</span>membres); <span class="fu">nrow</span>(k<span class="sc">$</span>captures)                                           <span class="co"># 1, 2</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">count</span>(hh, commune_lab, <span class="at">sort =</span> <span class="cn">TRUE</span>)                                         <span class="co"># 3</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">&quot;menabe&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">mean</span>(nb_membres))             <span class="co"># 4</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">sum</span>(ca<span class="sc">$</span>poids)                                                               <span class="co"># 5</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>ca <span class="sc">|&gt;</span> <span class="fu">count</span>(espece, <span class="at">wt =</span> valeur, <span class="at">sort =</span> <span class="cn">TRUE</span>)                               <span class="co"># 6</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">filter</span>(pratique_peche <span class="sc">==</span> <span class="st">&quot;oui&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">mean</span>(valeur_semaine))    <span class="co"># 7</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(<span class="fu">is.na</span>(ca<span class="sc">$</span>prix_kg))                                               <span class="co"># 8</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">filter</span>(pratique_peche <span class="sc">==</span> <span class="st">&quot;oui&quot;</span>, <span class="sc">!</span><span class="st">`</span><span class="at">_index</span><span class="st">`</span> <span class="sc">%in%</span> ca<span class="sc">$</span><span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()   <span class="co"># 9</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">group_by</span>(commune_lab) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(valeur_semaine, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(m))  <span class="co"># 10</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>mb <span class="sc">|&gt;</span> <span class="fu">filter</span>(region_lab <span class="sc">==</span> <span class="st">&quot;Atsimo-Andrefana&quot;</span>, age_membre <span class="sc">&gt;=</span> <span class="dv">6</span>, age_membre <span class="sc">&lt;=</span> <span class="dv">17</span>, scolarise <span class="sc">==</span> <span class="st">&quot;non&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()  <span class="co"># 11</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>hh <span class="sc">|&gt;</span> <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">&quot;menabe&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">premier =</span> <span class="fu">word</span>(problemes, <span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="fu">count</span>(premier, <span class="at">sort =</span> <span class="cn">TRUE</span>)  <span class="co"># 12</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>ca <span class="sc">|&gt;</span> <span class="fu">group_by</span>(<span class="st">`</span><span class="at">_parent_index</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">s =</span> <span class="fu">sum</span>(valeur)) <span class="sc">|&gt;</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="fu">right_join</span>(hh <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">_index</span><span class="st">`</span>, valeur_semaine), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;_parent_index&quot;</span> <span class="ot">=</span> <span class="st">&quot;_index&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(<span class="fu">coalesce</span>(s, <span class="dv">0</span>) <span class="sc">-</span> valeur_semaine) <span class="sc">&gt;</span> <span class="fl">0.01</span>) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()            <span class="co"># 13</span></span></code></pre></div>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Congratulations!</strong> You can now take a survey from the
+first idea to the tables of the report. Keep your scripts and your
+XLSForms: they are the templates of your next surveys.</p>
+</div>
+<div class="fr">
+<p><strong>Félicitations !</strong> Vous savez maintenant mener une
+enquête de la première idée aux tableaux du rapport. Gardez vos scripts
+et vos XLSForms : ce sont les modèles de vos prochaines enquêtes.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

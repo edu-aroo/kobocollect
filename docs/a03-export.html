@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · A3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">A3 · Downloading data for
+analysis</span><span class="fr">A3 · Télécharger les données pour
+l’analyse</span></h1>
+<h3 class="subtitle">~2 h</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>choose every export setting with the analysis in mind, and save
+them;</li>
+<li>predict the structure of an XLS export (sheets, headers, metadata,
+links) from the XLSForm;</li>
+<li>handle several versions of a form in one export;</li>
+<li>know the other ways to get the data: synchronous export links, media
+files, and the API (R package <code>robotoolbox</code>).</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>choisir chaque réglage d’export en pensant à l’analyse, et les
+enregistrer ;</li>
+<li>prévoir la structure d’un export XLS (feuilles, en-têtes,
+métadonnées, liens) à partir du XLSForm ;</li>
+<li>gérer plusieurs versions d’un formulaire dans un même export ;</li>
+<li>connaître les autres façons d’obtenir les données : liens d’export
+synchrone, fichiers médias, et l’API (package R
+<code>robotoolbox</code>).</li>
+</ul>
+</div>
+</div>
+<div id="context" class="section level2">
+<h2><span class="en">The reef data are in</span><span class="fr">Les
+données des récifs sont arrivées</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The 24 dives of May–June 2026
+have been sent (accounts <code>hery_rf</code> and <code>lova_rf</code>).
+The network’s analyst will work in R; the network’s coordinator wants a
+readable file for the annual meeting. You prepare <strong>two
+exports</strong> of the same data:
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_xml.xlsx" download>⇩
+a03_suivi_recifs_xml.xlsx</a> (for R) and
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_labels.xlsx" download>⇩
+a03_suivi_recifs_labels.xlsx</a> (for reading).</p>
+<p><strong>Type of data:</strong> three linked levels — 24 dives, 75
+transects, 425 fish observations.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> Les 24 plongées de mai–juin 2026
+ont été envoyées (comptes <code>hery_rf</code> et <code>lova_rf</code>).
+L’analyste du réseau travaillera dans R ; le coordinateur veut un
+fichier lisible pour la réunion annuelle. Vous préparez <strong>deux
+exports</strong> des mêmes données :
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_xml.xlsx" download>⇩
+a03_suivi_recifs_xml.xlsx</a> (pour R) et
+<a class="btn-dl" href="data/exports/a03_suivi_recifs_labels.xlsx" download>⇩
+a03_suivi_recifs_labels.xlsx</a> (pour la lecture).</p>
+<p><strong>Type de données :</strong> trois niveaux liés — 24 plongées,
+75 transects, 425 observations de poissons.</p>
+</div>
+</div>
+</div>
+<div id="settings" class="section level2">
+<h2><span class="en">The settings for analysis</span><span
+class="fr">Les réglages pour l’analyse</span></h2>
+<div class="en">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>For analysis (R, Stata, SPSS…)</th>
+<th>For reading (partners, reports)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Sélectionner le type d’export <span
+class="ui-en">(Select export type)</span></span></td>
+<td><strong>XLS</strong></td>
+<td>XLS</td>
+<td>only XLS keeps the repeat sheets</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Format des valeurs et des en-têtes <span
+class="ui-en">(Value and header format)</span></span></td>
+<td><strong><span class="ui">Valeurs et en-têtes XML <span
+class="ui-en">(XML values and headers)</span></span></strong></td>
+<td><span class="ui">Étiquettes <span class="ui-en">(Labels
+(default))</span></span> (in the language wanted)</td>
+<td>names are short, stable, without accents; labels change when you
+correct a typo</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Exporter les questions à choix multiples en… <span
+class="ui-en">(Export Select Many questions as…)</span></span></td>
+<td><strong>single and separate columns</strong></td>
+<td>single column</td>
+<td>0/1 columns are easy to count; the single column keeps the order of
+ticking</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Inclure les données de toutes les versions <span
+class="ui-en">(Include data from all versions)</span></span></td>
+<td><strong>ticked</strong></td>
+<td>ticked</td>
+<td>a column that existed only in an old version is otherwise lost</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Inclure les groupes dans les en-têtes <span
+class="ui-en">(Include groups in headers)</span></span></td>
+<td><strong>ticked</strong> (your choice — keep it for the whole
+project)</td>
+<td>not ticked</td>
+<td><code>group/question</code> tells you where a column comes from;
+scripts can select a section</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Stocker les dates et les nombres en texte <span
+class="ui-en">(Store date and number responses as
+text)</span></span></td>
+<td>not ticked</td>
+<td>not ticked</td>
+<td>numbers stay numbers; tick it only if Excel damages your dates</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Inclure les URL des médias <span
+class="ui-en">(Include media URLs)</span></span></td>
+<td>ticked if you have photos</td>
+<td>—</td>
+<td>links to the photos</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Sélectionner les questions à exporter <span
+class="ui-en">(Select questions to be exported)</span></span></td>
+<td>all</td>
+<td>only the useful ones</td>
+<td>a lighter file for partners; never remove columns from the analysis
+export</td>
+</tr>
+</tbody>
+</table>
+<p>Then <span class="ui">Enregistrer la sélection sous… <span
+class="ui-en">(Save selection as…)</span></span> with a clear name
+(<code>analyse_R</code>, <code>lecture_FR</code>): the same settings
+every time, for everyone in the team.</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Réglage</th>
+<th>Pour l’analyse (R, Stata, SPSS…)</th>
+<th>Pour la lecture (partenaires, rapports)</th>
+<th>Pourquoi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="ui">Sélectionner le type d’export <span
+class="ui-en">(Select export type)</span></span></td>
+<td><strong>XLS</strong></td>
+<td>XLS</td>
+<td>seul XLS garde les feuilles des répétitions</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Format des valeurs et des en-têtes <span
+class="ui-en">(Value and header format)</span></span></td>
+<td><strong><span class="ui">Valeurs et en-têtes XML <span
+class="ui-en">(XML values and headers)</span></span></strong></td>
+<td><span class="ui">Étiquettes <span class="ui-en">(Labels
+(default))</span></span> (dans la langue voulue)</td>
+<td>les names sont courts, stables, sans accents ; les libellés changent
+quand on corrige une faute</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Exporter les questions à choix multiples en… <span
+class="ui-en">(Export Select Many questions as…)</span></span></td>
+<td><strong>colonnes uniques et séparées</strong></td>
+<td>colonne unique</td>
+<td>les colonnes 0/1 se comptent facilement ; la colonne unique garde
+l’ordre de saisie</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Inclure les données de toutes les versions <span
+class="ui-en">(Include data from all versions)</span></span></td>
+<td><strong>coché</strong></td>
+<td>coché</td>
+<td>sinon une colonne qui n’existait que dans une ancienne version est
+perdue</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Inclure les groupes dans les en-têtes <span
+class="ui-en">(Include groups in headers)</span></span></td>
+<td><strong>coché</strong> (à vous de choisir — gardez ce choix pour
+tout le projet)</td>
+<td>non coché</td>
+<td><code>groupe/question</code> indique d’où vient une colonne ; un
+script peut sélectionner une section</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Stocker les dates et les nombres en texte <span
+class="ui-en">(Store date and number responses as
+text)</span></span></td>
+<td>non coché</td>
+<td>non coché</td>
+<td>les nombres restent des nombres ; cochez seulement si Excel abîme
+vos dates</td>
+</tr>
+<tr class="odd">
+<td><span class="ui">Inclure les URL des médias <span
+class="ui-en">(Include media URLs)</span></span></td>
+<td>coché si vous avez des photos</td>
+<td>—</td>
+<td>liens vers les photos</td>
+</tr>
+<tr class="even">
+<td><span class="ui">Sélectionner les questions à exporter <span
+class="ui-en">(Select questions to be exported)</span></span></td>
+<td>toutes</td>
+<td>seulement les utiles</td>
+<td>un fichier plus léger pour les partenaires ; ne retirez jamais de
+colonnes de l’export d’analyse</td>
+</tr>
+</tbody>
+</table>
+<p>Puis <span class="ui">Enregistrer la sélection sous… <span
+class="ui-en">(Save selection as…)</span></span> avec un nom clair
+(<code>analyse_R</code>, <code>lecture_FR</code>) : les mêmes réglages à
+chaque fois, pour toute l’équipe.</p>
+</div>
+</div>
+<div id="predict" class="section level2">
+<h2><span class="en">Predict the export from the form</span><span
+class="fr">Prévoir l’export à partir du formulaire</span></h2>
+<div class="en">
+<p>Knowing the XLSForm, you can predict the file <strong>before</strong>
+downloading it — and check that nothing is missing.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>In the XLSForm</th>
+<th>In the XLS export</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>the form (outside repeats)</td>
+<td><strong>first sheet</strong>, named after the form title (here
+<em>Suivi des récifs</em>), one row per submission</td>
+</tr>
+<tr class="even">
+<td>each <code>begin_repeat</code></td>
+<td><strong>one sheet</strong> named after the repeat
+(<code>transects</code>, <code>poissons</code>), one row per
+repetition</td>
+</tr>
+<tr class="odd">
+<td>a repeat inside a repeat</td>
+<td>its own sheet; <code>_parent_table_name</code> = the sheet of the
+outer repeat</td>
+</tr>
+<tr class="even">
+<td><code>begin_group</code></td>
+<td>nothing, except the prefix <code>group/</code> in the headers (if
+<em>Include groups</em> is ticked)</td>
+</tr>
+<tr class="odd">
+<td><code>select_multiple</code></td>
+<td>1 column + 1 column per choice
+(<code>plongee/observateurs/hery</code>)</td>
+</tr>
+<tr class="even">
+<td><code>geopoint</code></td>
+<td>1 column + <code>_…_latitude</code>, <code>_…_longitude</code>,
+<code>_…_altitude</code>, <code>_…_precision</code></td>
+</tr>
+<tr class="odd">
+<td><code>calculate</code></td>
+<td>1 column, like a question</td>
+</tr>
+<tr class="even">
+<td><code>note</code></td>
+<td><strong>nothing</strong> (no data)</td>
+</tr>
+</tbody>
+</table>
+<p>Here are the three sheets of the XML export:</p>
+</div>
+<div class="fr">
+<p>En connaissant le XLSForm, on peut prévoir le fichier
+<strong>avant</strong> de le télécharger — et vérifier que rien ne
+manque.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dans le XLSForm</th>
+<th>Dans l’export XLS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>le formulaire (hors répétitions)</td>
+<td><strong>première feuille</strong>, au nom du titre du formulaire
+(ici <em>Suivi des récifs</em>), une ligne par soumission</td>
+</tr>
+<tr class="even">
+<td>chaque <code>begin_repeat</code></td>
+<td><strong>une feuille</strong> au nom de la répétition
+(<code>transects</code>, <code>poissons</code>), une ligne par
+répétition</td>
+</tr>
+<tr class="odd">
+<td>une répétition dans une répétition</td>
+<td>sa propre feuille ; <code>_parent_table_name</code> = la feuille de
+la répétition englobante</td>
+</tr>
+<tr class="even">
+<td><code>begin_group</code></td>
+<td>rien, sauf le préfixe <code>groupe/</code> dans les en-têtes (si
+<em>Inclure les groupes</em> est coché)</td>
+</tr>
+<tr class="odd">
+<td><code>select_multiple</code></td>
+<td>1 colonne + 1 colonne par choix
+(<code>plongee/observateurs/hery</code>)</td>
+</tr>
+<tr class="even">
+<td><code>geopoint</code></td>
+<td>1 colonne + <code>_…_latitude</code>, <code>_…_longitude</code>,
+<code>_…_altitude</code>, <code>_…_precision</code></td>
+</tr>
+<tr class="odd">
+<td><code>calculate</code></td>
+<td>1 colonne, comme une question</td>
+</tr>
+<tr class="even">
+<td><code>note</code></td>
+<td><strong>rien</strong> (pas de donnée)</td>
+</tr>
+</tbody>
+</table>
+<p>Voici les trois feuilles de l’export XML :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th><th class='xc'>J</th><th class='xc'>K</th><th class='xc'>L</th><th class='xc'>M</th></tr><tr><td class='xr'>1</td><td class='xh'>localisation/region</td><td class='xh'>localisation/district</td><td class='xh'>localisation/commune</td><td class='xh'>localisation/site</td><td class='xh'>localisation/statut</td><td class='xh'>plongee/date_plongee</td><td class='xh'>plongee/observateurs</td><td class='xh'>plongee/observateurs/hery</td><td class='xh'>plongee/visibilite</td><td class='xh'>plongee/nb_transects</td><td class='xh'>couv_moy</td><td class='xh'>_id</td><td class='xh'>_index</td></tr><tr><td class='xr'>2</td><td>atsimo_andrefana</td><td>toliara_ii</td><td>toliara_ii_belalanda</td><td>Ankaraiky</td><td>amp_reserve</td><td>2026-05-04</td><td>hery rindra</td><td>1</td><td>10</td><td>3</td><td>43.7</td><td>410000037</td><td>1</td></tr><tr><td class='xr'>3</td><td>atsimo_andrefana</td><td>toliara_ii</td><td>toliara_ii_belalanda</td><td>Ankaraiky</td><td>amp_reserve</td><td>2026-05-10</td><td>hery soa</td><td>1</td><td>19</td><td>2</td><td>49.5</td><td>410000074</td><td>2</td></tr><tr><td class='xr'>4</td><td>atsimo_andrefana</td><td>toliara_ii</td><td>toliara_ii_belalanda</td><td>Ankaraiky</td><td>amp_reserve</td><td>2026-05-11</td><td>lova rindra</td><td>0</td><td>12</td><td>4</td><td>37</td><td>410000111</td><td>3</td></tr></table><div class="xls-tab"><span>Suivi des récifs</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th><th class='xc'>J</th></tr><tr><td class='xr'>1</td><td class='xh'>transects/num_transect</td><td class='xh'>transects/profondeur</td><td class='xh'>transects/corail_vivant</td><td class='xh'>transects/corail_mort</td><td class='xh'>transects/algues</td><td class='xh'>transects/sable</td><td class='xh'>transects/nb_poissons_transect</td><td class='xh'>_index</td><td class='xh'>_parent_table_name</td><td class='xh'>_parent_index</td></tr><tr><td class='xr'>2</td><td>1</td><td>7</td><td>43</td><td>6</td><td>16</td><td>35</td><td>101</td><td>1</td><td>Suivi des récifs</td><td>1</td></tr><tr><td class='xr'>3</td><td>2</td><td>10.2</td><td>52</td><td>10</td><td>25</td><td>13</td><td>98</td><td>2</td><td>Suivi des récifs</td><td>1</td></tr><tr><td class='xr'>4</td><td>3</td><td>9.4</td><td>36</td><td>6</td><td>5</td><td>53</td><td>60</td><td>3</td><td>Suivi des récifs</td><td>1</td></tr><tr><td class='xr'>5</td><td>1</td><td>4</td><td>45</td><td>12</td><td>8</td><td>35</td><td>54</td><td>4</td><td>Suivi des récifs</td><td>2</td></tr></table><div class="xls-tab"><span>transects</span></div></div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th></tr><tr><td class='xr'>1</td><td class='xh'>transects/poissons/famille</td><td class='xh'>transects/poissons/classe_taille</td><td class='xh'>transects/poissons/nombre</td><td class='xh'>_index</td><td class='xh'>_parent_table_name</td><td class='xh'>_parent_index</td></tr><tr><td class='xr'>2</td><td>serranidae</td><td>t20_30</td><td>4</td><td>1</td><td>transects</td><td>1</td></tr><tr><td class='xr'>3</td><td>pomacentridae</td><td>t10_20</td><td>49</td><td>2</td><td>transects</td><td>1</td></tr><tr><td class='xr'>4</td><td>labridae</td><td>t10_20</td><td>1</td><td>3</td><td>transects</td><td>1</td></tr><tr><td class='xr'>5</td><td>chaetodontidae</td><td>t10_20</td><td>13</td><td>4</td><td>transects</td><td>1</td></tr><tr><td class='xr'>6</td><td>lutjanidae</td><td>t10_20</td><td>9</td><td>5</td><td>transects</td><td>1</td></tr></table><div class="xls-tab"><span>poissons</span></div></div>
+<div class="en">
+<p>Follow one fish observation up to its dive: row 1 of
+<code>poissons</code> has <code>_parent_index</code> = 1 → row
+<code>_index</code> 1 of <code>transects</code> → its
+<code>_parent_index</code> = 1 → row <code>_index</code> 1 of the main
+sheet. Each sheet also carries <code>_submission__uuid</code>, which
+gives the dive <strong>directly</strong> from any level.</p>
+</div>
+<div class="fr">
+<p>Suivez une observation de poissons jusqu’à sa plongée : la ligne 1 de
+<code>poissons</code> a <code>_parent_index</code> = 1 → la ligne
+<code>_index</code> 1 de <code>transects</code> → son
+<code>_parent_index</code> = 1 → la ligne <code>_index</code> 1 de la
+feuille principale. Chaque feuille porte aussi
+<code>_submission__uuid</code>, qui donne la plongée
+<strong>directement</strong> depuis n’importe quel niveau.</p>
+</div>
+</div>
+<div id="versions" class="section level2">
+<h2><span class="en">Several versions in one export</span><span
+class="fr">Plusieurs versions dans un même export</span></h2>
+<div class="en">
+<p>When the form changed during collection, one export contains all the
+submissions, each with its <code>__version__</code>:</p>
+<ul>
+<li>a <strong>question added</strong> in v2 is empty for v1 submissions
+(it was not asked — do not count these as “no”);</li>
+<li>a <strong>question removed</strong> in v2 keeps its column (if
+<em>Include data from all versions</em> is ticked), empty for v2
+submissions;</li>
+<li>a <strong>renamed</strong> question gives two columns: merge them in
+R (<code>coalesce(new, old)</code>);</li>
+<li>a <strong>choice added</strong> in v2: its 0/1 column is 0 for v1
+submissions although the choice did not exist (Session 5).</li>
+</ul>
+<p>Before any comparison between periods, tabulate
+<code>__version__</code> and read your <em>changelog</em>.</p>
+</div>
+<div class="fr">
+<p>Quand le formulaire a changé pendant la collecte, un même export
+contient toutes les soumissions, chacune avec sa
+<code>__version__</code> :</p>
+<ul>
+<li>une <strong>question ajoutée</strong> en v2 est vide pour les
+soumissions v1 (elle n’était pas posée — ne les comptez pas comme « non
+») ;</li>
+<li>une <strong>question supprimée</strong> en v2 garde sa colonne (si
+<em>Inclure les données de toutes les versions</em> est coché), vide
+pour les soumissions v2 ;</li>
+<li>une question <strong>renommée</strong> donne deux colonnes :
+fusionnez-les dans R (<code>coalesce(nouveau, ancien)</code>) ;</li>
+<li>un <strong>choix ajouté</strong> en v2 : sa colonne 0/1 vaut 0 pour
+les soumissions v1 alors que le choix n’existait pas (séance 5).</li>
+</ul>
+<p>Avant toute comparaison entre périodes, faites un tableau de
+<code>__version__</code> et relisez votre <em>journal des
+modifications</em>.</p>
+</div>
+</div>
+<div id="other" class="section level2">
+<h2><span class="en">Other ways to get the data</span><span
+class="fr">Autres façons d’obtenir les données</span></h2>
+<div class="en">
+<ul>
+<li><strong>Media</strong>: export type <em>Media attachments (ZIP)</em>
+downloads all the photos, in folders per submission. Use
+<code>max-pixels</code> in the form to keep the ZIP small.</li>
+<li><strong>Synchronous export link</strong>: from a saved export
+setting, KoboToolbox can give a link that always returns the
+<strong>latest data</strong> with these settings — useful to connect
+Excel (<em>Data → From Web</em>) or Power BI. Keep the link private: it
+gives access to the data.</li>
+<li><strong>API</strong>: everything can be downloaded by a program with
+your <strong>API key</strong> (account settings → <em>Security</em>). In
+R, the package <strong><code>robotoolbox</code></strong> (on CRAN) uses
+it:
+<code>kobo_setup(url = "https://kf.kobotoolbox.org", token = "…")</code>,
+then <code>kobo_asset_list()</code> and <code>kobo_data(asset)</code>,
+which returns the main table and the repeat tables already linked.
+Practical for a weekly report; never write the token in a shared script
+(use an environment variable).</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><strong>Médias</strong> : le type d’export <em>Pièces jointes
+(ZIP)</em> télécharge toutes les photos, dans un dossier par soumission.
+Utilisez <code>max-pixels</code> dans le formulaire pour garder un ZIP
+léger.</li>
+<li><strong>Lien d’export synchrone</strong> : à partir d’un réglage
+d’export enregistré, KoboToolbox peut donner un lien qui renvoie
+toujours les <strong>dernières données</strong> avec ces réglages —
+utile pour connecter Excel (<em>Données → À partir du Web</em>) ou Power
+BI. Gardez ce lien privé : il donne accès aux données.</li>
+<li><strong>API</strong> : tout peut être téléchargé par un programme
+avec votre <strong>clé API</strong> (paramètres du compte →
+<em>Sécurité</em>). Dans R, le package
+<strong><code>robotoolbox</code></strong> (sur le CRAN) l’utilise :
+<code>kobo_setup(url = "https://kf.kobotoolbox.org", token = "…")</code>,
+puis <code>kobo_asset_list()</code> et <code>kobo_data(asset)</code>,
+qui renvoie la table principale et les tables des répétitions déjà
+reliées. Pratique pour un rapport hebdomadaire ; n’écrivez jamais le
+jeton dans un script partagé (utilisez une variable
+d’environnement).</li>
+</ul>
+</div>
+<div class="callout tip">
+<div class="en">
+<p>In this course we work with <strong>downloaded XLS files</strong>:
+they work offline, they are a frozen copy of the data at a given date
+(good for reproducibility: name them with the date,
+<code>suivi_recifs_2026-06-15.xlsx</code>), and the same code reads them
+whatever the server.</p>
+</div>
+<div class="fr">
+<p>Dans ce cours, nous travaillons avec des <strong>fichiers XLS
+téléchargés</strong> : ils fonctionnent hors ligne, ce sont des copies
+figées des données à une date donnée (bien pour la reproductibilité :
+nommez-les avec la date, <code>suivi_recifs_2026-06-15.xlsx</code>), et
+le même code les lit quel que soit le serveur.</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-a3" class="section level3 en">
+<h3>Application work A3</h3>
+<ol style="list-style-type: decimal">
+<li>In one of your projects with test data, create and
+<strong>save</strong> two export settings: <code>analyse_R</code> and
+<code>lecture_FR</code> (table above). Download both.</li>
+<li>With the course exports, answer the quiz <strong>without opening
+R</strong> (Excel only).</li>
+<li>Write, for the reef form (<code>a03_suivi_recifs.xlsx</code>), the
+list of the sheets and the columns you expect <strong>before</strong>
+opening the XML export, then check.</li>
+</ol>
+</div>
+<div id="travail-dapplication-a3" class="section level3 fr">
+<h3>Travail d’application A3</h3>
+<ol style="list-style-type: decimal">
+<li>Dans l’un de vos projets avec des données de test, créez et
+<strong>enregistrez</strong> deux réglages d’export :
+<code>analyse_R</code> et <code>lecture_FR</code> (tableau ci-dessus).
+Téléchargez les deux.</li>
+<li>Avec les exports du cours, répondez au quiz <strong>sans ouvrir
+R</strong> (Excel seulement).</li>
+<li>Écrivez, pour le formulaire des récifs
+(<code>a03_suivi_recifs.xlsx</code>), la liste des feuilles et des
+colonnes attendues <strong>avant</strong> d’ouvrir l’export XML, puis
+vérifiez.</li>
+</ol>
+</div>
+</div>
+<div id="quiz-ka3" class="quiz" data-quiz-id="ka3"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gTnVtYmVyIG9mIHNoZWV0cyBvZiB0aGUgWE1MIGV4cG9ydD8iLCJmciI6IjEuIE5vbWJyZSBkZSBmZXVpbGxlcyBkZSBsJ2V4cG9ydCBYTUwgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMi4gTnVtYmVyIG9mIGNvbHVtbnMgb2YgdGhlIHRyYW5zZWN0cyBzaGVldD8iLCJmciI6IjIuIE5vbWJyZSBkZSBjb2xvbm5lcyBkZSBsYSBmZXVpbGxlIHRyYW5zZWN0cyA/IiwiYW5zd2VyIjoxOSwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiMy4gSG93IG1hbnkgdHJhbnNlY3RzIGJlbG9uZyB0byB0aGUgZGl2ZSB3aXRoIF9pbmRleCAyPyIsImZyIjoiMy4gQ29tYmllbiBkZSB0cmFuc2VjdHMgYXBwYXJ0aWVubmVudCDDoCBsYSBwbG9uZ8OpZSBkJ19pbmRleCAyID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI0LiBJbiB0aGUgbGFiZWxzIGV4cG9ydCwgcHJvdGVjdGlvbiBzdGF0dXMgb2YgdGhlIGZpcnN0IGRpdmUgKGFzIHdyaXR0ZW4pPyIsImZyIjoiNC4gRGFucyBsJ2V4cG9ydCDDqXRpcXVldHRlcywgc3RhdHV0IGRlIHByb3RlY3Rpb24gZGUgbGEgcHJlbWnDqHJlIHBsb25nw6llICh0ZWwgcXUnw6ljcml0KSA/IiwiYW5zd2VyIjpbIkFNUCDigJQgcsOpc2VydmUgKG5vLXRha2UpIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjUuIEluIHRoZSBsYWJlbHMgZXhwb3J0LCBoZWFkZXIgb2YgdGhlIGxpdmUgY29yYWwgY29sdW1uIG9mIHRoZSB0cmFuc2VjdHMgc2hlZXQ/IiwiZnIiOiI1LiBEYW5zIGwnZXhwb3J0IMOpdGlxdWV0dGVzLCBlbi10w6p0ZSBkZSBsYSBjb2xvbm5lIGR1IGNvcmFpbCB2aXZhbnQgZGUgbGEgZmV1aWxsZSB0cmFuc2VjdHMgPyIsImFuc3dlciI6WyJUcmFuc2VjdC9Db3JhaWwgZHVyIHZpdmFudCAoJSkiXX0seyJ0eXBlIjoidGV4dCIsImVuIjoiNi4gX3BhcmVudF90YWJsZV9uYW1lIG9mIHRoZSBwb2lzc29ucyBzaGVldD8iLCJmciI6IjYuIF9wYXJlbnRfdGFibGVfbmFtZSBkZSBsYSBmZXVpbGxlIHBvaXNzb25zID8iLCJhbnN3ZXIiOlsidHJhbnNlY3RzIl19LHsidHlwZSI6Im51bSIsImVuIjoiNy4gRGl2ZXMgaW4gd2hpY2ggTm9tZW5hIHRvb2sgcGFydD8iLCJmciI6IjcuIFBsb25nw6llcyBhdXhxdWVsbGVzIE5vbWVuYSBhIHBhcnRpY2lww6kgPyIsImFuc3dlciI6MTAsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIEhlYWRlcnMgb2YgdGhlIG1haW4gc2hlZXQgc3RhcnRpbmcgd2l0aCBsb2NhbGlzYXRpb24vPyIsImZyIjoiOC4gRW4tdMOqdGVzIGRlIGxhIGZldWlsbGUgcHJpbmNpcGFsZSBjb21tZW7Dp2FudCBwYXIgbG9jYWxpc2F0aW9uLyA/IiwiYW5zd2VyIjoxMCwidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im1jcSIsImVuIjoiOS4gQSBxdWVzdGlvbiB3YXMgYWRkZWQgaW4gdmVyc2lvbiAyLiBGb3IgdmVyc2lvbiAxIHN1Ym1pc3Npb25zLCBpdHMgY2VsbCBpczoiLCJmciI6IjkuIFVuZSBxdWVzdGlvbiBhIMOpdMOpIGFqb3V0w6llIGVuIHZlcnNpb24gMi4gUG91ciBsZXMgc291bWlzc2lvbnMgZGUgbGEgdmVyc2lvbiAxLCBzYSBjZWxsdWxlIGVzdCA6Iiwib3B0aW9uc19lbiI6WyIwIiwiZW1wdHkiLCJ0aGUgc2FtZSB2YWx1ZSBhcyBpbiB2MiJdLCJvcHRpb25zX2ZyIjpbIjAiLCJ2aWRlIiwibGEgbcOqbWUgdmFsZXVyIHF1J2VuIHYyIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiIxMC4gV2hpY2ggc2V0dGluZyBtdXN0IHN0YXkgaWRlbnRpY2FsIGZvciBhbGwgdGhlIGV4cG9ydHMgb2YgYSBwcm9qZWN0IGFuYWx5c2VkIHdpdGggYSBzY3JpcHQ/IiwiZnIiOiIxMC4gUXVlbCByw6lnbGFnZSBkb2l0IHJlc3RlciBpZGVudGlxdWUgcG91ciB0b3VzIGxlcyBleHBvcnRzIGQndW4gcHJvamV0IGFuYWx5c8OpIHBhciB1biBzY3JpcHQgPyIsIm9wdGlvbnNfZW4iOlsiSW5jbHVkZSBncm91cHMgaW4gaGVhZGVycyIsIkRhdGUgcmFuZ2UiLCJFeHBvcnQgdHlwZSBvZiB0aGUgcGhvdG9zIl0sIm9wdGlvbnNfZnIiOlsiSW5jbHVyZSBsZXMgZ3JvdXBlcyBkYW5zIGxlcyBlbi10w6p0ZXMiLCJQbGFnZSBkZSBkYXRlcyIsIlR5cGUgZCdleHBvcnQgZGVzIHBob3RvcyJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="ka3">
+<div class="en">
+<p>1 3 (main, <code>transects</code>, <code>poissons</code>) · 2 19 · 3
+2 · 4 <em>AMP — réserve (no-take)</em> · 5 Transect/Corail dur vivant
+(%) · 6 transects · 7 10 (sum of
+<code>plongee/observateurs/nomena</code>) · 8 10 (6 questions + 4 GPS
+columns) · 9 empty · 10 <em>Include groups in headers</em> (the headers
+change).</p>
+</div>
+<div class="fr">
+<p>1 3 (principale, <code>transects</code>, <code>poissons</code>) · 2
+19 · 3 2 · 4 <em>AMP — réserve (no-take)</em> · 5 Transect/Corail dur
+vivant (%) · 6 transects · 7 10 (somme de
+<code>plongee/observateurs/nomena</code>) · 8 10 (6 questions + 4
+colonnes GPS) · 9 vide · 10 <em>Inclure les groupes dans les
+en-têtes</em> (les en-têtes changent).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I0</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I0 · Calculations
+(calculate)</span><span class="fr">I0 · Les calculs
+(calculate)</span></h1>
+<h3 class="subtitle">~2 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="by-the-end-of-this-session-you-will-be-able-to"
+class="section level4 en">
+<h4>By the end of this session you will be able to</h4>
+<ul>
+<li>refer to the answer of another question with
+<code>${name}</code>;</li>
+<li>write a <code>calculate</code> row: arithmetic
+(<code>+ - * div</code>), rounding, conditions with <code>if()</code>,
+text with <code>concat()</code>;</li>
+<li>handle empty answers with <code>coalesce()</code>, and dates with
+<code>today()</code> and <code>format-date()</code>;</li>
+<li>show a calculated value to the enumerator in a <code>note</code>,
+and find it in the export.</li>
+</ul>
+</div>
+<div id="à-la-fin-de-cette-séance-vous-saurez"
+class="section level4 fr">
+<h4>À la fin de cette séance vous saurez</h4>
+<ul>
+<li>faire référence à la réponse d’une autre question avec
+<code>${name}</code> ;</li>
+<li>écrire une ligne <code>calculate</code> : arithmétique
+(<code>+ - * div</code>), arrondi, conditions avec <code>if()</code>,
+texte avec <code>concat()</code> ;</li>
+<li>gérer les réponses vides avec <code>coalesce()</code>, et les dates
+avec <code>today()</code> et <code>format-date()</code> ;</li>
+<li>montrer une valeur calculée à l’enquêteur dans une
+<code>note</code>, et la retrouver dans l’export.</li>
+</ul>
+</div>
+</div>
+<div id="why" class="section level2">
+<h2><span class="en">Why let the form calculate?</span><span
+class="fr">Pourquoi faire calculer le formulaire ?</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> At each landing, the octopus
+collector of Ambolimailaka buys the catch of the canoe and pays the
+crew. The cooperative wants to record, for each sale, the <strong>value
+of the sale</strong>, the <strong>share of each fisher</strong>, a
+<strong>size class</strong> of the catch and a <strong>code</strong> for
+the form — without asking the enumerator to do any mental arithmetic.
+You add <code>calculate</code> rows to the form:
+<a class="btn-dl" href="data/forms/i00_calculs.xlsx" download>⇩
+i00_calculs.xlsx</a></p>
+<p><strong>Type of data:</strong> economic — weights (kg), prices
+(Ariary/kg), counts.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> À chaque débarquement, le
+collecteur de poulpe d’Ambolimailaka achète la capture de la pirogue et
+paie l’équipage. La coopérative veut enregistrer, pour chaque vente, la
+<strong>valeur de la vente</strong>, la <strong>part de chaque
+pêcheur</strong>, une <strong>classe de taille</strong> de la capture et
+un <strong>code</strong> pour la fiche — sans demander à l’enquêteur de
+calculer de tête. Vous ajoutez des lignes <code>calculate</code> au
+formulaire :
+<a class="btn-dl" href="data/forms/i00_calculs.xlsx" download>⇩
+i00_calculs.xlsx</a></p>
+<p><strong>Type de données :</strong> économiques — poids (kg), prix
+(Ariary/kg), comptages.</p>
+</div>
+</div>
+<div class="en">
+<p>A calculation done <strong>by the form</strong> is done the same way
+for every submission, at the moment of the interview, and can be
+<strong>shown</strong> to the respondent to check it (“So the collector
+paid you 111 600 Ar, is that right?”). Calculated values are also
+<strong>stored</strong> in the data: no formula to rewrite in Excel
+afterwards.</p>
+</div>
+<div class="fr">
+<p>Un calcul fait <strong>par le formulaire</strong> est fait de la même
+façon pour chaque soumission, au moment de l’entretien, et peut être
+<strong>montré</strong> au répondant pour vérification (« Le collecteur
+vous a donc payé 111 600 Ar, c’est bien ça ? »). Les valeurs calculées
+sont aussi <strong>enregistrées</strong> dans les données : plus de
+formule à réécrire dans Excel ensuite.</p>
+</div>
+</div>
+<div id="row" class="section level2">
+<h2><span class="en">The calculate row</span><span class="fr">La ligne
+calculate</span></h2>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>calculation</td></tr><tr><td class='xr'>2</td><td>text</td><td>num_pirogue</td><td>Numéro de la pirogue</td><td></td></tr><tr><td class='xr'>3</td><td>select_one village</td><td>village</td><td>Village</td><td></td></tr><tr><td class='xr'>4</td><td>integer</td><td>annee_naissance</td><td>Année de naissance du chef de pirogue</td><td></td></tr><tr class='xhl'><td class='xr'>5</td><td>calculate</td><td>age</td><td></td><td>int(format-date(today(), '%Y')) - &#36;{annee_naissance}</td></tr><tr><td class='xr'>6</td><td>integer</td><td>nb_pecheurs</td><td>Nombre de pêcheurs</td><td></td></tr><tr><td class='xr'>7</td><td>decimal</td><td>poids_poulpe</td><td>Poids de poulpe vendu (kg)</td><td></td></tr><tr><td class='xr'>8</td><td>integer</td><td>prix_kg</td><td>Prix payé par le collecteur (Ariary/kg)</td><td></td></tr><tr class='xhl'><td class='xr'>9</td><td>calculate</td><td>valeur</td><td></td><td>&#36;{poids_poulpe} * &#36;{prix_kg}</td></tr><tr class='xhl'><td class='xr'>10</td><td>calculate</td><td>part_pecheur</td><td></td><td>round(&#36;{valeur} div &#36;{nb_pecheurs}, 0)</td></tr><tr class='xhl'><td class='xr'>11</td><td>calculate</td><td>classe_capture</td><td></td><td>if(&#36;{poids_poulpe} &gt;= 10, 'grosse', if(&#36;{poids_poulpe} &gt;= 3, 'moyenne', 'petite'))</td></tr><tr class='xhl'><td class='xr'>12</td><td>calculate</td><td>code_fiche</td><td></td><td>concat(&#36;{village}, '-', &#36;{num_pirogue}, '-', format-date(today(), '%Y%m%d'))</td></tr><tr><td class='xr'>13</td><td>note</td><td>resume</td><td>Valeur de la vente : &#36;{valeur} Ar — part par pêcheur : &#36;{part_pecheur} Ar — capture &#36;{classe_capture} — âge du chef : &#36;{age} ans</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+<div class="en">
+<ul>
+<li><strong><code>type</code> = <code>calculate</code></strong>, a
+<code>name</code>, <strong>no label</strong> (nothing is shown), and the
+formula in the <strong><code>calculation</code></strong> column.</li>
+<li><strong><code>${name}</code></strong> is replaced by the answer of
+the question <code>name</code>.
+<code>${poids_poulpe} * ${prix_kg}</code> = weight × price.</li>
+<li>The calculation is <strong>re-evaluated</strong> each time an answer
+it depends on changes.</li>
+<li>A calculation can use another calculation (<code>part_pecheur</code>
+uses <code>valeur</code>), as long as there is no loop.</li>
+<li>The <strong>note</strong> of row 13 shows the results:
+<code>${valeur}</code> inside a label is replaced by the value.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li><strong><code>type</code> = <code>calculate</code></strong>, un
+<code>name</code>, <strong>pas de libellé</strong> (rien n’est affiché),
+et la formule dans la colonne
+<strong><code>calculation</code></strong>.</li>
+<li><strong><code>${name}</code></strong> est remplacé par la réponse de
+la question <code>name</code>. <code>${poids_poulpe} * ${prix_kg}</code>
+= poids × prix.</li>
+<li>Le calcul est <strong>ré-évalué</strong> à chaque fois qu’une
+réponse dont il dépend change.</li>
+<li>Un calcul peut utiliser un autre calcul (<code>part_pecheur</code>
+utilise <code>valeur</code>), tant qu’il n’y a pas de boucle.</li>
+<li>La <strong>note</strong> de la ligne 13 affiche les résultats :
+<code>${valeur}</code> dans un libellé est remplacé par la valeur.</li>
+</ul>
+</div>
+</div>
+<div id="functions" class="section level2">
+<h2><span class="en">Operators and functions</span><span
+class="fr">Opérateurs et fonctions</span></h2>
+<div class="en">
+<p>The language of formulas is <strong>XPath</strong> (the ODK
+standard). It looks like Excel, with a few traps:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>XLSForm</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>addition, subtraction, multiplication</td>
+<td><code>+</code> <code>-</code> <code>*</code></td>
+<td>put spaces around <code>-</code>: <code>${a} - ${b}</code>
+(<code>${a}-${b}</code> can be misread)</td>
+</tr>
+<tr class="even">
+<td>division</td>
+<td><strong><code>div</code></strong></td>
+<td><code>/</code> is <strong>not</strong> division in XPath:
+<code>${valeur} div ${nb_pecheurs}</code></td>
+</tr>
+<tr class="odd">
+<td>remainder</td>
+<td><code>mod</code></td>
+<td><code>7 mod 3</code> = 1</td>
+</tr>
+<tr class="even">
+<td>comparison</td>
+<td><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code>
+<code>&gt;</code> <code>&gt;=</code></td>
+<td><code>=</code> (not <code>==</code>)</td>
+</tr>
+<tr class="odd">
+<td>logic</td>
+<td><code>and</code> <code>or</code> <code>not(…)</code></td>
+<td>lowercase</td>
+</tr>
+<tr class="even">
+<td>text</td>
+<td><code>'grosse'</code></td>
+<td>text between single quotes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p>Le langage des formules est <strong>XPath</strong> (le standard ODK).
+Il ressemble à Excel, avec quelques pièges :</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Opération</th>
+<th>XLSForm</th>
+<th>Attention</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>addition, soustraction, multiplication</td>
+<td><code>+</code> <code>-</code> <code>*</code></td>
+<td>mettez des espaces autour de <code>-</code> :
+<code>${a} - ${b}</code> (<code>${a}-${b}</code> peut être mal lu)</td>
+</tr>
+<tr class="even">
+<td>division</td>
+<td><strong><code>div</code></strong></td>
+<td><code>/</code> n’est <strong>pas</strong> la division en XPath :
+<code>${valeur} div ${nb_pecheurs}</code></td>
+</tr>
+<tr class="odd">
+<td>reste</td>
+<td><code>mod</code></td>
+<td><code>7 mod 3</code> = 1</td>
+</tr>
+<tr class="even">
+<td>comparaison</td>
+<td><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code>
+<code>&gt;</code> <code>&gt;=</code></td>
+<td><code>=</code> (pas <code>==</code>)</td>
+</tr>
+<tr class="odd">
+<td>logique</td>
+<td><code>and</code> <code>or</code> <code>not(…)</code></td>
+<td>en minuscules</td>
+</tr>
+<tr class="even">
+<td>texte</td>
+<td><code>'grosse'</code></td>
+<td>texte entre apostrophes simples</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fa-box">
+<div class="en">
+<p><strong>XLSForm columns and functions used here</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column / function</th>
+<th>What it does</th>
+<th>Values it takes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>round(x, n)</code></td>
+<td>rounds x to n decimals</td>
+<td><code>round(${valeur} div 3, 0)</code></td>
+</tr>
+<tr class="even">
+<td><code>int(x)</code></td>
+<td>keeps the integer part (no rounding)</td>
+<td><code>int(7.9)</code> = 7</td>
+</tr>
+<tr class="odd">
+<td><code>if(condition, a, b)</code></td>
+<td>a if the condition is true, otherwise b; can be nested</td>
+<td><code>if(${poids} &gt;= 10, 'grosse', 'petite')</code></td>
+</tr>
+<tr class="even">
+<td><code>concat(a, b, …)</code></td>
+<td>joins texts</td>
+<td><code>concat(${village}, '-', ${num_pirogue})</code></td>
+</tr>
+<tr class="odd">
+<td><code>coalesce(a, b)</code></td>
+<td>a if not empty, otherwise b</td>
+<td><code>coalesce(${revenu_autre}, 0)</code></td>
+</tr>
+<tr class="even">
+<td><code>today()</code> / <code>now()</code></td>
+<td>date of the day / date and time</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>format-date(d, '%Y')</code></td>
+<td>writes part of a date: <code>%Y</code> year, <code>%m</code> month,
+<code>%d</code> day</td>
+<td><code>format-date(today(), '%Y%m%d')</code></td>
+</tr>
+<tr class="even">
+<td><code>number(x)</code> / <code>string(x)</code></td>
+<td>converts text ↔︎ number</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>string-length(x)</code></td>
+<td>number of characters</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>pow(x, y)</code></td>
+<td>x to the power y</td>
+<td><code>pow(${diametre} div 2, 2) * 3.1416</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fr">
+<p><strong>Colonnes et fonctions XLSForm utilisées ici</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Colonne / fonction</th>
+<th>Ce qu’elle fait</th>
+<th>Valeurs possibles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>round(x, n)</code></td>
+<td>arrondit x à n décimales</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>int(x)</code></td>
+<td>garde la partie entière (sans arrondir)</td>
+<td>idem</td>
+</tr>
+<tr class="odd">
+<td><code>if(condition, a, b)</code></td>
+<td>a si la condition est vraie, sinon b ; peut être imbriqué</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>concat(a, b, …)</code></td>
+<td>colle des textes</td>
+<td>idem</td>
+</tr>
+<tr class="odd">
+<td><code>coalesce(a, b)</code></td>
+<td>a s’il n’est pas vide, sinon b</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>today()</code> / <code>now()</code></td>
+<td>date du jour / date et heure</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>format-date(d, '%Y')</code></td>
+<td>écrit une partie d’une date : <code>%Y</code> année, <code>%m</code>
+mois, <code>%d</code> jour</td>
+<td>idem</td>
+</tr>
+<tr class="even">
+<td><code>number(x)</code> / <code>string(x)</code></td>
+<td>convertit texte ↔︎ nombre</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>string-length(x)</code></td>
+<td>nombre de caractères</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>pow(x, y)</code></td>
+<td>x puissance y</td>
+<td>idem</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="empty-answersles-réponses-vides" class="section level3">
+<h3><span class="en">Empty answers</span><span class="fr">Les réponses
+vides</span></h3>
+<div class="en">
+<p>If one question of a formula is <strong>empty</strong> (not answered,
+or not shown), the result is often empty or <code>NaN</code>. Example:
+<code>${revenu_peche} + ${revenu_autre}</code> is empty when
+<code>revenu_autre</code> was skipped. Use
+<strong><code>coalesce(${revenu_autre}, 0)</code></strong> to count an
+empty answer as 0 — but only when 0 is really the right meaning (“no
+other income”), not when the answer is unknown.</p>
+</div>
+<div class="fr">
+<p>Si une question d’une formule est <strong>vide</strong> (sans
+réponse, ou non affichée), le résultat est souvent vide ou
+<code>NaN</code>. Exemple :
+<code>${revenu_peche} + ${revenu_autre}</code> est vide quand
+<code>revenu_autre</code> a été sauté. Utilisez
+<strong><code>coalesce(${revenu_autre}, 0)</code></strong> pour compter
+une réponse vide comme 0 — mais seulement quand 0 a vraiment le bon sens
+(« pas d’autre revenu »), pas quand la réponse est inconnue.</p>
+</div>
+</div>
+<div id="datesles-dates" class="section level3">
+<h3><span class="en">Dates</span><span class="fr">Les dates</span></h3>
+<div class="en">
+<ul>
+<li>Age from a year of birth:
+<code>int(format-date(today(), '%Y')) - ${annee_naissance}</code>.</li>
+<li>Number of days between two dates:
+<code>int(decimal-date-time(${date_fin}) - decimal-date-time(${date_debut}))</code>
+(dates are counted in days).</li>
+<li>A code with the date: <code>format-date(today(), '%Y%m%d')</code> →
+<code>20260412</code>.</li>
+</ul>
+</div>
+<div class="fr">
+<ul>
+<li>Âge à partir d’une année de naissance :
+<code>int(format-date(today(), '%Y')) - ${annee_naissance}</code>.</li>
+<li>Nombre de jours entre deux dates :
+<code>int(decimal-date-time(${date_fin}) - decimal-date-time(${date_debut}))</code>
+(les dates sont comptées en jours).</li>
+<li>Un code avec la date : <code>format-date(today(), '%Y%m%d')</code> →
+<code>20260412</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="export" class="section level2">
+<h2><span class="en">Calculations in the export</span><span
+class="fr">Les calculs dans l’export</span></h2>
+<div class="en">
+<p>Each <code>calculate</code> gives a <strong>column</strong> in the
+export, with its <code>name</code> as header, like a question. In the
+Formbuilder, the <em>Calculate</em> question type does the same (formula
+in the question box). A calculation is computed <strong>on the
+device</strong> at the time of the interview: if you correct the formula
+later and redeploy, the old submissions keep their old values —
+recompute them in Excel or R if needed.</p>
+</div>
+<div class="fr">
+<p>Chaque <code>calculate</code> donne une <strong>colonne</strong> dans
+l’export, avec son <code>name</code> comme en-tête, comme une question.
+Dans le Formbuilder, le type de question <em>Calcul</em> fait la même
+chose (formule dans la case de la question). Un calcul est fait
+<strong>sur l’appareil</strong> au moment de l’entretien : si vous
+corrigez la formule plus tard et redéployez, les anciennes soumissions
+gardent leurs anciennes valeurs — recalculez-les dans Excel ou R si
+nécessaire.</p>
+</div>
+<div class="callout tip">
+<div class="en">
+<p><strong>Test a formula quickly:</strong> upload the form, open <span
+class="ui">Aperçu <span class="ui-en">(Preview)</span></span>, enter
+values and read the note. Add a temporary note that shows every
+intermediate calculation
+(<code>${valeur} / ${part_pecheur} / ${classe_capture}</code>) while you
+build the form; delete it before deploying.</p>
+</div>
+<div class="fr">
+<p><strong>Tester une formule rapidement :</strong> importez le
+formulaire, ouvrez <span class="ui">Aperçu <span
+class="ui-en">(Preview)</span></span>, saisissez des valeurs et lisez la
+note. Ajoutez une note temporaire qui affiche chaque calcul
+intermédiaire
+(<code>${valeur} / ${part_pecheur} / ${classe_capture}</code>) pendant
+la construction ; supprimez-la avant de déployer.</p>
+</div>
+</div>
+<div class="application">
+<div id="application-work-i0" class="section level3 en">
+<h3>Application work I0</h3>
+<p>Upload <code>i00_calculs.xlsx</code> to KoboToolbox and open the
+preview. Enter the three sales below (any village and canoe number),
+read the note, and answer.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sale</th>
+<th>Weight of octopus (kg)</th>
+<th>Price (Ar/kg)</th>
+<th>Number of fishers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>12,4</td>
+<td>9 000</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>2,5</td>
+<td>8 500</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>7</td>
+<td>9 200</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>Then <strong>modify the file</strong>: add a <code>calculate</code>
+named <code>prix_moyen_pecheur</code> = the share of each fisher divided
+by the weight, rounded to 0 decimal, and show it in the note. Re-upload
+(<span class="ui">Remplacer le formulaire <span class="ui-en">(Replace
+form)</span></span>) and check.</p>
+</div>
+<div id="travail-dapplication-i0" class="section level3 fr">
+<h3>Travail d’application I0</h3>
+<p>Importez <code>i00_calculs.xlsx</code> dans KoboToolbox et ouvrez
+l’aperçu. Saisissez les trois ventes ci-dessous (village et numéro de
+pirogue au choix), lisez la note, et répondez.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Vente</th>
+<th>Poids de poulpe (kg)</th>
+<th>Prix (Ar/kg)</th>
+<th>Nombre de pêcheurs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>12,4</td>
+<td>9 000</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>2,5</td>
+<td>8 500</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>7</td>
+<td>9 200</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>Ensuite <strong>modifiez le fichier</strong> : ajoutez un
+<code>calculate</code> nommé <code>prix_moyen_pecheur</code> = la part
+de chaque pêcheur divisée par le poids, arrondie à 0 décimale, et
+affichez-le dans la note. Ré-importez (<span class="ui">Remplacer le
+formulaire <span class="ui-en">(Replace form)</span></span>) et
+vérifiez.</p>
+</div>
+</div>
+<div id="quiz-ki0" class="quiz" data-quiz-id="ki0"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gU2FsZSBBOiB2YWx1ZSBvZiB0aGUgc2FsZSAoQXIpPyIsImZyIjoiMS4gVmVudGUgQSA6IHZhbGV1ciBkZSBsYSB2ZW50ZSAoQXIpID8iLCJhbnN3ZXIiOjExMTYwMCwidG9sIjowLjUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIyLiBTYWxlIEE6IHNoYXJlIG9mIGVhY2ggZmlzaGVyIChBcik/IiwiZnIiOiIyLiBWZW50ZSBBIDogcGFydCBkZSBjaGFxdWUgcMOqY2hldXIgKEFyKSA/IiwiYW5zd2VyIjozNzIwMCwidG9sIjowLjUsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoidGV4dCIsImVuIjoiMy4gU2FsZSBBOiBzaXplIGNsYXNzPyIsImZyIjoiMy4gVmVudGUgQSA6IGNsYXNzZSBkZSBjYXB0dXJlID8iLCJhbnN3ZXIiOlsiZ3Jvc3NlIl19LHsidHlwZSI6InRleHQiLCJlbiI6IjQuIFNhbGUgQjogc2l6ZSBjbGFzcz8iLCJmciI6IjQuIFZlbnRlIEIgOiBjbGFzc2UgZGUgY2FwdHVyZSA/IiwiYW5zd2VyIjpbInBldGl0ZSJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjUuIFNhbGUgQzogc2hhcmUgb2YgZWFjaCBmaXNoZXIgKEFyKT8iLCJmciI6IjUuIFZlbnRlIEMgOiBwYXJ0IGRlIGNoYXF1ZSBww6pjaGV1ciAoQXIpID8iLCJhbnN3ZXIiOjE2MTAwLCJ0b2wiOjAuNSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjYuIEZvcm11bGEgZm9yIHRoZSBzaGFyZSBvZiBlYWNoIGZpc2hlcjoiLCJmciI6IjYuIEZvcm11bGUgZGUgbGEgcGFydCBkZSBjaGFxdWUgcMOqY2hldXIgOiIsIm9wdGlvbnNfZW4iOlsiJHt2YWxldXJ9IC8gJHtuYl9wZWNoZXVyc30iLCIke3ZhbGV1cn0gZGl2ICR7bmJfcGVjaGV1cnN9IiwidmFsZXVyIGRpdiBuYl9wZWNoZXVycyIsIj12YWxldXIvbmJfcGVjaGV1cnMiXSwib3B0aW9uc19mciI6WyIke3ZhbGV1cn0gLyAke25iX3BlY2hldXJzfSIsIiR7dmFsZXVyfSBkaXYgJHtuYl9wZWNoZXVyc30iLCJ2YWxldXIgZGl2IG5iX3BlY2hldXJzIiwiPXZhbGV1ci9uYl9wZWNoZXVycyJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiNy4gVG90YWwgaW5jb21lIHdoZW4gcmV2ZW51X2F1dHJlIG1heSBiZSBlbXB0eSAobWVhbmluZzogbm8gb3RoZXIgaW5jb21lKToiLCJmciI6IjcuIFJldmVudSB0b3RhbCBxdWFuZCByZXZlbnVfYXV0cmUgcGV1dCDDqnRyZSB2aWRlIChzZW5zIDogcGFzIGQnYXV0cmUgcmV2ZW51KSA6Iiwib3B0aW9uc19lbiI6WyIke3JldmVudV9wZWNoZX0gKyAke3JldmVudV9hdXRyZX0iLCIke3JldmVudV9wZWNoZX0gKyBjb2FsZXNjZSgke3JldmVudV9hdXRyZX0sIDApIiwic3VtKCR7cmV2ZW51X3BlY2hlfSwgJHtyZXZlbnVfYXV0cmV9KSJdLCJvcHRpb25zX2ZyIjpbIiR7cmV2ZW51X3BlY2hlfSArICR7cmV2ZW51X2F1dHJlfSIsIiR7cmV2ZW51X3BlY2hlfSArIGNvYWxlc2NlKCR7cmV2ZW51X2F1dHJlfSwgMCkiLCJzdW0oJHtyZXZlbnVfcGVjaGV9LCAke3JldmVudV9hdXRyZX0pIl0sImFuc3dlciI6MX0seyJ0eXBlIjoibWNxIiwiZW4iOiI4LiBXaGljaCBjYWxjdWxhdGlvbiBnaXZlcyAnYWR1bHRlJyBmcm9tIDE4IHllYXJzIG9sZCwgJ2pldW5lJyBvdGhlcndpc2U/IiwiZnIiOiI4LiBRdWVsIGNhbGN1bCBkb25uZSAnYWR1bHRlJyDDoCBwYXJ0aXIgZGUgMTggYW5zLCAnamV1bmUnIHNpbm9uID8iLCJvcHRpb25zX2VuIjpbImlmKCR7YWdlfSA+PSAxOCwgJ2FkdWx0ZScsICdqZXVuZScpIiwiaWYoJHthZ2V9ID4gMTgsIGFkdWx0ZSwgamV1bmUpIiwiaWYoYWdlID49IDE4OyAnYWR1bHRlJzsgJ2pldW5lJykiXSwib3B0aW9uc19mciI6WyJpZigke2FnZX0gPj0gMTgsICdhZHVsdGUnLCAnamV1bmUnKSIsImlmKCR7YWdlfSA+IDE4LCBhZHVsdGUsIGpldW5lKSIsImlmKGFnZSA+PSAxODsgJ2FkdWx0ZSc7ICdqZXVuZScpIl0sImFuc3dlciI6MH0seyJ0eXBlIjoibWNxIiwiZW4iOiI5LiBBIGNhbGN1bGF0ZSByb3cgbmVlZHM6IiwiZnIiOiI5LiBVbmUgbGlnbmUgY2FsY3VsYXRlIGEgYmVzb2luIDoiLCJvcHRpb25zX2VuIjpbImEgbGFiZWwgYW5kIGEgY2FsY3VsYXRpb24iLCJhIG5hbWUgYW5kIGEgY2FsY3VsYXRpb24gKG5vIGxhYmVsKSIsIm9ubHkgYSBsYWJlbCJdLCJvcHRpb25zX2ZyIjpbImQndW4gbGliZWxsw6kgZXQgZCd1biBjYWxjdWwiLCJkJ3VuIG5hbWUgZXQgZCd1biBjYWxjdWwgKHBhcyBkZSBsaWJlbGzDqSkiLCJzZXVsZW1lbnQgZCd1biBsaWJlbGzDqSJdLCJhbnN3ZXIiOjF9LHsidHlwZSI6Im1jcSIsImVuIjoiMTAuIFlvdXIgbmV3IGNhbGN1bGF0aW9uIHByaXhfbW95ZW5fcGVjaGV1cjoiLCJmciI6IjEwLiBWb3RyZSBub3V2ZWF1IGNhbGN1bCBwcml4X21veWVuX3BlY2hldXIgOiIsIm9wdGlvbnNfZW4iOlsicm91bmQoJHtwYXJ0X3BlY2hldXJ9IGRpdiAke3BvaWRzX3BvdWxwZX0sIDApIiwicm91bmQoJHtwYXJ0X3BlY2hldXJ9IC8gJHtwb2lkc19wb3VscGV9KSIsIiR7cGFydF9wZWNoZXVyfSBkaXYgJHtwb2lkc19wb3VscGV9LCAwIl0sIm9wdGlvbnNfZnIiOlsicm91bmQoJHtwYXJ0X3BlY2hldXJ9IGRpdiAke3BvaWRzX3BvdWxwZX0sIDApIiwicm91bmQoJHtwYXJ0X3BlY2hldXJ9IC8gJHtwb2lkc19wb3VscGV9KSIsIiR7cGFydF9wZWNoZXVyfSBkaXYgJHtwb2lkc19wb3VscGV9LCAwIl0sImFuc3dlciI6MH1d">
+
+</div>
+<div class="solution" data-quiz="ki0">
+<div class="en">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sale</th>
+<th>value = weight × price</th>
+<th>share = round(value div fishers, 0)</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>111 600</td>
+<td>37 200</td>
+<td>grosse</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>21 250</td>
+<td>21 250</td>
+<td>petite</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>64 400</td>
+<td>16 100</td>
+<td>moyenne</td>
+</tr>
+</tbody>
+</table>
+<p>6 <code>div</code> · 7 <code>coalesce()</code> · 8
+<code>if(${age} &gt;= 18, 'adulte', 'jeune')</code> (commas, quotes,
+<code>${}</code>) · 9 name + calculation · 10
+<code>round(${part_pecheur} div ${poids_poulpe}, 0)</code>. Rows to
+add:</p>
+</div>
+<div class="fr">
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Vente</th>
+<th>valeur = poids × prix</th>
+<th>part = round(valeur div pêcheurs, 0)</th>
+<th>classe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>111 600</td>
+<td>37 200</td>
+<td>grosse</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>21 250</td>
+<td>21 250</td>
+<td>petite</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>64 400</td>
+<td>16 100</td>
+<td>moyenne</td>
+</tr>
+</tbody>
+</table>
+<p>6 <code>div</code> · 7 <code>coalesce()</code> · 8
+<code>if(${age} &gt;= 18, 'adulte', 'jeune')</code> (virgules,
+apostrophes, <code>${}</code>) · 9 name + calcul · 10
+<code>round(${part_pecheur} div ${poids_poulpe}, 0)</code>. Lignes à
+ajouter :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>calculation</td></tr><tr><td class='xr'>2</td><td>calculate</td><td>prix_moyen_pecheur</td><td></td><td>round(&#36;{part_pecheur} div &#36;{poids_poulpe}, 0)</td></tr><tr><td class='xr'>3</td><td>note</td><td>resume</td><td>… — revenu par kg pour chaque pêcheur : &#36;{prix_moyen_pecheur} Ar</td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

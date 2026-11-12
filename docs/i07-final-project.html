@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>KoboToolbox · I7</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<!-- header.html: inserted inside <head> of every page (see _site.yml) -->
+<!-- config.js (settings) and quiz_index.js (made by R/build_site.R) first,
+     then course.js (the behaviour that reads them) -->
+<script src="assets/config.js"></script>
+<script src="assets/quiz_index.js"></script>
+<script src="assets/course.js"></script>
+<meta name="author" content="Aroo Falinirina">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/course.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">KoboToolbox</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Beginner
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-kobo-account.html">0 · Account &amp; interface</a>
+    </li>
+    <li>
+      <a href="01-formbuilder.html">1 · Formbuilder</a>
+    </li>
+    <li>
+      <a href="02-xlsform.html">2 · XLSForm basics</a>
+    </li>
+    <li>
+      <a href="03-multilingual.html">3 · Multilingual forms</a>
+    </li>
+    <li>
+      <a href="04-deploy.html">4 · Import, deploy, collect</a>
+    </li>
+    <li>
+      <a href="05-download.html">5 · Download the data</a>
+    </li>
+    <li>
+      <a href="06-practice.html">6 · Practice</a>
+    </li>
+    <li>
+      <a href="07-final-project.html">7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intermediate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="i00-calculate.html">I0 · calculate</a>
+    </li>
+    <li>
+      <a href="i01-relevant.html">I1 · relevant</a>
+    </li>
+    <li>
+      <a href="i02-constraint.html">I2 · constraint</a>
+    </li>
+    <li>
+      <a href="i03-groups.html">I3 · group</a>
+    </li>
+    <li>
+      <a href="i04-rank.html">I4 · rank</a>
+    </li>
+    <li>
+      <a href="i05-repeat.html">I5 · repeat</a>
+    </li>
+    <li>
+      <a href="i06-practice.html">I6 · Practice</a>
+    </li>
+    <li>
+      <a href="i07-final-project.html">I7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Advanced
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="a00-review.html">A0 · A complete form</a>
+    </li>
+    <li>
+      <a href="a01-choice-filter.html">A1 · choice_filter</a>
+    </li>
+    <li>
+      <a href="a02-cascade.html">A2 · Cascading questions</a>
+    </li>
+    <li>
+      <a href="a03-export.html">A3 · Exports for analysis</a>
+    </li>
+    <li>
+      <a href="a04-r-import.html">A4 · R: main sheet &amp; groups</a>
+    </li>
+    <li>
+      <a href="a05-r-repeats.html">A5 · R: repeat sheets</a>
+    </li>
+    <li>
+      <a href="a06-practice.html">A6 · Practice</a>
+    </li>
+    <li>
+      <a href="a07-final-project.html">A7 · Final project</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="downloads.html">Course files</a>
+    </li>
+    <li>
+      <a href="cheatsheet.html">Cheatsheet · Beginner</a>
+    </li>
+    <li>
+      <a href="cheatsheet-intermediate.html">Cheatsheet · Intermediate</a>
+    </li>
+    <li>
+      <a href="cheatsheet-advanced.html">Cheatsheet · Advanced</a>
+    </li>
+    <li>
+      <a href="common-errors.html">Error messages &amp; fixes</a>
+    </li>
+    <li>
+      <a href="glossary.html">Glossary FR / EN</a>
+    </li>
+    <li>
+      <a href="help.html">Need help?</a>
+    </li>
+    <li>
+      <a href="whats-new.html">What's new</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore"><span class="en">I7 · Final project:
+fishers’ trip logbook</span><span class="fr">I7 · Projet final : le
+carnet des sorties de pêche</span></h1>
+<h3 class="subtitle">~3 h 30</h3>
+
+</div>
+
+
+<div class="objectives">
+<div id="everything-of-the-intermediate-level-in-one-form"
+class="section level4 en">
+<h4>Everything of the Intermediate level in one form</h4>
+<p>Groups, calculations, conditions, checks, a “top 3” without
+repetition, and a repeat with <code>repeat_count</code> — then 5 test
+interviews to type, and an export with two sheets to analyse. As in
+Level 1, if your form and your typing are correct, your export gives the
+expected answers.</p>
+</div>
+<div id="tout-le-niveau-intermédiaire-dans-un-formulaire"
+class="section level4 fr">
+<h4>Tout le niveau Intermédiaire dans un formulaire</h4>
+<p>Groupes, calculs, conditions, contrôles, un « top 3 » sans
+répétition, et une répétition avec <code>repeat_count</code> — puis 5
+entretiens de test à saisir, et un export à deux feuilles à analyser.
+Comme au niveau 1, si votre formulaire et votre saisie sont justes,
+votre export donne les réponses attendues.</p>
+</div>
+</div>
+<div id="request" class="section level2">
+<h2><span class="en">The request</span><span class="fr">La
+demande</span></h2>
+<div class="callout ecology">
+<div class="en">
+<p><strong>Simulated context.</strong> The cooperative wants to estimate
+the <strong>catch per unit of effort</strong> (kg per hour) and the
+<strong>income</strong> of its members, gear by gear. Once a week, an
+enumerator meets each fisher and records <strong>all his trips of the
+week</strong>: gear, duration, weight sold and price. The fisher also
+names the <strong>three problems</strong> that worry him most.</p>
+<p><strong>Type of data:</strong> fisheries effort and catch — one
+submission per fisher per week, with one repetition per trip.</p>
+</div>
+<div class="fr">
+<p><strong>Contexte simulé.</strong> La coopérative veut estimer la
+<strong>capture par unité d’effort</strong> (kg par heure) et le
+<strong>revenu</strong> de ses membres, engin par engin. Une fois par
+semaine, un enquêteur rencontre chaque pêcheur et note <strong>toutes
+ses sorties de la semaine</strong> : engin, durée, poids vendu et prix.
+Le pêcheur cite aussi les <strong>trois problèmes</strong> qui
+l’inquiètent le plus.</p>
+<p><strong>Type de données :</strong> effort et captures de pêche — une
+soumission par pêcheur et par semaine, avec une répétition par
+sortie.</p>
+</div>
+</div>
+</div>
+<div id="spec" class="section level2">
+<h2><span class="en">Specifications</span><span class="fr">Cahier des
+charges</span></h2>
+<div class="en">
+<p>Use exactly these names. French labels are enough for this project
+(add Malagasy if you wish). Form title <em>Carnet des sorties</em>,
+form_id <code>carnet_sorties</code>.</p>
+<p><strong>Group <code>pecheur</code></strong> (<em>Le pêcheur</em>,
+appearance <code>field-list</code>)</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>label</th>
+<th>type</th>
+<th>rules</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>village</code></td>
+<td>Village</td>
+<td>select_one <code>village</code></td>
+<td>required; the 5 villages of the course</td>
+</tr>
+<tr class="even">
+<td><code>nom</code></td>
+<td>Nom du pêcheur</td>
+<td>text</td>
+<td>required</td>
+</tr>
+<tr class="odd">
+<td><code>annee_naissance</code></td>
+<td>Année de naissance</td>
+<td>integer</td>
+<td>constraint: between 1940 and 2010, with a message</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>—</td>
+<td>calculate</td>
+<td><code>int(format-date(today(), '%Y')) - ${annee_naissance}</code></td>
+</tr>
+<tr class="odd">
+<td><code>pirogue</code></td>
+<td>Possède-t-il une pirogue ?</td>
+<td>select_one <code>oui_non</code></td>
+<td>required</td>
+</tr>
+<tr class="even">
+<td><code>type_pirogue</code></td>
+<td>Type de pirogue</td>
+<td>select_one <code>type_pirogue</code></td>
+<td>required, <strong>shown only if he owns a canoe</strong>;
+<code>monoxyle</code> Monoxyle · <code>balancier</code> Pirogue à
+balancier · <code>moteur</code> Pirogue à moteur</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Group <code>problemes</code></strong> (<em>Problèmes</em>):
+<code>probleme_1</code>, <code>probleme_2</code>,
+<code>probleme_3</code> — <em>Problème n° 1 (le plus important)</em>,
+<em>n° 2</em>, <em>n° 3</em> — <code>select_one probleme</code> (the 5
+problems of Session I4), required; <code>probleme_2</code> cannot equal
+<code>probleme_1</code>, and <code>probleme_3</code> cannot equal either
+of them (constraints with messages).</p>
+<p><strong><code>nb_sorties</code></strong> — <em>Nombre de sorties
+cette semaine</em> — integer, required, between 1 and 14.</p>
+<p><strong>Repeat <code>sorties</code></strong> (<em>Sortie</em>),
+<code>repeat_count</code> = <code>${nb_sorties}</code>:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>label</th>
+<th>type</th>
+<th>rules</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>num_sortie</code></td>
+<td>—</td>
+<td>calculate</td>
+<td><code>position(..)</code></td>
+</tr>
+<tr class="even">
+<td><code>engin</code></td>
+<td>Engin de la sortie ${num_sortie}</td>
+<td>select_one <code>engin</code></td>
+<td>required; <code>ligne</code> Ligne à main ·
+<code>filet_maillant</code> Filet maillant · <code>fusil</code> Fusil
+harpon · <code>glanage</code> Pêche à pied</td>
+</tr>
+<tr class="odd">
+<td><code>heures</code></td>
+<td>Durée (heures)</td>
+<td>decimal</td>
+<td>required; between 0.5 and 24</td>
+</tr>
+<tr class="even">
+<td><code>poids</code></td>
+<td>Poids vendu (kg)</td>
+<td>decimal</td>
+<td>required; between 0 and 300</td>
+</tr>
+<tr class="odd">
+<td><code>prix_kg</code></td>
+<td>Prix (Ar/kg)</td>
+<td>integer</td>
+<td>required; between 1000 and 40000</td>
+</tr>
+<tr class="even">
+<td><code>valeur</code></td>
+<td>—</td>
+<td>calculate</td>
+<td>weight × price</td>
+</tr>
+<tr class="odd">
+<td><code>cpue</code></td>
+<td>—</td>
+<td>calculate</td>
+<td>weight ÷ hours, rounded to 2 decimals</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After the repeat</strong>: <code>poids_semaine</code> = sum
+of the weights, <code>valeur_semaine</code> = sum of the values, and a
+note that shows both to the enumerator.</p>
+</div>
+<div class="fr">
+<p>Utilisez exactement ces noms. Les libellés français suffisent pour ce
+projet (ajoutez le malgache si vous le souhaitez). Titre <em>Carnet des
+sorties</em>, form_id <code>carnet_sorties</code>.</p>
+<p><strong>Groupe <code>pecheur</code></strong> (<em>Le pêcheur</em>,
+apparence <code>field-list</code>)</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>libellé</th>
+<th>type</th>
+<th>règles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>village</code></td>
+<td>Village</td>
+<td>select_one <code>village</code></td>
+<td>obligatoire ; les 5 villages du cours</td>
+</tr>
+<tr class="even">
+<td><code>nom</code></td>
+<td>Nom du pêcheur</td>
+<td>text</td>
+<td>obligatoire</td>
+</tr>
+<tr class="odd">
+<td><code>annee_naissance</code></td>
+<td>Année de naissance</td>
+<td>integer</td>
+<td>contrainte : entre 1940 et 2010, avec un message</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>—</td>
+<td>calculate</td>
+<td><code>int(format-date(today(), '%Y')) - ${annee_naissance}</code></td>
+</tr>
+<tr class="odd">
+<td><code>pirogue</code></td>
+<td>Possède-t-il une pirogue ?</td>
+<td>select_one <code>oui_non</code></td>
+<td>obligatoire</td>
+</tr>
+<tr class="even">
+<td><code>type_pirogue</code></td>
+<td>Type de pirogue</td>
+<td>select_one <code>type_pirogue</code></td>
+<td>obligatoire, <strong>affichée seulement s’il a une pirogue</strong>
+; <code>monoxyle</code> Monoxyle · <code>balancier</code> Pirogue à
+balancier · <code>moteur</code> Pirogue à moteur</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Groupe <code>problemes</code></strong> (<em>Problèmes</em>) :
+<code>probleme_1</code>, <code>probleme_2</code>,
+<code>probleme_3</code> — <em>Problème n° 1 (le plus important)</em>,
+<em>n° 2</em>, <em>n° 3</em> — <code>select_one probleme</code> (les 5
+problèmes de la séance I4), obligatoires ; <code>probleme_2</code> ne
+peut pas être égal à <code>probleme_1</code>, et <code>probleme_3</code>
+ne peut être égal à aucun des deux (contraintes avec messages).</p>
+<p><strong><code>nb_sorties</code></strong> — <em>Nombre de sorties
+cette semaine</em> — entier, obligatoire, entre 1 et 14.</p>
+<p><strong>Répétition <code>sorties</code></strong> (<em>Sortie</em>),
+<code>repeat_count</code> = <code>${nb_sorties}</code> :</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>name</th>
+<th>libellé</th>
+<th>type</th>
+<th>règles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>num_sortie</code></td>
+<td>—</td>
+<td>calculate</td>
+<td><code>position(..)</code></td>
+</tr>
+<tr class="even">
+<td><code>engin</code></td>
+<td>Engin de la sortie ${num_sortie}</td>
+<td>select_one <code>engin</code></td>
+<td>obligatoire ; <code>ligne</code> Ligne à main ·
+<code>filet_maillant</code> Filet maillant · <code>fusil</code> Fusil
+harpon · <code>glanage</code> Pêche à pied</td>
+</tr>
+<tr class="odd">
+<td><code>heures</code></td>
+<td>Durée (heures)</td>
+<td>decimal</td>
+<td>obligatoire ; entre 0,5 et 24</td>
+</tr>
+<tr class="even">
+<td><code>poids</code></td>
+<td>Poids vendu (kg)</td>
+<td>decimal</td>
+<td>obligatoire ; entre 0 et 300</td>
+</tr>
+<tr class="odd">
+<td><code>prix_kg</code></td>
+<td>Prix (Ar/kg)</td>
+<td>integer</td>
+<td>obligatoire ; entre 1000 et 40000</td>
+</tr>
+<tr class="even">
+<td><code>valeur</code></td>
+<td>—</td>
+<td>calculate</td>
+<td>poids × prix</td>
+</tr>
+<tr class="odd">
+<td><code>cpue</code></td>
+<td>—</td>
+<td>calculate</td>
+<td>poids ÷ heures, arrondi à 2 décimales</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Après la répétition</strong> : <code>poids_semaine</code> =
+somme des poids, <code>valeur_semaine</code> = somme des valeurs, et une
+note qui affiche les deux à l’enquêteur.</p>
+</div>
+</div>
+<div id="fiches" class="section level2">
+<h2><span class="en">Test interviews</span><span class="fr">Entretiens
+de test</span></h2>
+<div class="en">
+<p>Deploy the form and type the 5 interviews <strong>in this
+order</strong> with the <span class="ui">En ligne uniquement
+(soumissions multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span> link. Before submitting each one, check that
+the note shows the right totals.</p>
+</div>
+<div class="fr">
+<p>Déployez le formulaire et saisissez les 5 entretiens <strong>dans cet
+ordre</strong> avec le lien <span class="ui">En ligne uniquement
+(soumissions multiples) <span class="ui-en">(Online-Only (multiple
+submissions))</span></span>. Avant d’envoyer chacun, vérifiez que la
+note affiche les bons totaux.</p>
+</div>
+<div id="fiche-1-bezara-ifaty" class="section level5 fiche">
+<h5>Fiche 1 — Bezara, Ifaty</h5>
+<p>Né en 1979 · Pirogue : Oui (Pirogue à balancier) · Problèmes : Baisse
+des captures &gt; Prix bas &gt; Mauvais temps</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Engin</th>
+<th>Heures</th>
+<th>Poids (kg)</th>
+<th>Prix (Ar/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Ligne à main</td>
+<td>6</td>
+<td>8,5</td>
+<td>4 000</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Ligne à main</td>
+<td>5</td>
+<td>6,0</td>
+<td>4 000</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Fusil harpon</td>
+<td>4</td>
+<td>4,2</td>
+<td>9 000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fiche-2-lahatra-ifaty" class="section level5 fiche">
+<h5>Fiche 2 — Lahatra, Ifaty</h5>
+<p>Né en 1995 · Pirogue : Non · Problèmes : Prix bas &gt; Baisse des
+captures &gt; Accès au marché</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Engin</th>
+<th>Heures</th>
+<th>Poids (kg)</th>
+<th>Prix (Ar/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Pêche à pied</td>
+<td>3,0</td>
+<td>2,1</td>
+<td>9 500</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Pêche à pied</td>
+<td>3,5</td>
+<td>3,4</td>
+<td>9 500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fiche-3-manjary-mangily" class="section level5 fiche">
+<h5>Fiche 3 — Manjary, Mangily</h5>
+<p>Né en 1968 · Pirogue : Oui (Pirogue à moteur) · Problèmes : Mauvais
+temps &gt; Baisse des captures &gt; Prix bas</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Engin</th>
+<th>Heures</th>
+<th>Poids (kg)</th>
+<th>Prix (Ar/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Filet maillant</td>
+<td>8</td>
+<td>22,0</td>
+<td>3 500</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Filet maillant</td>
+<td>7</td>
+<td>18,5</td>
+<td>3 500</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Ligne à main</td>
+<td>6</td>
+<td>9,0</td>
+<td>4 000</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Filet maillant</td>
+<td>8</td>
+<td>25,5</td>
+<td>3 500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fiche-4-tovo-ambolimailaka" class="section level5 fiche">
+<h5>Fiche 4 — Tovo, Ambolimailaka</h5>
+<p>Né en 2001 · Pirogue : Oui (Pirogue à balancier) · Problèmes : Baisse
+des captures &gt; Mauvais temps &gt; Conflits</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Engin</th>
+<th>Heures</th>
+<th>Poids (kg)</th>
+<th>Prix (Ar/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Fusil harpon</td>
+<td>5</td>
+<td>6,8</td>
+<td>9 000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fiche-5-velo-madiorano" class="section level5 fiche">
+<h5>Fiche 5 — Velo, Madiorano</h5>
+<p>Né en 1986 · Pirogue : Non · Problèmes : Prix bas &gt; Accès au
+marché &gt; Baisse des captures</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sortie</th>
+<th>Engin</th>
+<th>Heures</th>
+<th>Poids (kg)</th>
+<th>Prix (Ar/kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Ligne à main</td>
+<td>6,0</td>
+<td>7,2</td>
+<td>4 200</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Pêche à pied</td>
+<td>2,5</td>
+<td>1,6</td>
+<td>9 500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="quiz-ki7" class="quiz" data-quiz-id="ki7"
+data-q="W3sidHlwZSI6Im51bSIsImVuIjoiMS4gUm93cyBpbiB0aGUgbWFpbiBzaGVldCBvZiB5b3VyIGV4cG9ydD8iLCJmciI6IjEuIExpZ25lcyBkZSBsYSBmZXVpbGxlIHByaW5jaXBhbGUgZGUgdm90cmUgZXhwb3J0ID8iLCJhbnN3ZXIiOjUsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjIuIFJvd3MgaW4gdGhlIHNvcnRpZXMgc2hlZXQ/IiwiZnIiOiIyLiBMaWduZXMgZGUgbGEgZmV1aWxsZSBzb3J0aWVzID8iLCJhbnN3ZXIiOjEyLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIzLiBUb3RhbCB3ZWlnaHQgb2YgYWxsIHRyaXBzIChrZywgMSBkZWNpbWFsKT8iLCJmciI6IjMuIFBvaWRzIHRvdGFsIGRlIHRvdXRlcyBsZXMgc29ydGllcyAoa2csIDEgZMOpY2ltYWxlKSA/IiwiYW5zd2VyIjoxMTQuOCwidG9sIjowLjA1LCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNC4gVG90YWwgdmFsdWUgb2YgYWxsIHRyaXBzIChBcik/IiwiZnIiOiI0LiBWYWxldXIgdG90YWxlIGRlIHRvdXRlcyBsZXMgc29ydGllcyAoQXIpID8iLCJhbnN3ZXIiOjUyMTY5MCwidG9sIjoxLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNS4gVHJpcHMgb2YgZ2xlYW5pbmcgKGdsYW5hZ2UpPyIsImZyIjoiNS4gU29ydGllcyBkZSBww6pjaGUgw6AgcGllZCAoZ2xhbmFnZSkgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNi4gTnVtYmVyIG9mIHRoZSBmaWNoZSBvZiB0aGUgdHJpcCB3aXRoIHRoZSBoaWdoZXN0IHZhbHVlPyIsImZyIjoiNi4gTnVtw6lybyBkZSBsYSBmaWNoZSBkZSBsYSBzb3J0aWUgw6AgbGEgcGx1cyBmb3J0ZSB2YWxldXIgPyIsImFuc3dlciI6MywidG9sIjowLCJoaW50X2VuIjoiIiwiaGludF9mciI6IiJ9LHsidHlwZSI6Im51bSIsImVuIjoiNy4gRmlzaGVycyB3aG9zZSBwcm9ibGVtIG7CsCAxIGlzICdwcml4X2Jhcyc/IiwiZnIiOiI3LiBQw6pjaGV1cnMgZG9udCBsZSBwcm9ibMOobWUgbsKwIDEgZXN0IMKrIHByaXhfYmFzIMK7ID8iLCJhbnN3ZXIiOjIsInRvbCI6MCwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJudW0iLCJlbiI6IjguIE1lYW4gb2YgdGhlIGNvbHVtbiBjcHVlIG92ZXIgYWxsIHRyaXBzICgyIGRlY2ltYWxzKT8iLCJmciI6IjguIE1veWVubmUgZGUgbGEgY29sb25uZSBjcHVlIHN1ciB0b3V0ZXMgbGVzIHNvcnRpZXMgKDIgZMOpY2ltYWxlcykgPyIsImFuc3dlciI6MS41NSwidG9sIjowLjAwNiwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJ0ZXh0IiwiZW4iOiI5LiBHZWFyIChjaG9pY2UgbmFtZSkgd2l0aCB0aGUgaGlnaGVzdCBtZWFuIGNwdWU/IiwiZnIiOiI5LiBFbmdpbiAobmFtZSBkdSBjaG9peCkgYXUgY3B1ZSBtb3llbiBsZSBwbHVzIMOpbGV2w6kgPyIsImFuc3dlciI6WyJmaWxldF9tYWlsbGFudCJdfSx7InR5cGUiOiJudW0iLCJlbiI6IjEwLiBOdW1iZXIgb2Ygbm9uLWVtcHR5IGNlbGxzIGluIHRoZSB0eXBlX3Bpcm9ndWUgY29sdW1uPyIsImZyIjoiMTAuIE5vbWJyZSBkZSBjZWxsdWxlcyBub24gdmlkZXMgZGFucyBsYSBjb2xvbm5lIHR5cGVfcGlyb2d1ZSA/IiwiYW5zd2VyIjozLCJ0b2wiOjAsImhpbnRfZW4iOiIiLCJoaW50X2ZyIjoiIn0seyJ0eXBlIjoibnVtIiwiZW4iOiIxMS4gSGlnaGVzdCB2YWxldXJfc2VtYWluZSAoQXIpPyIsImZyIjoiMTEuIHZhbGV1cl9zZW1haW5lIGxhIHBsdXMgw6lsZXbDqWUgKEFyKSA/IiwiYW5zd2VyIjoyNjcwMDAsInRvbCI6MSwiaGludF9lbiI6IiIsImhpbnRfZnIiOiIifSx7InR5cGUiOiJtY3EiLCJlbiI6IjEyLiBJbiB0aGUgc29ydGllcyBzaGVldCwgdGhlIHRyaXBzIG9mIGZpY2hlIDMgaGF2ZSBfcGFyZW50X2luZGV4ID0iLCJmciI6IjEyLiBEYW5zIGxhIGZldWlsbGUgc29ydGllcywgbGVzIHNvcnRpZXMgZGUgbGEgZmljaGUgMyBvbnQgX3BhcmVudF9pbmRleCA9Iiwib3B0aW9uc19lbiI6WyIzIiwiMSIsInRoZWlyIG93biBudW1iZXIgMSB0byA0Il0sIm9wdGlvbnNfZnIiOlsiMyIsIjEiLCJsZXVyIHByb3ByZSBudW3DqXJvIDEgw6AgNCJdLCJhbnN3ZXIiOjB9XQ==">
+
+</div>
+<div class="solution" data-quiz="ki7">
+<div class="en">
+<p>Answers: 1 5 · 2 12 · 3 114.8 kg · 4 521 690 Ar · 5 3 · 6 fiche 3 · 7
+2 · 8 1.55 kg/h · 9 filet_maillant · 10 3 (empty when there is no canoe)
+· 11 267 000 Ar · 12 3 (if you typed the fiches in order).</p>
+<p>A possible XLSForm (<code>survey</code> sheet):</p>
+</div>
+<div class="fr">
+<p>Réponses : 1 5 · 2 12 · 3 114.8 kg · 4 521 690 Ar · 5 3 · 6 fiche 3 ·
+7 2 · 8 1.55 kg/h · 9 filet_maillant · 10 3 (vide quand il n’y a pas de
+pirogue) · 11 267 000 Ar · 12 3 (si vous avez saisi les fiches dans
+l’ordre).</p>
+<p>Un XLSForm possible (feuille <code>survey</code>) :</p>
+</div>
+<div class="xls-wrap"><table class="xls"><tr><th class='xr'></th><th class='xc'>A</th><th class='xc'>B</th><th class='xc'>C</th><th class='xc'>D</th><th class='xc'>E</th><th class='xc'>F</th><th class='xc'>G</th><th class='xc'>H</th><th class='xc'>I</th></tr><tr><td class='xr'>1</td><td class='xh'>type</td><td class='xh'>name</td><td class='xh'>label</td><td class='xh'>required</td><td class='xh'>relevant</td><td class='xh'>constraint</td><td class='xh'>calculation</td><td class='xh'>appearance</td><td class='xh'>repeat_count</td></tr><tr><td class='xr'>2</td><td>start</td><td>start</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>3</td><td>end</td><td>end</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>4</td><td>begin_group</td><td>pecheur</td><td>Le pêcheur</td><td></td><td></td><td></td><td></td><td>field-list</td><td></td></tr><tr><td class='xr'>5</td><td>select_one village</td><td>village</td><td>Village</td><td>yes</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>6</td><td>text</td><td>nom</td><td>Nom du pêcheur</td><td>yes</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>7</td><td>integer</td><td>annee_naissance</td><td>Année de naissance</td><td></td><td></td><td>. &gt;= 1940 and . &lt;= 2010</td><td></td><td></td><td></td></tr><tr><td class='xr'>8</td><td>calculate</td><td>age</td><td></td><td></td><td></td><td></td><td>int(format-date(today(), '%Y')) - &#36;{annee_naissance}</td><td></td><td></td></tr><tr><td class='xr'>9</td><td>select_one oui_non</td><td>pirogue</td><td>Possède-t-il une pirogue ?</td><td>yes</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>10</td><td>select_one type_pirogue</td><td>type_pirogue</td><td>Type de pirogue</td><td>yes</td><td>&#36;{pirogue} = 'oui'</td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>11</td><td>end_group</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>12</td><td>begin_group</td><td>problemes</td><td>Problèmes</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>13</td><td>select_one probleme</td><td>probleme_1</td><td>Problème n° 1 (le plus important)</td><td>yes</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>14</td><td>select_one probleme</td><td>probleme_2</td><td>Problème n° 2</td><td>yes</td><td></td><td>. != &#36;{probleme_1}</td><td></td><td></td><td></td></tr><tr><td class='xr'>15</td><td>select_one probleme</td><td>probleme_3</td><td>Problème n° 3</td><td>yes</td><td></td><td>. != &#36;{probleme_1} and . != &#36;{probleme_2}</td><td></td><td></td><td></td></tr><tr><td class='xr'>16</td><td>end_group</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>17</td><td>integer</td><td>nb_sorties</td><td>Nombre de sorties cette semaine</td><td>yes</td><td></td><td>. &gt;= 1 and . &lt;= 14</td><td></td><td></td><td></td></tr><tr><td class='xr'>18</td><td>begin_repeat</td><td>sorties</td><td>Sortie</td><td></td><td></td><td></td><td></td><td></td><td>&#36;{nb_sorties}</td></tr><tr><td class='xr'>19</td><td>calculate</td><td>num_sortie</td><td></td><td></td><td></td><td></td><td>position(..)</td><td></td><td></td></tr><tr><td class='xr'>20</td><td>select_one engin</td><td>engin</td><td>Engin de la sortie &#36;{num_sortie}</td><td>yes</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>21</td><td>decimal</td><td>heures</td><td>Durée (heures)</td><td>yes</td><td></td><td>. &gt;= 0.5 and . &lt;= 24</td><td></td><td></td><td></td></tr><tr><td class='xr'>22</td><td>decimal</td><td>poids</td><td>Poids vendu (kg)</td><td>yes</td><td></td><td>. &gt;= 0 and . &lt;= 300</td><td></td><td></td><td></td></tr><tr><td class='xr'>23</td><td>integer</td><td>prix_kg</td><td>Prix (Ar/kg)</td><td>yes</td><td></td><td>. &gt;= 1000 and . &lt;= 40000</td><td></td><td></td><td></td></tr><tr><td class='xr'>24</td><td>calculate</td><td>valeur</td><td></td><td></td><td></td><td></td><td>&#36;{poids} * &#36;{prix_kg}</td><td></td><td></td></tr><tr><td class='xr'>25</td><td>calculate</td><td>cpue</td><td></td><td></td><td></td><td></td><td>round(&#36;{poids} div &#36;{heures}, 2)</td><td></td><td></td></tr><tr><td class='xr'>26</td><td>end_repeat</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class='xr'>27</td><td>calculate</td><td>poids_semaine</td><td></td><td></td><td></td><td></td><td>sum(&#36;{poids})</td><td></td><td></td></tr><tr><td class='xr'>28</td><td>calculate</td><td>valeur_semaine</td><td></td><td></td><td></td><td></td><td>sum(&#36;{valeur})</td><td></td><td></td></tr><tr><td class='xr'>29</td><td>note</td><td>resume</td><td>Semaine : &#36;{poids_semaine} kg vendus, &#36;{valeur_semaine} Ar</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><div class="xls-tab"><span>survey</span></div></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

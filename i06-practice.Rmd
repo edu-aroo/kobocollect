@@ -1,0 +1,193 @@
+---
+title: "[I6 · Practice session]{.en}[I6 · Séance d'exercices]{.fr}"
+pagetitle: "KoboToolbox · I6"
+subtitle: "~2 h 30"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+ex <- read_export("data/exports/i05_menages_xml.xlsx")
+hh <- ex[[1]]; mb <- ex[["membres"]]
+names(hh) <- sub("^.*/", "", sub("/(ligne|filet_maillant|fusil|senne|glanage)$", "__\\1", names(hh)))
+names(mb) <- sub("^.*/", "", names(mb))
+```
+
+::: objectives
+::: en
+#### Four exercises to consolidate the Intermediate level
+1. evaluate calculations and conditions by hand (as the form does);
+2. correct a form with groups and a repeat that KoboToolbox refuses;
+3. analyse a repeat sheet linked to its main sheet;
+4. choose the right structure for a new questionnaire.
+
+The four quizzes count **together** (75 % of their total to open Session I7).
+:::
+::: fr
+#### Quatre exercices pour consolider le niveau Intermédiaire
+1. évaluer des calculs et des conditions à la main (comme le fait le formulaire) ;
+2. corriger un formulaire avec groupes et répétition que KoboToolbox refuse ;
+3. analyser une feuille de répétition reliée à sa feuille principale ;
+4. choisir la bonne structure pour un nouveau questionnaire.
+
+Les quatre quiz comptent **ensemble** (75 % de leur total pour ouvrir la séance I7).
+:::
+:::
+
+## [Exercise 1 — Be the form]{.en}[Exercice 1 — Jouer le formulaire]{.fr} {#ex1}
+
+::: en
+An enumerator entered: `poids` = 6.5, `prix_kg` = 9000, `nb_pecheurs` = 2, `peche` = `oui`, `engins` = `ligne fusil`, `revenu_autre` empty, `age` = 16. What does the form compute or show?
+:::
+::: fr
+Un enquêteur a saisi : `poids` = 6,5, `prix_kg` = 9000, `nb_pecheurs` = 2, `peche` = `oui`, `engins` = `ligne fusil`, `revenu_autre` vide, `age` = 16. Que calcule ou affiche le formulaire ?
+:::
+
+```{r quiz1, echo=FALSE}
+quiz("kip1", title_en = "Exercise 1", title_fr = "Exercice 1", list(
+  q_num("1. round(${poids} * ${prix_kg} div ${nb_pecheurs}, 0)?", "1. round(${poids} * ${prix_kg} div ${nb_pecheurs}, 0) ?", 29250, tol = 0),
+  q_text("2. if(${poids} >= 10, 'grosse', if(${poids} >= 3, 'moyenne', 'petite'))?", "2. if(${poids} >= 10, 'grosse', if(${poids} >= 3, 'moyenne', 'petite')) ?", "moyenne"),
+  q_num("3. count-selected(${engins})?", "3. count-selected(${engins}) ?", 2, tol = 0),
+  q_mcq("4. relevant selected(${engins}, 'filet_maillant'): is the question shown?", "4. relevant selected(${engins}, 'filet_maillant') : la question est-elle affichée ?", c("yes", "no"), c("oui", "non"), correct = 2),
+  q_mcq("5. relevant ${peche} = 'oui' and ${age} >= 18: shown?", "5. relevant ${peche} = 'oui' and ${age} >= 18 : affichée ?", c("yes", "no"), c("oui", "non"), correct = 2),
+  q_mcq("6. relevant ${peche} = 'oui' or ${age} >= 18: shown?", "6. relevant ${peche} = 'oui' or ${age} >= 18 : affichée ?", c("yes", "no"), c("oui", "non"), correct = 1),
+  q_num("7. coalesce(${revenu_autre}, 0) + 50000?", "7. coalesce(${revenu_autre}, 0) + 50000 ?", 50000, tol = 0),
+  q_mcq("8. constraint . >= 18 on age (16 entered):", "8. constraint . >= 18 sur l'âge (16 saisi) :", c("accepted", "refused"), c("acceptée", "refusée"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="kip1"}
+::: en
+1 6.5 × 9000 = 58 500, ÷ 2 = **29 250** · 2 `moyenne` (6.5 ≥ 3 but < 10) · 3 **2** · 4 no (`filet_maillant` not ticked) · 5 no (16 < 18, and both must be true) · 6 yes (the first part is true) · 7 **50 000** · 8 refused.
+:::
+::: fr
+1 6,5 × 9000 = 58 500, ÷ 2 = **29 250** · 2 `moyenne` (6,5 ≥ 3 mais < 10) · 3 **2** · 4 non (`filet_maillant` pas coché) · 5 non (16 < 18, et les deux doivent être vraies) · 6 oui (la première partie est vraie) · 7 **50 000** · 8 refusée.
+:::
+:::
+
+## [Exercise 2 — Correct the household form]{.en}[Exercice 2 — Corriger le formulaire ménages]{.fr} {#ex2}
+
+::: en
+A colleague edited the household form, and KoboToolbox now refuses it: `r dl("forms/i06_menage_erreurs.xlsx", "i06_menage_erreurs.xlsx")`. Upload, read, correct **only** what each message points to, upload again.
+:::
+::: fr
+Un collègue a modifié le formulaire ménages, et KoboToolbox le refuse maintenant : `r dl("forms/i06_menage_erreurs.xlsx", "i06_menage_erreurs.xlsx")`. Importez, lisez, corrigez **seulement** ce que chaque message désigne, ré-importez.
+:::
+
+::: hint
+::: en
+Four errors. Messages about `${…}` say *"Could not find the name …"*: compare with the `name` column (`r key("Ctrl+F")`). For a group that is never closed, the row given is the `begin_group`: the missing row is further down.
+:::
+::: fr
+Quatre erreurs. Les messages sur `${…}` disent *« Could not find the name … »* : comparez avec la colonne `name` (`r key("Ctrl+F")`). Pour un groupe jamais fermé, la ligne donnée est celle du `begin_group` : la ligne manquante est plus bas.
+:::
+:::
+
+```{r quiz2, echo=FALSE}
+quiz("kip2", title_en = "Exercise 2", title_fr = "Exercice 2", list(
+  q_num("1. Row of the first error reported?", "1. Ligne de la première erreur signalée ?", 36, tol = 0),
+  q_text("2. Correct list name for avis_amp?", "2. Nom de liste correct pour avis_amp ?", "accord"),
+  q_text("3. Name of the group that is never closed?", "3. Name du groupe jamais fermé ?", "avis"),
+  q_text("4. In the calculation of nb_enfants, the unknown name is…?", "4. Dans le calcul de nb_enfants, le nom inconnu est… ?", "est_enfants"),
+  q_text("5. Column (XLSForm header) of the 4th error?", "5. Colonne (en-tête XLSForm) de la 4e erreur ?", "relevant"),
+  q_num("6. Total number of uploads (successful one included)?", "6. Nombre total d'imports (celui qui réussit compris) ?", 5, tol = 0)
+))
+```
+
+::: {.solution data-quiz="kip2"}
+::: en
+| Upload | Message | Correction |
+|---|---|---|
+| 1 | `[row : 36] List name not in choices sheet: acord` | `select_one acord` → `select_one accord` |
+| 2 | `[row : 34] Unmatched 'begin_group'. No matching 'end_group' was found for the name 'avis'.` | add an `end_group` row at the end (row 37) |
+| 3 | `[row : 23] … the 'calculation' value is invalid… Could not find the name 'est_enfants'.` | `sum(${est_enfants})` → `sum(${est_enfant})` |
+| 4 | `[row : 28] … the 'relevant' value is invalid… Could not find the name 'peche_pratique'.` | `${peche_pratique}` → `${pratique_peche}` |
+| 5 | form created ✓ | |
+:::
+::: fr
+| Import | Message | Correction |
+|---|---|---|
+| 1 | `[row : 36] List name not in choices sheet: acord` | `select_one acord` → `select_one accord` |
+| 2 | `[row : 34] Unmatched 'begin_group'. No matching 'end_group' was found for the name 'avis'.` | ajouter une ligne `end_group` à la fin (ligne 37) |
+| 3 | `[row : 23] … the 'calculation' value is invalid… Could not find the name 'est_enfants'.` | `sum(${est_enfants})` → `sum(${est_enfant})` |
+| 4 | `[row : 28] … the 'relevant' value is invalid… Could not find the name 'peche_pratique'.` | `${peche_pratique}` → `${pratique_peche}` |
+| 5 | formulaire créé ✓ | |
+:::
+:::
+
+## [Exercise 3 — Members and households]{.en}[Exercice 3 — Membres et ménages]{.fr} {#ex3}
+
+::: en
+With `r dl("exports/i05_menages_xml.xlsx", "i05_menages_xml.xlsx")` (sheets *Enquête ménages pêche* and `membres`). Link the members to their household with `_parent_index` ↔ `_index`.
+:::
+::: fr
+Avec `r dl("exports/i05_menages_xml.xlsx", "i05_menages_xml.xlsx")` (feuilles *Enquête ménages pêche* et `membres`). Reliez les membres à leur ménage avec `_parent_index` ↔ `_index`.
+:::
+
+```{r ans3, include=FALSE}
+mb$village <- hh$village[match(mb$`_parent_index`, hh$`_index`)]
+mb$chef_sexe <- hh$chef_sexe[match(mb$`_parent_index`, hh$`_index`)]
+act <- table(mb$activite)
+c1 <- names(act)[order(-act)][1]
+c2 <- sum(mb$activite == "algoculture", na.rm = TRUE)
+c3 <- round(mean(mb$age_membre), 1)
+c4 <- sum(mb$activite == "peche" & mb$sexe == "f", na.rm = TRUE)
+c5 <- round(mean(table(mb$`_parent_index`)[as.character(hh$`_index`[hh$chef_sexe == "f"])]), 2)
+c6 <- names(which.max(tapply(mb$age_membre < 15, mb$village, sum)))
+c7 <- sum(mb$age_membre >= 6 & mb$age_membre <= 17 & mb$scolarise == "non", na.rm = TRUE)
+c8 <- sum(tapply(mb$activite == "peche", mb$`_parent_index`, function(x) sum(x, na.rm = TRUE)) >= 2)
+```
+
+```{r quiz3, echo=FALSE}
+quiz("kip3", title_en = "Exercise 3", title_fr = "Exercice 3", list(
+  q_text("1. Most frequent main activity of members (choice name, empty cells excluded)?", "1. Activité principale la plus fréquente des membres (name du choix, cellules vides exclues) ?", c1),
+  q_num("2. Members working in seaweed farming (algoculture)?", "2. Membres travaillant dans l'algoculture ?", c2, tol = 0),
+  q_num("3. Mean age of the members (1 decimal)?", "3. Âge moyen des membres (1 décimale) ?", c3, tol = 0.05),
+  q_num("4. Women whose main activity is fishing?", "4. Femmes dont l'activité principale est la pêche ?", c4, tol = 0),
+  q_num("5. Mean size of households headed by a woman (2 decimals)?", "5. Taille moyenne des ménages dirigés par une femme (2 décimales) ?", c5, tol = 0.006),
+  q_text("6. Village with the most children under 15?", "6. Village avec le plus d'enfants de moins de 15 ans ?", c6),
+  q_num("7. Children aged 6–17 who do NOT go to school?", "7. Enfants de 6 à 17 ans qui ne vont PAS à l'école ?", c7, tol = 0),
+  q_num("8. Households with at least 2 members whose main activity is fishing?", "8. Ménages avec au moins 2 membres dont l'activité principale est la pêche ?", c8, tol = 0)
+))
+```
+
+::: {.solution data-quiz="kip3"}
+::: en
+1 `r c1` · 2 `r c2` · 3 `r c3` · 4 `r c4` · 5 `r c5` · 6 `r c6` · 7 `r c7` · 8 `r c8`. Method: in the `membres` sheet, add the columns `village` and `chef_sexe` with `XLOOKUP` on `_parent_index`; then pivot tables (rows `_parent_index`, filter `activite` = `peche`, count ≥ 2 for question 8).
+:::
+::: fr
+1 `r c1` · 2 `r c2` · 3 `r c3` · 4 `r c4` · 5 `r c5` · 6 `r c6` · 7 `r c7` · 8 `r c8`. Méthode : dans la feuille `membres`, ajoutez les colonnes `village` et `chef_sexe` avec `RECHERCHEX` sur `_parent_index` ; puis des tableaux croisés (lignes `_parent_index`, filtre `activite` = `peche`, nombre ≥ 2 pour la question 8).
+:::
+:::
+
+## [Exercise 4 — Choose the structure]{.en}[Exercice 4 — Choisir la structure]{.fr} {#ex4}
+
+```{r quiz4, echo=FALSE}
+quiz("kip4", title_en = "Exercise 4", title_fr = "Exercice 4", list(
+  q_mcq("1. Each canoe makes 1 to 5 trips per week; for each trip: date, gear, weight. Structure?", "1. Chaque pirogue fait 1 à 5 sorties par semaine ; pour chaque sortie : date, engin, poids. Structure ?",
+        c("5 groups of 3 questions", "a repeat 'sorties' with 3 questions", "3 select_multiple questions"),
+        c("5 groupes de 3 questions", "une répétition « sorties » avec 3 questions", "3 questions select_multiple"), correct = 2),
+  q_mcq("2. The enumerator knows the number of trips before entering them. Best option?", "2. L'enquêteur connaît le nombre de sorties avant de les saisir. Meilleure option ?",
+        c("repeat_count = ${nb_sorties}", "no repeat_count", "a constraint on the repeat"), c("repeat_count = ${nb_sorties}", "pas de repeat_count", "une contrainte sur la répétition"), correct = 1),
+  q_mcq("3. Total weight of the week, computed by the form:", "3. Poids total de la semaine, calculé par le formulaire :",
+        c("sum(${poids}) after end_repeat", "${poids} * ${nb_sorties}", "count(${poids})"), c("sum(${poids}) après end_repeat", "${poids} * ${nb_sorties}", "count(${poids})"), correct = 1),
+  q_mcq("4. Ten questions about the fisher's canoe, asked only to owners:", "4. Dix questions sur la pirogue du pêcheur, posées seulement aux propriétaires :",
+        c("a relevant on each of the 10 questions", "a group 'pirogue' with one relevant on begin_group", "a repeat"),
+        c("un relevant sur chacune des 10 questions", "un groupe « pirogue » avec un relevant sur begin_group", "une répétition"), correct = 2),
+  q_mcq("5. Priority between 5 management measures:", "5. Priorité entre 5 mesures de gestion :", c("select_multiple", "rank", "5 integer questions"), correct = 2),
+  q_mcq("6. A price per kg of 500 Ar is very unusual but has happened. Check?", "6. Un prix de 500 Ar/kg est très inhabituel mais déjà arrivé. Contrôle ?",
+        c("constraint . >= 1000", "warning note when ${prix_kg} < 1000", "required"), c("constraint . >= 1000", "note d'avertissement quand ${prix_kg} < 1000", "required"), correct = 2),
+  q_mcq("7. Which export for a form with a repeat?", "7. Quel export pour un formulaire avec répétition ?", c("CSV", "XLS"), correct = 2),
+  q_mcq("8. Link a trip to its canoe in the export:", "8. Relier une sortie à sa pirogue dans l'export :",
+        c("_parent_index (trip) = _index (canoe), same export file", "_index (trip) = _index (canoe)", "row number in Excel"),
+        c("_parent_index (sortie) = _index (pirogue), même fichier d'export", "_index (sortie) = _index (pirogue)", "numéro de ligne Excel"), correct = 1)
+))
+```
+
+::: {.solution data-quiz="kip4"}
+::: en
+1 a repeat · 2 `repeat_count` · 3 `sum()` after `end_repeat` · 4 one group with one `relevant` · 5 `rank` · 6 a warning note (possible value) · 7 XLS · 8 `_parent_index` = `_index`, in the same file.
+:::
+::: fr
+1 une répétition · 2 `repeat_count` · 3 `sum()` après `end_repeat` · 4 un groupe avec un seul `relevant` · 5 `rank` · 6 une note d'avertissement (valeur possible) · 7 XLS · 8 `_parent_index` = `_index`, dans le même fichier.
+:::
+:::

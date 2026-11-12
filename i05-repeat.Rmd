@@ -1,0 +1,237 @@
+---
+title: "[I5 · Repeats (repeat)]{.en}[I5 · Les répétitions (repeat)]{.fr}"
+pagetitle: "KoboToolbox · I5"
+subtitle: "~3 h"
+---
+
+```{r setup, include=FALSE}
+source("R/course_helpers.R")
+fh <- form_household()
+ex <- read_export("data/exports/i05_menages_xml.xlsx")
+hh <- ex[[1]]; mb <- ex[["membres"]]
+```
+
+::: objectives
+::: en
+#### By the end of this session you will be able to
+- repeat a set of questions as many times as needed (household members, trips, catches) with `begin_repeat` / `end_repeat`;
+- fix the number of repetitions with `repeat_count`, or let the enumerator add them;
+- number the repetitions with `position(..)`, and summarise them outside the repeat with `sum()` and `count()`;
+- understand the export of a repeat (a separate sheet) and link it to the main sheet with `_index` / `_parent_index`.
+:::
+::: fr
+#### À la fin de cette séance vous saurez
+- répéter un ensemble de questions autant de fois que nécessaire (membres du ménage, sorties, captures) avec `begin_repeat` / `end_repeat` ;
+- fixer le nombre de répétitions avec `repeat_count`, ou laisser l'enquêteur les ajouter ;
+- numéroter les répétitions avec `position(..)`, et les résumer hors de la répétition avec `sum()` et `count()` ;
+- comprendre l'export d'une répétition (une feuille séparée) et la relier à la feuille principale avec `_index` / `_parent_index`.
+:::
+:::
+
+## [One household, several members]{.en}[Un ménage, plusieurs membres]{.fr} {#why}
+
+::: {.callout .ecology}
+::: en
+**Simulated context.** In April 2026, three enumerators interviewed **`r nrow(hh)` households** of the five villages of the bay. For each household, they recorded the head of household, then **each member** (first name, sex, age, school, main activity). Households have 1 to 12 members: you cannot write "member 1, member 2… member 12" as 60 questions. You use a **repeat**: `r dl("forms/i05_menage_peche.xlsx", "i05_menage_peche.xlsx")` and the export `r dl("exports/i05_menages_xml.xlsx", "i05_menages_xml.xlsx")`.
+
+**Type of data:** socio-economic survey at two levels — the household (one row each) and the individual (one row per member).
+:::
+::: fr
+**Contexte simulé.** En avril 2026, trois enquêteurs ont interrogé **`r nrow(hh)` ménages** des cinq villages de la baie. Pour chaque ménage, ils ont noté le chef de ménage, puis **chaque membre** (prénom, sexe, âge, scolarisation, activité principale). Les ménages ont de 1 à 12 membres : impossible d'écrire « membre 1, membre 2… membre 12 » en 60 questions. Vous utilisez une **répétition** : `r dl("forms/i05_menage_peche.xlsx", "i05_menage_peche.xlsx")` et l'export `r dl("exports/i05_menages_xml.xlsx", "i05_menages_xml.xlsx")`.
+
+**Type de données :** enquête socio-économique à deux niveaux — le ménage (une ligne chacun) et l'individu (une ligne par membre).
+:::
+:::
+
+## [begin_repeat and end_repeat]{.en}[begin_repeat et end_repeat]{.fr} {#repeat}
+
+`r xls(fh$survey, rows = 10:25, cols = c("type", "name", "label", "relevant", "calculation", "repeat_count"), hl = c(14, 22))`
+
+::: en
+- Like a group: **`begin_repeat`** (name + label) … **`end_repeat`**. The questions between them are asked **once per repetition** (once per member).
+- **`repeat_count`** = number of repetitions. Here `${nb_membres}`: the form creates exactly as many members as announced. It can also be a number (`3`) or a calculation.
+- **Without `repeat_count`**, after each member the enumerator is asked *"Add another Membre du ménage?"* — flexible, but easy to forget a member or add one too many.
+- Inside the repeat, **`${age_membre}` means the age of *this* member**: the `relevant` of `scolarise` (`${age_membre} >= 6 and ${age_membre} <= 17`) is evaluated for each member separately.
+- **`position(..)`** gives the number of the current repetition (1, 2, 3…): used here to show *"Prénom du membre 2"*.
+:::
+::: fr
+- Comme un groupe : **`begin_repeat`** (name + libellé) … **`end_repeat`**. Les questions entre les deux sont posées **une fois par répétition** (une fois par membre).
+- **`repeat_count`** = nombre de répétitions. Ici `${nb_membres}` : le formulaire crée exactement autant de membres qu'annoncé. Ce peut aussi être un nombre (`3`) ou un calcul.
+- **Sans `repeat_count`**, après chaque membre l'enquêteur voit *« Ajouter un autre Membre du ménage ? »* — souple, mais il est facile d'oublier un membre ou d'en ajouter un de trop.
+- Dans la répétition, **`${age_membre}` désigne l'âge de *ce* membre** : le `relevant` de `scolarise` (`${age_membre} >= 6 and ${age_membre} <= 17`) est évalué pour chaque membre séparément.
+- **`position(..)`** donne le numéro de la répétition en cours (1, 2, 3…) : utilisé ici pour afficher *« Prénom du membre 2 »*.
+:::
+
+```{r, echo=FALSE}
+xf(c("`begin_repeat` / `end_repeat`", "start / end of the repeated questions", "début / fin des questions répétées", "", ""),
+   c("`repeat_count`", "number of repetitions (on the begin_repeat row)", "nombre de répétitions (sur la ligne begin_repeat)", "a number, `${question}`, a calculation", "un nombre, `${question}`, un calcul"),
+   c("`position(..)`", "number of the current repetition", "numéro de la répétition en cours", "1, 2, 3…", "1, 2, 3…"),
+   c("`sum(${x})`", "outside the repeat: sum of x over all repetitions", "hors de la répétition : somme de x sur toutes les répétitions", "", ""),
+   c("`count(${repeat_name})`", "outside the repeat: number of repetitions", "hors de la répétition : nombre de répétitions", "`count(${membres})`", "idem"),
+   c("`max(${x})`, `min(${x})`", "largest / smallest value over the repetitions", "plus grande / plus petite valeur sur les répétitions", "", ""),
+   c("`indexed-repeat(${x}, ${rep}, n)`", "value of x in repetition n (advanced)", "valeur de x dans la répétition n (avancé)", "", ""))
+```
+
+## [Summarise the repetitions in the form]{.en}[Résumer les répétitions dans le formulaire]{.fr} {#summary}
+
+::: en
+**Outside** the repeat, a reference to a question of the repeat means "all its values". Two steps to count the children:
+
+1. inside the repeat, a calculation that gives 1 for a child and 0 otherwise: `est_enfant` = `if(${age_membre} < 15, 1, 0)`;
+2. after `end_repeat`, the sum: `nb_enfants` = `sum(${est_enfant})`, shown in a note to check it with the respondent.
+
+The same way: `count(${membres})` = number of members entered; `max(${age_membre})` = age of the oldest; `sum(${revenu_membre})` = total income.
+:::
+::: fr
+**Hors** de la répétition, une référence à une question de la répétition signifie « toutes ses valeurs ». Deux étapes pour compter les enfants :
+
+1. dans la répétition, un calcul qui donne 1 pour un enfant et 0 sinon : `est_enfant` = `if(${age_membre} < 15, 1, 0)` ;
+2. après `end_repeat`, la somme : `nb_enfants` = `sum(${est_enfant})`, affichée dans une note pour vérification avec le répondant.
+
+De la même façon : `count(${membres})` = nombre de membres saisis ; `max(${age_membre})` = âge du plus âgé ; `sum(${revenu_membre})` = revenu total.
+:::
+
+::: {.callout .warning}
+::: en
+**Do not put a repeat inside a `field-list` group**, and avoid very long repeats in the web form (one page per member is easier with the `pages` style). A repeat can contain groups, and even another repeat (**nested repeats**, e.g. trips › catches: Level 3).
+:::
+::: fr
+**Ne mettez pas de répétition dans un groupe `field-list`**, et évitez les très longues répétitions dans le formulaire web (une page par membre est plus simple avec le style `pages`). Une répétition peut contenir des groupes, et même une autre répétition (**répétitions imbriquées**, ex. sorties › captures : niveau 3).
+:::
+:::
+
+## [Repeats in the export]{.en}[Les répétitions dans l'export]{.fr} {#export}
+
+::: en
+In an **XLS** export, each repeat has **its own sheet**, named after the repeat (`membres`), with **one row per repetition**. The **CSV** export contains the main data only: always use XLS for a form with repeats.
+:::
+::: fr
+Dans un export **XLS**, chaque répétition a **sa propre feuille**, au nom de la répétition (`membres`), avec **une ligne par répétition**. L'export **CSV** ne contient que les données principales : utilisez toujours XLS pour un formulaire avec répétitions.
+:::
+
+`r fig_svg("export-sheets", "The main sheet and the repeat sheet are linked by _index (main) = _parent_index (repeat).", "La feuille principale et la feuille de répétition sont reliées par _index (principale) = _parent_index (répétition).")`
+
+`r xls(head(mb, 6), cols = c("menage/membres/num_membre", "menage/membres/prenom", "menage/membres/sexe", "menage/membres/age_membre", "menage/membres/scolarise", "_index", "_parent_table_name", "_parent_index", "_submission__uuid"), sheet = "membres")`
+
+::: en
+| Column of the repeat sheet | Meaning |
+|---|---|
+| your questions | with the path of groups and repeat if *Include groups in headers* is ticked: `menage/membres/age_membre` |
+| `_index` | row number in this sheet |
+| `_parent_table_name` | name of the parent sheet (the main sheet = the form title) |
+| `_parent_index` | **`_index` of the parent row** in the parent sheet: the household of this member |
+| `_submission__uuid`, `_submission__id`, `_submission__submission_time`… | copies of the metadata of the submission (household) |
+
+**To bring household information next to each member** (e.g. the village), match `_parent_index` of the member with `_index` of the household. In Excel: `=XLOOKUP(J2, 'Enquête ménages pêche'!AG:AG, 'Enquête ménages pêche'!E:E)` (J = `_parent_index`, AG = `_index`, E = village) (or `INDEX/MATCH`, `VLOOKUP`). In R: a join (Level 3). `_index` changes from one export to another: always link the sheets **of the same export file**; `_submission__uuid` = `_uuid` is the permanent link.
+:::
+::: fr
+| Colonne de la feuille de répétition | Signification |
+|---|---|
+| vos questions | avec le chemin des groupes et de la répétition si *Inclure les groupes dans les en-têtes* est coché : `menage/membres/age_membre` |
+| `_index` | numéro de ligne dans cette feuille |
+| `_parent_table_name` | nom de la feuille parente (la feuille principale = le titre du formulaire) |
+| `_parent_index` | **`_index` de la ligne parente** dans la feuille parente : le ménage de ce membre |
+| `_submission__uuid`, `_submission__id`, `_submission__submission_time`… | copies des métadonnées de la soumission (ménage) |
+
+**Pour amener une information du ménage à côté de chaque membre** (ex. le village), faites correspondre `_parent_index` du membre avec `_index` du ménage. Dans Excel : `=RECHERCHEX(J2; 'Enquête ménages pêche'!AG:AG; 'Enquête ménages pêche'!E:E)` (J = `_parent_index`, AG = `_index`, E = village) (ou `INDEX/EQUIV`, `RECHERCHEV`). Dans R : une jointure (niveau 3). `_index` change d'un export à l'autre : reliez toujours les feuilles **d'un même fichier d'export** ; `_submission__uuid` = `_uuid` est le lien permanent.
+:::
+
+```{r answers, include=FALSE}
+names(mb) <- sub("^menage/membres/", "", names(mb))
+a1 <- nrow(mb)
+a2 <- round(nrow(mb) / nrow(hh), 2)
+a3 <- sum(mb$age_membre < 15)
+a4 <- sum(mb$scolarise == "oui", na.rm = TRUE)
+a5 <- round(100 * mean(mb$scolarise == "oui", na.rm = TRUE), 1)
+a6 <- sum(mb$`_parent_index` == 10)
+mb$village <- hh$`identification/village`[match(mb$`_parent_index`, hh$`_index`)]
+a7 <- sum(mb$village == "ifaty")
+a8 <- round(100 * mean(mb$sexe == "f"), 1)
+a9 <- max(table(mb$`_parent_index`))
+a10 <- sum(hh$`menage/nb_enfants`)
+```
+
+::: {.application}
+::: en
+### Application work I5
+
+**A.** Upload `i05_menage_peche.xlsx`, open the preview, enter a household of 4 people (one child of 8, one of 3). Check that the school question appears only for the child of 8, and that the note shows 2 children. Then remove `repeat_count` (copy of the file), re-upload and see the difference.
+
+**B.** Add to the repeat a question `revenu_membre` (integer, *Revenu mensuel de ce membre (Ar)*, shown only for members aged 15 or more) and, after the repeat, a calculation `revenu_membres` = sum of these incomes. Upload and test.
+
+**C.** With `i05_menages_xml.xlsx`:
+
+1. Number of rows of the `membres` sheet?
+2. Mean number of members per household (members ÷ households, 2 decimals)?
+3. Members under 15 years?
+4. Members who go to school (`scolarise` = `oui`)?
+5. Among members asked the school question, % who go to school (1 decimal)?
+6. How many members has the household whose `_index` is 10?
+7. How many members live in Ifaty (link to the main sheet)?
+8. % of women among the members (1 decimal)?
+9. Size of the largest household?
+10. Sum of `menage/nb_enfants` in the main sheet (it must equal question 3)?
+:::
+::: fr
+### Travail d'application I5
+
+**A.** Importez `i05_menage_peche.xlsx`, ouvrez l'aperçu, saisissez un ménage de 4 personnes (un enfant de 8 ans, un de 3 ans). Vérifiez que la question sur l'école n'apparaît que pour l'enfant de 8 ans, et que la note affiche 2 enfants. Puis supprimez `repeat_count` (copie du fichier), ré-importez et voyez la différence.
+
+**B.** Ajoutez dans la répétition une question `revenu_membre` (entier, *Revenu mensuel de ce membre (Ar)*, affichée seulement pour les membres de 15 ans ou plus) et, après la répétition, un calcul `revenu_membres` = somme de ces revenus. Importez et testez.
+
+**C.** Avec `i05_menages_xml.xlsx` :
+
+1. Nombre de lignes de la feuille `membres` ?
+2. Nombre moyen de membres par ménage (membres ÷ ménages, 2 décimales) ?
+3. Membres de moins de 15 ans ?
+4. Membres scolarisés (`scolarise` = `oui`) ?
+5. Parmi les membres à qui la question sur l'école a été posée, % scolarisés (1 décimale) ?
+6. Combien de membres compte le ménage dont l'`_index` est 10 ?
+7. Combien de membres vivent à Ifaty (lien avec la feuille principale) ?
+8. % de femmes parmi les membres (1 décimale) ?
+9. Taille du plus grand ménage ?
+10. Somme de `menage/nb_enfants` dans la feuille principale (elle doit égaler la question 3) ?
+:::
+:::
+
+::: hint
+::: en
+Question 5: the denominator is the number of **non-empty** cells of `scolarise` (`COUNTA`), not all the members. Question 7: add a column *village* to the `membres` sheet with `XLOOKUP` (French Excel: `RECHERCHEX`) on `_parent_index`, then count `ifaty`. Question 9: a pivot table on `_parent_index` (count), or `MAX` of `menage/nb_membres` in the main sheet.
+:::
+::: fr
+Question 5 : le dénominateur est le nombre de cellules **non vides** de `scolarise` (`NBVAL`), pas tous les membres. Question 7 : ajoutez une colonne *village* à la feuille `membres` avec `RECHERCHEX` sur `_parent_index`, puis comptez `ifaty`. Question 9 : un tableau croisé sur `_parent_index` (nombre), ou le `MAX` de `menage/nb_membres` dans la feuille principale.
+:::
+:::
+
+```{r quiz, echo=FALSE}
+quiz("ki5", list(
+  q_num("1. Rows of the membres sheet?", "1. Lignes de la feuille membres ?", a1, tol = 0),
+  q_num("2. Mean members per household (2 decimals)?", "2. Membres par ménage en moyenne (2 décimales) ?", a2, tol = 0.006),
+  q_num("3. Members under 15?", "3. Membres de moins de 15 ans ?", a3, tol = 0),
+  q_num("4. Members at school?", "4. Membres scolarisés ?", a4, tol = 0),
+  q_num("5. % at school among those asked (1 decimal)?", "5. % scolarisés parmi ceux interrogés (1 décimale) ?", a5, tol = 0.05),
+  q_num("6. Members of household _index 10?", "6. Membres du ménage _index 10 ?", a6, tol = 0),
+  q_num("7. Members living in Ifaty?", "7. Membres vivant à Ifaty ?", a7, tol = 0),
+  q_num("8. % women among members (1 decimal)?", "8. % de femmes parmi les membres (1 décimale) ?", a8, tol = 0.05),
+  q_num("9. Size of the largest household?", "9. Taille du plus grand ménage ?", a9, tol = 0),
+  q_num("10. Sum of menage/nb_enfants?", "10. Somme de menage/nb_enfants ?", a10, tol = 0),
+  q_mcq("11. Total income of the members, after end_repeat:", "11. Revenu total des membres, après end_repeat :",
+        c("sum(${revenu_membre})", "${revenu_membre} + ${revenu_membre}", "count(${revenu_membre})"), correct = 1),
+  q_mcq("12. Which export keeps the members?", "12. Quel export garde les membres ?", c("CSV", "XLS", "both"), c("CSV", "XLS", "les deux"), correct = 2)
+))
+```
+
+::: {.solution data-quiz="ki5"}
+::: en
+1 `r a1` · 2 `r a2` · 3 `r a3` · 4 `r a4` · 5 `r a5` % · 6 `r a6` · 7 `r a7` · 8 `r a8` % · 9 `r a9` · 10 `r a10` (= question 3: the form's calculation and your count agree) · 11 `sum()` · 12 XLS.
+
+Part B — rows to add (inside the repeat, then after `end_repeat`):
+:::
+::: fr
+1 `r a1` · 2 `r a2` · 3 `r a3` · 4 `r a4` · 5 `r a5` % · 6 `r a6` · 7 `r a7` · 8 `r a8` % · 9 `r a9` · 10 `r a10` (= question 3 : le calcul du formulaire et votre comptage concordent) · 11 `sum()` · 12 XLS.
+
+Partie B — lignes à ajouter (dans la répétition, puis après `end_repeat`) :
+:::
+
+`r xls(data.frame(type = c("integer", "end_repeat", "calculate"), name = c("revenu_membre", "", "revenu_membres"), label = c("Revenu mensuel de ce membre (Ar)", "", ""), relevant = c("${age_membre} >= 15", "", ""), constraint = c(". >= 0", "", ""), calculation = c("", "", "sum(${revenu_membre})")))`
+:::
