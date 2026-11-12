@@ -723,11 +723,11 @@ nom.</li>
 </div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>visites <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;plongee/&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; # A tibble: 3 × 9
-#&gt;   `plongee/date_plongee` `plongee/observateurs` `plongee/observateurs/hery` plongee/observateurs/lov…¹
-#&gt;   &lt;chr&gt;                  &lt;chr&gt;                                        &lt;dbl&gt;                      &lt;dbl&gt;
-#&gt; 1 2026-05-04             hery rindra                                      1                          0
-#&gt; 2 2026-05-10             hery soa                                         1                          0
-#&gt; 3 2026-05-11             lova rindra                                      0                          1
+#&gt;   `plongee/date_plongee` `plongee/observateurs` `plongee/observateurs/hery` plongee/observateurs/lo…¹
+#&gt;   &lt;chr&gt;                  &lt;chr&gt;                                        &lt;dbl&gt;                     &lt;dbl&gt;
+#&gt; 1 2026-05-04             hery rindra                                      1                         0
+#&gt; 2 2026-05-10             hery soa                                         1                         0
+#&gt; 3 2026-05-11             lova rindra                                      0                         1
 #&gt; # ℹ abbreviated name: ¹​`plongee/observateurs/lova`
 #&gt; # ℹ 5 more variables: `plongee/observateurs/nomena` &lt;dbl&gt;, `plongee/observateurs/rindra` &lt;dbl&gt;,
 #&gt; #   `plongee/observateurs/soa` &lt;dbl&gt;, `plongee/visibilite` &lt;dbl&gt;, `plongee/nb_transects` &lt;dbl&gt;</code></pre>
